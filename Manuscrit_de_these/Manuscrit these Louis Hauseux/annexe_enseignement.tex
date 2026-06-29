@@ -1,0 +1,395 @@
+% VERSION VERIFIEE -- 19 juin 2026
+% !TEX root = main.tex
+% Annexe « Enseignements » -- version finale
+% À inclure dans la partie annexes, après l'appel à \appendix et avant
+% \SortirDesAnnexes, par exemple : \include{annexe_enseignement_final}
+
+\chapter{Enseignements}
+\label{ann:enseignement}
+
+\begingroup
+
+% -----------------------------------------------------------------------------
+% Charte locale : nuances de gris, cohérentes avec les autres annexes.
+% -----------------------------------------------------------------------------
+\colorlet{EnsBlack}{black!88}
+\colorlet{EnsDark}{black!70}
+\colorlet{EnsMid}{black!42}
+\colorlet{EnsLight}{black!15}
+\colorlet{EnsPale}{black!5}
+
+% Liens cliquables, sans faire apparaître les URL dans le corps du texte.
+\hypersetup{colorlinks=true,allcolors=EnsBlack,pdfborder={0 0 0}}
+
+\newcommand{\EnsBadge}[1]{%
+  \begingroup
+  \setlength{\fboxsep}{2.5pt}%
+  \colorbox{EnsPale}{%
+    \textcolor{EnsDark}{\scriptsize\bfseries\textsc{#1}}%
+  }%
+  \endgroup
+}
+
+\newcommand{\EnsAnnee}[4]{%
+  \multicolumn{2}{@{}l@{}}{%
+    \parbox{\textwidth}{%
+      \vspace{.35\baselineskip}%
+      \noindent
+      {\color{EnsBlack}\large\bfseries Année universitaire #1}%
+      \hfill
+      {\scriptsize\color{EnsDark}%
+        \href{#2}{\textsc{Radar} Ayana #3}%
+      }%
+      \par\vspace{.16\baselineskip}%
+      {\footnotesize\color{EnsDark}\textbf{Volume personnel total :} #4}%
+      \par\vspace{.22\baselineskip}%
+      {\color{EnsLight}\hrule height .7pt}%
+    }%
+  }\\*[.85\baselineskip]
+}
+
+\newcommand{\EnsEntree}[4]{%
+  \begin{minipage}[t]{\linewidth}
+    \raggedleft
+    #1
+  \end{minipage}%
+  &
+  \begin{minipage}[t]{\linewidth}
+    \raggedright
+    #2\par\vspace{.42\baselineskip}%
+    #3\par\vspace{.42\baselineskip}%
+    #4
+  \end{minipage}%
+  \\[1.35\baselineskip]
+}
+
+% \begin{center}
+%   \setlength{\fboxsep}{9pt}%
+%   \colorbox{EnsPale}{%
+%     \parbox{.91\textwidth}{%
+%       \small
+%       Cette annexe recense les enseignements effectivement assurés par Louis
+%       Hauseux à
+%       l'\href{https://univ-cotedazur.fr/}{Université Côte d'Azur}, dans le
+%       \href{https://univ-cotedazur.eu/msc/msc-data-science-and-artificial-intelligence}{%
+%       \emph{MSc Data Science and Artificial Intelligence}}. Les rapports
+%       d'activité Inria étant structurés par année civile, les interventions ont
+%       ici été replacées dans leur année universitaire et présentées par ordre
+%       antéchronologique. Pour les unités d'enseignement coassurées, le
+%       \emph{volume personnel} désigne uniquement les séances données par Louis
+%       Hauseux; il est distingué du \emph{volume complet de l'UE}. Les cours
+%       magistraux (CM), travaux dirigés ou pratiques (TD) et volumes de
+%       coenseignement sont donc distingués explicitement, afin de ne pas
+%       attribuer à un seul intervenant le volume collectif d'une unité
+%       d'enseignement.
+%     }%
+%   }
+% \end{center}
+
+\vspace{.45\baselineskip}
+\begin{center}
+  \small
+  \EnsBadge{CM}\enspace cours magistral
+  \qquad
+  \EnsBadge{TD}\enspace travaux dirigés ou pratiques
+  \qquad
+  \EnsBadge{hETD}\enspace heure équivalent TD
+\end{center}
+
+\begin{center}
+  \footnotesize\color{EnsDark}
+  Convention employée :
+  \(1\,\mathrm{h\,CM}=1{,}5\,\mathrm{hETD}\) et
+  \(1\,\mathrm{h\,TD}=1\,\mathrm{hETD}\).
+\end{center}
+
+\vspace{.65\baselineskip}
+\begin{center}
+  {\color{EnsBlack}\bfseries Synthèse des heures effectivement assurées}\par
+  \vspace{.45\baselineskip}
+  \renewcommand{\arraystretch}{1.28}%
+  \setlength{\tabcolsep}{9pt}%
+  \begin{tabular}{@{}lrrrr@{}}
+    \toprule
+    \rowcolor{EnsPale}
+    \textbf{Année universitaire}
+      & \textbf{CM}
+      & \textbf{TD}
+      & \textbf{Présence}
+      & \textbf{hETD} \\
+    \midrule
+    2025--2026 & 8 h 15  & 50 h 15 & 58 h 30  & 62{,}625 \\
+    2024--2025 & 10 h 30 & 40 h 30 & 51 h     & 56{,}25  \\
+    2023--2024 & 10 h 30 & 19 h 30 & 30 h     & 35{,}25  \\
+    \midrule
+    \textbf{Total} & \textbf{29 h 15} & \textbf{110 h 15}
+      & \textbf{139 h 30} & \textbf{154{,}125} \\
+    \bottomrule
+  \end{tabular}
+  \par\vspace{.45\baselineskip}
+  \parbox{.88\textwidth}{%
+    \footnotesize\color{EnsDark}
+    % Les volumes ci-dessus correspondent aux heures d'enseignement en présence
+    % effectivement assurées par Louis Hauseux. Ils n'incluent ni la préparation
+    % des supports et des évaluations, ni les corrections, ni le suivi
+    % pédagogique hors séance.
+  }
+\end{center}
+
+\clearpage
+
+\vspace{.45\baselineskip}
+\small
+\setlength{\LTpre}{0pt}
+\setlength{\LTpost}{0pt}
+\setlength{\tabcolsep}{0pt}
+\renewcommand{\arraystretch}{1.04}
+
+\begin{longtable}{%
+  @{}%
+  >{\raggedleft\arraybackslash\color{EnsDark}}p{.175\textwidth}%
+  @{\hspace{1.00em}}%
+  !{\color{EnsMid}\vrule width .55pt}%
+  @{\hspace{1.20em}}%
+  >{\raggedright\arraybackslash\color{black}}p{.735\textwidth}%
+  @{}%
+}
+
+\endfirsthead
+\multicolumn{2}{@{}r@{}}{%
+  \scriptsize\color{EnsMid}\emph{Enseignements --- suite}%
+}\\[.65\baselineskip]
+\endhead
+
+% =============================================================================
+% 2025--2026
+% =============================================================================
+\EnsAnnee{2025--2026}{https://radar.inria.fr/report/2025/ayana/index.html}{2025}{8 h 15 de CM + 50 h 15 de TD = 58 h 30 devant les étudiants (62{,}625 hETD)}
+
+\EnsEntree{%
+  \textbf{Févr.--avr. 2026}\par\vspace{.35\baselineskip}
+  \EnsBadge{M2}\enspace\EnsBadge{TD}\par\vspace{.35\baselineskip}
+  2 ECTS 
+}{%
+  {\large\bfseries
+  \href{https://univ-cotedazur.eu/msc/msc-data-science-and-artificial-intelligence/program/second-year}{%
+  \emph{Statistical Learning Theory}}}%
+}{%
+  \textbf{Formation et établissement.} Deuxième année du
+  \emph{MSc Data Science and Artificial Intelligence}, parcours
+  \emph{Core AI}, Université Côte d'Azur. Le cours est sous la
+  responsabilité de
+  \href{https://www-sop.inria.fr/members/Mathieu.Carriere/}{Mathieu \nom{Carrière}}. %,  chargé de recherche Inria au sein de l'équipe DataShape et titulaire d'une chaire 3IA Côte d'Azur. 
+  % La maquette présente cet enseignement comme une
+  % introduction aux principes de la théorie statistique de l'apprentissage,
+  % associant développements théoriques et séances pratiques de programmation.
+}{%
+  \textbf{Part personnelle.} \textbf{Huit séances (sur huit) de 1 h 30 de TD},
+  réparties de février à avril 2026, soit \textbf{12 heures de TD}. 
+  % Les séances assurées par Louis Hauseux
+  % accompagnent le cours de Mathieu \nom{Carrière} par des exercices et mises en
+  % œuvre numériques consacrés à l'analyse des régimes de fonctionnement, des
+  % capacités et des garanties des modèles d'apprentissage statistique.
+  % \par\smallskip
+  % \textbf{Volume complet de l'UE.} La
+  % \href{https://univ-cotedazur.eu/msc/msc-data-science-and-artificial-intelligence/program/second-year}{maquette publiée}
+  % indique \textbf{24 heures et 2 ECTS}. Elle précise que l'UE combine cours et
+  % séances pratiques, sans publier leur ventilation horaire détaillée. Le volume
+  % retenu dans cette annexe correspond donc exclusivement aux \textbf{12 heures
+  % de TD effectivement assurées par Louis Hauseux}.
+}
+
+\EnsEntree{%
+  \textbf{Sept.--nov. 2025}\par\vspace{.35\baselineskip}
+  \EnsBadge{M2}\enspace\EnsBadge{CM + TD}\par\vspace{.35\baselineskip}
+  2 ECTS
+}{%
+  {\large\bfseries
+  \href{https://univ-cotedazur.eu/msc/msc-data-science-and-artificial-intelligence/program/second-year}{%
+  \emph{Statistical Analysis of Graphs (Networks)}}}%
+}{%
+  \textbf{Formation et établissement.} Deuxième année du
+  \emph{MSc Data Science and Artificial Intelligence}, parcours
+  \emph{Core AI}, Université Côte d'Azur. 
+  % L'intitulé abrégé employé dans les
+  % rapports Inria est \emph{Statistical Analysis of Networks}. 
+  Co-enseignement avec Konstantin \nom{Avrachenkov} et Rémy \nom{Sun}.
+}{%
+  \textbf{Part personnelle.} \textbf{Cinq séances et demie sur huit}, soit
+  \textbf{8 h 15 de CM et 8 h 15 de TD} : 16 h 30 devant les étudiants,
+  correspondant à \textbf{20{,}625 hETD}. 
+  % La répartition administrative
+  % attribue cinq séances et demie à Louis Hauseux, une séance et demie à
+  % Konstantin \nom{Avrachenkov} et une séance à Rémy \nom{Sun}, consacrée à
+  % une introduction aux réseaux de neurones sur graphes.
+  % \par\smallskip
+  % \textbf{Volume complet de l'UE.} Huit créneaux de trois heures, chacun
+  % composé administrativement de 1 h 30 de CM et 1 h 30 de TD, soit
+  % \textbf{12 h de CM + 12 h de TD = 24 h en présence = 30 hETD}.
+  % L'intervention personnelle porte notamment sur les rappels d'algèbre
+  % linéaire et de probabilités, les modèles de graphes aléatoires, les graphes
+  % géométriques et le Single-Linkage, les méthodes spectrales, les méthodes de
+  % coupe, la modularité et leur mise en œuvre dans des notebooks Python.
+}
+
+\EnsEntree{%
+  \textbf{Oct.--déc. 2025}\par\vspace{.35\baselineskip}
+  \EnsBadge{M1}\enspace\EnsBadge{TD}\par\vspace{.35\baselineskip}
+  6 ECTS 
+}{%
+  {\large\bfseries
+  \href{https://univ-cotedazur.eu/msc/msc-data-science-and-artificial-intelligence/program/first-year}{%
+  \emph{Statistical Inference Theory}}}%
+}{%
+  \textbf{Formation et établissement.} Première année du
+  \emph{MSc Data Science and Artificial Intelligence}, Université Côte
+  d'Azur. % L'intitulé abrégé des rapports Inria est \emph{Statistical Inference}. 
+  Le cours magistral est assuré par Vincent \nom{Vandewalle}.
+}{%
+  \textbf{Part personnelle.} \textbf{30 heures de TD}. 
+  % Louis Hauseux a préparé et animé les séances
+  % d'exercices et de programmation, produit les énoncés et corrigés associés et
+  % participé à la préparation, à la surveillance et à la correction des
+  % évaluations. Les TD portent notamment sur l'estimation, les lois empiriques,
+  % le bootstrap, les tests statistiques et les modèles de régression.
+  % \par\smallskip
+  % \textbf{Volume complet de l'UE.} La
+  % \href{https://univ-cotedazur.eu/msc/msc-data-science-and-artificial-intelligence/program/first-year}{maquette publiée}
+  % indique 60 heures et 6 ECTS; les 30 heures ci-dessus correspondent
+  % exclusivement aux TD assurés par Louis Hauseux.
+}
+
+% =============================================================================
+% 2024--2025
+% =============================================================================
+\EnsAnnee{2024--2025}{https://radar.inria.fr/report/2024/ayana/index.html}{2024}{10 h 30 de CM + 40 h 30 de TD = 51 h devant les étudiants (56{,}25 hETD)}
+
+\EnsEntree{%
+  \textbf{Oct.--déc. 2024}\par\vspace{.35\baselineskip}
+  \EnsBadge{M2}\enspace\EnsBadge{CM + TD}\par\vspace{.35\baselineskip}
+  2 ECTS
+}{%
+  {\large\bfseries
+  \href{https://univ-cotedazur.eu/msc/msc-data-science-and-artificial-intelligence/program/second-year}{%
+  \emph{Statistical Analysis of Graphs (Networks)}}}%
+}{%
+  \textbf{Formation et établissement.} Deuxième année du
+  \emph{MSc Data Science and Artificial Intelligence}, parcours
+  \emph{Core AI}, Université Côte d'Azur. Co-enseignement avec Konstantin
+  \nom{Avrachenkov}. %; les rapports Inria emploient l'intitulé abrégé \emph{Statistical Analysis of Networks}.
+}{%
+  \textbf{Part personnelle.} \textbf{Sept séances sur huit}, soit
+  \textbf{10 h 30 de CM et 10 h 30 de TD} : 21 heures devant les étudiants,
+  correspondant à \textbf{26{,}25 hETD}. 
+  % Une séance, consacrée aux
+  % méthodes d'échantillonnage par chaînes de Markov, a été assurée par
+  % Konstantin \nom{Avrachenkov}.
+  % \par\smallskip
+  % \textbf{Volume complet de l'UE.} \textbf{12 h de CM + 12 h de TD}, soit
+  % 24 heures en présence et 30 hETD. Les séances assurées par Louis Hauseux
+  % couvrent les fondements de la théorie des graphes, les modèles
+  % d'Erdős--Rényi, à blocs stochastiques et géométriques, la percolation, les
+  % indices de centralité, PageRank, les méthodes spectrales, la modularité et la
+  % détection de communautés, avec des travaux pratiques en Python.
+}
+
+\EnsEntree{%
+  \textbf{Oct.--déc. 2024}\par\vspace{.35\baselineskip}
+  \EnsBadge{M1}\enspace\EnsBadge{TD}\par\vspace{.35\baselineskip}
+  6 ECTS 
+}{%
+  {\large\bfseries
+  \href{https://univ-cotedazur.eu/msc/msc-data-science-and-artificial-intelligence/program/first-year}{%
+  \emph{Statistical Inference Theory}}}%
+}{%
+  \textbf{Formation et établissement.} Première année du
+  \emph{MSc Data Science and Artificial Intelligence}, Université Côte
+  d'Azur. Le cours magistral est assuré par Vincent \nom{Vandewalle}.
+  %; les rapports Inria utilisent l'intitulé abrégé \emph{Statistical Inference}.
+}{%
+  \textbf{Part personnelle.} \textbf{30 heures de TD}. %, sans cours magistral, soit \textbf{30 hETD}.
+  % , conformément au volume déclaré dans le rapport
+  % d'activité Ayana 2024. Louis Hauseux a assuré les séances d'exercices et de
+  % programmation, préparé des supports et corrigés, suivi les travaux à rendre
+  % et contribué aux examens. Les applications mobilisent notamment R et Python.
+  % \par\smallskip
+  % \textbf{Volume complet de l'UE.} La maquette publiée indique 60 heures et
+  % 6 ECTS; le volume de 30 heures reporté ici est uniquement le service de TD de
+  % Louis Hauseux, et non le volume intégral de l'UE.
+}
+
+% =============================================================================
+% 2023--2024
+% =============================================================================
+\EnsAnnee{2023--2024}{https://radar.inria.fr/report/2023/ayana/index.html}{2023}{10 h 30 de CM + 19 h 30 de TD = 30 h devant les étudiants (35{,}25 hETD)}
+
+\EnsEntree{%
+  \textbf{Sept.--déc. 2023}\par\vspace{.35\baselineskip}
+  \EnsBadge{M2}\enspace\EnsBadge{CM + TD}\par\vspace{.35\baselineskip}
+  2 ECTS
+}{%
+  {\large\bfseries
+  \href{https://univ-cotedazur.eu/msc/msc-data-science-and-artificial-intelligence/program/second-year}{%
+  \emph{Statistical Analysis of Graphs (Networks)}}}%
+}{%
+  \textbf{Formation et établissement.} Deuxième année du
+  \emph{MSc Data Science and Artificial Intelligence}, parcours
+  \emph{Core AI}, Université Côte d'Azur. Première édition assurée pendant la
+  thèse, en co-enseignement avec Konstantin \nom{Avrachenkov}. %; l'intitulé du  rapport d'activité est \emph{Statistical Analysis of Networks}.
+}{%
+  \textbf{Part personnelle.} \textbf{Sept séances sur huit}, soit
+  \textbf{10 h 30 de CM et 10 h 30 de TD} : 21 heures devant les étudiants,
+  correspondant à \textbf{26{,}25 hETD}. 
+  %Konstantin \nom{Avrachenkov} a assuré la dernière séance, consacrée aux méthodes d'échantillonnage.
+  \par\smallskip
+  \textbf{Volume complet de l'UE.} Huit créneaux de trois heures, soit
+  \textbf{12 h de CM + 12 h de TD = 24 h en présence = 30 hETD}. 
+  % Outre
+  % l'enseignement, Louis Hauseux a préparé les supports de cours, les notebooks
+  % pratiques, les devoirs et l'évaluation finale.
+}
+
+\EnsEntree{%
+  \textbf{Mars 2024}\par\vspace{.35\baselineskip}
+  \EnsBadge{M1}\enspace\EnsBadge{TD}\par\vspace{.35\baselineskip}
+  Intervention ponctuelle
+}{%
+  {\large\bfseries
+  \href{https://univ-cotedazur.eu/msc/msc-data-science-and-artificial-intelligence/program/first-year}{%
+  \emph{Statistical Inference Theory}}}%
+}{%
+  \textbf{Formation et établissement.} Première année du
+  \emph{MSc Data Science and Artificial Intelligence}, Université Côte
+  d'Azur. Intervention pour des séances de révision intégrale pour les dix élèves n'ayant pas validé la première session du cours de Vincent
+  \nom{Vandewalle}.
+}{%
+  \textbf{Part personnelle.} \textbf{Six séances de 1 h 30}, soit
+  \textbf{9 heures de TD}, (comptabilisés \textbf{9 hETD}). Le
+  \href{https://overleaf.irisa.fr/read/wjmztthswkwy}{support préparé pour ces
+  séances} rassemble rappels de cours, exercices et éléments de correction.
+  % \par\smallskip
+  % Cette intervention est volontairement présentée comme ponctuelle : les neuf
+  % heures correspondent exactement aux séances données par Louis Hauseux en
+  % mars 2024, et non à l'ensemble des TD ni aux 60 heures de l'UE complète.
+}
+
+\end{longtable}
+
+% \vspace{.15\baselineskip}
+% \enlargethispage{3\baselineskip}
+% \noindent
+% {\scriptsize\color{EnsDark}
+%   \textbf{Sources et méthode.}
+%   Les informations ont été recoupées dans les
+%   \href{https://radar.inria.fr/report/2023/ayana/index.html}{rapports
+%   \textsc{Radar} Ayana 2023},
+%   \href{https://radar.inria.fr/report/2024/ayana/index.html}{2024} et
+%   \href{https://radar.inria.fr/report/2025/ayana/index.html}{2025}, les
+%   \href{https://univ-cotedazur.eu/msc/msc-data-science-and-artificial-intelligence/program/first-year}{maquettes de M1} et
+%   \href{https://univ-cotedazur.eu/msc/msc-data-science-and-artificial-intelligence/program/second-year}{de M2},
+%   la \href{https://www-sop.inria.fr/members/Mathieu.Carriere/}{notice institutionnelle de Mathieu \nom{Carrière}},
+%   ainsi que les relevés d'intervention de l'auteur. Les rapports Inria étant
+%   annuels civils, les enseignements sont ici reclassés par année universitaire.
+% \par}
+
+\endgroup

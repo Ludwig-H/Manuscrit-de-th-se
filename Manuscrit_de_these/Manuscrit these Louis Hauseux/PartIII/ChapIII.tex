@@ -1,0 +1,673 @@
+
+
+\chapter{Extension au traitement du signal : application à la détection des fissures sur des images}
+%\rouge{15 mai - 20 mai}
+\label{chap:frangi_fissures}
+
+\providecommand{\Frangi}{\textnormal{\nom{Frangi}}}
+\providecommand{\Hess}{\mathcal H}
+\providecommand{\matnorm}[1]{\left\lvert\mkern-2mu\left\lvert\mkern-2mu\left\lvert #1 \right\rvert\mkern-2mu\right\rvert\mkern-2mu\right\rvert}
+
+Ce chapitre aborde un tout autre type de données : les images.
+Ici, les sommets de nos (hyper)graphes seront des pixels. Le problème reste de même nature : il faut en extraire des structures d'intérêt, savoir : des réseaux de fissures (et ce à partir de données locales imparfaites). 
+
+Ces images pouvant contenir des fissures sont obtenues dans des contextes variés : images de glissements de terrain (prises par un capteur optique dans le domaine visible), données de profondeur (laser 3D profilométrique \cite{FIND2022} ou reconstruction photogrammétrique) sur des infrastructures civiles, images infra-rouges thermiques de fissures géologiques. L'objectif n'est pas seulement de produire un \emph{masque} binaire (une réponse binaire par pixel), mais d'extraire un réseau \cite{JeongTarabalkaNisseZerubia2016Curvilinear} (\emph{i.e.} un graphe) qui conserve autant que possible la connectivité, les ramifications et l'orientation générale des fissures.
+
+L'avantage de produire en sortie un graphe (par rapport par exemple à un masque binaire) est que cela en fait un objet éditable, pouvant ainsi servir d'aide à l'annotation
+\cite{CharbonnierMoliard2003CheminsMinimauxFissures}.
+
+
+
+\paragraph{Cadre du problème}
+On se donne un domaine discret $\Omega \subset \mathbb Z^2$. Les données avec vérité de terrain nous ont manqué jusqu'à présent, mais il n'y aucun obstacle particulier à ce que l'image soit 3D $\Omega \subset \mathbb Z^3$. Une \emph{modalité} est un signal scalaire
+\[
+    I : \Omega \longrightarrow \mathbb R.
+\]
+Dans le cas multimodal, on dispose d'une famille d'images (recalées)
+\[
+    \mathcal I = \{I^{(m)}\}_{m\in\mathcal M},
+    \qquad I^{(m)} : \Omega \longrightarrow \mathbb R.
+\]
+Par exemple, une image visible (en niveau de gris, ou trois modalités différentes Rouge, Vert et Bleu, RGB en anglais), une carte de profondeur, ou encore une image infrarouge thermique. L'hypothèse physique utilisée dans ce chapitre est la suivante : une fissure apparaît comme une vallée sombre (\emph{dark ridge}, en anglais), c'est-à-dire comme une structure dont la courbure principale est positive. (Si une modalité code au contraire les fissures comme des crêtes claires, il suffit d'inverser le contraste avant d'appliquer la méthode.)
+
+La sortie visée est un ensemble de pixels
+\[
+    \widehat\Gamma \subset \Omega
+\]
+qui représente le squelette du réseau. Par squelette, nous entendons ici  la projection au niveau des pixels d'un (hyper)graphe. Nous nous sommes limités dans ce manuscrit aux cas $K=1$ (graphe standard) et $K=2$ (composantes triangle-connexes).
+Lorsque $K=1$, la sortie $\widehat \Gamma$ est donc une représentation linéique, de largeur un pixel, qui garde le centre géométrique des fissures plutôt que leur épaisseur. 
+Lorsque $K=2$, $\widehat \Gamma$ correspond aux pixels des triangles des composantes triangle-connexes sélectionnées. Si l'on souhaite tout de même avoir une représentation linéique, $\widehat \Gamma$ peut alors faire l'objet d'un amincissement au moyen d'un algorithme de squelettisation comme celui de \nom{Lee} \cite{Lee1994, SciKitSkeletonization}. %\textcolor{red}{Ajouter la référence de Lee.}
+
+
+En particulier, les métriques d'évaluation devront tenir compte de ce choix. % pour comparer directement un squelette de largeur un pixel à un masque épais serait 
+
+Le chapitre reprend les travaux menés avec le \href{https://www.cerema.fr/fr/mots-cles/equipe-recherche-endsum}{Cerema}, depuis une première version consacrée aux images du glissement de terrain des Vaches Noires \cite{BibiStrasbourg}, jusqu'à une version plus générale intégrant la multimodalité, l'accélération GPU et les interactions d'ordre supérieur (et destinée à être soumise au journal de l'\href{https://www.sciencedirect.com/journal/isprs-journal-of-photogrammetry-and-remote-sensing}{ISPRS} \cite{BibiISPRS}).
+%\textcolor{red}{Insérer référence à soumettre à IJPRS.}
+%L'accent est mis sur la version la plus récente du travail : une méthode sans apprentissage, fondée sur le filtre de \Frangi, mais formulée dans un graphe.
+
+\paragraph{Positionnement}
+Les méthodes d'apprentissage profond dominent aujourd'hui la détection de fissures : réseaux convolutionnels de type U-Net \cite{Unet2015}, DeepCrack \cite{DeepCrack2019}, Transformers \cite{CrackFormer2021}, puis modèles de diffusion comme CrackSegDiff \cite{CrackSegDiff2024}. Ces méthodes sont souvent excellentes quand les images de test ressemblent aux images d'apprentissage. La revue récente de \nom{Zhang} \emph{et al.} \cite{Zhang2025Review} insiste cependant sur deux difficultés qui nous concernent directement : le coût d'annotation et la mauvaise généralisation aux changements de domaine. %Les fissures ne se comportent pas comme des chats sur Internet : il n'y a pas un jeu de données mondial, propre, massif, et consensuel, miraculeusement disponible pour chaque capteur.
+%\textcolor{red}{Une ligne sur CrackSAM ?}
+
+L'idée défendue ici est complémentaire : revenir à des modèles géométriques explicites. 
+%\textcolor{red}{Articuler : coordonnants : En effet, le prix à payer ... mais le gain attendu ...}
+En effet, le prix à payer est une performance parfois plus faible sur des données propres et proches d'un jeu d'entraînement mais il y a un gain attendu : une meilleure stabilité lorsque l'on change de capteur, de texture, de saison ou de type de matériau.
+
+\section{Un classique : le filtre de \Frangi}
+\label{sec:chapIII_frangi_classique}
+
+Le filtre de \Frangi{} est un algorithme classique pour rehausser et extraire des structures tubulaires ou curvilignes \cite{Frangi1998}. Il a d'abord été proposé pour l'imagerie médicale, notamment pour la détection de vaisseaux sanguins, dans la même famille que les filtres multi-échelle de \nom{Sato} \emph{et al.} \cite{Sato1998}. L'idée s'adapte assez naturellement aux fissures : une fissure est fine, allongée. %, et présente des dér de second ordre bien plus stable que son intensité brute.
+
+Soit $I : \Omega \to \mathbb R$ une image. Pour une échelle gaussienne $\sigma>0$, on note $G_\sigma$ le noyau gaussien 2D. La hessienne lissée de $I$ à l'échelle $\sigma$ est
+\begin{equation}
+    \Hess_\sigma I(x)
+    =
+    \begin{pmatrix}
+        \partial_{xx}(G_\sigma * I)(x) & \partial_{xy}(G_\sigma * I)(x) \\
+        \partial_{xy}(G_\sigma * I)(x) & \partial_{yy}(G_\sigma * I)(x)
+    \end{pmatrix},
+    \qquad x\in\Omega.
+    \label{eq:chapIII_hessienne}
+\end{equation}
+En pratique, les dérivées secondes sont calculées par convolution avec les dérivées secondes du noyau gaussien :
+\[
+    \partial_{ab}(G_\sigma * I) = (\partial_{ab}G_\sigma)*I,
+    \qquad a,b\in\{x,y\}.
+\]
+La matrice en \Eq[eq:chapIII_hessienne] est symétrique réelle. Elle possède donc deux valeurs propres réelles, que l'on ordonne par
+\[
+    |\lambda_1^\sigma(x)| \le |\lambda_2^\sigma(x)|.
+\]
+Le vecteur propre associé à $\lambda_1^\sigma(x)$ donne la direction longitudinale de la fissure, tandis que $\lambda_2^\sigma(x)$ mesure la courbure transverse.
+
+Dans le cas d'une ligne sombre sur fond clair, on attend
+\[
+    \lambda_2^\sigma(x)>0
+    \qquad\text{et}\qquad
+    |\lambda_1^\sigma(x)| \ll |\lambda_2^\sigma(x)|.
+\]
+Le premier critère impose le bon signe de \emph{courbure}, le second exprime l'\emph{élongation} (la structure doit ressembler à une ligne, non à une tache ronde, un \emph{blob} en anglais).
+
+La réponse de \Frangi{} combine typiquement deux termes. Le premier terme mesure l'élongation par le rapport
+\begin{equation}
+    R_{B,\sigma}(x)
+    =
+    \frac{|\lambda_1^\sigma(x)|}{|\lambda_2^\sigma(x)|}.
+    \label{eq:chapIII_frangi_ratio}
+\end{equation}
+Le second terme mesure l'intensité de la réponse de second ordre. Dans notre contexte où l'on suppose que les fissures apparaissent foncées sur fond clair, on peut se contenter de
+\begin{equation}
+    C_\sigma(x)
+    =
+    \lambda_2^\sigma(x)\,\mathds{1}_{\lambda_2^\sigma(x)>0}.
+    \label{eq:chapIII_curvature_positive}
+\end{equation}
+
+\Remarque{Avec l'\emph{a priori} contraire (fissures claires), il suffirait de poser
+\[
+    C_\sigma(x)
+    =
+    \lambda_2^\sigma(x)\,\mathds{1}_{\lambda_2^\sigma(x)<0}.
+\]
+}
+
+%\textcolor{red}{Car il suffit d'inverser.}
+
+Une forme simple de réponse de \Frangi{} est alors
+\begin{equation}
+    V_\sigma(x)
+    =
+    \exp\left(-\frac12\frac{R_{B,\sigma}(x)^2}{\beta^2}\right)
+    \left(1-\exp\left(-\frac12\frac{C_\sigma(x)^2}{c^2}\right)\right),
+    \label{eq:chapIII_frangi_response}
+\end{equation}
+où $\beta$ et $c$ jouent le rôle d'écarts-types. Enfin, comme les fissures peuvent avoir des largeurs différentes, l'algorithme est appliqué à plusieurs échelles et l'on conserve la meilleure réponse :
+\begin{equation}
+    V(x)=\max_{\sigma\in\Sigma} V_\sigma(x).
+\end{equation}
+
+Le filtre de \Frangi{} a trois qualités : il est rapide, interprétable, et dépend d'un petit nombre de paramètres. Il a aussi une faiblesse importante : il reste essentiellement local. Il dit qu'un pixel ressemble à un morceau de fissure, mais il ne dit pas si ce pixel appartient au même réseau qu'un autre pixel voisin. Cette distinction est cruciale sur des images bruitées, où des ombres, des stries d'asphalte, des cailloux ou des artefacts photogrammétriques peuvent produire des réponses de \Frangi{} tout à fait crédibles. Le filtre classique identifie un bon candidat local mais ne voit pas de structure globale.
+
+C'est exactement le point où les graphes deviennent utiles.
+
+\section{Une structure plus riche : le graphe de \Frangi}
+\label{sec:chapIII_graphe_frangi}
+
+L'idée originale de notre méthode consiste à remplacer la réponse pixélique du filtre de \Frangi{} par une similarité entre paires de pixels voisins. 
+Autrement dit, au lieu de se demander seulement « le pixel $x$ appartient-il à une fissure ? », on demande aussi « les pixels $x_i$ et $x_j$ appartiennent-ils à deux morceaux compatibles de la même fissure ? ».
+Cette seconde approche est beaucoup plus riche en terme d'information sur le réseau de fissures contenu dans l'image.
+
+On construit donc un graphe spatial
+\[
+    G=(V,E),
+\]
+où $V\subseteq \Omega$ est un ensemble de pixels candidats et où deux pixels $x_i,x_j\in V$ sont reliés si leur distance euclidienne est inférieure à un rayon $R$ :
+\begin{equation}
+    E_R
+    =
+    \left\{(i,j) \;\middle|\; 0 < \norme{x_i-x_j} \le R \right\}.
+    \label{eq:chapIII_edges_radius}
+\end{equation}
+Le choix $R\ge1$ est important : il permet de franchir de petites discontinuités dues au bruit, à l'ombre ou à une perte locale de contraste. En contrepartie, un rayon trop grand sur-connecte le graphe et permet de faire des ``sauts'' trop importants. 
+
+Pour chaque échelle $\sigma\in\Sigma$, la similarité entre deux pixels $x_i$ et $x_j$ est définie comme le produit de trois termes.
+
+\paragraph{Terme d'élongation}
+Il impose que les deux extrémités de l'arête ressemblent à des structures allongées :
+\begin{equation}
+    S_{\mathrm{shape}}^\sigma(x_i,x_j)
+    =
+    \exp\left(
+        -\frac12
+        \left(
+            \frac{R_{B,\sigma}(x_i)+R_{B,\sigma}(x_j)}{s_{\mathrm{s}}}
+        \right)^2
+    \right).
+    \label{eq:chapIII_shape}
+\end{equation}
+Si l'un des deux pixels est au centre d'une tache plutôt que d'une ligne, le rapport de \Frangi{} augmente et l'arête est pénalisée.
+
+\paragraph{Terme d'intensité}
+Il favorise les arêtes dont les deux extrémités ont une forte courbure positive :
+\begin{equation}
+    S_{\mathrm{int}}^\sigma(x_i,x_j)
+    =
+    1-
+    \exp\left(
+        -\frac12
+        \left(
+            \frac{\sqrt{C_\sigma(x_i)C_\sigma(x_j)}}{s_{\mathrm{i}}}
+        \right)^2
+    \right).
+    \label{eq:chapIII_int}
+\end{equation}
+%La forme multiplicative est volontaire : une arête n'est forte que si les deux pixels ont une réponse de second ordre cohérente.
+
+\paragraph{Terme d'alignement}
+Ce terme représente le gain le plus important du recours au graphe. Soit $\theta^\sigma(x)$ l'angle du vecteur propre associé à $\lambda_1^\sigma(x)$, c'est-à-dire la direction locale de la fissure. On pose
+\begin{equation}
+    S_{\mathrm{align}}^\sigma(x_i,x_j)
+    =
+    \exp\left(
+        -\frac12
+        \left(
+            \frac{\sin(\theta^\sigma(x_i)-\theta^\sigma(x_j))}{s_{\mathrm{a}}}
+        \right)^2
+    \right).
+    \label{eq:chapIII_align}
+\end{equation}
+L'utilisation du sinus tient compte du fait qu'une direction de fissure est une droite non orientée : les angles $\theta$ et $\theta+\pi$ décrivent la même direction.
+
+La similarité multi-échelle est alors
+\begin{equation}
+    S_{ij}
+    =
+    \max_{\sigma\in\Sigma}
+    \left(
+        S_{\mathrm{shape}}^\sigma(x_i,x_j)
+        S_{\mathrm{int}}^\sigma(x_i,x_j)
+        S_{\mathrm{align}}^\sigma(x_i,x_j)
+    \right).
+    \label{eq:chapIII_similarity}
+\end{equation}
+Cette similarité est finalement transformée en dissimilarité par la formule
+\begin{equation}
+    d_{ij}
+    =
+    (1-S_{ij})\norme{x_i-x_j}.
+    \label{eq:chapIII_distance}
+\end{equation}
+Le facteur $\norme{x_i-x_j}$ est une régularisation géométrique essentielle. En effet, deux pixels éloignés peuvent avoir des hessiennes compatibles par accident ; pondérer par la distance empêche l'arbre couvrant minimum de privilégier des sauts longs et instables. 
+
+\paragraph{Extraction du squelette}
+Une fois le graphe construit, l'extraction du réseau se fait en quatre étapes :
+\begin{enumerate}
+    \item On élimine les pixels dont la courbure maximale est trop faible.
+    \item On élimine les arêtes dont la similarité $S_{ij}$ est trop faible.
+    \item Sur chaque composante connexe retenue, on calcule un arbre couvrant minimum pour la dissimilarité $d_{ij}$.
+    \item On extrait le centre de cet arbre à l'aide d'une centralité d'intermédiarité (\emph{betweenness centrality} en anglais) pondérée.
+\end{enumerate}
+
+La centralité d'intermédiarité a été introduite par \nom{Freeman} \cite{Freeman1977}, puis calculée efficacement dans les graphes généraux par \nom{Brandes} \cite{Brandes2001}. Dans notre cas, le graphe est ramené à un arbre, ce qui simplifie de beaucoup le calcul.
+
+Soit $\mathcal T$ un arbre couvrant minimum. Si l'on retire un sommet $v$, l'arbre se décompose en branches
+\[
+    \mathrm{Branch}(\mathcal T\setminus v)=\{b_1,\ldots,b_q\}.
+\]
+Au lieu de mesurer la taille d'une branche par son nombre de sommets, on la mesure par la somme des similarités de ses arêtes :
+\begin{equation}
+    \mathcal M(b_r)=\sum_{e\in b_r} S_e.
+\end{equation}
+La centralité pondérée du sommet $v$ est alors
+\begin{equation}
+    C_B(v)
+    =
+    \frac12
+    \left[
+        \left(\sum_{r=1}^q \mathcal M(b_r)\right)^2
+        -
+        \sum_{r=1}^q \mathcal M(b_r)^2
+    \right].
+    \label{eq:chapIII_betweenness}
+\end{equation}
+Les sommets situés sur l'axe central du réseau relient de grandes masses de réponse de \Frangi{} ; ils accumulent donc une forte centralité. Les pixels périphériques, eux, participent à peu de chemins et sont éliminés par un seuil relatif $\tau_c$ \cite{BibiISPRS}.
+
+L'algorithme complet \Alg~\ref{alg:chapIII_frangi_graph} est résumé ci-dessous.
+
+\begin{algorithm}[H]
+\caption{Extraction d'un squelette par graphe de \Frangi{} généralisé}
+\label{alg:chapIII_frangi_graph}
+\begin{algorithmic}[1]
+\Require Modalités recalées $\{I^{(m)}\}_{m\in\mathcal M}$, poids $\{w_m\}$, échelles $\Sigma$, rayon $R$, paramètres $s_{\mathrm{s}},s_{\mathrm{i}},s_{\mathrm{a}}$, seuils $\tau,\tau_c$, ordre $K\in\{1,2\}$.
+\Return Squelette de fissures $\widehat\Gamma$.
+\State Calculer la hessienne fusionnée à chaque échelle (\emph{c.f.} \S~\ref{subsec:chapIII_multimodalite}).
+\State Extraire les valeurs propres $(\lambda_1^\sigma,\lambda_2^\sigma)$ et l'orientation $\theta^\sigma$.
+\State Construire les arêtes de voisinage $E_R$ et calculer $S_{ij}$ puis $d_{ij}$.
+\State Élaguer les pixels de faible courbure positive (on en garde une proportion $\tau$).
+\State Élaguer les arêtes de faible similarité (on en garde une proportion $\tau$).
+\If{$K=1$}
+    \State Extraire les composantes connexes du graphe.
+\Else
+    \State Extraire les composantes triangles-connexes du graphe ($K=2$).
+\EndIf
+\State Calculer une forêt couvrante minimum pour la dissimilarité $d_{ij}$.
+\State Ne conserver que les composantes suffisamment grandes.
+\State Calculer la centralité pondérée, \emph{cf.} \Eq[eq:chapIII_betweenness].
+\State Seuiller la centralité à $\tau_c$ pour obtenir le squelette $\widehat\Gamma$.
+\end{algorithmic}
+\end{algorithm}
+
+La dernière mise en œuvre \cite{BibiISPRS} faite lors de les étapes lourdes sont vectorisées avec PyTorch et calculées de sur GPU. Les voisinages sont extraits avec des opérations de type \texttt{unfold}, puis les arêtes sont traitées par morceaux pour éviter de saturer la mémoire GPU.
+
+\subsection{Extension à la multimodalité}
+\label{subsec:chapIII_multimodalite}
+
+La fusion multimodale est souvent traitée en apprentissage profond par concaténation de canaux (par exemple canaux spectraux), fusion de caractéristiques intermédiaires, ou fusion tardive des prédictions. 
+Ces approches dépendent fortement de l'architecture du réseau et du jeu de modalités vu pendant l'entraînement. Ajouter une modalité demande souvent de réentraîner le modèle, voire de le modifier, ce qui représente un coût non négligeable.
+%\textcolor{red}{Ajouter "Éq" pour "équation".}
+Ici, la fusion se fait avant le graphe, directement au niveau des opérateurs différentiels (hessienne). Pour chaque modalité $m\in\mathcal M$, on calcule la hessienne
+\[
+    \Hess^{(m)}_\sigma(x).
+\]
+Les modalités n'ont pas les mêmes unités physiques, l'on normalise donc chaque hessienne par sa norme spectrale \cite{AvrachenkovDreveton2022} :
+\begin{equation}
+    \widehat\Hess^{(m)}_\sigma(x)
+    =
+    \frac{\Hess^{(m)}_\sigma(x)}{\max_{y\in\Omega}\matnorm{\Hess^{(m)}_\sigma(y)}_2}.
+    \label{eq:chapIII_hessian_norm}
+\end{equation}
+Pour une matrice symétrique $2\times2$, la norme spectrale est
+\begin{equation}
+    \matnorm{A}_2
+    =
+    \sup_{\norme{u}=1}\norme{Au}
+    =
+    \max\bigl(|\mu_1|,|\mu_2|\bigr),
+    \label{eq:chapIII_spectral_norm}
+\end{equation}
+où $\mu_1,\mu_2$ sont les valeurs propres de $A$. Le choix de cette norme est naturel ici : il normalise l'amplitude maximale de courbure de chaque modalité.
+
+La hessienne fusionnée est ensuite une combinaison convexe :
+\begin{equation}
+    \Hess^{\mathrm{fused}}_\sigma(x)
+    =
+    \sum_{m\in\mathcal M} w_m\,\widehat\Hess^{(m)}_\sigma(x),
+    \qquad
+    w_m\ge0,
+    \qquad
+    \sum_{m\in\mathcal M} w_m=1.
+    \label{eq:chapIII_fusion}
+\end{equation}
+Toutes les quantités utilisées plus haut, valeurs propres, orientations, courbure positive, sont ensuite calculées sur $\Hess^{\mathrm{fused}}_\sigma$.
+
+Cette fusion repose sur une hypothèse géométrique : les bruits peuvent être différents d'une modalité à l'autre, mais la fissure physique produit des variations de signal alignées. Si cette hypothèse est vraie, les directions principales des hessiennes se renforcent sur la fissure, alors que les artefacts non corrélés se renforcent beaucoup moins, voire s'annulent. 
+
+Un avantage important est que la formule en \Eq[eq:chapIII_fusion] ne dépend pas du nombre de modalités. Nous avons testé des images visibles, de profondeur et infrarouges thermiques, mais la définition accepte n'importe quel nombre de modalités scalaires recalées. Ajouter ou retirer un capteur revient simplement à modifier l'ensemble $\mathcal M$ et les poids $w_m$ associés.
+
+\subsection{Interactions d'ordre supérieur}
+\label{subsec:chapIII_interactions_ordre_superieur}
+
+Le graphe de \Frangi{} décrit jusqu'ici reste un graphe ordinaire : une fissure est reconstruite par des chaînes d'arêtes. Or, c'est précisément ce type de mécanisme qui peut être fragile sur des images à forte granularité. Des cailloux, des irrégularités de surface peuvent produire de nombreuses petites réponses tubulaires. Avec des arêtes simples, ces réponses finissent parfois par se raccorder en branches parasites.
+
+L'idée est alors de reprendre le principe développé dans la Partie II (voir le chapitre \ref{chap:hgp_clusterer} et \cite{BibiAppliedNetworkScience}) : renforcer la notion de connexité en faisant intervenir des interactions d'ordre supérieur. Dans ce chapitre, nous n'utilisons que le cas $K=2$, c'est-à-dire les triangles. %La version théorique générale est celle de HGP-Clusterer  ; ici, on s'en sert comme d'un filtre géométrique opérationnel.
+
+À partir du graphe $G=(V,E)$, on cherche les triangles
+\[
+    \{u,v,w\}
+    \qquad\text{tels que}\qquad
+    (u,v),(v,w),(u,w)\in E.
+\]
+On construit alors un graphe dual $G^\triangle$ dont les sommets sont les arêtes de $G$. Deux arêtes de $G$ sont adjacentes dans $G^\triangle$ si elles appartiennent à un même triangle. Les composantes connexes de $G^\triangle$ définissent ce que nous appelons les composantes triangles-connexes.
+
+Ce critère est plus exigeant qu'une simple connexité par l'intermédiaire arêtes. Une chaîne fine de bruit peut relier deux zones très éloignées, mais elle forme rarement des triangles cohérents. À l'inverse, une fissure réelle, même si l'on cherche finalement son squelette unidimensionnel, apparaît dans l'image comme un ruban de quelques pixels d'épaisseur ; elle contient donc localement assez de densité pour engendrer des triangles. 
+
+L'implémentation GPU procède par intersections de listes de voisins triées, avec des appels vectorisés de type \texttt{torch.searchsorted}. Cela évite de parcourir explicitement tous les triplets de pixels.
+
+\section{Résultats}
+\label{sec:chapIII_resultats}
+
+Les résultats ci-dessous ont trois objectifs distincts : vérifier que la méthode donne des réseaux corrects sur des fissures géologiques visibles ; montrer l'intérêt de la fusion multimodale sur le \emph{benchmark} FIND \cite{FIND2022} ; illustrer le rôle des interactions d'ordre supérieur dans un contexte granulaire visible et thermique.
+
+\subsection{Jeux de données et protocole}
+\label{subsec:chapIII_donnees}
+
+Nous utilisons quatre familles de données.
+
+\begin{itemize}
+    \item \textbf{Vaches Noires} (\copyright Cerema). Deux images visibles $512\times512$ issues d'acquisitions drone sur le glissement des Vaches Noires, à Villers-sur-Mer. Le site présente une morphologie de \emph{badland} et des réseaux de fissures multi-échelle \cite{fauchard2023diachronic}. Ces images ont servi à la première version de la méthode \cite{BibiStrasbourg}. La comparaison se fait avec un U-Net adapté par \emph{transfer learning} \cite{UNetTransferLearningCracks2023}.
+    \item \textbf{FIND.} Le \emph{benchmark} FIND \cite{FIND2022} fournit des images alignées d'intensité et de profondeur pour la détection de fissures sur infrastructures (routes). Nous utilisons les premières images du protocole, en retirant les cas où l'annotation ou le contraste est incompatible avec l'hypothèse physique de vallée sombre. Les mêmes exclusions sont appliquées à toutes les méthodes comparées.
+    \item \textbf{VT-GraF} (\copyright Cerema). Ce jeu (deux modalités : visible et thermique) vise un cas encore peu couvert par les \emph{benchmarks} publics : des fissures dans un milieu très granulaire, où des cailloux et irrégularités produisent beaucoup de faux candidats. L'intérêt principal est ici qualitatif et méthodologique : tester la robustesse du $K=2$ dans un contexte où les graphes ordinaires se laissent facilement piéger.
+    \item \textbf{CrackForest.} CrackForest \cite{shi2016automatic} est un \emph{benchmark} classique de fissures routières. Comme la vérité terrain est déjà fournie sous forme de squelettes, il est particulièrement utile pour les tests de sensibilité aux paramètres. L'image \texttt{042} est écartée car il y a clairement une erreur au niveau de sa vérité terrain.
+\end{itemize}
+
+\paragraph{Métriques}
+Soient $A$ la vérité terrain et $B$ la prédiction, vues comme ensembles de pixels. Nous utilisons l'indice de \nom{Jaccard} \cite{Jaccard1901} (parfois aussi appelé \emph{Intersection over Union}, IoU)
+\begin{equation}
+    J(A,B)=\frac{|A\cap B|}{|A\cup B|},
+\end{equation}
+l'indice de \nom{Tversky} \cite{Tversky1977}
+\begin{equation}
+    T(A,B)
+    =
+    \frac{|A\cap B|}{|A\cap B|+\alpha|A\setminus B|+\beta|B\setminus A|},
+    \qquad
+    \alpha=1,\quad \beta=\frac12,
+\end{equation}
+et une distance de \nom{Wasserstein} entre distributions discrètes portées par les pixels des deux réseaux \cite{Wasserstein}. Le choix $\alpha=1$, $\beta=1/2$ pénalise davantage les fissures manquées que les sur-détections (en cohérence avec un usage d'inspection).
+
+Dans FIND, les annotations sont des masques épais, tandis que notre méthode produit un squelette. Pour limiter ce biais, les masques de vérité terrain et les sorties denses des méthodes d'apprentissage profond sont squelettisés par l'algorithme de \nom{Lee} disponible dans \texttt{scikit-image} \cite{SciKitSkeletonization}. Pour \nom{Jaccard} et \nom{Tversky}, les squelettes sont ensuite dilatés de $3$ pixels. Ce seuil est empirique ; il sert seulement à tolérer de petits décalages spatiaux.
+
+\subsection{Images géologiques visibles : Vaches Noires}
+\label{subsec:chapIII_res_vaches}
+
+Sur les deux images des Vaches Noires, nous utilisons une seule modalité visible et plusieurs échelles
+\[
+    \Sigma=\{1,3,5,7,9\}.
+\]
+Les autres paramètres sont fixés de façon \emph{ad hoc}\footnote{Comme nous le verrons lors de l'analyse de sensibilité en \S~\ref{subsec:chapIII_res_sensibilite}, le paramètre le plus important à bien régler est l'ensemble d'échelles $\Sigma$. Or $\Sigma$ peut se régler facilement de façon \emph{ad hoc} avec seulement un \emph{a priori} sur la fenêtre de largeur des structures d'intérêt, \emph{i.e.} les fissures.} : $R=3$, $\tau=0,3$ ; $\tau_c=0,005$ ; $K=1$. 
+(Voir les différentes étapes de notre méthode illustrés en \Fig~\ref{fig:chapIII_vaches_pipeline}.)
+Le modèle U-Net de comparaison est adapté par \emph{transfer learning} sur une image annotée de $3760\times2058$ pixels provenant de la même zone. Cette annotation a demandé environ deux jours de travail à un expert géophysicien \cite{BibiStrasbourg}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.98\textwidth]{img/Test1_512_512_algo.png}
+    \caption{Chaîne de traitement sur une image des Vaches Noires. Ligne du haut : image visible, réponse de \Frangi{} classique, graphe de similarité, composantes retenues. Ligne du bas : centralité, vérité terrain, squelette prédit, superposition finale.}
+    \label{fig:chapIII_vaches_pipeline}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \caption{Comparaison quantitative sur deux images des Vaches Noires. Les valeurs sont calculées entre le squelette expert et le squelette prédit.}
+    \label{tab:chapIII_vaches}
+    \begin{tabular}{llccc}
+        \toprule
+        Image & Méthode & \nom{Jaccard} $\uparrow$ & \nom{Tversky} $\uparrow$ & \nom{Wasserstein} $\downarrow$ \\
+        \midrule
+        \multirow{2}{*}{\texttt{Test1}}
+        & Graphe de \Frangi{} & 0.47 & 0.52 & \textbf{34 px} \\
+        & U-Net + T.L. & \textbf{0.50} & \textbf{0.60} & 38 px \\
+        \midrule
+        \multirow{2}{*}{\texttt{Test2}}
+        & Graphe de \Frangi{} & 0.29 & 0.32 & 81 px \\
+        & U-Net + T.L. & \textbf{0.34} & \textbf{0.36} & \textbf{60 px} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.48\textwidth]{img/Test1_512_512_result.png}\hfill
+    \includegraphics[width=0.48\textwidth]{img/Test2_512_512_result.png}
+    \caption{Comparaison qualitative sur les deux images des Vaches Noires. La vérité terrain apparaît en vert, notre méthode en rouge et U-Net + \emph{transfer learning} en bleu.}
+    \label{fig:chapIII_vaches_resultats}
+\end{figure}
+
+Les résultats (qualitativement en \Fig~\ref{fig:chapIII_vaches_resultats}, quantitativement en \Tab~\ref{tab:chapIII_vaches}) sont du même ordre que ceux de la méthode supervisée. U-Net obtient légèrement de meilleurs scores de recouvrement sur ces deux images car ce réseau de neurones a été adapté sur une image très proche (\emph{via transfer learning}), annotée dans le même contexte. En revanche, le graphe de \Frangi{} n'utilise aucune annotation et isole plus directement l'ossature principale du réseau. Sur \texttt{Test1}, cela donne même une meilleure distance de \nom{Wasserstein}. 
+Ce résultat montre que notre méthode géométrique simple sans annotation est compétitive sans avoir besoin d'annotation experte coûteuse indispensable en apprentissage profond.
+
+\subsection{Fusion multimodale : FIND}
+\label{subsec:chapIII_res_find}
+
+FIND \cite{FIND2022} permet de tester la fusion entre intensité, profondeur et profondeur filtrée. L'image visible peut contenir des stries d'asphalte ou des textures allongées qui ressemblent beaucoup à des fissures. La profondeur apporte une information différente sur le signe de la courbure des stries (voir la \Fig~\ref{fig:chapIII_find_pipeline}).
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.23\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/Intensity_1FIND.png}\\
+        {\small Intensité}
+    \end{minipage}\hfill
+    \begin{minipage}{0.23\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/Range_1FIND.png}\\
+        {\small Profondeur}
+    \end{minipage}\hfill
+    \begin{minipage}{0.23\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/FrangiSim_1FIND.png}\\
+        {\small Similarité}
+    \end{minipage}\hfill
+    \begin{minipage}{0.23\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/Resultat_1FIND.png}\\
+        {\small Squelette}
+    \end{minipage}
+    \caption{Exemple de fusion multimodale sur FIND (image \texttt{0001}). La similarité de \Frangi{} généralisée isole la fissure principale malgré les stries visibles dans l'intensité. %\textcolor{red}{Ajouter a) b) c) d) et la fissure (en rouge) daans d)}
+    }
+    \label{fig:chapIII_find_pipeline}
+\end{figure}
+
+Le tableau suivant (\Tab~\ref{tab:chapIII_find_weights}) montre l'effet des poids de fusion. La modalité filtrée seule est déjà très utile, mais la fusion des trois modalités donne le meilleur compromis.
+
+\begin{table}[H]
+    \centering
+    \caption{Influence des poids de fusion sur FIND. $I$ désigne l'intensité, $R$ la profondeur, $F$ la profondeur filtrée (\emph{Filtered}).}
+    \label{tab:chapIII_find_weights}
+    \begin{tabular}{lccc}
+        \toprule
+        Poids & \nom{Jaccard} $\uparrow$ & \nom{Tversky} $\uparrow$ & \nom{Wasserstein} $\downarrow$ \\
+        \midrule
+        $I=1$ & 41\% & 48\% & 43 px \\
+        $R=1$ & 54\% & 62\% & 20 px \\
+        $F=1$ & 60\% & 68\% & 12 px \\
+        $I=\frac12,\ R=\frac12$ & 60\% & 68\% & 18 px \\
+        $I=\frac13,\ R=\frac13,\ F=\frac13$ & \textbf{63\%} & \textbf{71\%} & \textbf{11 px} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Cependant, sur données propres, CrackSegDiff \cite{CrackSegDiff2024} reste largement supérieur. C'était attendu : le modèle de diffusion est entraîné pour ce type de données et produit des masques très ajustés à la distribution du \emph{benchmark}.
+
+\begin{table}[H]
+    \centering
+    \caption{Comparaison avec CrackSegDiff sur FIND propre.}
+    \label{tab:chapIII_find_clean}
+    \begin{tabular}{lccc}
+        \toprule
+        Méthode & \nom{Jaccard} $\uparrow$ & \nom{Tversky} $\uparrow$ & \nom{Wasserstein} $\downarrow$ \\
+        \midrule
+        Graphe de \Frangi{} $(I+R+F)$ & 63\% & 71\% & 11 px \\
+        CrackSegDiff & \textbf{87\%} & \textbf{90\%} & \textbf{5 px} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+La situation devient différente lorsque l'on ajoute un bruit synthétique hors distribution : bruit multiplicatif de type chatoiement (\emph{speckle} en anglais) sur l'intensité, bruit gaussien additif sur la profondeur. Les courbes de la \Fig~\ref{fig:chapIII_find_noise} montrent que notre méthode géométrique se dégrade lentement \cite{BibiISPRS}, alors que le modèle de diffusion perd rapidement la fissure \cite{CrackSegDiff2024}. 
+C'est un résultat important, parce qu'il illustre exactement un compromis évoqué par \cite{Zhang2025Review} : spécialisation contre stabilité.
+
+\begin{figure}[H]
+    \centering
+    % \begin{minipage}{0.48\textwidth}
+    %     \centering
+    %     \includegraphics[width=\linewidth]{img/Jaccard_noisy.png}\\
+    %     {\small \nom{Jaccard}}
+    % \end{minipage}\hfill
+    % \begin{minipage}{0.48\textwidth}
+    %     \centering
+    %     \includegraphics[width=\linewidth]{img/Wasserstein_noisy.png}\\
+    %     {\small \nom{Wasserstein}}
+    % \end{minipage}
+        \begin{subfigure}[b]{0.66\linewidth}
+        \centering
+        \vspace{1cm}
+        \begin{tikzpicture}
+            \node[anchor=south west, inner sep=0pt] (img) at (0,0) {\includegraphics[width=\linewidth]{img/Jaccard_noisy.png}};
+            \useasboundingbox (img.south west) rectangle (img.north east);
+            \draw[-latex, thick] (img.south west) -- (img.south east) -- ++(18pt,0) node[above left, inner sep=2pt] {Bruit};
+            \draw[-latex, thick] (img.south west) -- (img.north west) -- ++(0,18pt) node[above] {Score (\%)};
+            \node[below left] at (img.south west) {$0$};
+            \node[below] at (img.south east) {$0.5$};
+            \node[left] at (img.north west) {$100$};
+        \end{tikzpicture}
+        \caption{\textsc{Jaccard}}
+    \end{subfigure}
+
+    \vspace{1.5cm}
+
+    % \begin{subfigure}[b]{0.88\linewidth}
+    %     \centering
+    %     \begin{tikzpicture}
+    %         \node[anchor=south west, inner sep=0pt] (img) at (0,0) {\includegraphics[width=\linewidth]{Tversky_noisy.png}};
+    %         \useasboundingbox (img.south west) rectangle (img.north east);
+    %         \draw[-latex, thick] (img.south west) -- (img.south east) -- ++(18pt,0) node[above left, inner sep=2pt] {Noise};
+    %         \draw[-latex, thick] (img.south west) -- (img.north west) -- ++(0,18pt) node[above] {Score (\%)};
+    %         \node[below left] at (img.south west) {$0$};
+    %         \node[below] at (img.south east) {$0.5$};
+    %         \node[left] at (img.north west) {$100$};
+    %     \end{tikzpicture}
+    %     \caption{\textsc{Tversky}}
+    % \end{subfigure}
+
+    % \vspace{1.5cm}
+
+    \begin{subfigure}[b]{0.66\linewidth}
+        \centering
+        \begin{tikzpicture}
+            \node[anchor=south west, inner sep=0pt] (img) at (0,0) {\includegraphics[width=\linewidth]{img/Wasserstein_noisy.png}};
+            \useasboundingbox (img.south west) rectangle (img.north east);
+            \draw[-latex, thick] (img.south west) -- (img.south east) -- ++(18pt,0) node[above left, inner sep=2pt] {Bruit};
+            \draw[-latex, thick] (img.south west) -- (img.north west) -- ++(0,18pt) node[above] {Dist. (px)};
+            \node[below left] at (img.south west) {$0$};
+            \node[below] at (img.south east) {$0.5$};
+            \node[left] at (img.north west) {$100$};
+        \end{tikzpicture}
+        \caption{\textsc{Wasserstein}}
+    \end{subfigure}
+    \caption{%\textcolor{red}{Retour des axes}
+    Dégradation des performances sur FIND bruité. Le bruit augmente de gauche à droite. L'échelle verticale va de 0\% à 100\%. La méthode géométrique reste plus stable, tandis que CrackSegDiff se dégrade fortement hors de sa distribution d'entraînement.}
+    \label{fig:chapIII_find_noise}
+\end{figure}
+
+\subsection{Milieu granulaire en imagerie visible-thermique : VT-GraF}
+\label{subsec:chapIII_res_vtgraf}
+
+Le jeu VT-GraF (Visible, Thermique, Granularité et Fissures, \copyright Cerema) est particulièrement utile pour tester les interactions d'ordre supérieur. Les images combinent une modalité visible et une modalité infrarouge thermique, avec une surface très granulaire (voir \Fig~\ref{fig:chapIII_vtgraf_1} et \Fig~\ref{fig:chapIII_vtgraf_5} avec nos résultats). De nombreux cailloux produisent des réponses locales allongées. Un graphe de \Frangi{} ordinaire, avec $K=1$, construit alors beaucoup de branches parasites.
+
+Le passage à $K=2$ impose que les arêtes appartiennent à des triangles. Cette contrainte élimine une grande partie des réponses granulaires isolées. Les deux exemples ci-dessous (\Fig~\ref{fig:chapIII_vtgraf_1} et \Fig~\ref{fig:chapIII_vtgraf_5}) montrent l'effet recherché : la composante retenue suit la fissure principale, alors que le fond produit de nombreuses réponses locales.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.98\textwidth]{img/Raphael_algo_1.png}
+    \caption{Exemple VT-GraF. De gauche à droite et de haut en bas : visible, thermique, courbure positive, graphe de similarité, composantes triangles-connexes, centralité, vérité terrain, superposition.}
+    \label{fig:chapIII_vtgraf_1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.98\textwidth]{img/Raphael_algo_5.png}
+    \caption{Second exemple VT-GraF. Le $K=2$ agit comme un filtre de densité locale et supprime une grande partie des artefacts granulaires.}
+    \label{fig:chapIII_vtgraf_5}
+\end{figure}
+
+%Ces résultats restent surtout qualitatifs. C'est une limite honnête du travail actuel : les \emph{benchmarks} publics avec vérité terrain visible-thermique dans ce contexte précis sont rares. C'est aussi pour cela que la constitution et la diffusion de VT-GraF sont importantes. 
+
+\subsection{Sensibilité aux paramètres : CrackForest}
+\label{subsec:chapIII_res_sensibilite}
+
+CrackForest \cite{shi2016automatic} permet une étude de sensibilité plus propre, car les vérités terrain sont déjà des squelettes. L'image \texttt{001}, par exemple, est correctement reconstruite par la méthode avec $K=2$, comme illustré en \Fig~\ref{fig:chapIII_crackforest_001}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.98\textwidth]{img/CrackForest_algo_001.png}
+    \caption{Exemple sur CrackForest, image \texttt{001}. Le squelette prédit est en rouge, la vérité terrain en vert. Sur cette image : \nom{Jaccard} $=78\%$, distance de \nom{Wasserstein} $=5$ px.}
+    \label{fig:chapIII_crackforest_001}
+\end{figure}
+
+Les essais de sensibilité donnent les tendances suivantes :
+
+\begin{itemize}
+    \item L'ordre $K=2$ améliore légèrement les résultats sur CrackForest, mais son intérêt principal apparaît surtout sur les images granulaires de type VT-GraF.
+    \item L'échelle gaussienne $\sigma_0$ est le paramètre le plus important dès que les fissures ont une largeur relativement homogène. Sur CrackForest, l'échelle optimale est autour de $4$ px.
+    \item Le rayon $R$ interagit avec $\sigma_0$. En pratique, il faut éviter de choisir $R$ trop grand par rapport à l'échelle, sinon des fissures parallèles ou des structures voisines peuvent être reliées artificiellement.
+    \item Les paramètres de similarité $s_{\mathrm{s}},s_{\mathrm{i}},s_{\mathrm{a}}$ sont moins sensibles que prévu car les étapes importantes de seuillage sont toutes \emph{relatives} (on garde une proportion $\tau$, voir \Alg~\ref{alg:chapIII_frangi_graph}). Sauf si ces paramètres permutent les réponses de similarité de \Frangi{}, ils n'ont pas d'influence sur les résultats\footnote{Nous avons pu nous permettre cela car il y avait toujours au moins une fissure sur les \emph{benchmarks} testés. Pour un passage à l'échelle industrielle, cette faiblesse devrait être corrigée.}. 
+    \item Le bon choix du seuil d'élagage $\tau$ est plus délicat. Si fixé trop faible, le graphe se fragmente ; trop élevé, il conserve des arêtes parasites qui peuvent créer des ponts dans l'arbre couvrant minimum.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.49\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/sensitivity_K.png}\\
+        {\small Ordre $K$}
+    \end{minipage}\hfill
+    % \begin{minipage}{0.32\textwidth}
+    %     \centering
+    %     \includegraphics[width=\linewidth]{img/sensitivity_R.png}\\
+    %     {\small Rayon $R$}
+    % \end{minipage}\hfill
+    \begin{minipage}{0.49\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/sensitivity_tau.png}\\
+        {\small Seuil $\tau$}
+    \end{minipage}
+    \caption{Exemples de courbes de sensibilité sur CrackForest (bleu : \nom{Jaccard} ; vert : \nom{Tversky} ; rouge : \nom{Wasserstein}). Les réponses les plus instables apparaissent lorsque le graphe est trop fragmenté ou au contraire trop dense.%\textcolor{red}{À séparer}
+    }
+    \label{fig:chapIII_sensitivity_examples}
+\end{figure}
+
+Nous avons aussi testé l'interaction entre $R$ et $\sigma_0$ par une grille de paramètres. Le test de \nom{Fisher} \cite{Montgomery2017} obtenu dans cette analyse (voir \Fig~\ref{fig:chapIII_correlation_R_sigma0} ; hypothèse nulle : apports additifs indépendants de chacun des paramètres sur la réponse) donne $F=21.0$ avec $p<0.001$, ce qui rejette l'hypothèse nulle. Dit plus simplement : ces deux paramètres ne se règlent pas indépendamment. %Dans la pratique, cela ne rend pas le réglage impossible ; cela rappelle seulement qu'un rayon spatial et une échelle gaussienne décrivent tous deux une taille d'observation autour de la fissure.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{img/correlation_R_sigma0.png}
+    \caption{%\textcolor{red}{Refaire et séparer }
+    Interaction entre le rayon du graphe $R$ et l'échelle de base $\sigma_0$ sur CrackForest.}
+    \label{fig:chapIII_correlation_R_sigma0}
+\end{figure}
+
+\subsection{Conclusion sur les résultats du graphe de \Frangi{}}
+\label{subsec:chapIII_limites}
+
+Les expériences montrent que le graphe de \Frangi{} que nous avons introduit au cours de ce chapitre est une méthode crédible pour extraire des réseaux de fissures sans données annotées d'entraînement. La méthode dépend d'hypothèses explicites : fissures assimilables à des vallées sombres, modalités correctement recalées, existence d'un réseau suffisamment visible, choix d'échelles raisonnable.
+
+Il y a aussi trois limites pratiques.
+
+\begin{enumerate}
+    \item Les seuils $\tau$ et $\tau_c$ sont relatifs. Ils fonctionnent bien lorsqu'on sait qu'une image contient une fissure, mais une utilisation industrielle demanderait aussi un seuil absolu pour rejeter une image sans fissure.
+    \item L'arbre couvrant minimum élimine les cycles ; cela peut poser problème pour des réseaux de fractures fermées et demanderait un post-traitement adéquat.
+    \item Les comparaisons avec l'apprentissage profond doivent encore être élargies : plus de jeux de données, plus de \emph{baselines}, et surtout des \emph{benchmarks} multimodaux mieux annotés. Le manque de données visible-thermique adaptées est actuellement une vraie contrainte expérimentale. Le \emph{benchmark} promis par \cite{Zhang2025Review} permettra-t-il de résoudre ce problème dans le futur ?
+\end{enumerate}
+
+
+\section{Ouverture : vers une réconciliation de l'apprentissage profond et des modèles mathématiques}
+\label{sec:chapIII_ouverture_dl_modeles}
+
+La conclusion naturelle de ce chapitre n'est pas qu'il faudrait choisir entre apprentissage profond et modèles mathématiques. En réalité, les deux approches présentent chacune des avantages et des inconvénients complémentaires.
+
+L'apprentissage profond est excellent pour apprendre des structures aux apparences complexes. Mais il demande des données annotées, et sa robustesse hors distribution reste fragile, notamment dans les contextes de fissures où les capteurs, les matériaux et les résolutions changent souvent \cite{Zhang2025Review}. Les modèles de type \Frangi{}, eux, généralisent mieux parce qu'ils reposent sur des contraintes géométriques simples, mais ils manquent parfois de souplesse face à des cas visuels ambigus.
+
+Pour continuer ce travail de recherche, une première piste consiste à utiliser les modèles géométriques comme outils d'annotation. Le graphe de \Frangi{} produit un squelette éditable, souvent proche du réseau principal. Il pourrait servir à générer des pré-annotations, ensuite corrigées par un expert. Cela réduirait le coût de constitution de bases d'apprentissage, qui est l'un des freins majeurs du domaine.
+
+Une deuxième piste consiste à injecter explicitement des opérateurs différentiels dans les réseaux. Des travaux récents autour de neurones ou couches inspirés du filtre de \Frangi{} montrent que l'on peut intégrer des réponses hessiennes dans une architecture entraînable \cite{NeuroneFrangi2023}. Ce type d'approche est intéressant : le réseau n'a plus à redécouvrir seul que les lignes allongées ont une géométrie de second ordre : on lui donne l'outil.
+
+Une troisième piste concerne les modèles de fondation en vision par ordinateur. SAM \cite{Kirillov2023SAM} et ses adaptations aux fissures, comme CrackSAM \cite{Ge2024CrackSAM}, montrent l'intérêt de grands modèles pré-entraînés. Mais les fissures posent une difficulté particulière : ce sont des objets fins, discontinus, dont la topologie compte autant que l'apparence. Une contrainte de graphe, ou une pénalisation de connectivité, pourrait servir de post-traitement ou même de module différentiable pour réduire les phénomènes de sur-détection et de sous-détection.
+
+%Enfin, les discussions autour des travaux de Pierre \nom{Chesnay} et Frédéric \nom{Jurie} vont précisément dans cette direction : 
+
+%Les travaux de \textcolor{red}{Trouver une référence de Chesnay ou de Jurie ?} vont précisément dans cette direction : ne plus opposer modèles explicites et apprentissage mais chercher des architectures où les \emph{a priori} géométriques restent visibles.
+
+%Le graphe de \Frangi{} fournit une proposition concrète pour 
+
+\Synthese{
+%\textcolor{red}{Dé-télégraphier } 
+Le filtre de \Frangi{} classique donne une réponse locale. Nous avons introduit un \emph{graphe} de \Frangi{}, qui ajoute une notion de compatibilité entre pixels. Cette méthode a l'avantage de permettre de faire de la fusion multimodale, en agissant au niveau des hessiennes. Nos expérimentations montrent que les interactions d'ordre supérieur renforcent la connexité dans les milieux granulaires. L'ensemble donne une méthode sans apprentissage, imparfaite mais robuste et dont l'application principale que nous lui voyons serait un logiciel d'aide à l'annotation de vérité terrain (la sortie étant un graphe, elle est facilement éditable).}

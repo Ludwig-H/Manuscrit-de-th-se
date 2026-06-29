@@ -1,0 +1,798 @@
+ % !TEX encoding = UTF-8 Unicode
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%		INRIA-NOTATION PACKAGE
+%				Edited by: 
+%		09 / 02 / 2017 David Kibloff
+%		17 / 04 / 2020 Samir Perlaza
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%			Latex Symbols already defined : 
+%	https://en.wikipedia.org/wiki/Wikipedia:LaTeX_symbols
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{raccourcis}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	PACKAGES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\RequirePackage{algorithm}
+%\RequirePackage{algpseudocode}
+%\RequirePackage[linesnumbered,ruled,vlined]{algorithm2e}
+%\RequirePackage[noend]{algorithmic}
+% \RequirePackage{amsthm}
+% \RequirePackage{amsmath}
+% \RequirePackage{amssymb}
+% \RequirePackage{amscd}
+% \RequirePackage{amsfonts}
+%\RequirePackage{appendix}
+\RequirePackage{array}
+%\RequirePackage{bbm}
+\RequirePackage{bigints}
+%\RequirePackage{caption}
+%\RequirePackage{cite}
+%\RequirePackage{color}  
+%\RequirePackage{dsfont}
+\RequirePackage{enumerate}
+%\RequirePackage{epsfig}
+\RequirePackage{epstopdf}
+\RequirePackage{epic}
+\RequirePackage{IEEEtrantools}
+\RequirePackage{fancyhdr}
+\RequirePackage{framed}
+\RequirePackage[most, skins]{tcolorbox}
+%\RequirePackage[stable]{footmisc} 
+%\RequirePackage{graphicx}
+%\RequirePackage[colorlinks=true, pdfstartview=FitV, linkcolor=black, citecolor=black, urlcolor=black]{hyperref}
+%\RequirePackage{hyperref}
+%\RequirePackage[geometry]{ifsym}
+\RequirePackage{ifsym}
+% \RequirePackage{mathrsfs} % unused in current manuscript
+%\RequirePackage{mathtools}
+\RequirePackage{multirow}
+%\RequirePackage[parfill]{parskip}  
+% \RequirePackage{psfrag}\n\RequirePackage{relsize}
+\RequirePackage{rotating}
+\RequirePackage{subcaption}
+%\RequirePackage{url}
+\RequirePackage{xspace}
+\RequirePackage{xstring}
+\RequirePackage{yhmath}
+
+
+
+
+\newcommand{\rouge}[1]{\textcolor{red}{#1}}
+
+
+
+
+
+
+%%%%saddlepoint%%%
+\newcommand{\spnum}{\IEEEeqnarraynumspace}
+\newcommand{\Rloss}{\mathsf{R}_{\vect{\theta}} }
+\newcommand{\loss}{\ell(\vect{\theta},x,y)}
+\newcommand{\CDFlfunction}[1]{\mathsf{J}_{#1,\vect{\theta}}}
+\newcommand{\Gibbsmeasure}{P^{\left(Q, \lambda\right)}_{\vect{\Theta}| \vect{Z} = \vect{z}}}
+\newcommand{\GibbsChanging}[1]{P^{\left(Q, #1\right)}_{\vect{\Theta}| \vect{Z} = \vect{z}_1}}
+\newcommand{\GibbsmeasureHat}{P^{\left(Q, \lambda\right)}_{\vect{\Theta}| \vect{Z} = \vect{\hat{z}}}}
+\newcommand{\worstmeasure}[2]{P^{\left(#1,#2\right)}_{\hat{Z}|\vect{\Theta}=\vect{\theta}}}
+\newcommand{\worstmeasuret}[1]{P^{\left(P_S,#1\right)}_{\hat{Z}|\vect{\Theta}=\vect{\theta}}}
+\newcommand{\worstmeasurevector}[2]{P^{\left(#1,#2\right)}_{\hat{\vect{Z}}|\vect{\Theta}=\vect{\theta}}}
+\newcommand{\worstmarginalvector}[2]{P^{\left(#1,#2,Q\right)}_{\hat{\vect{Z}}}}
+\newcommand{\RAmeasure}[2]{\tilde{P}^{\left(#1,#2\right)}_{\vect{\Theta}|\vect{Z}=\vect{z}}}
+\newcommand{\RAmeasurezone}[2]{\tilde{P}^{\left(#1,#2\right)}_{\vect{\Theta}|\vect{Z}=\vect{z}_1}}
+\newcommand{\RAmeasureTwo}[2]{P^{\left(#1,#2,\gamma_1,\beta\right)}_{\vect{\Theta}|\vect{Z}=\vect{z}}}
+\newcommand{\worst}{P^{(P_{\vect{z}},\beta)}_{\hat{Z}|\vect{\Theta}=\vect{\theta}}}
+\newcommand{\worstgeneral}
+{P^{(P_{S},\beta)}_{\hat{Z}|\vect{\Theta}=\vect{\theta}}}
+\newcommand{\worstgeneralt}[1]{P^{(P_{S},#1)}_{\hat{\vect{Z}}|\vect{\Theta}=\vect{\theta}}}
+\newcommand{\worstgeneraltheta}{P^{(P_{S},\beta(\vect{\theta}))}_{\hat{Z}|\vect{\Theta}=\vect{\theta}}}
+\newcommand{\worstgeneralvector}{P^{(P_{S},\beta)}_{\hat{\vect{Z}}|\vect{\Theta}=\vect{\theta}}}
+\newcommand{\worstcount}{P^{(\nu,\beta)}_{\hat{Z}|\vect{\Theta}=\vect{\theta}}}
+\newcommand{\worstleb}{P^{(\mu,\beta)}_{\hat{Z}|\vect{\Theta}=\vect{\theta}}}
+\newcommand{\riskL}{\bar{T}(P_{\vect{Z}},\vect{\theta})}
+\newcommand{\lossl}{T_{P_Z,\vect{\theta}}}
+\newcommand{\losslt}{T(P_{Z_t},\vect{\theta})}
+\newcommand{\CDFl}{\mathsf{J}_{P_{S},\vect{\theta}}}
+%\newcommand{\CDFL}{\mathsf{J}_{P_{\riskL}}}
+\newcommand{\solver}{P^{\left(Q, \lambda\right)}_{\vect{\Theta} | \vect{Z} = \vect{z}}}
+\newcommand{\lossltype}{T_{\vect{z},\vect{\theta}}}
+\newcommand{\CDFltype}{\mathsf{J}_{P_{\vect{z},\vect{\theta}}}}
+\newcommand{\CDFlS}{\mathsf{J}_{P_S,\vect{\theta}}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\squeezeequ}{\medmuskip=2mu \thinmuskip=1mu \thickmuskip=3mu}
+\newcommand{\middlesqueezeequ}{\medmuskip=1.5mu \thinmuskip=0.5mu \thickmuskip=2.5mu \nulldelimiterspace=-0.5pt \scriptspace=0pt}
+\newcommand{\supersqueezeequ}{\medmuskip=1mu \thinmuskip=0mu \thickmuskip=2mu \nulldelimiterspace=-1pt \scriptspace=0pt}
+\newcommand{\Dsupersqueezeequ}{\medmuskip=0.5mu \thinmuskip=0mu \thickmuskip=1mu \nulldelimiterspace=-1pt \scriptspace=0pt}
+\newcommand{\Tsupersqueezeequ}{\medmuskip=0.1mu \thinmuskip=0mu \thickmuskip=0.1mu \nulldelimiterspace=-1pt \scriptspace=0pt}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Algorithms
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\SetKwInput{KwInput}{Input}                			% Set the Input
+%\SetKwInput{KwParameter}{Parameter}                % Set the Parameters
+%\SetKwInput{KwOutput}{Output} 				% Set the Output
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	THEOREM ENVIRONNEMENTS
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtheorem{remark}{Remark}
+
+\newtheorem{assume}{Assumption}
+%\numberwithin{assume}{section}
+\newtheorem{theorem}{Theorem}
+%\numberwithin{theorem}{section}
+\newtheorem{proposition}{Proposition}
+%\numberwithin{proposition}{section}
+\newtheorem{lemma}{Lemma}
+%\numberwithin{lemma}{section}
+\newtheorem{corollary}{Corollary}
+%\numberwithin{corollary}{section}
+%
+\newtheorem{example}{Example}
+%\numberwithin{example}{section}
+%
+%\newtheorem{definition}{Definition}
+%\numberwithin{definition}{section}
+%
+%
+% Preamble ends here
+\tikzset{none/.style={}}
+
+\tcbset{
+  prismtheobox/.style={
+    enhanced,
+    breakable,
+    sharp corners,
+    boxrule=0.6pt,
+    left=2mm,
+    right=2mm,
+    top=1.2mm,
+    bottom=1.2mm,
+    before skip=10pt,
+    after skip=10pt,
+    fonttitle=\bfseries\scshape,
+    coltitle=white
+  }
+}
+
+
+  %title={Définition~\thetcbcounter\if\relax\detokenize{#1}\relax\else: #1\fi}
+
+\newtcbtheorem[auto counter]{Definition}{Définition}{
+  prismtheobox,
+  colback=gray!10,
+  colframe=gray!45,
+  colbacktitle=gray!45,
+}{def} % "thm" est le préfixe automatique qui sera ajouté à vos labels
+
+
+  %title={Propriété~\thetcbcounter\if\relax\detokenize{#1}\relax\else: #1\fi}
+
+\newtcbtheorem[auto counter]{Propriete}{Propriété}{
+  prismtheobox,
+  colback=gray!24,
+  colframe=gray!70,
+  colbacktitle=gray!70,
+}{prop} % "thm" est le préfixe automatique qui sera ajouté à vos labels
+
+\newtcbtheorem[auto counter]{Resultat}{Fait (connu)}{
+  prismtheobox,
+  colback=gray!18,
+  colframe=gray!62,
+  colbacktitle=gray!62,
+}{res} % labels de la forme res:...
+
+\newtcbtheorem[auto counter]{Fait}{Proposition}{
+  prismtheobox,
+  colback=gray!18,
+  colframe=gray!62,
+  colbacktitle=gray!62,
+}{fait} % labels de la forme res:...
+
+% \usepackage[theorems]{tcolorbox}
+%\usepackage[skins]{tcolorbox} % Ne pas oublier [skins] !
+
+\newcommand{\Citation}[1]{%
+  \begin{tcolorbox}[
+    blanker,
+    borderline west={2pt}{0pt}{gray},
+    left=15pt,
+    top=5pt,
+    bottom=5pt
+  ]
+  #1
+  \end{tcolorbox}%
+}
+
+
+% Définition de l'environnement
+\newtcbtheorem[auto counter]{Theoreme}{Théorème}{
+  prismtheobox,
+  colback=gray!32,
+  colframe=gray!80,
+  colbacktitle=gray!80
+}{th} % "thm" est le préfixe automatique qui sera ajouté à vos labels
+
+% Définition de l'environnement
+\newtcbtheorem[auto counter]{Corollaire}{Corollaire}{
+  prismtheobox,
+  colback=gray!18,
+  colframe=gray!62,
+  colbacktitle=gray!62,
+}{cor} % "thm" est le préfixe automatique qui sera ajouté à vos labels
+
+\newenvironment{Preuve}[1][Preuve]{\begin{proof}[#1]}{\end{proof}}
+\newenvironment{preuve}[1][Preuve]{\begin{proof}[#1]}{\end{proof}}
+
+
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	MACROS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\ie}{\textit{i.e.}}
+\newcommand{\etal}{\textit{et al. }}
+\newcommand{\eg}{\textit{e.g. }}
+\newcommand{\cf}{\textit{c.f. }}
+
+%	General
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%\newcommand{\bs}[1]{\boldsymbol{#1}}
+\newcommand{\supp}{\mathrm{supp}\,}
+\newcommand{\ds}{\displaystyle}
+
+\newcommand{\norm}[1]{\left\| #1 \right\|}
+\newcommand{\normtwo}[1]{\left\| #1 \right\|_2}
+\newcommand{\abs}[1]{\left| #1 \right|}
+\newcommand{\argmax}{\mathop{\mathrm{argmax }}}
+\newcommand{\argmin}{\mathop{\mathrm{argmin }}}
+\DeclareMathOperator{\clos}{cl}
+%\newcommand{\supp}[1]{\mathop{\mathrm{supp}}#1}
+\newcommand{\pliminf}{\mathop{\mathrm{P-liminf }}}
+\newcommand{\plimsup}{\mathop{\mathrm{P-limsup }}}
+\newcommand{\intsup}[1]{\left\lfloor #1 \right\rfloor}
+\newcommand{\intinf}[1]{\left\lceil #1 \right\rceil}
+\newcommand{\reals}{\mathds{R}}
+\newcommand{\posreals}{\mathds{R}_{+}}
+\newcommand{\ints}{\mathds{N}}
+\newcommand{\rationals}{\mathds{Q}}
+\newcommand{\relativeints}{\mathds{Z}}
+\newcommand{\complex}{\mathds{C}}
+\newcommand{\set}[1]{\mathcal #1}
+\newcommand{\txtand}{\mbox{ and }}
+\newcommand{\sfT}{\textsf{T}}
+\newcommand{\sfc}{\textsf{c}}
+\newcommand{\ball}[2]{\mathcal{B}_{#2}\left( #1 \right)}
+%\newcommand{\diag}{{\hbox{diag}}}
+%\newcommand{\trace}{{\hbox{tr}}}
+%\let\log\relax 
+%\newcommand{\log}[2]{\mathop{\mathrm{log}_{#1}}\left( #2\right)}
+%\let\ln\relax 
+%\newcommand{\ln}[1]{\mathop{\mathrm{ln}}\left( #1\right)}
+\newcommand{\parenth}[1]{\left( #1 \right)}
+\newcommand{\sqbrack}[1]{\left[ #1 \right]}
+\newcommand{\braces}[1]{\left\{ #1 \right\}}
+
+
+
+%	Communications - General
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\Tx}{\mathrm{Tx}}
+\newcommand{\Rx}{\mathrm{Rx}}
+\newcommand{\SNR}{\mathrm{SNR}}
+\newcommand{\INR}{\mathrm{INR}}
+\newcommand{\SIR}{\mathrm{SIR}}
+\newcommand{\SINR}{\mathrm{SINR}}
+
+%	Probabilities
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\newcommand{\var}{{\hbox{var}}}
+%\newcommand{\cov}{{\hbox{cov}}}
+\newcommand{\markov}{\scalebox{.6}{\raisebox{2pt}{$\mathrel{\multimap}\joinrel\mathrel{-}$}}}
+\newcommand{\Par}{\P} 			% Redefine the existing command P 
+
+\newcommand{\Exp}[2]{\mathds{E}_{#1}\left[ #2 \right]}
+%\newcommand{\Var}[2]{\mathds{V}_{#1}\left[ #2 \right]}
+\newcommand{\ind}[1]{\mathds{1}_{\left\lbrace #1 \right\rbrace}}
+
+% Vector and Matrices
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\T}{\sf{T}}
+\newcommand{\vect}[1]{\boldsymbol{#1}}
+\newcommand{\matx}[1]{\underline{\boldsymbol{#1}}}
+%     Numbers
+\newcommand{\inCountForEver}{ \in \mathds{N}}
+\newcommand{\inCountNoOne}{ \in \mathds{N}\setminus \lbrace 1 \rbrace}
+\newcommand{\inCountTwo}{ \in \lbrace 1, 2\rbrace}
+\newcommand{\inCountK}[1]{ \in \lbrace 1, 2, \ldots, #1 \rbrace}
+
+%	Measure Theory
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\powset}[1]{\mathscr{P}\left( #1 \right)}
+\newcommand{\measpace}[1]{ \left( #1, \powset{#1} \right)}
+\newcommand{\Bormeaspace}[1]{ \left( #1, \mathscr{B}\left( #1 \right) \right)}
+\newcommand{\BorSigma}[1]{  \mathscr{B}\left( #1 \right)}
+\newcommand{\simplex}[1]{\triangle\left( #1 \right)}
+
+
+%	Game Theory
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\BR}{\mathrm{BR}}
+\newcommand{\PoA}{\mathrm{PoA}}
+\newcommand{\PoS}{\mathrm{PoS}}
+\newcommand{\RepGame}{\mathcal{G}}
+\newcommand{\gameNF}{\mathcal{G}}
+\newcommand{\GameNF}{\mathcal{G} = \left(
+	\mathcal{K}, 
+	\left\lbrace\mathcal{A}_k \right\rbrace_{k \in \mathcal{K}},
+	\left\lbrace u_{k}\right\rbrace_{ k \in \mathcal{K}}
+\right)}
+\newcommand{\Left}{{\sf{Left}}}
+\newcommand{\Right}{{\sf{Right}}}
+\newcommand{\Pone}{\text{Player $1$}\xspace}
+\newcommand{\Ptwo}{\text{Player $2$}\xspace}
+\newcommand{\Pith}{\text{Player $i$}\xspace}
+%	Information Theory - General
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand\DMPPC[2]{\left( 
+	\mathcal #1,
+	\mathcal #2,
+	P_{#2|#1}
+\right)}
+\newcommand\DMSDC[3]{\left( 
+	\mathcal #1,
+	\mathcal #2,
+	\mathcal #3,
+	P_{#1},
+	P_{#3|#2#1}
+\right)}
+\newcommand\DMBC[3]{\left( 
+	\mathcal #1,
+	\mathcal #2,
+	\mathcal #3,
+	P_{#2#3|#1}
+\right)}
+\newcommand\DMMAC[3]{\left( 
+	\mathcal #1,
+	\mathcal #2,
+	\mathcal #3,
+	P_{#3|#1#2}
+\right)}
+\newcommand\DMIC[4]{\left( 
+	\mathcal #1,
+	\mathcal #2,
+	\mathcal #3,
+	\mathcal #4,
+	P_{#3#4|#1#2}
+\right)}
+
+\newcommand{\KL}[2]{D \left(#1 \| #2\right)}
+\newcommand{\TV}[2]{\norm{#1 - #2}_{\mathrm{TV}}}
+\newcommand{\dens}[2]{\imath_{\uppercase{#1#2}}\left(#1;#2\right)}
+\newcommand{\reldens}[3]{\imath_{#1||#2}\left(#3\right)}
+\newcommand{\MI}[2]{I\left(#1;#2\right)}
+\newcommand{\entropy}[1]{H\left(#1\right)}
+%	Interference channel
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\Cldicnfb}{\mathcal{C}}
+\newcommand{\Cldic}{\mathcal{C}_{\mathrm{LDIC}}}
+\newcommand{\Cldicnof}{\mathcal{C}}
+\newcommand{\Cldicfb}{\mathcal{C}_{\mathrm{LDIC/FB}}}
+\newcommand{\Cgic}{\mathcal{C}_{\mathrm{GIC}}}
+\newcommand{\Cgicfb}{\mathcal{C}_{\mathrm{GIC/FB}}}
+\newcommand{\Cgicnof}{\mathcal{C}_{\mathrm{GIC-NF}}}
+\newcommand{\agicnof}{\underline{\mathcal{C}}_{\mathrm{GIC-NF}}}
+\newcommand{\cgicnof}{\overline{\mathcal{C}}_{\mathrm{GIC-NF}}}
+
+\newcommand{\Bldicnfb}{\mathcal{B}}
+\newcommand{\Bldic}{\underline{\mathcal{B}}}
+\newcommand{\Bldicfb}{\overline{\mathcal{B}}}
+\newcommand{\Bldicnof}{\mathcal{B}_{\eta}}
+\newcommand{\Bgicfb}{\mathcal{B}_{\mathrm{GIC/FB}}}
+\newcommand{\underBgic}{\underline{\mathcal{B}}_{\mathrm{GIC}}}
+\newcommand{\overBgic}{\overline{\mathcal{B}}_{\mathrm{GIC}}}
+
+\newcommand{\Nldicnfb}{\mathcal{N}}
+\newcommand{\Nldic}{\mathcal{N}_{\mathrm{LDIC}}}
+\newcommand{\Nldicfb}{\mathcal{N}_{\mathrm{LDIC/FB}}}
+\newcommand{\Nldicnof}{\mathcal{N}_{\eta}}
+\newcommand{\Ngic}{\mathcal{N}_{\mathrm{GIC}}}
+\newcommand{\Ngicfb}{\mathcal{N}_{\mathrm{GIC/FB}}}
+\newcommand{\Ngicnof}{\mathcal{N}_{\eta}}
+\newcommand{\aNgicnof}{{\underline{\mathcal{N}}_{\eta}}}
+\newcommand{\cNgicnof}{{\overline{\mathcal{N}}_{\eta}}}
+\newcommand{\overBgicnof}{\overline{\mathcal{B}}_{\eta}}
+\newcommand{\underBgicnof}{\underline{\mathcal{B}}_{\eta}}
+
+\newcommand{\Uldicnfb}{U}
+\newcommand{\Uldic}{U_{i}}
+\newcommand{\Uldicfb}{U_{i,\mathrm{FB}}}
+
+\newcommand{\underR}{\underline{\mathcal{R}}}
+\newcommand{\overR}{\overline{\mathcal{R}}}
+\newcommand{\underRfb}{\underline{\mathcal{R}}_{\mathrm{FB}}}
+\newcommand{\overRfb}{\overline{\mathcal{R}}_{\mathrm{FB}}}
+
+ 
+% SIET
+\newcommand{\fb}{\textnormal{fb}}
+\newcommand{\nofb}{\textnormal{nofb}}
+\newcommand{\GMACB}{\textnormal{GMAC-E}\xspace}
+\newcommand{\GMACFB}{\textnormal{GMAC-F-E}\xspace}
+\newcommand{\GMAC}{\textnormal{GMAC}\xspace}
+\newcommand{\GMACF}{\textnormal{GMAC-F}\xspace}
+\newcommand{\outage}{\mathrm{EO}}
+\newcommand{\error}{\textnormal{DE}}
+\newcommand{\minr}{\textnormal{min}}
+\newcommand{\thresh}{\textnormal{Thresh}}
+
+
+%\newcommand{\ds}{\displaystyle}
+\newcommand{\F}{ \mathrm{FB}}
+\newcommand{\NF}{ \mathrm{NF}}
+\newcommand{\FB}{ \mathrm{FB}}
+
+
+
+
+%\RequirePackage{subcaption}
+
+\usepackage{setspace} % Requis par le package caption pour manipuler l'interligne
+\usepackage{caption}
+
+\captionsetup[figure]{
+    font={footnotesize, color=black!85, stretch=0.85},
+    labelfont={bf, color=black!95},
+    labelsep=colon,
+    justification=justified
+}
+
+% % 1. On passe le compteur en romain pur (pour l'exposant dans le texte)
+% \renewcommand{\thefootnote}{\roman{footnote}}
+
+% % 2. On modifie la macro d'assemblage de la note pour y injecter la parenthèse
+% \makeatletter
+% \renewcommand\@makefntext[1]{%
+%     \parindent 1em%
+%     \noindent
+%     \hb@xt@1.8em{\hss\@thefnmark)}#1}
+% \makeatother
+
+%\renewcommand{\thefootnote}{\roman{footnote})}
+% On détache les footnotes des pages
+\counterwithout{footnote}{page}
+
+% On détache les footnotes des parties
+\counterwithout{footnote}{part}
+
+% On détache les footnotes des chapitres (si vous utilisez \chapter)
+\counterwithout{footnote}{chapter}
+
+% 2. On applique votre style personnalisé (chiffres romains + parenthèse)
+\renewcommand{\thefootnote}{\roman{footnote})}
+
+\definecolor{c1}{RGB}{142, 198, 155} % Vert
+\definecolor{c2}{RGB}{232, 135, 135} % Rouge
+\definecolor{c3}{RGB}{221, 211, 153} % Jaune
+\definecolor{c4}{RGB}{175, 152, 199} % Violet
+\definecolor{c5}{RGB}{152, 210, 228} % Bleu
+
+
+\newcommand{\IntervalleEntiers}[1]{\left[\!\left[ #1 \right]\!\right]}
+
+
+% ============================================================
+% Petites capitales + indexation des noms propres
+% ============================================================
+
+\newif\ifIndexEntreesActives
+\IndexEntreesActivestrue
+
+\newcommand{\ActiverIndexEntrees}{\IndexEntreesActivestrue}
+\newcommand{\DesactiverIndexEntrees}{\IndexEntreesActivesfalse}
+\newcommand{\SansIndex}[1]{%
+  \begingroup
+  \DesactiverIndexEntrees
+  #1%
+  \endgroup
+}
+
+% \nom{Hartigan}               -> affiche HARTIGAN + indexe
+% \nom[Cech]{Čech}             -> affiche ČECH + trie à Cech
+% \nom*{Fig.}                  -> affiche FIG. sans indexer
+
+\NewDocumentCommand{\IndexNomEntree}{O{} m}{%
+  \ifIndexEntreesActives
+    \if\relax\detokenize{#1}\relax
+      \index[noms]{#2@\textsc{#2}}%
+    \else
+      \index[noms]{#1@\textsc{#2}}%
+    \fi
+  \fi
+}
+
+\newif\ifIndexNomAliasTrouve
+
+\newcommand{\IndexNomAlias}[4]{%
+  \ifIndexNomAliasTrouve\else
+    \IfStrEq{#1}{#2}{%
+      \IndexNomEntree[#3]{#4}%
+      \IndexNomAliasTrouvetrue
+    }{}%
+  \fi
+}
+
+\NewDocumentCommand{\IndexNomPropre}{O{} m}{%
+  \ifIndexEntreesActives
+    \IndexNomAliasTrouvefalse%
+    \IndexNomAlias{#2}{(Boltzmann--)Gibbs}{Gibbs}{Gibbs}%
+    \IndexNomAlias{#2}{Boltzmann--Gibbs}{Gibbs}{Gibbs}%
+    \IndexNomAlias{#2}{Broadbent \& Hammersley}{Broadbent Hammersley}{Broadbent \& Hammersley}%
+    \IndexNomAlias{#2}{Hammersley}{Broadbent Hammersley}{Broadbent \& Hammersley}%
+    \IndexNomAlias{#2}{Culbertson, Guralnik \& Stiller}{Culbertson Guralnik Stiller}{Culbertson, Guralnik \& Stiller}%
+    \IndexNomAlias{#2}{Guralnik}{Culbertson Guralnik Stiller}{Culbertson, Guralnik \& Stiller}%
+    \IndexNomAlias{#2}{Stiller}{Culbertson Guralnik Stiller}{Culbertson, Guralnik \& Stiller}%
+    \IndexNomAlias{#2}{Edwards \& Sokal}{Edwards Sokal}{Edwards--Sokal}%
+    \IndexNomAlias{#2}{Edwards--Sokal}{Edwards Sokal}{Edwards--Sokal}%
+    \IndexNomAlias{#2}{Edwards-Sokal}{Edwards Sokal}{Edwards--Sokal}%
+    \IndexNomAlias{#2}{Fortuin--Kasteleyn}{Fortuin Kasteleyn}{Fortuin--Kasteleyn}%
+    \IndexNomAlias{#2}{Kasteleyn}{Fortuin Kasteleyn}{Fortuin--Kasteleyn}%
+    \IndexNomAlias{#2}{Kandel, Ben-Av et Domany}{Kandel Ben Av Domany}{Kandel--Ben-Av--Domany}%
+    \IndexNomAlias{#2}{Kandel--Ben-Av--Domany}{Kandel Ben Av Domany}{Kandel--Ben-Av--Domany}%
+    \IndexNomAlias{#2}{Kandel-Ben-Av-Domany}{Kandel Ben Av Domany}{Kandel--Ben-Av--Domany}%
+    \IndexNomAlias{#2}{Sankararaman--Baccelli}{Sankararaman Baccelli}{Sankararaman--Baccelli}%
+    \IndexNomAlias{#2}{Sankararaman-Baccelli}{Sankararaman Baccelli}{Sankararaman--Baccelli}%
+    \IndexNomAlias{#2}{Swendsen--Wang}{Swendsen Wang}{Swendsen--Wang}%
+    \IndexNomAlias{#2}{Swendsen-Wang}{Swendsen Wang}{Swendsen--Wang}%
+    \IndexNomAlias{#2}{Vietoris}{Vietoris Rips}{Vietoris--Rips}%
+    \IndexNomAlias{#2}{Rips}{Vietoris Rips}{Vietoris--Rips}%
+    \IndexNomAlias{#2}{Vietoris--Rips}{Vietoris Rips}{Vietoris--Rips}%
+    \ifIndexNomAliasTrouve\else
+      \IndexNomEntree[#1]{#2}%
+    \fi
+  \fi
+}
+
+\NewDocumentCommand{\IndexNomVoir}{O{} m m}{%
+  \ifIndexEntreesActives
+    \if\relax\detokenize{#1}\relax
+      \index[noms]{#2@\textsc{#2}|see{\textsc{#3}}}%
+    \else
+      \index[noms]{#1@\textsc{#2}|see{\textsc{#3}}}%
+    \fi
+  \fi
+}
+
+\newcommand{\AjouterRenvoisIndexNoms}{%
+  \IndexNomVoir[Boltzmann Gibbs]{Boltzmann--Gibbs}{Gibbs}%
+  \IndexNomVoir{Hammersley}{Broadbent \& Hammersley}%
+  \IndexNomVoir{Guralnik}{Culbertson, Guralnik \& Stiller}%
+  \IndexNomVoir{Stiller}{Culbertson, Guralnik \& Stiller}%
+  \IndexNomVoir{Kasteleyn}{Fortuin--Kasteleyn}%
+  \IndexNomVoir{Rips}{Vietoris--Rips}%
+  \IndexNomVoir{Baccelli}{Sankararaman--Baccelli}%
+  \IndexNomVoir{Vietoris}{Vietoris--Rips}%
+}
+
+
+\makeatletter
+\newcommand{\EspaceInsecableAvantNom}{%
+  \ifhmode
+    \ifdim\lastskip>0pt
+      \unskip\nobreak\space
+    \fi
+  \fi
+}
+\makeatother
+
+\NewDocumentCommand{\nom}{s O{} m}{%
+  \EspaceInsecableAvantNom
+  \textsc{#3}%
+  \IfBooleanF{#1}{\IndexNomPropre[#2]{#3}}%
+}
+
+
+% ============================================================
+% Acronymes indexés
+% ============================================================
+
+\NewDocumentCommand{\IndexAcronyme}{m m}{%
+  \ifIndexEntreesActives
+    \index[acronymes]{#1@\textsc{#1} -- #2}%
+  \fi
+}
+
+% \acronyme{HDBSCAN}{Hierarchical Density-Based Spatial Clustering of Applications with Noise}
+% \acronyme*{HDBSCAN}{...} : affiche sans indexer
+\NewDocumentCommand{\acronyme}{s m m}{%
+  \IfBooleanF{#1}{\IndexAcronyme{#2}{#3}}%
+  \textsc{#2}\xspace
+}
+
+% Déclare une commande courte.
+% Exemple :
+% \DeclareAcronyme{HDBSCAN}{HDBSCAN}{Hierarchical Density-Based Spatial Clustering of Applications with Noise}
+% puis utiliser \HDBSCAN dans le texte.
+\makeatletter
+\NewDocumentCommand{\DeclareAcronyme}{m m m}{%
+  \@ifundefined{#1}{%
+    \expandafter\NewDocumentCommand\csname #1\endcsname{s}{%
+      \IfBooleanTF{##1}
+        {\acronyme*{#2}{#3}}
+        {\acronyme{#2}{#3}}%
+    }%
+  }{%
+    \expandafter\RenewDocumentCommand\csname #1\endcsname{s}{%
+      \IfBooleanTF{##1}
+        {\acronyme*{#2}{#3}}
+        {\acronyme{#2}{#3}}%
+    }%
+  }%
+}
+\makeatother
+
+% Acronymes principaux du manuscrit
+\DeclareAcronyme{SL}{SL}{Single-Linkage}
+\DeclareAcronyme{RSL}{RSL}{Robust Single-Linkage}
+\DeclareAcronyme{DBSCAN}{DBSCAN}{Density-Based Spatial Clustering of Applications with Noise}
+\DeclareAcronyme{HGP}{HGP}{Hypergraphe-Percol'}
+\DeclareAcronyme{HDBSCAN}{HDBSCAN}{Hierarchical Density-Based Spatial Clustering of Applications with Noise}
+\DeclareAcronyme{HGP}{HGP}{Hypergraphe-Percol'}
+\DeclareAcronyme{HGPClusterer}{HGP-Clusterer}{Hypergraphe-Percol' Clusterer}
+
+\DeclareAcronyme{KNN}{K-NN}{K plus proches voisins}
+\DeclareAcronyme{ONN}{1-NN}{estimateur au plus proche voisin}
+\DeclareAcronyme{MST}{MST}{Minimum Spanning Tree}
+\DeclareAcronyme{RNG}{RNG}{Relative Neighborhood Graph}
+\DeclareAcronyme{TDA}{TDA}{Topological Data Analysis}
+\DeclareAcronyme{VR}{VR}{Vietoris--Rips}
+
+\DeclareAcronyme{MCMC}{MCMC}{Monte-Carlo par chaînes de Markov}
+\DeclareAcronyme{RKHS}{RKHS}{Reproducing Kernel Hilbert Space}
+\DeclareAcronyme{UMAP}{UMAP}{Uniform Manifold Approximation and Projection}
+
+\DeclareAcronyme{LiDAR}{LiDAR}{Light Detection and Ranging}
+\DeclareAcronyme{GPU}{GPU}{Graphics Processing Unit}
+\DeclareAcronyme{ARI}{ARI}{Adjusted Rand Index}
+
+\newcommand{\DroitRepro}[1]{© {\small #1}}
+\newcommand{\NB}[0]{}%{\noindent\textit{N.B.}:   }
+\DeclareDocumentCommand{\Fig}{o}{\nom*{Fig.}\IfValueT{#1}{~\ref{#1}, p.~\pageref{#1}}}
+\DeclareDocumentCommand{\Def}{o}{\nom*{Def.}\IfValueT{#1}{~\ref{#1}, p.~\pageref{#1}}}
+\DeclareDocumentCommand{\Th}{o}{\nom*{Théorème}\IfValueT{#1}{~\ref{#1}, p.~\pageref{#1}}}
+\DeclareDocumentCommand{\Res}{o}{\nom*{Fait}\IfValueT{#1}{~\ref{#1}, p.~\pageref{#1}}}
+\DeclareDocumentCommand{\Cor}{o}{\nom*{Corollaire}\IfValueT{#1}{~\ref{#1}, p.~\pageref{#1}}}
+\DeclareDocumentCommand{\Fact}{o}{\nom*{Prop.}\IfValueT{#1}{~\ref{#1}, p.~\pageref{#1}}}
+\DeclareDocumentCommand{\Alg}{o}{\nom*{Alg.}\IfValueT{#1}{~\ref{#1}, p.~\pageref{#1}}}
+\DeclareDocumentCommand{\Tab}{o}{\nom*{Tab.}\IfValueT{#1}{~\ref{#1}, p.~\pageref{#1}}}
+\DeclareDocumentCommand{\Prop}{o}{\nom*{Prop.}\IfValueT{#1}{~\ref{#1}, p.~\pageref{#1}}}
+\DeclareDocumentCommand{\Lemme}{o}{\nom*{Lemma}\IfValueT{#1}{~\ref{#1}, p.~\pageref{#1}}}
+\DeclareDocumentCommand{\Eq}{o}{\nom*{Eq.}\IfValueT{#1}{~(\ref{#1})}}
+\newcommand{\CQFD}[0]{\hfill$\square$}
+
+% Compatibilite macros manuscrit these
+\providecommand{\X}{\mathcal{X}}
+\providecommand{\Y}{\mathcal{Y}}
+\providecommand{\C}{\mathcal{C}}
+\providecommand{\RPlus}{\mathbb{R}_{+}}
+\providecommand{\NP}{\mathsf{NP}}
+\providecommand{\thetaSL}{\theta^{\mathrm{SL}}}
+\providecommand{\Theoreme}{\Th}
+\providecommand{\sep}{\operatorname{sep}}
+\providecommand{\Remarque}[1]{\paragraph{Remarque} #1}
+\providecommand{\Remarques}[1]{\paragraph{Remarques} #1}
+\providecommand{\Contributions}[1]{\paragraph{Contributions} #1}%{\par\noindent\textbf{Contributions.} #1\par}
+\providecommand{\Notation}[1]{\paragraph{Notation} #1}%
+\providecommand{\Synthese}[1]{\paragraph{Synthèse} #1}%{\par\noindent\textbf{Synthèse.} #1\par}
+
+\usepackage{enumitem}
+
+\newcommand{\norme}[1]{\lVert #1 \rVert}
+%\newcommand{\norme}[1]{\left\Vert #1 \right\Vert}
+\newcommand{\module}[1]{\lvert #1 \rvert}
+%\usepackage{bbm}
+
+\newcommand{\ArbreCouvrant}[0]{\mathrm{MST}}% \left[ #1 \right]}
+\newcommand{\UnionDisjointe}[0]{\dot \cup}
+
+\newcommand{\Partitions}[1]{\mathcal{P}\mathrm{art}\bigl( #1 \bigr)}
+
+\newcommand{\Bin}[0]{\mathcal{B}in}
+\newcommand{\Prob}[0]{\mathbb{P}}
+\newcommand{\Esp}[0]{\mathbb{E}}
+\newcommand{\Xcal}[2]{\mathcal{X}^{#1}_{#2}}
+\newcommand{\Tcal}[1]{\mathbb{T}^{#1}}
+\newcommand{\Ncal}[2]{\mathcal{N}^{#1}_{ #2}}
+\newcommand{\Hcal}[2]{\mathcal{H}^{#1}_{#2}}
+\newcommand{\Gcal}[0]{\mathcal{G}}
+\newcommand{\Pcal}[0]{\mathcal P}
+\newcommand{\Bcal}[0]{\mathcal B}
+\newcommand{\Acal}[0]{\mathcal A}
+\newcommand{\AComplexe}[2]{\Acal \left(#1, #2 \right)}
+\newcommand{\Dcal}[0]{\mathcal D}
+\newcommand{\Ccal}[0]{\mathcal C}
+\newcommand{\Cylindre}[0]{\mathcal C}
+%\newcommand{\commentaire}[1]{\textcolor{red}{#1}}
+\newcommand{\commentaire}[1]{#1}
+\usepackage{cancel}
+%\newcommand{\barrer}[1]{\textcolor{red}{\cancel{#1}}}
+\newcommand{\barrer}[1]{}
+\newcommand{\largeur}[0]{\textwidth}
+ \newcommand{\eqdef}[0]{\triangleq}
+
+\providecommand{\SW}{\textnormal{\nom[Swendsen-Wang]{Swendsen--Wang}}\xspace}
+\providecommand{\ES}{\textnormal{\nom[Edwards-Sokal]{Edwards--Sokal}}\xspace}
+\providecommand{\KBD}{\textnormal{\nom[Kandel-Ben-Av-Domany]{Kandel--Ben-Av--Domany}}\xspace}
+\providecommand{\SB}{\textnormal{\nom[Sankararaman-Baccelli]{Sankararaman--Baccelli}}\xspace}
+\providecommand{\EA}{\textnormal{\nom[Edwards-Anderson]{Edwards--Anderson}}\xspace}
+\providecommand{\Obs}{\mathcal O}
+\providecommand{\Conf}{\mathcal S}
+\providecommand{\Lab}{\mathsf S}
+\providecommand{\Wspace}{\mathsf W}
+\providecommand{\Sorties}{\mathcal A}
+\providecommand{\Loi}{\mathcal L}
+\providecommand{\RG}{\operatorname{RG}}
+\providecommand{\ov}{\operatorname{ov}}
+\providecommand{\sgn}{\operatorname{sgn}}
+\providecommand{\Id}{\operatorname{Id}}
+\providecommand{\supp}{\operatorname{supp}}
+\providecommand{\ind}[1]{\mathds{1}_{\{#1\}}}
+\providecommand{\eps}{\varepsilon}
+
+
+
+\usetikzlibrary{backgrounds}
+\usetikzlibrary{intersections} 
+
+
+ % =========================================================
+% TEMPLATE RÉUTILISABLE (à placer dans le préambule)
+% =========================================================
+% Ce template trace les 6 sommets, les 7 segments et les lettres.
+% Paramètre optionnel : r (le rayon des cercles, par défaut 1.5).
+% La longueur de chaque arête sera garantie d'être exactement 2*r.
+\newcommand{\templateNuage}[1][1.5]{
+    % Enregistrement du rayon r
+    \pgfmathsetmacro{\R}{#1}
+    % Calcul de la hauteur des triangles équilatéraux de côté 2r
+    \pgfmathsetmacro{\h}{\R*sqrt(3)}
+    
+    % Définition des coordonnées mathématiquement exactes
+    \coordinate (C) at (-\R, 0);
+    \coordinate (D) at (\R, 0);
+    \coordinate (A) at (-\R-\h, \R);
+    \coordinate (B) at (-\R-\h, -\R);
+    \coordinate (E) at (\R+\h, \R);
+    \coordinate (F) at (\R+\h, -\R);
+
+    % Tracé des 7 segments (tous mesurent exactement 2r)
+    \draw[thick] (A) -- (B) -- (C) -- cycle; % Triangle gauche
+    \draw[thick] (D) -- (E) -- (F) -- cycle; % Triangle droit
+    \draw[thick] (C) -- (D);                 % Segment central
+
+    % Tracé des sommets et de leurs étiquettes (dégagées vers l'extérieur)
+    \fill (A) circle (1.5pt) node[left=4pt] {A};
+    \fill (B) circle (1.5pt) node[left=4pt] {B};
+    
+    % \fill (C) circle (1.5pt) node[above=4pt] {C};
+    % \fill (D) circle (1.5pt) node[above=4pt] {D};
+    % ---- LIGNES MODIFIÉES ----
+    % C et D sont décalés vers l'intérieur de leurs triangles respectifs
+    % pour laisser un espace net autour des 4 points de tangence rouges.
+    \fill (C) circle (1.5pt) node[left=6pt] {C};
+    \fill (D) circle (1.5pt) node[right=6pt] {D};
+    % --------------------------
+    
+    \fill (E) circle (1.5pt) node[right=4pt] {E};
+    \fill (F) circle (1.5pt) node[right=4pt] {F};
+}
+% =========================================================

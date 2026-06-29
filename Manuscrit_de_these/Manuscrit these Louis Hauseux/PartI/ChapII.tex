@@ -1,0 +1,245 @@
+\chapter{Le Single-Linkage : un point de vue axiomatique}
+\label{chap:axiomatique}
+
+
+Au début des années 2000, sous l'impulsion de \nom{Kleinberg} \cite{Kleinberg2002}, l'on commence à emprunter la piste axiomatique pour définir ``proprement'' le clustering (\emph{cf.}~\S~\ref{sec:Kleinberg}). 
+D'abord aporétique (théorème d'impossibilité de \nom{Kleinberg} \cite{Kleinberg2002}), cette piste présentait des difficultés qui ont pu être surmontées grâce à \nom{Carlsson} \& \nom[Memoli]{Mémoli} \cite{CarlssonMemoli2010} : la bonne approche est \emph{hiérarchique} : une structure d'arbre sur les données est plus riche qu'une simple partition et peut répondre à des critères impossibles pour un clustering classique (\S~\ref{sec:clusteringHierarchique}).
+
+Le formalisme des catégories s'empare alors du clustering \emph{hiérarchique}, vu comme une application de la catégorie des espaces métriques vers les espaces \emph{ultramétriques} (\Res[res:equivalence_ultrametrique-dendrogramme]).
+On peut réclamer à de tels algorithmes de bonnes qualités \emph{fonctorielles}, vis-à-vis des applications $1$-lipschitziennes par exemple. Une axiomatique ``naturelle'' caractérise \emph{uniquement} le Single-Linkage (\Res[res:Axiomatique_Single-Linkage_unique]).
+
+Nous n'explorerons pas davantage ici cette voie axiomatique qui pourrait nous égarer dans notre cheminement ; que le lecteur sache néanmoins que \nom{Culbertson, Guralnik \& Stiller} \cite{CulbertsonGuralnikStiller2018} sont allés encore plus loin que \nom{Carlsson} \& \nom[Memoli]{Mémoli} : ils ont relâché la contrainte du partitionnement, remplacé par des \emph{recouvrements}. L'objet hiérarchique passe alors du dendrogramme au \emph{crible} catégoriel.
+Ce faisant, cela leur permet de voir le clustering hiérarchique comme une projection dont le choix de la catégorie cible, le \emph{domain clustering}, est crucial.
+
+\Contributions{Ce chapitre est une revue (très partielle) de ce qui s'est fait à propos de clustering depuis les années 2000 avec une approche axiomatique. Notre approche, toute différente, a été géométrique et statistique ; ce chapitre est donc une légère digression. Il a pour but de montrer au lecteur l'omniprésence du Single-Linkage ainsi que la diversité mathématique avec laquelle on peut aborder cet algorithme.
+Il a aussi l'avantage d'illustrer que la généralisation que nous proposerons du Single-Linkage, conforme à notre approche géométrique et statistique, se retrouve dans les idées proposées par \nom{Culbertson, Guralnik \& Stiller} \cite{CulbertsonGuralnikStiller2018} : il faut relâcher la contrainte (trop forte) du clustering vu comme un \emph{partitionnement} des données.}
+
+
+
+\section{Rappels : partitions, relations d'équivalence}
+
+
+\paragraph{Partitions $\Partitions{\mathcal X}$}
+
+Rappelons qu'une partition $P$ de $\mathcal X$ est un ensemble de sous-ensembles $A \subseteq \mathcal X$ vérifiant :
+\begin{enumerate}[label=(\roman*)]
+    \item \textbf{Aucun sous-ensemble n'est vide.}  $\forall A \in P, A \neq \emptyset.$
+    \item \textbf{Les sous-ensembles sont disjoints deux à deux.} $\forall A, B \in P, \text{ si } A \neq B \text{ alors } A \cap B = \emptyset.$
+    \item \textbf{Les sous-ensembles recouvrent $\mathcal X$.}  $\dot\bigcup_{A \in P} A = \mathcal X.$
+\end{enumerate}
+Nous noterons $\Partitions{\mathcal X}$ l'ensemble des partitions de $\mathcal X$.
+
+\paragraph{Relation d'équivalence $\sim$}
+
+Une relation binaire sur $\mathcal X$ (généralement notée en notation infixe $\sim$ ou $\mathcal R$) est une relation d'\emph{équivalence} si elle vérifie les trois propriétés ci-dessous.
+\begin{enumerate}[label=(\roman*)]
+    \item \textbf{Réflexive.} $\forall x \in \mathcal{X}, x \sim x.$
+    \item \textbf{Symétrique.} $\forall x, y \in \mathcal{X}, \text{ si } x \sim y \text{ alors } y \sim x.$
+    \item \textbf{Transitive.} $\forall x, y, z \in \mathcal{X}, \text{ si } x \sim y \text{ et } y \sim z \text{ alors } x \sim z.$
+\end{enumerate}
+
+La donnée d'une relation d'équivalence $\sim$ sur $\mathcal X$ fournit une partition canonique : il suffit de prendre la clôture transitive de chaque singleton $\left\{ x \right\}$ quand $x $ parcourt $\mathcal X$.
+Et réciproquement, de toute partition l'on peut tirer une relation d'équivalence dont les classes d'équivalence soient les éléments de la partition originale.
+
+\Remarque{Nous nous permettons tout au long de ce manuscrit de substituer les termes de partition et de relation d'équivalence.}
+
+
+\subsection{Le clustering, ou \emph{partitionnement}} 
+Le clustering est souvent défini comme un \emph{partitionnement}\footnote{Ce n'est pas notre point de vue, la contrainte de partition étant trop forte comme nous le verrons dans la partie suivante. C'est toutefois le point de vue que nous adoptons pour ce début de chapitre.} de l'espace des données $\mathcal X$.
+
+
+\begin{Definition}{Clustering sur un espace métrique $\left( \X, d\right).$}{clustering_metrique}
+Un clustering $\C$ est une fonction qui prend en entrée un espace métrique fini $\left( \X, d\right)$%\footnote{Représentable par une matrice de distances.}
+\[
+\boxed{
+    \C : \left(\X, d \right) \mapsto \ \sim \  \in \Partitions{\X}
+}
+\]
+et retourne une \emph{partition} de l'ensemble $\X$, c'est-à-dire la donnée d'une \emph{relation d'équivalence $\sim \ \in \Partitions{\X}$} sur cet ensemble $\mathcal X$. 
+\end{Definition}
+
+
+%\subsection{Un fondement axiomatique pour le clustering ?\label{sec:axiomatique}}
+
+\section{Le théorème d'impossibilité de \nom{Kleinberg}}
+\label{sec:Kleinberg}
+Pour comprendre la nécessité de généraliser à un clustering qui soit \emph{hiérarchique}, il faut remonter à l'impasse logique identifiée au début des années 2000 par \nom{Kleinberg}. Le théorème d'impossibilité de \nom{Kleinberg} \cite{Kleinberg2002} a agi comme un séisme théorique en démontrant que :
+
+
+\begin{Resultat}{Théorème d'impossibilité de \nom{Kleinberg} \cite{Kleinberg2002}}{Kleinberg}
+Aucune fonction de clustering $ \mathcal C$ (\Def[def:clustering_metrique]) sur un espace métrique $(\X, d)$ ne peut satisfaire simultanément ces trois axiomes : 
+\begin{enumerate}[label=(\roman*)]
+    \item \textbf{Invariance d'échelle.}  $\forall \lambda > 0, \ \C \left(\X, d \right) = \C \left(\X,  \lambda d \right)$.
+    \item \textbf{Richesse.} Capacité à générer toutes les partitions possibles : $\forall P \in \Partitions{\mathcal X}$, il existe une distance $d$ sur $\mathcal X $ telle que $\C \left(\X, d \right) = P$.
+    \item \textbf{Cohérence.} Réduire les distances intra-cluster ou augmenter les distances inter-clusters ne doit pas changer le résultat du clustering $\C$ : si $P = \C \left(\X, d \right)$ et que $d'$ est telle que pour toute paire $x,x'\in \mathcal X$ appartenant respectivement aux clusters $C,C' \in P$, alors $d'(x,x') \le d(x,x')$ si $C =C'$ et $d'(x,x') \ge d(x,x')$ sinon, alors \[P = \C \left(\X, d' \right).\]
+\end{enumerate}
+\end{Resultat}
+
+
+\Remarque{L'axiome le plus contestable est de notre point de vue la cohérence.}
+
+Fait remarquable (et qui sera certainement le point de départ des articles de \nom{Carlsson} \& \nom[Memoli]{Mémoli}, \emph{cf.} \S~\ref{sec:clusteringHierarchique}) : pour chacune des trois combinaisons de deux des trois propriétés sus-citées, \nom{Kleinberg} donne un exemple de clustering qui les satisfait ; dans les trois cas, il s'agit d'une variante de l'algorithme de {Single-Linkage}.
+
+
+\section{Le besoin d'ajouter une vue hiérarchique}\label{sec:clusteringHierarchique}
+
+Le Single-Linkage (voir \Def[def:single-linkage]) est un algorithme de clustering \emph{hiérarchique}, c'est-à-dire qu'il construit un \emph{dendrogramme} $\theta$ (voir \Def~\ref{def:dendrogramme} ci-dessous) sur les données $\X$. %En coupant à une certaine hauteur $r$ de cet arbre, l'on obtient un clustering $\theta(r)$.
+
+
+
+\begin{Definition}{Clustering hiérarchique $\equiv$ Dendrogramme \cite{CarlssonMemoli2010}}{dendrogramme}
+Un \emph{clustering hiérarchique} sur $\X$ est la donnée d'une application
+$$\theta : \RPlus \to \Partitions{\X}$$
+telle que :
+\begin{enumerate}[label=(\roman*)]
+    \item \textbf{Croissance}. Si $0\le r\le r'$, alors $\theta(r)\preceq \theta(r')$.
+    \item \textbf{Continuité à droite}. Pour tout $r\ge0$, il existe $\varepsilon>0$ tel que
+    $\theta(r)=\theta(r')$ pour tout $r'\in[r ; r+\varepsilon[$.
+    \item $\theta(0)$ est la partition en singletons $\bigl\{\{x_i\}\bigr\}_{i=1}^n$.
+    \item Il existe $r_{\mathrm{connect}}$ tel que $\theta(r)=\{\X\}$ pour tout $r\ge r_{\mathrm{connect}}$.
+\end{enumerate}
+\end{Definition}
+\Remarque{$\preceq$ désigne l'ordre (partiel) habituel sur les partitions $\bigl( \Partitions{\mathcal X}, \preceq\bigr)$ : soient $P,P' \in \Partitions{\mathcal X}$, on dit que $P$ \emph{raffine} $P'$ (et l'on note $P \preceq P'$) si pour tout $C \in P$, il existe $C' \in P'$ tel que $C \subseteq C'$.}
+
+Le Single-Linkage tel que défini précédemment (\Def[def:single-linkage]) rentre bien-sûr dans cette définition, il suffit de poser :
+% \begin{Definition}{Single-Linkage \cite{DendriteSingleLinkage1951, GowerRoss1969}}{single-linkage-axiomatique}
+%     %Soit un jeu de données $\X =\bigl\{x_1,\dots,x_n\bigr\}$ dans un espace métrique. 
+%     Le Single-Linkage est un algorithme de clustering hiérarchique dont le dendrogramme $\thetaSL$ est défini itérativement comme suit, pour $t \in \bigl\{ 0, \ldots , n-1 \bigr\}$ :
+\begin{itemize}
+    \item À l'étape $t=0$ (associé au rayon $r_0 = 0$), on initialise avec la partition triviale en singletons :
+    \[
+        \thetaSL(0) = \bigl\{\{x_i\}\bigr\}_{i=1}^{n}.
+    \]
+    \item  $\thetaSL(r)$ est stable jusqu'au niveau $r_{t+1}$, associé à la fusion des deux clusters $C,C'$ de l'étape $t$ les plus proches pour la distance
+$
+    d_{\mathrm{SL}}(C,C') \eqdef \frac12\min_{x\in C,\;x'\in C'}d(x,x'),
+$ et 
+\[
+    \thetaSL(r_{t+1}) = \bigl\{C \dot\cup C' \bigr\} \dot\cup \bigl\{C'' \bigr\}_{C'' \in \thetaSL(r_t), C'' \notin \{C,C'\}}.
+\]
+    \item $r_{\mathrm{connect}} = r_{n-1}.$
+\end{itemize}
+% \end{Definition}
+
+
+%\Remarque{Le facteur $\tfrac12$ correspond à l'intersection de boules de rayon $r$ : $B(x,r)\cap B(x',r)\neq\varnothing \iff d(x,x')\le 2r$. Pour revenir à la convention ``seuil de distance'', poser $r'=2r$.}
+%\Remarque{À l'étape $t$, la partition $\thetaSL(r_t)$ est constituée de $n-t$ clusters. Il s'ensuit que $\thetaSL$ est effectivement un dendrogramme avec $r_{\mathrm{connect}} = r_{n-1}$.}
+%\Remarque{L'algorithme de Single-Linkage est très similaire à la construction de l'arbre minimum couvrant de \nom{Borůvka}. Le cœur du Single-Linkage est en effet l'extraction de l'arbre minimum couvrant sur les données.}
+
+
+Si aucun clustering ne répond aux trois axiomes de \nom{Kleinberg} (\Res[res:Kleinberg]), le Single-Linkage, selon la variante choisie (le(s) niveau(x) auquel(s) on ``coupe'' dans l'arbre hiérarchique), permet de retrouver les trois combinaisons vérifiant deux des trois axiomes \cite{Kleinberg2002}. 
+
+
+\Remarque{D'après la synthèse du chapitre \ref{chap:single-linkage_trois_vues}, l'on aurait pu -- de façon équivalente -- définir le dendrogramme du Single-Linkage à l'aide des graphes géométriques, dont les composantes connexes sont vues comme des partitions d'équivalence (voir ci-dessous \Def~\ref{def:dendrogramme_gg} \& \Res~\ref{res:dendrogramme_gg}).}
+
+\begin{Definition}{Dendrogramme de persistance des graphes géométriques $\theta^{\sim}$}{dendrogramme_gg}
+Soit $(\mathcal X,d)$ un espace métrique fini, soit $r\ge 0$. L'on définit la relation de voisinage $\leftrightarrow_r$ par
+\[
+    x\leftrightarrow_r x' \text{ si } d(x,x') \le 2r.
+\]
+La relation d'équivalence $\sim_r$ est définie comme la clôture transitive de cette relation de voisinage.
+Le \emph{dendrogramme de persistance des graphes géométriques} (noté $\theta^{\sim}$) est alors défini par 
+\[
+\boxed{
+    \renewcommand{\arraystretch}{1.2} % Optionnel : aère les lignes
+    \begin{array}{c c c c}
+        \theta^{\sim}\colon & \mathbb R_+ & \to & \Partitions{\mathcal X} \\
+                 & r & \mapsto & \sim_r
+    \end{array}
+}
+\]
+\end{Definition}
+
+\begin{Resultat}{Dendrogramme du Single-Linkage $\equiv$ Dendrogramme de persistance des graphes géométriques}{dendrogramme_gg}
+Soit $(\mathcal X,d)$ un espace métrique fini. Le dendrogramme $\thetaSL$ produit par le Single-Linkage sur $\mathcal X$ et $\theta^{\sim}$ celui de persistance des graphes géométriques sur $\mathcal X$ (voir \Def~\ref{def:dendrogramme_gg}) sont identiques :
+\[
+    \thetaSL \equiv \theta^{\sim}.
+\]
+\end{Resultat}
+
+\subsection{Équivalence entre les dendrogrammes et les ultramétriques}
+
+Le \Res[res:equivalence_ultrametrique-dendrogramme], explicite l'équivalence entre les dendrogrammes et les espaces ultramétriques (\Def~\ref{def:ultrametrique} ci-dessous).
+Nous ne rentrerons pas dans les détails, mais il est parfois plus pratique de manipuler des espaces ultramétriques (finis dans notre cas) que des dendrogrammes ; cela permet un certain formalisme que \nom{Carlsson} \& \nom[Memoli]{Mémoli} ont utilisé (voir ci-dessous, et notamment le \Res[res:Axiomatique_Single-Linkage_unique]).
+
+\begin{Definition}{Ultramétrique}{ultrametrique}
+    \textbf{Ultramétrique ($u$) :} Une application $u : \X \times \X \to \mathbb{R}_+$ est une ultramétrique si $u$ est une distance (métrique) sur $\X$ vérifiant l'inégalité triangulaire forte : pour tous $x, y, z \in \X$ :
+    \[
+    \boxed{
+        u(x, y) \leq \max \bigl\{ u(x, z), u(z, y) \bigr\}.
+        }
+    \]
+\end{Definition}
+
+\Remarque{Tous les triangles dans un espace ultramétrique sont isocèles (en la plus longue arête).}
+
+
+\begin{Resultat}{Hiérarchie $\equiv$ Ultramétrique \cite{Johnson1967}}{equivalence_ultrametrique-dendrogramme}
+Il existe une bijection canonique entre l'ensemble des ultramétriques $u$ et l'ensemble des dendrogrammes $\theta$ sur $\X$.
+
+\paragraph{1. De l'ultramétrique vers le dendrogramme ($u \mapsto \theta$).}
+La partition $\theta(r)$ est définie par la relation d'équivalence $\sim_r$ suivante :
+\[
+\boxed{
+    x \sim_r y \iff u(x, y) \leq 2r .
+    }
+\]
+
+\paragraph{2. Du dendrogramme vers l'ultramétrique ($\theta \mapsto u$).}
+La distance ultramétrique est le seuil d'apparition du premier cluster contenant le couple :
+\begin{equation}\label{eq:ancetre_commun}
+\boxed{
+    u(x, y) = 2\inf \{ r \geq 0 \mid \exists C \in \theta(r), \ x \in C \text{ et } y \in C \}
+    }
+\end{equation}
+\end{Resultat}
+\Remarque{Dans l'\Eq[eq:ancetre_commun], le cluster $C$ associé à $u(x,y)$ est défini comme le \emph{plus petit ancêtre commun} à $x$ et $y$.}
+
+
+
+
+Pour sortir de l'aporie mise en avant par \nom{Kleinberg}, \nom{Carlsson} \& \nom[Memoli]{Mémoli} \cite{CarlssonMemoli2010} reformulent le clustering comme une transformation qui prend un espace métrique et renvoie un espace {ultramétrique}, équivalent à la donnée d'un dendrogramme (voir \Res~\ref{res:equivalence_ultrametrique-dendrogramme} ci-dessus).
+
+\begin{Definition}{Clustering hiérarchique \cite{CarlssonMemoli2010}}{clustering_hierarchique}
+    Soit $\mathbf X$ la collection de tous les espaces métriques finis et $\mathbf U$ la collection de tous les espaces ultramétriques finis. Un \emph{clustering hiérarchique} $T$ est une application qui à un espace métrique $(\X,d)$ associe une ultramétrique sur le même ensemble fini $(\X,u)$.
+\[
+\boxed{
+    \renewcommand{\arraystretch}{1.2} % Optionnel : aère les lignes
+    \begin{array}{c c c c}
+        T \colon & \mathbf{X} & \to & \mathbf{U} \\
+                 & (\X,d) & \mapsto & (\X,u)
+    \end{array}
+}
+\]
+\end{Definition}
+
+
+\Remarque{Vu ainsi, le Single-Linkage $u^{\mathrm{SL}}$ est en fait la plus grande ultramétrique sur $\X$ \emph{sous-dominante}, c'est-à-dire sous la contrainte $u \le d$.}
+
+\nom{Carlsson} \& \nom[Memoli]{Mémoli} \cite{CarlssonMemoli2010} obtiennent surtout les deux résultats suivants :
+\begin{enumerate}%[label=(\roman*)]
+    \item \textbf{Axiomatisation.} En adaptant l'axiomatique ``à la \nom{Kleinberg}'' pour le clustering hiérarchique, ils prouvent que le Single-Linkage est l'unique algorithme de clustering hiérarchique à répondre à leurs axiomes. C'est le \Res~\ref{res:Axiomatique_Single-Linkage_unique} énoncé ci-dessous.
+    \item \textbf{Régularité.} \nom{Carlsson} \& \nom[Memoli]{Mémoli} montrent que le Single-Linkage, vu comme une application $T^{\mathrm{SL}} : \mathbf X \to \mathbf U$, est $1$-lipschitzien pour la distance de \nom{Gromov--Hausdorff}.
+\end{enumerate}
+
+
+\begin{Resultat}{Single-Linkage, unique solution fonctorielle \cite{CarlssonMemoli2010}}{Axiomatique_Single-Linkage_unique}
+Soit $T$ une méthode de clustering hiérarchique qui à tout espace métrique fini $(\X,d)$ associe
+une ultramétrique $T : (\X,d) \mapsto (\X,u)$, et supposons que $T$ vérifie :
+\begin{enumerate}%[label=(\roman*)]
+    \item \textbf{Normalisation à deux points.} Si $|\X|=2$ et $d(x,x')=2\delta$, alors $u(x,x')=\delta$.
+    \item \textbf{Fonctorialité}. Pour toute application $1$-lipschitzienne $\phi:(\X,d_\X)\to(\Y,d_\Y)$.
+    on a $u_\Y(\phi(x),\phi(x'))\le u_\X(x,x')$ pour tous $x,x'\in\X$ ;
+    \item \textbf{Séparation.} Pour tout $(\X,d)$, et tous $x\neq x'\in\X$,
+    \[
+    u(x,x') \ \ge\  \sep(\X,d)\eqdef \tfrac12 \min_{a\neq b\in\X} d(a,b).
+    \]
+\end{enumerate}
+Alors $T$ coïncide nécessairement avec le Single-Linkage hiérarchique \[T = T^{\mathrm{SL}}.\]
+\end{Resultat}
+
+
+\Synthese{Ce chapitre a montré que le Single-Linkage se rencontre tout aussi naturellement lorsqu'on aborde le clustering \emph{via} l'informatique théorique et la recherche d'une axiomatique minimale. La nécessité d'une hiérarchie, plus riche qu'une simple partition, apparaît alors pour répondre au théorème d'impossibilité de \nom{Kleinberg} (\Res[res:Kleinberg]). Le formalisme de ce chapitre nous permet de manipuler aussi bien des dendrogrammes que des ultramétriques, qui sont en bijection canonique (\Res[res:equivalence_ultrametrique-dendrogramme]). L'intérêt de voir le clustering hiérarchique comme une projection des espaces métriques vers les ultramétriques est que l'on peut alors appliquer tout un arsenal géométrique et topologique, et montrer par exemple la stabilité du Single-Linkage pour la distance de \nom{Gromov--Hausdorff} \cite{CarlssonMemoli2010}. 
+%Le Single-Linkage n'en comporte pas moins des limites, dont le célèbre effet de chaînage (\emph{chaining effect}).
+
+Nous mentionnons en guise d'ouverture la proposition de \nom{Culbertson, Guralnik \& Stiller} \cite{CulbertsonGuralnikStiller2018} consistant à relâcher la condition de partitionnement pour chaque niveau de la hiérarchie, et de simplement exiger un recouvrement. Ces idées font écho à la généralisation du Single-Linkage que nous proposons dans la seconde partie de ce manuscrit.}

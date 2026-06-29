@@ -1,0 +1,31 @@
+# LaTeX auxiliary files
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.bbl
+*.bcf
+*.blg
+*.run.xml
+*.synctex.gz
+*.idx
+*.ilg
+*.ind
+*.nav
+*.snm
+*.vrb
+*.lbl
+*.loa
+
+# Ignore PDFs by default
+*.pdf
+
+# But allow PDF figures in image folders
+!**/img/**/*.pdf
+!**/images/**/*.pdf
+!**/fig/**/*.pdf
+!**/figures/**/*.pdf

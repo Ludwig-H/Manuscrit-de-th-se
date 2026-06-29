@@ -1,0 +1,274 @@
+\chapter{Introduction générale}
+\label{sec:Introduction}
+
+
+\section{Propos liminaire}
+
+Au cours de cette thèse, nous abordons le problème de la structuration automatique de données.
+Qu'il s'agisse de nettoyer un nuage de points tridimensionnel acquis par un
+capteur LiDAR, d'extraire un réseau de fissures dans une image géologique, ou de retrouver des communautés dans un graphe d'interactions, la question générale reste la même : 
+\Citation{Comment extraire, à partir d'observations locales et imparfaites, une structure globale qui soit à la fois robuste, interprétable et mathématiquement analysable ?}
+
+Notre point de départ sera circonscrit à celui du \emph{clustering}, ou classification non-supervisée, et ce sur un nuage de points fini de l'espace euclidien
+\[
+    \mathcal X \eqdef \bigl\{x_1,\ldots,x_n\bigr\} \subset \mathbb{R}^p.
+\]
+Cette restriction est néanmoins suffisamment riche pour faire apparaître les principaux phénomènes étudiés dans ce manuscrit : la hiérarchie, la densité, la connexité, le bruit et la percolation.
+
+Historiquement, le clustering a souvent été présenté comme une famille d'heuristiques algorithmiques. Les travaux de \nom{Hartigan} \cite{hartigan81} ont donné à ce problème un cadre statistique non paramétrique simple : les clusters sont les composantes connexes des ensembles de niveau d'une densité
+$f : \mathbb{R}^p \to \mathbb{R}_+$. Pour un niveau $\lambda > 0$, l'on pose
+\[
+    L_f(\lambda)
+    =
+    \{x \in \mathbb{R}^p \mid f(x) \geq \lambda\},
+\]
+et les amas de forte densité au niveau $\lambda$ sont les composantes connexes de $L_f(\lambda)$.
+
+En pratique, la densité $f$ est inconnue, il faut donc l'estimer. L'estimateur qui nous servira de fil conducteur est l'estimateur des $K$ plus proches voisins  \cite{BiauDevroye, Zhao2022KNN} (ou \KNN pour \emph{Nearest Neighbours} en anglais). En paramétrant les niveaux de densité par un rayon $r>0$, les ensembles de niveau associés s'écrivent
+\[
+    L_K(r)
+    =
+    \bigl\{
+        y\in\mathbb{R}^p
+        \;\bigm|\;
+        \module{B(y,r)\cap \mathcal X} \geq K
+    \bigr\}.
+\]
+Autrement dit, un point $y \in \mathbb R^p$ appartient à $L_K(r)$ si la boule de centre $y$ et de rayon $r$ contient au moins $K$ points du nuage $\mathcal X$.
+
+Un phénomène remarquable se produit pour $K=1$. Les composantes connexes de $L_1(r)$ sont exactement les composantes connexes de l'union de boules fermées
+\[
+    L_1(r)
+    =
+    \bigcup_{x\in X} \overline B(x,r),
+\]
+et donc celles du graphe géométrique qui relie deux points $x,x'\in \mathcal X$ dès que $\|x-x'\|\leq 2r$. 
+Cette hiérarchie est précisément celle produite par l'algorithme du \emph{Single-Linkage} \cite{DendriteSingleLinkage1951, GowerRoss1969} (algorithme dit parfois du « saut minimum » en français). Mieux encore, toute l'information hiérarchique (comprenant tous les niveaux $r \in \mathbb R_+$) est contenue dans un unique graphe très parcimonieux : l'arbre minimum couvrant.
+
+Le Single-Linkage fait ainsi le pont entre trois points de vue :
+\begin{enumerate}
+    \item Un point de vue \textbf{heuristique}, où l'on construit un arbre minimum couvrant sur les données.
+    \item Un point de vue \textbf{géométrique}, où l'on observe la persistance des composantes connexes d'un graphe géométrique \cite{penrose2003} lorsque le rayon $r$ varie.
+    \item Un point de vue \textbf{statistique}, où l'on retrouve exactement les amas de forte densité de l'estimateur $1$-NN.
+\end{enumerate}
+
+Ce constat est le point de départ de la thèse. 
+\Citation{Si la hiérarchie des niveaux de densité est donnée par un simple graphe lorsque la densité est estimée avec un seul voisin, que devient cette hiérarchie lorsque $K\geq2$ ?}
+
+La réponse défendue tout au long de ce manuscrit est la suivante : pour $K\geq2$, les graphes ne suffisent plus. La bonne structure n'est plus une relation binaire entre paires de points, mais une \textbf{structure d'ordre supérieur} portée par des hyper-arêtes. Il faut alors remplacer les graphes géométriques par des complexes simpliciaux (une famille d'hypergraphes) et les composantes connexes usuelles par une notion de \textbf{connexité d'ordre supérieur}.
+
+Le second phénomène central de ce manuscrit est la \textbf{percolation} \cite{penrose2003}. En dimension $p\geq2$, les composantes construites par des graphes géométriques peuvent fusionner par des ponts de ``bruit'' avant que les amas de forte densité n'aient été correctement recouvrés. Ce phénomène explique l'\emph{effet de chaînage} bien connu du Single-Linkage, mais aussi une partie des limites de ses robustifications modernes, comme le Robust Single-Linkage \cite{RobustSingleLinkage1969, RobustSingleLinkage2010} ou \HDBSCAN \cite{HDBSCAN, HDBSCAN2017}, considéré universellement comme l'« état-de-l'art » pour ce qui touche au clustering hiérarchique fondé sur la densité \cite{HDBSCAN2025SOTA, FLASC2025}.
+
+Ainsi, deux idées traversent l'ensemble du manuscrit :
+\Citation{
+\begin{enumerate}
+    \item Lorsque les relations binaires d'un graphe deviennent insuffisantes ou trop instables, il faut intégrer des \textbf{interactions d'ordre supérieur}.
+    \item La théorie de la \textbf{percolation} fournit alors le cadre mathématique permettant de quantifier les performances de ces algorithmes.
+\end{enumerate}
+}
+
+Ces deux idées seront d'abord étudiées dans le cadre euclidien des nuages de points, puis reprises dans des cadres où les données sont davantage structurées : les graphes pondérés signés pour la détection de communautés, et les images pour l'extraction de réseaux de fissures.
+
+\section{Une brève histoire du clustering. L'omniprésence de l'algorithme de Single-Linkage}
+
+\subsection{Les deux grandes familles de clustering}
+
+Il existe essentiellement deux paradigmes historiques pour le clustering.
+
+Le premier peut être représenté par l'algorithme du $k$-Means \cite{Lloyd1982, Draganov2025}. L'objectif est de partitionner les données en $k$ classes, chacune représentée par un centroïde, de manière à minimiser la variance intra-classe. Dans le cadre euclidien, cet algorithme peut se lire comme un cas particulier très dégénéré d'un modèle de mélange gaussien :
+\begin{equation}
+        f(x)
+    =
+    \sum_{c=1}^{k}
+    \pi_c\,\mathcal{N}(x\mid \mu_c,\Sigma_c),
+\end{equation}
+lorsque les matrices de covariance $\Sigma_c$ deviennent petites et que chaque composante se concentre autour de son centre $\mu_c$.
+
+Cette approche est naturelle lorsque l'on accepte de poser des hypothèses fortes sur la distribution des données. Elle cherche, en quelque sorte, à reconstruire un modèle global de la densité. Elle est puissante, mais elle impose souvent une géométrie assez rigide aux clusters attendus.
+
+Le second paradigme est celui des méthodes agglomératives fondées sur la densité. Le Single-Linkage en est l'exemple le plus élémentaire. L'algorithme ne cherche pas à ajuster explicitement une densité paramétrique ; il se concentre sur les distances locales entre les points, et donc sur les vides qui séparent les structures. Dans le cadre du modèle de de \nom{Hartigan}, cette approche possède une interprétation statistique précise : pour $K=1$, le Single-Linkage retrouve exactement les amas de forte densité de l'estimateur $1$-NN.
+
+C'est cette seconde famille qui nous intéressera principalement. Elle a l'avantage de ne pas supposer \emph{a priori} que les clusters sont décrits par un nombre fixé de paramètres. Elle est donc plus adaptée à des structures géométriques complexes. 
+%Son défaut est tout aussi clair : en reliant les points par des arêtes, elle peut aussi relier ce qui ne devrait pas l'être.
+
+\subsection{Du partitionnement à la hiérarchie}
+
+Définir le clustering comme une fonction qui reçoit en entrée des données $\mathcal X$ et renvoie une (unique) partition de $\mathcal X$ est souvent trop restrictif. La structure pertinente dépend de l'échelle d'observation. Deux objets peuvent être séparés à fine échelle, puis appartenir à une même structure à plus grande échelle. Une partition ``plate'' (\emph{flat clustering} en anglais) force donc un choix de résolution.
+\nom{Kleinberg}, grâce à une approche axiomatique simple, a montré avec son fameux théorème d'impossibilité \cite{Kleinberg2002} que ce cadre était trop restrictif.
+%Ce problème apparaît grâce à l'approche axiomatique du clustering : le théorème d'impossibilité de \nom{Kleinberg} \cite{Kleinberg2002} montre qu'aucune fonction de clustering ne peut satisfaire simultanément trois propriétés naturelles. 
+Une façon de sortir de cette impasse est de demander davantage à la sortie de l'algorithme : non plus une partition unique, mais une hiérarchie de partitions.
+
+Un clustering hiérarchique sur $\mathcal X$ peut être vu comme une application
+\[
+    \theta : \mathbb{R}_+ \longrightarrow \mathrm{Part}(\mathcal X),
+\]
+où $\theta(r)$ est une partition de $\mathcal X$ au niveau $r$, et où les partitions deviennent de plus en plus grossières lorsque $r$ augmente. 
+Cette structure est équivalente à la donnée d'une ultramétrique sur $\mathcal X$. 
+Dans ce cadre, les travaux de \nom{Carlsson} \& \nom[Memoli]{Mémoli} \cite{CarlssonMemoli2010} montrent que le Single-Linkage apparaît comme une solution canonique : il est l'unique méthode satisfaisant certaines propriétés fonctorielles naturelles.
+
+Ce détour axiomatique -- l'approche axiomatique n'est pas au cœur de nos travaux -- est instructif : lorsque l'on impose en sortie une hiérarchie de partitions, le Single-Linkage réapparaît. Et lorsque l'on veut aller au-delà du Single-Linkage, une possibilité naturelle consiste à relâcher encore la sortie de l'algorithme. 
+Au lieu d'exiger une partition à chaque niveau, on peut accepter des \emph{recouvrements}. Cette idée, présente notamment dans les travaux de \nom{Culbertson, Guralnik \& Stiller} \cite{CulbertsonGuralnikStiller2018}, rejoint directement ce que nous observerons pour $K\geq2$ : les objets naturels ne sont plus des partitions strictes ; il faut relâcher cette condition au niveau des frontières des clusters.
+
+\section{Problématique : que devient la connexité lorsque $K\geq2$ ?}
+
+Le Single-Linkage est satisfaisant pour l'estimateur $1$-NN, mais il est fragile.
+Son défaut classique est l'effet de chaînage : une suite de points isolés peut suffire à connecter deux amas qui devraient rester séparés. 
+Du point de vue statistique, cette faiblesse se traduit par l'inconsistance (au sens de \nom{Hartigan}) en dimension $p\geq2$.
+
+Les robustifications modernes du Single-Linkage cherchent à corriger ce défaut en remplaçant l'estimateur $1$-NN par un estimateur \KNN, asymptotiquement consistant. 
+C'est l'idée du Robust Single-Linkage, puis de (H)\DBSCAN. 
+Ces méthodes introduisent une notion de densité locale : un point est jugé dense s'il possède au moins $K$ voisins dans une boule de rayon donné.
+
+Cependant, elles n'évaluent cette densité qu'en les points du nuage $\mathcal X$ et conservent une connexité de graphe, c'est-à-dire binaire au lieu d'être $K$-naire. Les points sont filtrés à l'ordre $K$, mais ils restent connectés par des arêtes. Cette asymétrie est le cœur du problème : imposer une condition d'ordre $K$ aux sommets tout en propageant la connexité par des liens d'ordre $1$ ne permet pas de reconstruire la topologie des ensembles $L_K(r)$.
+
+Pour voir la structure correcte, il faut repartir de la définition :
+\[
+    L_K(r)
+    \eqdef
+    \bigl\{
+        y\in\mathbb{R}^p
+        \;\bigm|\;
+        \module{B(y,r)\cap \mathcal X} \geq K
+    \bigr\}.
+\]
+Dire que $y\in L_K(r)$ signifie que $y$ est simultanément dans au moins $K$ boules centrées sur des points de $\mathcal X$. 
+Les objets élémentaires ne sont donc plus des arêtes, mais des intersections de $K$ boules. Celles-ci sont encodées par les $(K-1)$-simplexes du complexe de \v{C}ech
+\[
+    \check{C}(X,r)
+    \eqdef
+    \left\{
+        \sigma\subset X
+        \;\middle|\;
+        \bigcap_{x\in\sigma} B(x,r) \neq \varnothing
+    \right\}.
+\]
+
+La généralisation proposée dans ce manuscrit consiste alors à construire un graphe auxiliaire $\Gamma_K(\mathcal X,r)$ dont les sommets sont les $(K-1)$-simplexes de $\check{C}(X,r)$, deux tels simplexes $\sigma$ et $\tau$ étant adjacents lorsque leur union $\sigma\cup\tau$ est encore un simplexe de $\check{C}(X,r)$. 
+Les composantes connexes de ce graphe auxiliaire définissent les $K$-polyèdres.
+
+Pour $K=1$, on retrouve exactement les composantes connexes ordinaires du graphe géométrique, donc le Single-Linkage. 
+
+Pour $K=2$, ce ne sont plus les points qui percolent directement, mais les arêtes, recollées entre elles par des triangles.
+
+Plus généralement, la connexité se propage par des interactions d'ordre supérieur.
+
+L'algorithme ainsi défini est baptisé \emph{\HGP-Clusterer}, pour
+\emph{Hypergraphe-Percol'}.
+L'un des résultats centraux de la seconde partie 
+% peut alors s'écrire sous la forme
+% suivante :
+% \[
+%     \theta^{\mathrm{HGP}}_K(r)
+%     =
+%     H^{\mathrm{discrets}}_{\widehat f_K}(r),
+%     \qquad r>0.
+% \]
+% Autrement dit, 
+consiste à montrer que les $K$-polyèdres du complexe de \v{C}ech coïncident, niveau par
+niveau, avec les amas discrets de forte densité associés à l'estimateur \KNN.
+En particulier,
+\[
+    \theta^{\mathrm{HGP}}_1 = \theta^{\mathrm{SL}}.
+\]
+
+
+%Un point important doit être souligné dès l'introduction : 
+Pour $K\geq2$, les amas discrets de forte densité ne forment pas nécessairement une partition de $\mathcal X$. Un point peut participer à plusieurs interactions d'ordre supérieur, et donc appartenir à plusieurs $K$-polyèdres. 
+%Ce n'est pas un défaut de la construction ; c'est au contraire l'information géométrique que l'on perd si l'on force trop tôt une assignation unique des points.
+Une discussion est d'ailleurs consacrée au problème de construire un partitionnement strict, lorsque par exemple les données du problème imposent cette condition. % de partition stricte.
+
+\section{La percolation comme mesure de performance}
+
+L'exactitude topologique est satisfaisante mathématiquement, mais elle ne suffit pas à décrire les performances d'un algorithme. 
+%Même si les $K$-polyèdres reconstruisent exactement les amas discrets de forte densité de l'estimateur \KNN, il reste à comprendre ce que l'on peut espérer récupérer lorsque les données sont bruitées et lorsque $n\to+\infty$.
+
+C'est ici qu'intervient la théorie de la percolation continue. 
+Lorsque l'on fait varier le rayon $r$, les composantes apparaissent, croissent, puis fusionnent.
+Dans un fond bruité, une composante géante peut apparaître et relier des régions qui devraient rester distinctes :%. Le problème n'est donc pas seulement que les graphes ``chaînent'' ; c'est qu'ils 
+les clusters percolent trop tôt.
+
+En dimension $p\geq2$, on ne peut pas espérer, à $K$ fixé, retrouver intégralement deux amas de forte densité avant qu'ils ne fusionnent avec le bruit. 
+L'objectif raisonnable est de quantifier la \emph{fraction} asymptotiquement récupérable. Pour cela, nous introduisons et comparons des probabilités de percolation de la forme
+\[
+    \lambda
+    \longmapsto
+    \Theta^{\mathrm{cc}}_{K,p}(\lambda),
+    \qquad
+    \mathrm{cc}\in
+    \{\mathrm{core},\mathrm{dbscan},\mathrm{poly}\},
+\]
+où les trois familles de composantes connexes $\mathrm{cc}$ correspondent respectivement au Robust Single-Linkage, à \DBSCAN/\HDBSCAN et aux $K$-polyèdres de \HGP-Clusterer.
+
+Cette lecture permet de comparer mathématiquement les méthodes. Le Robust Single-Linkage impose une condition trop forte aux points : ils doivent être des points cœurs. 
+\DBSCAN corrige partiellement le tir en ajoutant les points accessibles, mais conserve une connexité par arêtes. 
+\HGP-Clusterer modifie la connexité elle-même : il ne demande pas seulement que les points soient denses, il connecte correctement les régions où la densité \KNN est forte.
+
+La théorie de la percolation permet de mesurer où apparaît un amas dense, à quelle vitesse, et quelle fraction d'un amas peut être récupérée avant fusion parasite. 
+%C'est ce rôle de la percolation comme outil de quantification qui servira ensuite dans les parties plus structurées du manuscrit.
+
+\section{Contributions du manuscrit}
+
+%Les contributions de ce manuscrit peuvent être regroupées autour de quatre axes.
+
+\paragraph{Une vue unifiée du Single-Linkage}
+La première partie propose une synthèse du Single-Linkage selon trois points de vue complémentaires : \textbf{heuristique}, \textbf{géométrique} et \textbf{statistique}.
+Le Single-Linkage est à la fois l'algorithme de l'arbre minimum couvrant, la persistance des composantes connexes d'un graphe géométrique, et la hiérarchie exacte des amas de forte densité pour l'estimateur $1$-NN. 
+Nous digressons aussi en adoptant pour un chapitre le point de vue axiomatique, qui explique pourquoi cet algorithme réapparaît dès que l'on cherche une projection naturelle des espaces métriques vers les espaces ultramétriques.
+
+\paragraph{HGP-Clusterer : la généralisation par l'ordre supérieur}
+Nous généralisons exactement le Single-Linkage aux estimateurs \KNN.
+Le graphe géométrique est remplacé par le complexe de \v{C}ech, et les composantes connexes par les $K$-polyèdres. 
+% Le résultat principal est l'identité
+% \[
+%     \theta^{\mathrm{HGP}}_K(r)
+%     =
+%     H^{\mathrm{discrets}}_{\widehat f_K}(r),
+% \]
+% qui montre que \HGP-Clusterer retrouve exactement les amas discrets de forte densité de l'estimateur \KNN. 
+Nous étudions ensuite la question algorithmique : comment éviter de construire tout le complexe de \v{C}ech ? (tout comme le Single-Linkage ne construit pas de graphe géoémtrique.)
+Le rôle de l'arbre minimum couvrant du Single-Linkage est alors généralisé et la structure qui permet de l’identifier dans l'espace euclidien de petite dimension est identifiée : %joué par une structure liée aux simplexes de \nom{Gabriel} et à 
+il s'agit de la mosaïque de \nom{Delaunay} d'ordre supérieur.
+
+\paragraph{La percolation comme outil d'analyse théorique}
+Nous montrons que les limites du Single-Linkage, du Robust Single-Linkage et de (H)\DBSCAN se comprennent naturellement par le phénomène de percolation.
+Nous introduisons une \emph{vitesse de percolation} permettant de comparer quantitativement ces familles d'algorithmes. 
+Cette analyse explique pourquoi les interactions d'ordre supérieur retardent la percolation parasite et améliorent la fraction asymptotiquement récupérable des amas de forte densité.
+
+\paragraph{Le passage à des données davantage structurées}
+La dernière partie montre que le couple interactions d'ordre supérieur \& percolation ne se limite pas aux nuages de points euclidiens. 
+Sur des graphes pondérés signés, nous construisons un cadre bayésien pour la détection de communautés et généralisons les dynamiques de clusters de type
+\nom{Swendsen--Wang} à des interactions d'ordre supérieur. 
+En traitement d'image, à partir du filtre de \nom{Frangi}, nous proposons d'abord un graphe de \nom{Frangi} plus riche en information et permettant une extraction fine de réseaux de fissures. Le passage à l'\emph{hyper}graphe de \nom{Frangi} agit comme un filtre contre la percolation du bruit local sur des données plus difficiles.
+
+\section{Organisation du manuscrit}
+
+Le manuscrit est organisé en trois parties.
+
+\paragraph{Prime partie : du Single-Linkage à ses fondements}
+Le Chapitre~\ref{chap:single-linkage_trois_vues} présente le Single-Linkage dans le cadre euclidien selon les trois points de vue qui nous serviront ensuite : arbre minimum couvrant, graphes géométriques persistants, et modèle statistique de \nom{Hartigan}. 
+Le Chapitre~\ref{chap:axiomatique} rappelle le point de vue axiomatique, depuis le théorème d'impossibilité de
+\nom{Kleinberg} jusqu'à la caractérisation du Single-Linkage par \nom{Carlsson} \& \nom[Memoli]{Mémoli}.
+Le Chapitre~\ref{chap:limites_single_linkage} étudie les limites du Single-Linkage, en particulier l'effet de chaînage, puis présente ses robustifications modernes : Robust Single-Linkage et (H)\DBSCAN. 
+Le Chapitre~\ref{chap:hacker_hdbscan} montre enfin comment exploiter l'arbre hiérarchique comme un espace de recherche, en y injectant des \emph{a priori} géométriques. 
+Deux applications industrielles illustrent cette approche : la détection d'anomalies dans des nuages LiDAR 3D et la segmentation panoptique 4D sur SemanticKITTI.
+
+\paragraph{Seconde partie : généralisation du Single-Linkage avec des interactions d'ordre supérieur}
+Le Chapitre~\ref{chap:hgp_clusterer} introduit \HGP-Clusterer. Nous y définissons les $K$-polyèdres du complexe de \v{C}ech et démontrons leur correspondance exacte avec les amas discrets de forte densité \KNN. 
+Le Chapitre~\ref{sec:chap_percolation} développe l'analyse par percolation continue et compare les performances théoriques de \HGP-Clusterer, du Robust Single-Linkage et de (H)\DBSCAN. 
+Le Chapitre~\ref{chap:generalisation_mst} cherche l'analogue, à l'ordre $K$, de l'arbre minimum couvrant : les simplexes utiles aux fusions satisfont une condition de \nom{Gabriel} et sont liés à la mosaïque de \nom{Delaunay} d'ordre $K$. 
+Le Chapitre~\ref{chap:conclusion_partie_II} revient sur la mise en pratique de \HGP-Clusterer : partition stricte des points lorsque cela est nécessaire, optimisations pour $K=2$ (et généralisation à n'importe quel $K$), approximation par \nom{Vietoris--Rips} en dimension élevée ou dans un cadre métrique général, et ouverture vers la réduction de dimension d'ordre supérieur.
+
+\paragraph{Tierce partie : vers des données davantage structurées}
+Le Chapitre~\ref{chap:introduction_partie_III} introduit les deux cadres étudiés ensuite : la détection de communautés dans des graphes et l'extraction de structures linéiques dans des
+images. 
+Le Chapitre~\ref{chap:bayes_clusters_graphes} propose un cadre bayésien pour la détection de communautés sur graphes pondérés signés. 
+Nous y étudions des dynamiques de clusters généralisant \nom{Swendsen--Wang} et montrons comment les interactions d'ordre supérieur permettent d'obtenir de meilleures bornes de recouvrement. 
+Le Chapitre~\ref{chap:frangi_fissures} applique les mêmes idées au traitement d'image avec le graphe de \nom{Frangi} pour l'extraction de réseaux de fissures.
+L'objectif est alors de construire une méthode sans apprentissage, robuste aux changements de domaine, et produisant une sortie géométrique directement ``éditable'' à fin d'être intégrée à une suite logicielle d'aide à l'annotation experte de vérité terrain.
+
+Enfin, le Chapitre~\ref{chap:conclusion} conclut le manuscrit en reprenant ces contributions et en présentant plusieurs perspectives : axiomatique des recouvrements, consistance en dimension $p\geq2$, réduction de dimension à l'aide d'une analogie sur la mosaïque de \nom{Delaunay} d'ordre $K$, \emph{etc}.
+
+% \paragraph{Envoi}
+% Nous souhaitons au lecteur un agréable voyage que avons 
+% \Citation{Et si de t'agréer je n'emporte le prix,\\
+% J'aurais du moins l'honneur de l'avoir entrepris.}

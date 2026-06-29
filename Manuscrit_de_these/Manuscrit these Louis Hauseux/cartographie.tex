@@ -1,0 +1,282 @@
+% À placer après \include{conclusion.tex} et avant \backmatter, par exemple.
+% Version refondue : cartographie en niveaux de gris.
+
+\appendix
+\chapter{Cartographie des publications}
+\cleartorecto
+\begin{sidewaysfigure}[p]
+\centering
+\resizebox{1.00\textheight}{!}{%
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+% -----------------------------------------------------------------------------
+% Charte locale : uniquement des nuances de gris.
+% -----------------------------------------------------------------------------
+\colorlet{CartBlack}{black!88}
+\colorlet{CartDark}{black!72}
+\colorlet{CartMid}{black!46}
+\colorlet{CartLight}{black!14}
+\colorlet{CartPale}{black!5}
+\colorlet{CartVeryPale}{black!2}
+
+\tikzset{
+  cartTitle/.style={
+    font=\Large\bfseries\scshape,
+    text=CartBlack,
+    align=center
+  },
+  cartSubtitle/.style={
+    font=\small,
+    text=CartDark,
+    align=center
+  },
+  colTitle/.style={
+    font=\bfseries\small\scshape,
+    text=CartDark,
+    anchor=west
+  },
+  manuscript/.style={
+    draw=CartMid,
+    fill=CartVeryPale,
+    rounded corners=1.8mm,
+    line width=.65pt,
+    inner sep=2.0mm,
+    align=left,
+    font=\scriptsize
+  },
+  axisbox/.style={
+    draw=CartBlack,
+    fill=CartPale,
+    rounded corners=2.0mm,
+    line width=.9pt,
+    inner sep=2.1mm,
+    align=left,
+    font=\scriptsize
+  },
+  paper/.style={
+    draw=CartMid,
+    fill=white,
+    rounded corners=1.8mm,
+    line width=.7pt,
+    inner sep=1.9mm,
+    align=left,
+    font=\scriptsize
+  },
+  exactlink/.style={
+    -{Latex[length=2.2mm,width=1.65mm]},
+    draw=CartBlack,
+    line width=1.25pt,
+    rounded corners=2mm
+  },
+  progresslink/.style={
+    -{Latex[length=2.2mm,width=1.65mm]},
+    draw=CartBlack,
+    line width=1.25pt,
+    dashed,
+    dash pattern=on 3.2pt off 2.2pt,
+    rounded corners=2mm
+  },
+  structlink/.style={
+    -{Latex[length=1.9mm,width=1.4mm]},
+    draw=CartDark,
+    line width=1.0pt,
+    rounded corners=2mm
+  },
+  note/.style={
+    font=\scriptsize,
+    text=CartDark,
+    align=left
+  }
+}
+
+\newcommand{\tightenum}{%
+  \setlength{\leftmargini}{4.4mm}%
+  \setlength{\itemsep}{0.25mm}%
+  \setlength{\parsep}{0pt}%
+  \setlength{\topsep}{0.35mm}%
+}
+
+% -----------------------------------------------------------------------------
+% En-tête
+% -----------------------------------------------------------------------------
+\node[cartTitle] at (14.5,17.25)
+  {Cartographie manuscrit -- axes thématiques -- publications};
+\node[cartSubtitle] at (14.5,16.70)
+  {lecture de gauche à droite : structure du manuscrit, quatre axes avec sous-axes, puis articles publiés, soumis ou en rédaction};
+
+\node[colTitle] at (0.25,16.05) {Structure du manuscrit};
+\node[colTitle] at (8.65,16.05) {Axes principaux};
+\node[colTitle] at (19.15,16.05) {Articles et travaux associés};
+
+\draw[CartLight, line width=.6pt] (8.10,0.45) -- (8.10,15.78);
+\draw[CartLight, line width=.6pt] (18.55,0.45) -- (18.55,15.78);
+
+% -----------------------------------------------------------------------------
+% Colonne gauche : structure du manuscrit
+% -----------------------------------------------------------------------------
+\node[manuscript, anchor=west] (msFond) at (0.25,13.95) {%
+\begin{minipage}{7.25cm}
+\textbf{Introduction + Partie I}\\[-.3mm]
+\textit{Fondations du Single-Linkage}\\[-.4mm]
+Ch.~1--5 : trois lectures du Single-Linkage, point de vue axiomatique, limites du chaînage, Robust SL, DBSCAN/HDBSCAN, arbre hiérarchique comme espace de résolution.
+\end{minipage}};
+
+\node[manuscript, anchor=west] (msHGP) at (0.25,10.55) {%
+\begin{minipage}{7.25cm}
+\textbf{Partie II}\\[-.3mm]
+\textit{HGP-Clusterer et percolation}\\[-.4mm]
+Ch.~6--9 : complexe de \nom[Cech]{\v Cech}, $K$-polyèdres, amas $K$-NN, vitesse de percolation, simplexes $K$-séparants, \nom{Gabriel}, \nom{Delaunay} d'ordre $K$, pratique $K=2$.
+\end{minipage}};
+
+\node[manuscript, anchor=west] (msImage) at (0.25,6.35) {%
+\begin{minipage}{7.25cm}
+\textbf{Partie III, ch.~10 et ch.~12}\\[-.3mm]
+\textit{Données image et signal spatial}\\[-.4mm]
+Graphe de \nom{Frangi}, hypergraphe de \nom{Frangi}, extraction de réseaux de fissures, multimodalité visible--profondeur, robustesse au bruit et aux changements de domaine.
+\end{minipage}};
+
+\node[manuscript, anchor=west] (msGraph) at (0.25,2.65) {%
+\begin{minipage}{7.25cm}
+\textbf{Partie III, ch.~10 et ch.~11}\\[-.3mm]
+\textit{Graphes signés et communautés}\\[-.4mm]
+Cadre bayésien, dynamiques de clusters, frustration, interactions triangulaires, percolation comme obstruction ou garantie de recouvrement.
+\end{minipage}};
+
+% -----------------------------------------------------------------------------
+% Colonne centrale : axes et sous-axes avec enumerate
+% -----------------------------------------------------------------------------
+\node[axisbox, anchor=west] (axHO) at (8.65,13.60) {%
+\begin{minipage}{8.85cm}
+\textbf{Axe 1 -- Interactions d'ordre supérieur}\\[-1mm]
+\begin{enumerate}\tightenum
+  \item Connexité $K$ : $K$-polyèdres, simplexes de \nom[Cech]{\v Cech} et hypergraphes.
+  \item Calcul : $K$-arbre minimum, graphes de \nom{Gabriel} et mosaïque de \nom{Delaunay} d'ordre $K$.
+  \item Transferts : interactions triangulaires dans les graphes signés et dans les images.
+\end{enumerate}
+\end{minipage}};
+
+\node[axisbox, anchor=west] (axPerc) at (8.65,9.90) {%
+\begin{minipage}{8.85cm}
+\textbf{Axe 2 -- Percolation}\\[-1mm]
+\begin{enumerate}\tightenum
+  \item Lecture géométrique : composantes géantes dans les graphes ou complexes persistants.
+  \item Mesure de performance : vitesse de percolation et fraction asymptotiquement récupérable.
+  \item Rôle transversal : filtrage du bruit, séparation de niveaux de densité, obstruction au recouvrement.
+\end{enumerate}
+\end{minipage}};
+
+\node[axisbox, anchor=west] (axSignal) at (8.65,6.05) {%
+\begin{minipage}{8.85cm}
+\textbf{Axe 3 -- Traitement du signal et des images}\\[-1mm]
+\begin{enumerate}\tightenum
+  \item Passage pixel $\rightarrow$ arête : graphe de \nom{Frangi} et réponse par paires de pixels.
+  \item Extension multimodale : intensité, profondeur, visible--thermique.
+  \item Sortie structurelle : extraction d'un réseau linéique plutôt qu'une simple segmentation binaire.
+\end{enumerate}
+\end{minipage}};
+
+\node[axisbox, anchor=west] (axComm) at (8.65,2.55) {%
+\begin{minipage}{8.85cm}
+\textbf{Axe 4 -- Détection de communautés sur graphes}\\[-1mm]
+\begin{enumerate}\tightenum
+  \item Modèles : graphes euclidiens signés, postérieure bayésienne et énergie de \nom{Gibbs}.
+  \item Algorithmes : généralisation de \nom{Swendsen--Wang} par liens d'ordre supérieur.
+  \item Garanties : recouvrement partiel, presque parfait ou parfait, avec bornes de percolation.
+\end{enumerate}
+\end{minipage}};
+
+% -----------------------------------------------------------------------------
+% Colonne droite : articles. Les flèches portent le statut de correspondance.
+% -----------------------------------------------------------------------------
+\node[paper, anchor=west] (pANS) at (19.15,14.65) {%
+\begin{minipage}{9.45cm}
+\textbf{Journal central HGP}\\[-.35mm]
+\emph{Generalization of single-linkage with higher-order interactions} : $K$-polyèdres, amas $K$-NN, $K$-arbre et optimisations $K=2$ \cite{BibiAppliedNetworkScience}.
+\end{minipage}};
+
+\node[paper, anchor=west] (pHGPConf) at (19.15,12.85) {%
+\begin{minipage}{9.45cm}
+\textbf{Versions conférence intégrées puis dépassées}\\[-.35mm]
+Hypergraphes pour le clustering densité \cite{BibiLyon}; hypergraphes, percolation et clustering hiérarchique \cite{BibiIstambul}; mesure théorique des performances \cite{BibiVenise}.
+\end{minipage}};
+
+\node[paper, anchor=west] (pPerco) at (19.15,9.95) {%
+\begin{minipage}{9.45cm}
+\textbf{Percolation comme fil directeur}\\[-.35mm]
+Le chapitre de percolation reprend \cite{BibiIstambul} mais le pousse au cadre continu, aux vitesses critiques et aux limites gaussiennes; \cite{BibiVenise} fournit l'indice de performance (la \emph{vitesse de percolation}).
+\end{minipage}};
+
+\node[paper, anchor=west] (pPrec) at (19.15,8.05) {%
+\begin{minipage}{9.45cm}
+\textbf{Préfigurations}\\[-.35mm]
+Extraction de filaments de galaxies par graphes géométriques et percolation \cite{BibiMenton}; complexes simpliciaux et stylométrie comme antécédent méthodologique \cite{BibiMasterBB}.
+\end{minipage}};
+
+\node[paper, anchor=west] (pGRETSI) at (19.15,5.75) {%
+\begin{minipage}{9.45cm}
+\textbf{Première version image}\\[-.35mm]
+Graphe de \nom{Frangi} pour les fissures des Vaches Noires, sans données annotées pour la méthode géométrique \cite{BibiStrasbourg}. % ; version EUSIPCO 2025 soumise \cite{BibiPalerme}
+%; article de journal en préparation \cite{BibiISPRS}.
+\end{minipage}};
+
+\node[paper, anchor=west] (pISPRS) at (19.15,4.05) {%
+\begin{minipage}{9.45cm}
+\textbf{Versions en préparation / soumise}\\[-.35mm]
+Extension multimodale, accélération GPU, ordre supérieur et robustesse bruit/domaine : journal ISPRS en préparation \cite{BibiISPRS} ; EUVIP'26 soumis \cite{BibiLuxembourg}.
+\end{minipage}};
+
+\node[paper, anchor=west] (pAsilomar) at (19.15,2.20) {%
+\begin{minipage}{9.45cm}
+\textbf{Version conférence communautés}\\[-.35mm]
+Dynamiques de clusters Monte-Carlo d'ordre supérieur pour la détection de communautés sur graphes euclidiens \cite{BibiMonterey}.
+\end{minipage}};
+
+\node[paper, anchor=west] (pInfo) at (19.15,0.85) {%
+\begin{minipage}{9.45cm}
+\textbf{Article journal en cours de rédaction}\\[-.35mm]
+Cadre bayésien pour graphes signés, bornes plus fines et chaînes de Markov à interactions d'ordre supérieur \cite{BibiInformationInference}.
+\end{minipage}};
+
+% -----------------------------------------------------------------------------
+% Flèches : structure -> axes
+% -----------------------------------------------------------------------------
+\draw[structlink] (msFond.east) -- (axHO.west);
+\draw[structlink] (msHGP.east) -- (axHO.west);
+\draw[structlink] (msHGP.east) -- (axPerc.west);
+\draw[structlink] (msImage.east) -- (axSignal.west);
+\draw[structlink] (msGraph.east) -- (axComm.west);
+
+% -----------------------------------------------------------------------------
+% Flèches : axes -> articles.
+% Pleine : correspondance directe. Pointillée : progrès significatif dans le manuscrit.
+% -----------------------------------------------------------------------------
+\draw[exactlink] (axHO.east) -- (pANS.west);
+\draw[progresslink] (axHO.east) -- (pHGPConf.west);
+
+\draw[progresslink] (axPerc.east) -- (pPerco.west);
+\draw[progresslink] (axPerc.east) -- (pPrec.west);
+
+\draw[progresslink] (axSignal.east) -- (pGRETSI.west);
+\draw[exactlink] (axSignal.east) -- (pISPRS.west);
+
+\draw[progresslink] (axComm.east) -- (pAsilomar.west);
+\draw[exactlink] (axComm.east) -- (pInfo.west);
+
+% -----------------------------------------------------------------------------
+% Légende
+% -----------------------------------------------------------------------------
+\node[note, anchor=west] at (0.25,0.80) {%
+\begin{tabular}{@{}ll@{}}
+\tikz\draw[exactlink] (0,0)--(.9,0); & correspondance directe entre manuscrit et article ;\\[1mm]
+\tikz\draw[progresslink] (0,0)--(.9,0); & progrès significatif dans le manuscrit par rapport à l'article ;\\[1mm]
+\tikz\draw[structlink] (0,0)--(.9,0); & rattachement d'un chapitre à l'un des quatre axes.
+\end{tabular}};
+
+% \node[font=\scriptsize\itshape, text=CartMid, anchor=east] at (28.95,0.25)
+%   {Nuances de gris uniquement ; flèches épaisses.};
+
+\end{tikzpicture}%
+}
+\caption[Cartographie manuscrit-publications]{Cartographie des relations entre la structure du manuscrit, les quatre axes thématiques et les publications associées.}
+\label{fig:annexe_cartographie_articles}
+\end{sidewaysfigure}

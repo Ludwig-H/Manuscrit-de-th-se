@@ -1,0 +1,118 @@
+\chapter{Résumé (\emph{abstract}) et mots-clefs (\emph{keywords})}
+
+%\cleartorecto
+
+
+\begin{AbstractPage}
+
+\small
+
+\begin{resume}
+
+
+
+\paragraph{Problématique}
+Au cours de cette thèse, nous nous penchons sur le problème de structuration automatique de données à partir d'observations locales, imparfaites et parfois bruitées. 
+Le point de départ en est le `clustering'. % hiérarchique d'un nuage fini dans l'espace euclidien \(\mathcal X\subset\mathbb{R}^p\). 
+Nous avons alors rencontré à de multiples reprises -- et par des voies toutes différentes -- l'algorithme du `Single-Linkage'.
+Nous nous sommes concentrés sur trois approches %du Single-Linkage qui nous ont paru les plus pertinentes à en saisir les enjeux, et plus tard le généraliser proprement 
+: une approche heuristique (construction de l'arbre minimum couvrant sur les données) ; une approche géométrique (persistance des composantes d'un graphe géométrique) ; ainsi qu'une approche statistique (estimation des clusters de forte densité).
+La première approche  fournit un algorithme optimisé (notamment dans l'espace euclidien) ; la seconde aide à comprendre le mécanisme mathématique à l'œuvre (la percolation) et la dernière approche permet d'avoir un cadre mathématique satisfaisant et d'appréhender le Single-Linkage au sein d'un modèle statistique non paramétrique.
+
+%Dans notre modèle statistique non paramétrique, les données sont tirées i.i.d. selon une certaine densité, et les clusters d'intérêt sont les composantes connexes des ensembles de niveau de cette densité. 
+%Lorsque cette densité est estimée pour tout point de l'espace $y\in \mathbb R^p$ à l'aide du plus proche voisin dans le nuage $\mathcal X$, la hiérarchie obtenue coïncide avec celle du Single-Linkage, algorithme classique que nous explorons à travers trois lectures : heuristique (construction de l'arbre minimum couvrant sur les données), géométrique (persistance des composantes d'un graphe géométrique), et donc aussi statistique (estimation des clusters de forte densité).
+
+\paragraph{Les limites du Single-Linkage (et de ses descendants)}
+%Cette correspondance ne suffit pas à rendre le Single-Linkage robuste. 
+Il manque néanmoins au Single-Linkage une notion de robustesse : en dimension \(p\geq2\),  des ponts de bruit peuvent fusionner prématurément des clusters distincts (c'est l'effet de chaînage). Les méthodes proposées jusqu'à nos jours, telles le `Robust Single-Linkage', DBSCAN puis HDBSCAN introduisent une notion de densité locale fondée sur les \(K\) plus proches voisins (là où le Single-Linkage ne prenait en compte que le plus proche voisin).
+Cependant, ces algorithmes font l'erreur d'imposer une condition d'ordre \(K\) aux points tout en propageant la connexité à l'ordre \(1\) (connexité binaire par arêtes). %Cette asymétrie empêche de reconstruire exactement la topologie des niveaux \(K\)-NN.
+
+\paragraph{Contribution principale}
+La contribution centrale de cette thèse est l'algorithme `\HGP-Clusterer'. L'idée est de remplacer le graphe géométrique par le complexe de \v{C}ech. Pour \(K\geq2\), les objets élémentaires ne sont plus les arêtes, mais les \((K-1)\)-simplexes, qui encodent l'intersection simultanée de \(K\) boules. %On définit alors un graphe auxiliaire dont les sommets sont ces simplexes, deux sommets étant adjacents lorsque leur union forme encore un simplexe. 
+%Nous avons baptisé ces composantes obtenues sont les \(K\)-polyèdres. 
+Nous établissons la correspondance exacte entre les clusters de forte densité de l'estimateur des $K$-voisins -- et ce à tout niveau de la hiérarchie -- et les composantes que notre algorithme identifie, les \(K\)-polyèdres. 
+%(Pour \(K=1\), l'on retrouve le Single-Linkage.)
+Après cette généralisation des approches géométrique et statistique, nous finissons l'analogie en identifiant la bonne structure contenant toute l'information du $K$-arbre minimum couvrant (et disposons ainsi d'un algorithme pratique optimisé dans le cadre euclidien) : il s'agit de la mosaïque de \nom{Delaunay} d'ordre $K$.
+
+
+
+\paragraph{Percolation et analyse}
+La percolation continue sert ensuite d'outil d'analyse. Elle explique l'inconsistance du Single-Linkage et permet de comparer théoriquement le Robust Single-Linkage, (H)\DBSCAN et \HGP-Clusterer au niveau de leur \emph{fraction} de consistance partielle (fraction d'un cluster récupérable avant fusion parasite). 
+% Les \(K\)-polyèdres modifient la connexité elle-même et améliorent cette fraction. 
+%Sur le plan algorithmique, la construction complète du complexe de \v{C}ech étant coûteuse, le manuscrit recherche l'analogue de l'arbre minimum couvrant. Les simplexes responsables des fusions sont des simplexes de Gabriel et s'inscrivent dans la mosaïque de Delaunay d'ordre \(K\), ce qui fournit un support plus parcimonieux.
+
+% \paragraph{Applications et extensions}
+% L'arbre hiérarchique est aussi utilisé comme espace de résolution avec des \emph{a priori} géométriques, notamment pour la détection d'anomalies dans des nuages LiDAR et la segmentation panoptique \(4D\). La dernière partie montre que le couple `interactions d'ordre supérieur' et `percolation' dépasse le cadre euclidien. Dans les graphes pondérés signés, il conduit à un cadre bayésien pour la détection de communautés et à des dynamiques de clusters généralisant \nom{Swendsen--Wang}. En traitement d'image, le filtre de \nom{Frangi} est prolongé en graphe puis en hypergraphe de \nom{Frangi} afin d'extraire des réseaux de fissures, y compris en contexte multimodal et bruité.
+
+
+\paragraph{Applications et extensions}
+Finalement, les différentes hiérarchies que nous construisons sont aussi des espaces de résolution pratique : y injecter des \emph{a priori} permet de résoudre des tâches complexes sans apprentissage (anomalies LiDAR 3D, segmentation d'instance 4D, \emph{etc}.). Surtout, le paradigme couplant «~ordre supérieur~» et «~percolation~» s'exporte bien au-delà du cadre euclidien. Sur les graphes signés, il inspire de nouvelles dynamiques bayésiennes de clusters (généralisant la dynamique de \nom{Swendsen--Wang}) qui conduisent à des bornes de recouvrement plus fines. En imagerie, le filtre de \nom{Frangi} est étendu à un hypergraphe spatial où la connexité d'ordre supérieur bloque la percolation du bruit, assurant ainsi une extraction robuste de réseaux de fissures.
+
+
+\paragraph{Conclusion}
+Cette thèse propose une généralisation naturelle du Single-Linkage qui recourt à des interactions d'ordre supérieur et donne un rôle central à la percolation dans l'analyse des performances. %Ces deux idées dépassent largement le cadre euclidien initialement fixé.
+
+
+\end{resume}
+
+
+
+
+\motscles{Structuration automatique de données ; Clustering hiérarchique ; Modèle statistique de \nom{Hartigan} ; Percolation ; Arbre minimum couvrant ; Graphe géométrique ; Complexe de \v Cech ; Mosaïque de \nom{Delaunay} d'ordre supérieur ; Traitement du signal et des images }
+
+
+%\cleartorecto
+
+\begin{abstract}
+
+
+\paragraph{Problem statement}
+In this thesis, we address the problem of automatic data structuring from local, imperfect, and sometimes noisy observations. 
+The starting point is clustering. 
+We then encountered on multiple occasions---and through entirely different paths---the Single-Linkage algorithm.
+We focused on three approaches: a heuristic approach (construction of the minimum spanning tree over the data); a geometric approach (persistence of the components of a geometric graph); and a statistical approach (estimation of high-density clusters).
+The first approach provides an optimized algorithm (especially in Euclidean space); the second helps understanding the mathematical mechanism at work (percolation); and the last approach provides a satisfactory mathematical framework to understand Single-Linkage within a non-parametric statistical model.
+
+
+
+\paragraph{Limitations of Single-Linkage (and its descendants)}
+Single-Linkage nevertheless lacks a notion of robustness: in dimension \(p\geq2\), noise bridges can prematurely merge distinct clusters (this is the chaining effect). The methods proposed to date, such as Robust Single-Linkage, DBSCAN, and later HDBSCAN, introduce a notion of local density based on the \(K\)-nearest neighbors (whereas Single-Linkage only considered the nearest neighbor).
+However, these algorithms make the mistake of imposing an order-\(K\) condition on the points while propagating connectivity at order \(1\) (binary connectivity via edges).
+
+\paragraph{Main contribution}
+The core contribution of this thesis is the \HGP-Clusterer algorithm. The idea is to replace the geometric graph with the \v{C}ech complex. For \(K\geq2\), the elementary objects are no longer edges, but \((K-1)\)-simplices, which encode the simultaneous intersection of \(K\) balls. 
+We establish the exact correspondence between the high-density clusters of the $K$-nearest neighbor estimator---and this at all levels of the hierarchy---and the components identified by our algorithm, the \(K\)-polyhedra. 
+Following this generalization of the geometric and statistical approaches, we complete the analogy by identifying the proper structure containing all the information of the $K$-minimum spanning tree (thus providing a practical algorithm optimized for the Euclidean setting): it is the order-$K$ \nom{Delaunay} mosaic.
+
+\paragraph{Percolation and analysis}
+Continuum percolation then serves as an analytical tool. It explains the inconsistency of Single-Linkage and enables a theoretical comparison of Robust Single-Linkage, (H)\DBSCAN, and \HGP-Clusterer in terms of their partial consistency \emph{fraction} (the fraction of a cluster recoverable before an erroneous merge). 
+
+\paragraph{Applications and extensions}
+Finally, the different hierarchies we construct also serve as practical resolution spaces: injecting \emph{priors} into them makes it possible to solve complex tasks without training (3D LiDAR anomalies, 4D instance segmentation, \emph{etc}.). Most importantly, the paradigm coupling ``higher order'' and ``percolation'' exports well beyond the Euclidean framework. On signed graphs, it inspires new Bayesian cluster dynamics (generalizing the \nom{Swendsen--Wang} dynamics) that lead to tighter recovery bounds. In imaging, the \nom{Frangi} filter is extended into a spatial hypergraph where higher-order connectivity blocks noise percolation, ensuring a robust extraction of crack networks.
+
+\paragraph{Conclusion}
+The thesis thus proposes a natural generalization of Single-Linkage that leverages higher-order interactions and assigns a central role to percolation in performance analysis. %These two ideas extend well beyond the initially established Euclidean framework.
+\end{abstract}
+
+%\newpage
+
+\keywords{Automatic data structuring; Hierarchical clustering; Percolation; \nom{Hartigan}'s statistical model; Minimum spanning tree; Geometric graph; \v{C}ech complex; Higher-order \nom{Delaunay} mosaic; Signal and image processing}
+
+\end{AbstractPage}
+
+\cleartorecto
+
+
+% \section*{Résumés $<1000$ caractères.}
+
+% Cette thèse traite de la structuration de données bruitées. Le clustering hiérarchique par Single-Linkage et ses dérivés (HDBSCAN) manquent de robustesse : ils évaluent la densité via les K plus proches voisins, mais gardent une connexité binaire (arêtes).
+
+% Notre contribution centrale, HGP-Clusterer, corrige cette asymétrie. En remplaçant les graphes par le complexe de Čech, HGP-Clusterer utilise des interactions d'ordre supérieur (K-polyèdres) pour retrouver la hiérarchie exacte des clusters denses. En pratique, il s'optimise via la mosaïque de Delaunay d'ordre K.
+
+% La théorie de la percolation continue prouve que notre méthode récupère une plus grande fraction de cluster face au bruit. Enfin, ce paradigme couplant « ordre supérieur » et « percolation » dépasse le cadre euclidien : tâches 3D/4D sans apprentissage, dynamiques bayésiennes de communautés sur graphes signés, extraction de réseaux de fissures en imagerie, etc.
+
+% This thesis addresses the structuring of noisy data. Hierarchical clustering via Single-Linkage and its derivatives (HDBSCAN) lacks robustness: they evaluate density using K-nearest neighbors but maintain a binary connectivity (edges).
+
+% Our core contribution, HGP-Clusterer, solves this asymetry. By replacing graphs with the Čech complex, it uses higher-order interactions (K-polyhedra) to retrieve the exact hierarchy of dense clusters. In practice, it is optimized via the order-K Delaunay mosaic.
+
+% Continuum percolation theory proves that our method recovers a larger cluster fraction against noise. Finally, this paradigm coupling "higher order" and "percolation" extends beyond the Euclidean framework: training-free 3D/4D tasks, Bayesian community dynamics on signed graphs, crack network extraction in imaging, etc.

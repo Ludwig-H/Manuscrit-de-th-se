@@ -1,0 +1,144 @@
+% VERSION VERIFIEE -- 19 juin 2026
+% !TEX root = main.tex
+% Annexe « Prix et distinctions »
+% À inclure dans la partie annexes, après l'appel à \appendix et avant
+% \SortirDesAnnexes, par exemple : \include{annexe_prix}
+
+\chapter{Prix \& distinctions}
+\label{ann:prix}
+
+\begingroup
+
+% -----------------------------------------------------------------------------
+% Charte locale : nuances de gris, cohérentes avec les autres annexes.
+% -----------------------------------------------------------------------------
+\colorlet{PrixBlack}{black!88}
+\colorlet{PrixDark}{black!70}
+\colorlet{PrixMid}{black!42}
+\colorlet{PrixLight}{black!15}
+\colorlet{PrixPale}{black!5}
+
+\hypersetup{colorlinks=true,allcolors=PrixBlack,pdfborder={0 0 0}}
+
+\newcommand{\PrixBadge}[1]{%
+  \begingroup
+  \setlength{\fboxsep}{2.5pt}%
+  \colorbox{PrixPale}{%
+    \textcolor{PrixDark}{\scriptsize\bfseries\textsc{#1}}%
+  }%
+  \endgroup
+}
+
+\newcommand{\PrixAnnee}[1]{%
+  \multicolumn{2}{@{}l@{}}{%
+    \parbox{\textwidth}{%
+      \vspace{.35\baselineskip}%
+      {\color{PrixBlack}\large\bfseries\textsc{#1}}%
+      \par\vspace{.22\baselineskip}%
+      {\color{PrixLight}\hrule height .7pt}%
+    }%
+  }\\*[.8\baselineskip]
+}
+
+\newcommand{\PrixEntree}[4]{%
+  \begin{minipage}[t]{\linewidth}
+    \raggedleft
+    {\small\bfseries #1}\par\vspace{.35\baselineskip}%
+    \PrixBadge{#2}%
+  \end{minipage}%
+  &
+  \begin{minipage}[t]{\linewidth}
+    \raggedright
+    {\large\bfseries #3}\par\vspace{.42\baselineskip}%
+    #4
+  \end{minipage}%
+  \\[1.45\baselineskip]
+}
+
+% \begin{center}
+%   \setlength{\fboxsep}{9pt}%
+%   \colorbox{PrixPale}{%
+%     \parbox{.91\textwidth}{%
+%       \small
+%       Cette annexe recense deux récompenses obtenues et une sélection comme
+%       finaliste. La nature exacte du résultat est indiquée pour chaque entrée;
+%       les intitulés et sources institutionnelles sont cliquables.
+%     }%
+%   }
+% \end{center}
+
+\vspace{.75\baselineskip}
+\small
+\setlength{\LTpre}{0pt}
+\setlength{\LTpost}{0pt}
+\setlength{\tabcolsep}{0pt}
+\renewcommand{\arraystretch}{1.04}
+
+\begin{longtable}{%
+  @{}%
+  >{\raggedleft\arraybackslash\color{PrixDark}}p{.18\textwidth}%
+  @{\hspace{1.05em}}%
+  !{\color{PrixMid}\vrule width .55pt}%
+  @{\hspace{1.20em}}%
+  >{\raggedright\arraybackslash\color{black}}p{.73\textwidth}%
+  @{}%
+}
+
+\endfirsthead
+\multicolumn{2}{@{}r@{}}{%
+  \scriptsize\color{PrixMid}\emph{Prix \& distinctions --- suite}%
+}\\[.65\baselineskip]
+\endhead
+
+\PrixAnnee{2025}
+
+\PrixEntree{17 octobre 2025}{Finaliste}{%
+  \href{https://www.cnrs.fr/CNRS-Hebdo/cote-azur/Documents/28/Document.aspx}{%
+  Prix Pierre \nom{Laffitte} 2025}%
+}{%
+  Finaliste de la neuvième édition du prix, après sélection sur dossier.
+  Présentation orale, sur le campus Pierre \nom{Laffitte} de Mines Paris--PSL à
+  Sophia Antipolis, du projet
+  \emph{Classification sur nuages de points euclidiens et graphes aléatoires :
+  théorie, algorithmes \& partenariats industriels}. L'édition réunissait
+  douze finalistes. %La candidature n'a pas reçu l'un des trois prix décernés.
+}
+
+\PrixAnnee{2024}
+
+\PrixEntree{2024}{Médaille}{%
+  \href{https://issuu.com/univ-cotedazur/docs/livret_medailles_2024_web}{%
+  Médaille d'excellence de l'Université Côte d'Azur}%
+}{%
+  Médaille d'excellence obtenue en 2024. 
+  % Le rapport d'activité de l'équipe
+  % Ayana indique explicitement que cette distinction a été attribuée à la suite
+  % du deuxième prix remporté à la compétition étudiante ACM SIGMETRICS.
+}
+
+\PrixEntree{10--14 juin 2024}{2\textsuperscript{ième} prix}{%
+  \href{https://www.sigmetrics.org/sigmetrics2024/student_activities.html}{%
+  ACM SIGMETRICS Student Research Competition 2024}%
+}{%
+  Deuxième prix de la catégorie \emph{Graduate} à Venise pour le travail
+  \href{https://doi.org/10.1145/3725536.3725546}{%
+  \emph{How can we theoretically measure the performance of density-based
+  clustering algorithms?}} \cite{BibiVenise} La compétition comportait une présentation par
+  poster, puis un exposé oral devant le jury pour les finalistes.
+}
+
+\end{longtable}
+
+% \vspace{.15\baselineskip}
+% \noindent
+% {\scriptsize\color{PrixDark}
+%   \textbf{Sources.}
+%   \href{https://www.sigmetrics.org/sigmetrics2024/student_activities.html}{%
+%   Palmarès officiel de l'ACM SIGMETRICS SRC 2024};
+%   \href{https://radar.inria.fr/report/2024/AYANA}{rapport d'activité Ayana 2024};
+%   \href{https://radar.inria.fr/report/2025/ayana}{rapport d'activité Ayana 2025};
+%   \href{https://www.cnrs.fr/actualite-du-cnrs/cote-azur/Actualites/21273/Suite.aspx}{%
+%   bilan du Prix Pierre \nom{Laffitte} 2025 publié par le CNRS Côte d'Azur}.
+% \par}
+
+\endgroup

@@ -1,0 +1,742 @@
+% !TEX program = lualatex
+
+\documentclass{these-ISSS} % Pour la version finale
+% \documentclass[draft]{these-ISSS} % Pour une version brouillon
+%\documentclass[gray]{these-ISSS} % Pour une version en grayscale
+\usepackage{raccourcis}
+\usepackage{scrextend}
+\changefontsizes{12pt}
+\setlength{\headheight}{27.3pt}
+
+
+
+
+
+% --- Core math/fonts ---
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{mathtools}        % load once
+\usepackage{bm}
+\usepackage{dsfont}
+% \usepackage{stmaryrd} % unused in current manuscript
+\usepackage{fontspec}
+% \setmainfont{Libertinus Serif}[
+%     UprightFont = *-Regular,
+%     ItalicFont = *-Italic,
+%     BoldFont = *-Bold,
+%     BoldItalicFont = *-BoldItalic,
+%     Ligatures={Common, Historic, TeX},
+%     Numbers=OldStyle,
+%     SmallCapsFeatures={Letters=SmallCaps}
+% ]
+\setmainfont{LibertinusSerif}[
+    Extension = .otf,
+    UprightFont = *-Regular,
+    ItalicFont = *-Italic,
+    BoldFont = *-Bold,
+    BoldItalicFont = *-BoldItalic,
+    Ligatures={Common, Historic, TeX},
+    Numbers=OldStyle,
+    SmallCapsFeatures={Letters=SmallCaps}
+]
+
+
+% --- Typesetting niceties ---
+\usepackage{microtype}
+\setlength{\emergencystretch}{3em}
+\setlength{\hfuzz}{70.6pt}
+\hbadness=10000
+\usepackage{nicefrac}
+
+
+% --- Graphics & floats ---
+\usepackage{graphicx}         % not 'graphics'
+\usepackage{booktabs}
+% EITHER this:
+% \usepackage[table]{xcolor}
+% OR this:
+\usepackage{colortbl}
+\usepackage{xcolor}
+% pick one approach for table coloring; above shows both, but prefer xcolor[table] only
+
+% --- Tables & layout helpers ---
+\usepackage{multirow}
+\usepackage{tabulary}
+\usepackage{float}
+
+% --- TikZ ---
+\usepackage{tikz}
+\usetikzlibrary{positioning, shapes, arrows.meta, calc, decorations.pathreplacing}
+
+% --- Algorithms (pick one ecosystem) ---
+\usepackage{algorithm}       % provides the floating \begin{algorithm}
+\usepackage{algpseudocode} 
+
+
+\floatname{algorithm}{Algorithme}
+\renewcommand{\listalgorithmname}{Liste des algorithmes}
+
+\algrenewcommand\algorithmicrequire{\textbf{Entrée :}}
+\algrenewcommand\algorithmicensure{\textbf{Sortie :}}
+\algrenewcommand\algorithmicif{\textbf{si}}
+\algrenewcommand\algorithmicthen{\textbf{alors}}
+\algrenewcommand\algorithmicelse{\textbf{sinon}}
+\algrenewcommand\algorithmicend{\textbf{fin}}
+\algrenewcommand\algorithmicfor{\textbf{pour}}
+\algrenewcommand\algorithmicforall{\textbf{pour tout}}
+\algrenewcommand\algorithmicdo{\textbf{faire}}
+\algrenewcommand\algorithmicwhile{\textbf{tant que}}
+\algrenewcommand\algorithmicreturn{\textbf{renvoyer}}
+
+
+
+
+
+
+
+
+
+%\usepackage[ruled,linesnumbered]{algorithm2e}
+% \usepackage{algorithmic} % if you prefer this modern ecosystem
+% \usepackage{algpseudocode} % paired with algorithmicx
+% DO NOT load 'algorithmic' with algorithm2e
+
+% --- Utilities ---
+\usepackage{etoolbox}
+\usepackage{xparse}
+\usepackage{lipsum}
+\usepackage{soul}      % highlighting; relies on xcolor (not color)
+
+
+% --- Index multiples : noms propres et acronymes ---
+% Deux index séparés, traités automatiquement par latexmk / makeindex.
+\usepackage{imakeidx}
+
+\indexsetup{
+  level=\chapter,
+  firstpagestyle=plain
+}
+
+\makeindex[
+  name=noms,
+  title={Index des noms propres},
+  columns=2
+]
+
+\makeindex[
+  name=acronymes,
+  title={Index des acronymes},
+  columns=2
+]
+
+\providecommand{\cleartorecto}{\cleardoublepage}
+\providecommand{\seename}{see}
+\renewcommand{\seename}{Voir}
+
+\newcommand{\IndexPagesNote}{%
+  \noindent\emph{Les numéros indiqués dans cet index renvoient aux pages du manuscrit.}%
+  \par\medskip
+}
+
+% ============================================================
+% Sortie propre des annexes et impression des index/listes
+% ============================================================
+
+\makeatletter
+
+% La classe these-ISSS ne fait PAS vraiment sortir du mode annexe
+% avec \backmatter. On force donc explicitement la sortie.
+\newcommand{\SortirDesAnnexes}{%
+  \@inAnnexefalse
+  \@mainmatterfalse
+  \gdef\partTitle{}%
+  \gdef\chapterTitle{}%
+}
+
+% Impression propre des index et listes en fin de manuscrit.
+% À garder à la place de l'ancienne définition à un argument.
+\makeatletter
+
+\providecommand{\SortirDesAnnexes}{}
+\renewcommand{\SortirDesAnnexes}{%
+  \@inAnnexefalse
+  \@mainmatterfalse
+  \gdef\partTitle{}%
+  \gdef\chapterTitle{}%
+  \renewcommand\@chapapp{\chaptername}%
+  \renewcommand\thechapter{\@arabic\c@chapter}%
+  \renewcommand\thesection{\thechapter.\@arabic\c@section}%
+}
+
+\providecommand{\PrintIndexAnnexe}{}
+\renewcommand{\PrintIndexAnnexe}[2]{%
+  \cleartorecto
+  \gdef\chapterTitle{#2}%
+  \global\@intablestrue
+  \indexprologue{\IndexPagesNote}%
+  \printindex[#1]%
+  \global\@intablesfalse
+}
+
+
+
+% La liste des algorithmes ne s'ajoute pas toujours toute seule à la ToC.
+% On l'encapsule proprement, sans \chapter{...}.
+\newcommand{\PrintListOfAlgorithmsClean}{%
+  \cleartorecto
+  \gdef\chapterTitle{\listalgorithmname}%
+  \@intablestrue
+  \phantomsection
+  \addcontentsline{toc}{chapter}{\listalgorithmname}%
+  \SansIndex{\listofalgorithms}%
+  \@intablesfalse
+}
+
+\makeatother
+
+
+\usepackage{longtable}
+
+% --- Appendices ---
+\usepackage{appendix}
+\usepackage{chngcntr}
+\usepackage{csquotes}  % load BEFORE biblatex
+
+% --- Bibliography ---
+\usepackage[
+  backend=biber,
+  style=numeric-comp,  % numeric citations, compressed ranges
+  sorting=none,        % bibliography in citation order
+  giveninits=true,     % initials for given names
+  doi=true, isbn=true, url=true
+]{biblatex}
+
+
+% % hyperref en dernier !
+% \usepackage[
+%   unicode,
+%   colorlinks=true,
+%   linkcolor=black,
+%   citecolor=black,
+%   urlcolor=blue
+% ]{hyperref}
+\usepackage{hyperref}
+
+% --- Le Hack du DOI ---
+\DeclareFieldFormat{doi}{%
+  \mkbibacro{DOI}\space\addcolon\space
+  \href{https://doi.org/#1}{{#1}}
+}
+
+\addbibresource{referencesThesis.bib} % <-- your .bib file
+\DeclareSourcemap{
+  \maps[datatype=bibtex]{
+    \map{
+      \step[fieldsource=entrykey, match=GaussianClustering2017, final]
+      \step[fieldset=month, null]
+    }
+  }
+}
+
+\DeclareBibliographyDriver{data}{%
+  \usebibmacro{begentry}%
+  \usebibmacro{author/editor+others/translator+others}%
+  \setunit{\labelnamepunct}\newblock
+  \usebibmacro{title}%
+  \newunit\newblock
+  \printfield{year}%
+  \usebibmacro{finentry}%
+}
+% --- Footnotes ---
+\usepackage[perpage]{footmisc} % reconsider with fnsymbol
+% \renewcommand{\thefootnote}{\fnsymbol{footnote}} % risky if many footnotes per page
+
+% --- Hyperlinks (near the end) ---
+\usepackage{url}
+% \usepackage{url} % remove; hyperref covers this
+
+
+% \providecommand{\href}[2]{#2}
+% \providecommand{\hyperlink}[2]{#2}
+% \providecommand{\hypertarget}[2]{#2}
+% \providecommand{\phantomsection}{}
+% --- Todos / line numbers (after xcolor, before hyperref for best behavior) ---
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+% \linenumbers  % enable where needed; wrap display math with \linenomath...\endlinenomath
+
+% --- Your subappendices hook ---
+\AtBeginEnvironment{subappendices}{%
+  \chapter*{Annexes}
+  \phantomsection
+  \addcontentsline{toc}{chapter}{Annexes}
+  \counterwithin{figure}{section}
+  \counterwithin{table}{section}
+}
+
+% ============================================================
+% Correctif parties : numérotation + en-têtes corrects
+% ============================================================
+
+\makeatletter
+
+% La classe these-ISSS met \thepart à vide.
+% On rétablit Partie I, Partie II, Partie III.
+\renewcommand{\thepart}{\Roman{part}}
+
+% Texte court utilisé dans les en-têtes des pages d'introduction de partie.
+\newcommand{\PartHeaderText}[1]{%
+  \textsc{\partname}\hskip1ex\thepart~---~#1%
+}
+
+% Redéfinition de \@Part :
+% - incrémente bien le compteur de partie ;
+% - écrit "Partie I -- Titre" dans la table des matières ;
+% - remplace l'en-tête hérité du chapitre précédent par l'en-tête de la partie.
+\def\@Part[#1]#2{%
+  \gdef\partTitle{#1}%
+  \ifnum \c@secnumdepth >-2\relax
+    \refstepcounter{part}%
+    \addcontentsline{toc}{part}{\partname~\thepart\quad #1}%
+  \else
+    \addcontentsline{toc}{part}{#1}%
+  \fi
+  \markboth{\partname~\thepart~---~#1}{\partname~\thepart~---~#1}%
+  \lhead[\thepage]{\PartHeaderText{#1}}%
+  \rhead[\PartHeaderText{#1}]{\thepage}%
+  {\centering
+    \interlinepenalty \@M
+    \normalfont
+    \ifnum \c@secnumdepth >-2\relax
+      {\partfont\partname~\thepart}\par
+      \vskip 20\p@
+    \fi
+    \Huge\bfseries #2\par}%
+  \thispagestyle{empty}%
+}
+
+\makeatother
+
+% ============================================================
+% Fin correctif parties
+% ============================================================
+
+
+% La classe these-ISSS redéfinit \frontmatter en imprimant un Sommaire
+% et utilise \sommairename non défini sous LuaLaTeX/Overleaf.
+% Ici on garde seulement le basculement en pages liminaires romaines.
+\makeatletter
+\renewcommand\frontmatter{%
+  \@mainmatterfalse
+  \@intablestrue
+  \pagenumbering{roman}%
+  \pagestyle{fancy}%
+  \lhead[\thepage]{\rightmark}%
+  \rhead[\leftmark]{\thepage}%
+  \lfoot[]{}\rfoot[]{}\cfoot[]{}%
+}
+\makeatother
+
+
+\input{title}
+
+\begin{document}
+\frontmatter
+\AjouterRenvoisIndexNoms
+\input{jury}
+{\hfuzz=100pt\vfuzz=100pt\maketitle}
+
+\cleartorecto
+
+
+
+%\input{acknowledgements.tex}
+
+\SansIndex{\tableofcontents}
+
+\cleartorecto
+\input{notations.tex}
+
+\cleartorecto
+\input{abstract}
+
+\cleartorecto
+\mainmatter
+
+
+% \input{resume.tex}
+
+% \chapter{Introduction générale}
+% \rouge{20 mai - 1er juin}
+
+% (Reprendre une partie très synthétique du rapport de recherche de février 2026.)
+
+% \section{Propos liminaire}
+
+% \section{Une brève histoire du \emph{clustering}. L'omniprésence de l'algorithme de \emph{Single-Linkage}}
+
+% \subsection{Les deux grandes familles de clustering}
+
+% Parler du besoin de passer à une vue hiérarchique 
+\include{Introduction.tex}
+
+\part{Du Single-Linkage à ses fondements}
+%\rouge{15 mars - 10 avril}
+
+\paragraph{Le cadre euclidien $\mathcal X \subset \mathbb R^p$}
+L'algorithme de Single-Linkage \cite{DendriteSingleLinkage1951, GowerRoss1969} peut être défini pour n'importe quel graphe à poids positifs. Dans le premier chapitre de cette partie, le chapitre \ref{chap:single-linkage_trois_vues}, nous nous plaçons dans le cas très particulier d'un graphe complet sur un nuage de points fini $\mathcal X \subset \mathbb R^p$ dans l'espace euclidien de dimension $p\in \mathbb N^\star$, le poids d'une arête $\bigl\{x,x'\bigr\}$ étant la distance euclidienne $\norme{x-x'} $ entre leurs sommets. 
+Cette restriction aux espaces métriques finis $(\mathcal X, d)$, avec $d(x,x') = \norme{x-x'}$ nous permet de poser un cadre mathématique rigoureux au problème de clustering : l'identification des amas de forte densité (\Def[def:high-density_clusters]), ou modèle de \textsc{Hartigan} \cite{hartigan81, penrose2003}. 
+
+Du point de vue statistique, l'algorithme de Single-Linkage est la pierre de fondation du modèle de \textsc{Hartigan} : il identifie exactement ces amas denses dans $\mathbb R^p$ lorsque la densité de n'importe quel point de l'espace $y \in \mathbb R^p$ est estimée au moyen de son plus proche voisin dans le nuage $x\in \mathcal X$ (voir la synthèse à la fin du chapitre \ref{chap:single-linkage_trois_vues}).
+
+En pratique, d'un point de vue heuristique, le Single-Linkage s'obtient en construisant l'arbre minimum couvrant sur les données $\mathcal X$.
+
+Un troisième point de vue, qui se montrera très fructueux dans la partie suivante, est d'observer le Single-Linkage du point de vue des graphes géométriques (au sens de \textsc{Penrose} \cite{penrose2003}) : l'échelle $r$ est le rayon du graphe et l'on observe la structure hiérarchique produite en faisant varier $r$.
+Cette dernière façon d'appréhender le Single-Linkage nous permettra de le relier à la théorie de la percolation continue \cite{MeesterRoy, penrose2003} (voir le chapitre \ref{sec:chap_percolation}), et ce faisant de mesurer les performances théoriques d'une famille d'algorithmes (comprenant le Single-Linkage) que nous avons baptisés d'\emph{analyse persistante} (par analogie avec l'homologie persistante en analyse topologique des données \cite{BobrowskiKahle}).
+
+Ce paradigme euclidien nous servira de base pour généraliser naturellement le Single-Linkage au cours de la partie suivante.
+
+\paragraph{Le cadre axiomatique} 
+Le chapitre \ref{chap:axiomatique} est une digression sur un autre chemin qui aurait pu nous conduire au Single-Linkage.
+En effet, le Single-Linkage a ceci de fascinant qu'on le rencontre aussi avec une approche tout à fait différente : en essayant de définir une axiomatique minimale à ce que devrait être un ``bon'' clustering.
+Le Single-Linkage est l'unique clustering hiérarchique satisfaisant cette axiomatique (\Res[res:Axiomatique_Single-Linkage_unique]) ; on peut alors le voir comme une projection des espaces métriques vers les espaces \emph{ultramétriques}.
+
+
+\paragraph{Le Single-Linkage aujourd'hui}
+Ces différents points de vue montrent aussi les limites du Single-Linkage ; c'est l'obet de notre chapitre \ref{chap:limites_single_linkage}. Puisque nous avons abordé le Single-Linkage \emph{via} la théorie des graphes, il est commode pour ce chapitre de le voir comme un algorithme de $\min \max$ : la distance (ultramétrique) de Single-Linkage $d_{\mathrm{SL}}$ entre deux points $x,x' \in \mathcal X$ est le minimum sur tous les chemins (toutes les \emph{chaînes}) $\omega : x \rightsquigarrow x'$  reliant ces deux points, du poids maximum d'une arête sur ce chemin :
+\[
+d_{\mathrm{SL}}(x,x') = \min_{\omega = e_1,\ldots , e_l} \max_{a \in \{ 1 ; \ldots ; l\}} \module{e_a}.
+\]
+C'est l'origine de l'effet de chaînage (\emph{chaining effect} en anglais) sur lequel nous revenons en début de chapitre.
+Les évolutions nécessaires du Single-Linkage ont conduit à HDBSCAN \cite{HDBSCAN, HDBSCAN2017}, qui est aujourd'hui unanimement considéré comme l'« état-de-l'art » pour le clustering fondé sur la densité \cite{HDBSCAN2025SOTA, FLASC2025}. 
+
+Nous revenons sur ces évolutions et proposons dans le dernier chapitre de cette partie, le chapitre \ref{chap:hacker_hdbscan}, une vue générale sur le clustering hiérachique avec la possibilité d'ajouter des \emph{a priori}. Ce dernier chapitre est illustré de résultats empiriques pour de la segmentation d'instance de points 3D LiDAR (application visée : la conduite autonome ; \emph{benchmark} : \href{https://semantic-kitti.org/}{SemanticKITTI}).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \chapter{Le Single-Linkage : trois points de vue équivalents}
+% \rouge{15 mars - 20 mars}
+
+% (Refaire quelques figures, mais en règle générale pas de nouvelles expériences pour ce chapitre)
+
+% \section{Introduction au Single-Linkage}
+
+% \section{Le Single-Linkage en pratique : l'arbre minimum couvrant}
+
+% \section{Le Single-Linkage en théorie : persistance de graphes géométriques}
+
+% \section{Le modèle statistique du Single-Linkage : \Nom{Hartigan} et les amas de forte densité}
+
+\include{PartI/ChapI.tex}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% \chapter{Le Single-Linkage : un point de vue axiomatique}
+
+
+% \section{Le théorème d'impossibilité de \nom{Kleinberg}}
+
+% \section{La nécessité d'une \emph{hiérarchie}}
+
+% \section{Le clustering hiérarchique vu comme une application des espaces métriques vers les espaces ultramétriques}
+
+
+\include{PartI/ChapII.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \chapter{Les limites du Single-Linkage}
+% \rouge{20 mars - 24 mars}
+
+% \section{Quand la notion de densité manque : le \emph{chaining effect}}
+
+% \section{L'état de l'art aujourd'hui : HDBSCAN}
+
+
+\include{PartI/ChapIII.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \chapter{Une vue générale sur le clustering hiérarchique. Introduire des \emph{a priori} géométriques. Ou comment «~hacker~» HDBSCAN}
+% \rouge{24 mars - 30 mars}
+
+% (Refaire des figures. Refaire les résultats sur SemanticKITTI)
+
+\include{PartI/ChapIV.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% PARTIE II %%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\part{La généralisation du Single-Linkage avec des interactions d'ordre supérieur}
+\part{La généralisation du Single-Linkage avec des interactions d'ordre supérieur} %[Interactions d'ordre supérieur]
+%\rouge{10 avril - 1er mai}
+
+
+\paragraph{Le cadre euclidien $\mathcal X \subset \mathbb R^p$}
+Dans la partie précédente, nous avons dressé une cartographie complète et unifiée de l'algorithme du Single-Linkage.
+Cette exploration s'est principalement déployée au cœur de l'espace euclidien, terrain d'étude qui offre au Single-Linkage à la fois :
+\begin{enumerate}
+    \item Un modèle statistique satisfaisant, celui proposé par \textsc{Hartigan} \cite{hartigan81}, avec l'extraction de la hiérarchie des amas de forte densité (le Single-Linkage correspond au cas où l'estimateur de densité est celui du plus proche voisin).
+    \item Un cadre théorique intéressant : celui de l'analyse persistante de graphes géométriques sur les données.
+    \item Des optimisations géométriques : l'arbre minimum couvrant qui contient toute l'information de la hiérarchie peut se construire rapidement (en petite dimension) en tant que sous-graphe de la triangulation de \textsc{Delaunay}.
+\end{enumerate}
+
+Au sein de ce même cadre euclidien, nous nous proposons dans cette partie de généraliser le Single-Linkage ; généralisation qui prolonge naturellement les trois axes précédents :
+\begin{enumerate}
+    \item Construire une hiérarchie qui corresponde exactement au modèle (discret) de \textsc{Hartigan} lorsque l'estimateur de densité est $\widehat f_{K\text{-NN}}$ celui des $K$ plus proches voisins.
+    \item Disposer d'un cadre théorique (celui de la percolation continue \cite{MeesterRoy, penrose2003}) où l'analyse persistante se fait non plus sur des graphes, mais des hypergraphes géométriques. Dans ce cadre, nous pouvons quantifier précisément les performances théoriques d'un algorithme.
+    \item Obtenir le même genre d'optimisation géométrique (identifier un $K$-arbre minimum couvrant) en travaillant avec la \emph{mosaïque} de \textsc{Delaunay} d'ordre $K$ \cite{osangEdelsbrunner2023algorithm}.
+\end{enumerate}
+
+\paragraph{Plan de la seconde partie}
+Cette partie se déroulera selon le plan suivant :
+\begin{enumerate}
+    \item \textbf{Chapitre \ref{chap:hgp_clusterer}.} \textbf{Généralisation du Single-Linkage : HGP-Clusterer.} Retour sur les problèmes du Single-Linkage (identifiés mais non résolus par HDBSCAN). Proposition d'un nouvel algorithme de clustering hiérarchique conforme au modèle de \textsc{Hartigan} des amas de forte densité avec l'estimateur de densité $\widehat f_{K\text{-NN}}$ des $K$ plus proches voisins. Cet algorithme faisant de l'analyse persistante (\emph{clique-percolation}) sur un complexe de \v Cech (généralisation du graphe géométrique), nous l'avons baptisé HGP-Clusterer, HGP signifiant « Hypergraphe-Percol' ».
+    \item \textbf{Chapitre \ref{sec:chap_percolation}.} \textbf{Percolation.} Le phénomène mathématique au cœur de l'analyse persistante est la percolation. C'est dans ce chapitre que manipuler (théoriquement) des (hyper)graphes géométriques plutôt que des arbres couvrants s'avère fructueux : cela permet de connecter toute cette famille d'algorithmes (Robust Single-Linkage, HDBSCAN, HGP-Clusterer) à la théorie de la percolation continue. Ce phénomène -- et notamment la vitesse à la laquelle il s'opère -- permet de mesurer les performances théoriques de l'algorithme.
+    \item \textbf{Chapitre \ref{chap:generalisation_mst}.} \textbf{Généralisation des optimisations : le $K$-arbre couvrant minimal et la mosaïque de \textsc{Delaunay} d'ordre $K$.} 
+    Jusqu'alors, la présentation de HGP-Clusterer aura été plus théorique qu'autre chose (de même que le Single-Linkage peut se définir à l'aide d'analyse persistante sur des graphes géométriques, il n'est en pratique jamais calculé de la sorte). Ce chapitre est donc l'occasion de revenir sur la généralisation des optimisations géométriques qui font que le Single-Linkage marche si bien en petite dimension : l'arbre minimum couvrant est un sous-graphe de la triangulation de \textsc{Delaunay}. De même, le $K$-arbre minimum couvrant (qui possède toute l'information hiérarchique nécessaire à HGP-Clusterer) est un sous-complexe de la mosaïque de \textsc{Delaunay} d'ordre $K$.
+    \item \textbf{Chapitre \ref{chap:conclusion_partie_II}.} \textbf{Conclusion pratique.} Nous consacrons tout un pan du dernier chapitre à des considérations pratiques : si l'on veut par exemple imposer un clustering qui soit une stricte partition des données $\mathcal X$ (et non pas un recouvrement de $\mathcal X$), que faire ? si les données ne sont pas dans l'espace euclidien, ou bien qu'on est en dimension trop grande et sujet au fléau de la dimension, que faire ? 
+
+    Le dernier chapitre de cette partie est aussi l'occasion de revenir sur la richesse de l'information contenue dans la mosaïque de \textsc{Delaunay} d'ordre $K$. Nous l'avons utilisée pour l'extraction d'un clustering hiérarchique ; nous esquissons en guise de conclusion quelque autre intérêt de cet objet, notamment pour la réduction de dimension.
+\end{enumerate}
+
+
+
+% \chapter{Introduction : retour sur la non prise en compte de la densité du Single-Linkage}
+% \rouge{10 avril - 15 avril}
+
+%\include{PartII/ChapI.tex}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \chapter{Hypergraph-Percol : la généralisation du Single-Linkage}
+% \rouge{15 avril - 20 avril}
+
+
+% (compatible aux trois points de vue)
+
+% \section{La généralisation naturelle du graphe géométrique et de la notion de composante connexe : le complexe de \v Cech et les K-polyèdres}
+
+% \section{La correspondance avec le modèle de \Nom{Hartigan} et l'estimateur de densité des K-Plus Proches Voisins.}
+
+%\include{PartII/ChapII.tex}
+
+\include{PartII/ChapI_et_II_fusionnes.tex}
+
+
+%%%%%%%%%%%%%%%%
+
+
+% \chapter{Le phénomène de percolation au c\oe ur des performances}
+% \label{sec:chap_percolation}
+% \rouge{30 mars - 10 avril}
+
+% (Faire quelques figures illustratives. Surtout : refaire toutes les expériences pour calculer plus précisément la vitesse de percolation en dimension 2,3 pour beaucoup plus de K.
+% Est-ce que cela ne fait pas étrange que les résultats soient avant la définition de la K-généralisation du Single-Linkage ?)
+
+% \section{Introduction à la percolation}
+
+% \section{La \emph{vitesse de percolation}}
+
+
+%\include{PartII/ChapIII.tex}
+
+\include{PartII/ChapIII.tex}
+
+%\include{PartII/ChapIII_old.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \chapter{À la recherche de la généralisation de l'arbre minimum couvrant}
+% \rouge{20 avril - 25 avril}
+
+% (Ajouter quelques lemmes technique. Peu de travail)
+
+% \section{L'approche persistante : les simplexes K-\emph{séparants}}
+
+% \section{Une condition nécessaire : être K-Gabriel}
+
+% \section{La bonne structure à observer : la mosaïque de Delaunay d'ordre K}
+
+
+\include{PartII/ChapIV.tex}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \chapter{Conclusion pratique de la partie I\label{chap:conclusion_partie_II}}
+
+% \rouge{25 avril - 1er mai}
+
+% \section{Et lorsqu'on impose une partition stricte des données ?}
+
+% \section{Le cas $K=2$ avec des résultats empiriques}
+
+% \subsection{L'algorithme}
+
+% \subsection{Résultats sur les huiles d'olives italiennes}
+
+% \subsection{Résultats sur SIPU}
+
+% \section{La richesse structurelle de la mosaïque d'ordre K : vers la réduction de dimension}
+
+
+% (Ouverture sur d'autres questions. Reprendre le rapport de recherche. Peu de travail si l'on se contente de rester vague.)
+
+\include{PartII/ChapV.tex}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% PARTIE III %%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%\part{Vers des données davantage structurées}
+\part{Vers des données davantage structurées} %[Données davantage structurées]
+%\rouge{1er mai - 25 mai}
+
+\paragraph{Après les nuages de points}
+Lors des deux premières parties de ce manuscrit, nous nous sommes concentrés volontairement sur un cadre assez minimal où les données étaient des points de l'espace euclidien pour lesquels nous cherchions à retrouver la hiérarchie géométrique de la distribution.
+Ce minimalisme nous a permis de faire émerger naturellement l'algorithme du Single-Linkage, de cerner précisément ses atouts \& ses limites, avant de le généraliser proprement au moyen d'interactions d'ordre supérieur.
+
+En pratique, beaucoup de jeux de données possèdent une structure plus riche.
+Nous avions déjà esquissé quelques possibilités lorsque les données sont dans un espace métrique général en \S~\ref{sec:chapV_vietoris_rips}.
+
+Tout n'est cependant pas perdu : au moyen de deux cas d'étude pratiques, très différents de nature et apparemment bien éloignés de notre modèle de départ, nous montrerons que les idées principales développées dans la partie II demeurent, à savoir : 
+\begin{enumerate}
+    \item Les interactions d'ordre supérieur sont la voie naturelle pour gagner en robustesse\footnote{Le terme de robustesse s'entend à chaque fois dans un sens propre au contexte : robustesse face au phénomène de frustration pour les dynamiques de clusters ; robustesse de l'algorithme face à des images présentant une granularité locale très forte dans le cas du traitement d'image.}.
+    \item C'est le phénomène de percolation qui est au cœur des performances théoriques de ces algorithmes.
+\end{enumerate}
+
+
+%Un graphe peut être pondéré, signé, bruité, incomplet ; une image peut contenir plusieurs modalités, des structures fines, des orientations locales, des réseaux partiellement discontinus. Dans ces cas, la distance euclidienne entre points ne suffit plus à porter toute l'information pertinente.
+
+
+%\textcolor{red}{citer le Guyon pour le MCMC ? Arnaud Doucet ? Plutôt en français : Monte Carlo Statistical Methods Relié – Illustré, 28 juillet 2004 Édition en Anglais  de Christian Robert (Auteur), George Casella (Auteur)} 
+\paragraph{Deux formes de structure}
+La partie III commence avec le \textbf{Chapitre~\ref{chap:introduction_partie_III}}, qui est une brève introduction pour donner au lecteur le contexte de chacun des deux problèmes abordés et lui rappeler quelques bases dans chacun des deux domaines.
+Les deux situations étudiées dans cette troisième partie sont les suivantes : %dans cette troisième partie sont assez différentes, mais chacune reliée à sa façon aux deux premières parties de cette thèse. %Dans les deux cas, il s'agira de détecti
+\begin{enumerate}
+    \item \textbf{Chapitre~\ref{chap:bayes_clusters_graphes}.} La première situation est celle des graphes. Conformément à l'usage en théorie des graphes, l'on appellera \emph{détection de communautés} le clustering de nœuds (les bons clusters à identifier étant les communautés, données par exemple par un modèle génératif comme celui de \SB{} \cite{SankararamanBaccelli2018}). 
+    Nous définissons un cadre bayésien propre pour une certaine famille de graphes (non-orientés, pondérés, signés, avec éventuellement des attributs attachés aux nœuds). Dans ce cadre statistique, l'observation des données permet de définir une loi de probabilité \emph{a posteriori} sur la ``véritable'' configuration de communautés. Nous introduisons alors des dynamiques de clusters de type méthodes de Monte-Carlo par chaînes de \textsc{Markov} \cite{Robert1996MCMC} (\emph{\textsc{Markov} Chain Monte Carlo}, ou MCMC en anglais). La classe de dynamiques introduite généralise \textsc{Swendsen--Wang} \cite{SwendsenWang} en prenant en compte des interactions d'ordre supérieur. 
+    À ce point du chapitre, une analogie troublante avec notre chapitre \ref{sec:chap_percolation} apparaît : c'est encore le phénomène de {percolation} (au cœur de la dynamique de clusters) qui nous permet d'obtenir des résultats théoriques sur la détectabilité des communautés.
+    \item \textbf{Chapitre~\ref{chap:frangi_fissures}.} La seconde situation est celle du traitement d'image \cite{jain1989fundamentals, Zerubia1995, Gonzalez2018ImageProcessing}. En traitement, le clustering des pixels possède aussi son nom propre : on parle de \emph{segmentation} (et de segmentation \emph{sémantique} lorsqu'on fait de la classification, c'est-à-dire qu'on différencie les étiquettes). Les approches bayésiennes par champ de \textsc{Markov} ont d'ailleurs joué un rôle important en segmentation d'image. 
+    Les champs de \textsc{Markov} fournissent un cadre probabiliste classique pour formuler la segmentation comme un problème d’étiquetage spatial, où les dépendances entre pixels voisins sont encodées par des potentiels de cliques et l'estimation se fait typiquement au sens « maximum \emph{} » (MAP) \cite{KatoZerubia}.
+    Plus précisément, nous nous intéresserons à la détection de fissures sur image. Notre approche consiste à construire un graphe sur les sommets du graphe (les pixels candidats) et le réseau de fissures à extraire est un sous-graphe. %La structure pertinente est locale et géométrique : courbure, orientation, alignement, continuité, compatibilité entre modalités. 
+    Nous reprenons les idées du filtre de \textsc{Frangi} \cite{Frangi1998}, vu comme une fonction des pixels $V $ vers $ [0 ; 1]$ indiquant la vraisemblance d'appartenance dudit pixel à une structure tubulaire.
+    Si les méthodes d'apprentissage profond dominent aujourd'hui la segmentation de fissures, elles restent dépendantes des annotations et peuvent se dégrader lors de changements de domaine ou lorsque les données ne correspondent pas à la distribution sur laquelle l'apprentissage s'est fait. L'on observe aujourd'hui un changement sensible de paradigme marqué par un retour à des méthodes plus géométriques \cite{Zhang2025Review}. Nous suivons cette voie complémentaire %: revenir à un modèle géométrique explicite, fondé sur l
+    en généralisant le filtre de \textsc{Frangi} à un graphe de similarité entre pixels \cite{BibiStrasbourg,BibiISPRS}. L'extraction se fait au moyen d'une méthode comparable à celle du Single-Linkage. L'intégration d'interactions d'ordre supérieur \emph{via} un \emph{hyper}graphe de \textsc{Frangi} permet d'obtenir des résultats meilleurs et plus stables sur des images particulièrement difficiles.
+\end{enumerate}
+
+
+
+
+%\paragraph{Plan de la troisième partie}
+
+% Le Chapitre~\ref{chap:bayes_clusters_graphes} développe le cadre bayésien pour la détection de communautés sur graphes signés et présente nos dynamiques de clusters d'ordre supérieur.
+% Le Chapitre~\ref{chap:frangi_fissures} applique enfin cette philosophie aux images : nous construisons un graphe de \textsc{Frangi} multimodal pour extraire des réseaux de fissures sans apprentissage supervisé.
+
+
+\include{PartIII/ChapI.tex}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \chapter{Des (hyper)graphes plus riches (attributs, données manquantes, \&c.)}
+% \rouge{10 mai - 15 mai}
+
+% \section{Un cadre bayésien à la détection de communautés sur graphes}
+
+% \section{Les dynamiques de clusters d'ordre supérieur.}
+
+
+% \section{Un exemple où la percolation d'ordre supérieur affine des bornes théoriques}
+
+\include{PartIII/ChapII.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% \chapter{Élargissement au traitement du signal : application à la détection des fissures sur des images}
+% \rouge{15 mai - 20 mai}
+
+
+% \section{Un classique : le filtre de Frangi}
+
+% \section{Une structure plus riche : le graphe de Frangi}
+
+% \subsection{Extension à la multimodalité}
+
+% \subsection{Interactions d'ordre supérieur}
+
+% \section{Résultats}
+
+% \section{Ouverture : vers une réconciliation de l'apprentissage profond et des modèles mathématiques}
+% (Parler des travaux de Pierre Chesnay / Frédéric Jurie et sa suite ?)
+\include{PartIII/ChapIII.tex}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+% \chapter{Conclusion générale}
+% \label{chap:conclusion}
+% \rouge{20 mai - 1er juin}
+
+\include{conclusion.tex}
+
+
+
+
+\cleartorecto
+\chapter*{Bibliographie}
+\noindent\emph{Les références sont citées dans l'ordre d'apparition au sein du manuscrit.}
+\cleartorecto
+%\nocite{*}
+\printbibliography[heading=bibintoc,title={Bibliographie}]
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\include{cartographie.tex}
+\include{Annexes_ColloquesFormation.tex}
+\include{annexe_enseignement.tex}
+\include{annexe_prix.tex}
+
+% À partir d'ici, on quitte explicitement le mode annexe.
+\SortirDesAnnexes
+
+% Les index créent déjà leur propre titre et leur entrée dans la table
+% des matières grâce à imakeidx avec l'option intoc.
+% Donc surtout pas de \chapter{...} avant.
+%\AjouterRenvoisIndexNoms
+\PrintIndexAnnexe{noms}{Index des noms propres}
+
+\PrintIndexAnnexe{acronymes}{Index des acronymes}
+
+% Les listes de figures/tableaux créent déjà leur propre titre
+% et leur propre entrée dans la table des matières dans ta classe.
+\cleartorecto
+\SansIndex{\listoffigures}
+
+\cleartorecto
+\SansIndex{\listoftables}
+
+% Pour les algorithmes, on ajoute proprement l'entrée ToC.
+\PrintListOfAlgorithmsClean
+
+
+
+\end{document}

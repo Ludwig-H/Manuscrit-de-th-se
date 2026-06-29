@@ -1,0 +1,351 @@
+% !TEX encoding = UTF-8 Unicode
+
+\providecommand{\cleartorecto}{\cleardoublepage}
+\providecommand{\adjustmtc}{}
+
+\providecommand{\Frangi}{\textnormal{\textsc{Frangi}}}
+\providecommand{\Hess}{\mathcal H}
+\providecommand{\matnorm}[1]{\left\lvert\mkern-2mu\left\lvert\mkern-2mu\left\lvert #1 \right\rvert\mkern-2mu\right\rvert\mkern-2mu\right\rvert}
+
+\providecommand{\Lab}{\mathsf S}
+\providecommand{\Conf}{\mathcal S}
+\providecommand{\Obs}{\mathcal O}
+\providecommand{\Wspace}{\mathsf W}
+\providecommand{\RG}{\operatorname{RG}}
+\providecommand{\ov}{\operatorname{ov}}
+
+%\providecommand{\HGPClusterer}{\textsc{HGP-Clusterer}}
+\providecommand{\DBSCAN}{\textsc{DBSCAN}}
+\providecommand{\HDBSCAN}{\textsc{HDBSCAN}}
+\providecommand{\KNN}{$K$-\textsc{NN}}
+
+\makeatletter
+\providecommand{\Needspace}[1]{%
+  \par
+  \@tempskipa=#1\relax
+  \ifdim\pagegoal=\maxdimen
+  \else
+    \ifdim\dimexpr\pagegoal-\pagetotal-\pageshrink\relax<\@tempskipa
+      \newpage
+    \fi
+  \fi
+}
+\makeatother
+
+\cleartorecto
+\Chapter{Notations mathématiques}
+\label{chap:notations}
+
+\begingroup
+\small
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.17}
+
+\newcommand{\ChapRef}[1]{\hyperref[#1]{chap.~\ref*{#1}}}
+\newcommand{\ChapRefs}[2]{\ChapRef{#1}, \ChapRef{#2}}
+\newcommand{\ChapRefsThree}[3]{\ChapRef{#1}, \ChapRef{#2}, \ChapRef{#3}}
+\newcommand{\CtxIntro}{\ChapRef{sec:Introduction}}
+\newcommand{\CtxGlobal}{global}
+
+\newenvironment{NotationTable}[2][0.30\textheight]{%
+  \Needspace{#1}
+  \begin{tcolorbox}[
+    enhanced,
+    unbreakable,
+    sharp corners,
+    boxrule=0.45pt,
+    colback=white,
+    colframe=black!32,
+    colbacktitle=black!7,
+    coltitle=black,
+    fonttitle=\bfseries,
+    title={#2},
+    before skip=8pt,
+    after skip=8pt,
+    left=1.4mm,
+    right=1.4mm,
+    top=1mm,
+    bottom=1mm
+  ]
+  \begin{tabular}{@{}>{\raggedleft\arraybackslash}p{0.225\textwidth}
+                  p{0.565\textwidth}
+                  >{\raggedright\arraybackslash}p{0.145\textwidth}@{}}
+  \toprule
+  \rowcolor{black!6}
+  \textbf{Symbole} & \textbf{Signification} & \textbf{Chapitre(s)}\\
+  \midrule
+}{%
+  \bottomrule
+  \end{tabular}
+  \end{tcolorbox}
+}
+
+\newcommand{\Not}[3]{%
+  \(\displaystyle #1\) & #2 & {\footnotesize #3}\\
+}
+
+\newcommand{\NotText}[3]{%
+  #1 & #2 & {\footnotesize #3}\\
+}
+
+\begin{NotationTable}{Abréviations}
+\Not{\Fig}{Figure.}{\CtxGlobal}
+\Not{\Tab}{Tableau.}{\CtxGlobal}
+\Not{\Def}{Définition (avec référence dans le cadre si la définition n'est pas originale).}{\CtxGlobal}
+\Not{\Res}{Fait déjà connu.}{\CtxGlobal}
+\Not{\Fact \text{ et }\Th}{Résultats originaux.}{\CtxGlobal}
+\Not{\S}{Section.}{\CtxGlobal}
+\end{NotationTable}
+
+\begin{NotationTable}{Conventions générales}
+\Not{\eqdef}{égal à (par définition).}{\CtxGlobal}
+\Not{\mathbb N^\star}{ensemble des entiers naturels non nuls.}{\CtxGlobal}
+\Not{\mathbb R^p}{espace euclidien de dimension \(p\).}{\CtxGlobal}
+\Not{p}{dimension ambiante.}{\CtxGlobal}
+\Not{n}{nombre de points ou de sommets, selon le contexte.}{\CtxGlobal}
+\Not{x,x',y,z}{points, pixels ou sommets selon le contexte ; en général \(x,x'\in\mathcal X\) et \(y\in\mathbb R^p\).}{\CtxGlobal}
+\Not{d(x,x')}{distance entre deux points.}{\CtxGlobal}
+\Not{\|x-x'\|}{distance euclidienne.}{\CtxGlobal}
+\Not{\overline B(x,r)}{boule fermée de centre \(x\) et de rayon \(r\).}{\CtxGlobal}
+%\Not{B(x,r)}{boule lorsque l'ouverture ou la fermeture ne change pas l'argument.}{\CtxGlobal}
+\Not{\partial A,\ \mathring A}{frontière et intérieur de l'ensemble \(A\).}{\CtxGlobal}
+\end{NotationTable}
+
+\begin{NotationTable}{Ensembles, mesure et connexité}
+\Not{|A|}{cardinal de \(A\), ou mesure de \nom{Lebesgue} de $A$ selon le contexte.}{\CtxGlobal}%si \(A\subset\mathbb R^p\) est mesurable
+\Not{\omega_p}{volume de la boule unité de \(\mathbb R^p\).}{\ChapRef{chap:single-linkage_trois_vues}}
+\Not{\mathds 1_{\{E\}}}{indicatrice de l'événement \(E\).}{\CtxGlobal}
+\Not{\mathbb P,\ \mathbb E}{probabilité et espérance.}{\CtxGlobal}
+\Not{\mathcal O(\cdot)}{ordre de grandeur asymptotique.}{\CtxGlobal}
+\Not{\pi_0(A)}{ensemble des composantes connexes de \(A\).}{\ChapRefs{chap:single-linkage_trois_vues}{chap:hgp_clusterer}}
+%\Not{\mathrm{cc}}{type de composantes connexes considéré.}{\ChapRef{sec:chap_percolation}}
+\Not{\delta_r(A)}{dilatation de \(A\) par une boule de rayon \(r\).}{\ChapRefs{chap:single-linkage_trois_vues}{sec:chap_percolation}}
+\Not{A\dot\cup B}{union disjointe.}{\ChapRef{chap:axiomatique}}
+\end{NotationTable}
+
+\begin{NotationTable}{Partitions et hiérarchies}
+\Not{\mathcal X}{nuage fini de points.}{\CtxIntro}
+\Not{P}{partition d'un ensemble.}{\ChapRef{chap:axiomatique}}
+\Not{\mathrm{Part}(\mathcal X)}{ensemble des partitions de \(\mathcal X\).}{\ChapRef{chap:axiomatique}}
+\Not{\sim}{relation d'équivalence (associée à une partition).}{\ChapRef{chap:axiomatique}}
+\Not{\preceq}{ordre (partiel) de raffinement sur les partitions.}{\ChapRef{chap:axiomatique}}
+\Not{u}{ultramétrique.}{\ChapRef{chap:axiomatique}}
+\Not{\theta}{dendrogramme ou clustering hiérarchique.}{\ChapRef{chap:axiomatique}}
+\Not{\theta(r)}{partition ou recouvrement produit au niveau \(r\).}{\ChapRef{chap:axiomatique}}
+\Not{\theta^{\mathrm{SL}}}{hiérarchie produite par le Single-Linkage.}{\ChapRef{chap:single-linkage_trois_vues}}
+\Not{\theta^{\mathrm{HGP}}_K}{hiérarchie produite par \HGP-Clusterer à l'ordre \(K\).}{\ChapRef{chap:hgp_clusterer}}
+\end{NotationTable}
+
+\begin{NotationTable}{Distances de liaison}
+\Not{C,C'}{clusters, amas ou composantes connexes.}{\CtxGlobal}
+\Not{C^{\mathrm{discret}}}{cluster discret associé à une composante continue de forte densité.}{\ChapRefs{chap:single-linkage_trois_vues}{chap:hgp_clusterer}}
+\Not{d_{\mathrm{SL}}}{distance de Single-Linkage.}{\ChapRef{chap:single-linkage_trois_vues}}
+\Not{d_{\mathrm{mreach},K}}{distance d'atteignabilité mutuelle du Robust Single-Linkage.}{\ChapRef{chap:limites_single_linkage}}
+\Not{r_t}{rayon de fusion à l'étape \(t\) du Single-Linkage.}{\ChapRef{chap:single-linkage_trois_vues}}
+\Not{r_{\mathrm{connect}}}{rayon auquel tous les points sont réunis dans une seule composante.}{\ChapRef{chap:single-linkage_trois_vues}}
+\Not{\mathrm{loss}(C)}{fonction de coût utilisée pour explorer une hiérarchie.}{\ChapRef{chap:hacker_hdbscan}}
+\Not{\widetilde E(C)}{stabilité ou excès de masse relatif d'un cluster.}{\ChapRef{chap:limites_single_linkage}}
+\Not{$\omega : x \rightsquigarrow x'$}{Chemin $\omega$ au sein d'un graphe (liste d'arêtes) menant du sommet $x$ au sommet $x'$.}{\CtxGlobal}
+\end{NotationTable}
+
+\begin{NotationTable}{Graphes et arbres couvrants}
+\Not{G=(V,E)}{graphe de sommets \(V\) et d'arêtes \(E\).}{\CtxGlobal}
+\Not{G=(V,E,w)}{graphe pondéré par une fonction de poids \(w\).}{\ChapRef{chap:single-linkage_trois_vues}}
+\Not{w(e)}{poids de l'arête \(e \in E\).}{\ChapRef{chap:single-linkage_trois_vues}}
+\Not{\mathrm{MST}}{arbre minimum couvrant.}{\ChapRefsThree{chap:single-linkage_trois_vues}{chap:generalisation_mst}{chap:frangi_fissures}}
+\Not{\mathrm{MST}_{\le r}}{arbre minimum couvrant élagué au niveau \(r\).}{\ChapRef{chap:single-linkage_trois_vues}}
+\Not{G_{\le r}}{sous-graphe contenant les arêtes de poids au plus \(r\).}{\ChapRef{chap:single-linkage_trois_vues}}
+\Not{\mathcal G(\mathcal X,r)}{graphe géométrique de rayon \(r\) sur \(\mathcal X\).}{\ChapRefs{chap:single-linkage_trois_vues}{chap:hgp_clusterer}}
+\Not{\mathrm{RNG}}{graphe de voisinage relatif.}{\ChapRef{chap:single-linkage_trois_vues}}
+\end{NotationTable}
+
+\begin{NotationTable}{Densité et estimateur \(K\)-NN}
+\Not{K}{nombre de voisins pour l'estimateur \KNN.}{\ChapRefs{chap:single-linkage_trois_vues}{chap:hgp_clusterer}}
+\Not{f}{densité théorique.}{\ChapRef{chap:single-linkage_trois_vues}}
+\Not{\widehat f_K}{estimateur de densité aux \(K\) plus proches voisins.}{\ChapRefs{chap:single-linkage_trois_vues}{chap:hgp_clusterer}}
+\Not{\widehat\lambda}{notation abrégée pour \(\widehat f_K(y)\).}{\ChapRef{chap:single-linkage_trois_vues}}
+\Not{\lambda}{niveau de densité, ou intensité d'un processus de \nom{Poisson}.}{\ChapRefs{chap:single-linkage_trois_vues}{sec:chap_percolation}}
+\Not{r}{rayon associé au niveau de densité par changement de variable.}{\CtxIntro}
+\Not{r_K(y)}{distance de \(y\) à son \(K\)-ième plus proche voisin dans \(\mathcal X\).}{\ChapRef{chap:single-linkage_trois_vues}}
+\Not{L_f(\lambda)}{ensemble de niveau supérieur \(\{x\mid f(x)\ge \lambda\}\).}{\ChapRef{chap:single-linkage_trois_vues}}
+\Not{L_K(r)}{ensemble de niveau supérieur associé à \(\widehat f_K\), paramétré par le rayon.}{\ChapRefs{chap:single-linkage_trois_vues}{chap:hgp_clusterer}}
+\Not{H_f(\lambda)}{amas de forte densité de \(f\), c'est-à-dire \(\pi_0(L_f(\lambda))\).}{\ChapRef{chap:single-linkage_trois_vues}}
+\Not{H_{\widehat f_K}^{\mathrm{discrets}}(r)}{amas discrets de forte densité associés à l'estimateur \KNN.}{\ChapRefs{chap:single-linkage_trois_vues}{chap:hgp_clusterer}}
+\end{NotationTable}
+
+\begin{NotationTable}{Complexes simpliciaux et \HGP-Clusterer}
+\Not{K}{ordre des interactions dans \HGP-Clusterer.}{\ChapRef{chap:hgp_clusterer}}
+\Not{\sigma,\tau}{simplexes, vus comme sous-ensembles finis de \(\mathcal X\).}{\ChapRefs{chap:hgp_clusterer}{chap:generalisation_mst}}
+\Not{\check C(\mathcal X,r)}{complexe de \nom[Cech]{Čech} de rayon \(r\) sur \(\mathcal X\).}{\ChapRef{chap:hgp_clusterer}}
+\Not{\check C_{K-1}(\mathcal X,r)}{ensemble des \((K-1)\)-simplexes de \(\check C(\mathcal X,r)\).}{\ChapRef{chap:hgp_clusterer}}
+\Not{T_r(\sigma)}{région témoin du simplexe \(\sigma\), égale à \(\bigcap_{x\in\sigma}\overline B(x,r)\).}{\ChapRef{chap:hgp_clusterer}}
+\Not{\Gamma_K(\mathcal X,r)}{graphe auxiliaire des \((K-1)\)-simplexes.}{\ChapRef{chap:hgp_clusterer}}
+\Not{\Gamma_K(\mathcal X)_{\le r}}{version élaguée de \(\Gamma_K\) au niveau \(r\).}{\ChapRef{chap:generalisation_mst}}
+\Not{\rho(\sigma)}{rayon de naissance du simplexe \(\sigma\).}{\ChapRef{chap:generalisation_mst}}
+\Not{B_\sigma=\overline B(c_\sigma,\rho(\sigma))}{plus petite boule fermée englobante de \(\sigma\).}{\ChapRef{chap:generalisation_mst}}
+\Not{S(A)}{ensemble de support de la plus petite boule englobante de \(A\).}{\ChapRef{chap:generalisation_mst}}
+\Not{\mathcal T_K}{\(K\)-arbre minimum couvrant.}{\ChapRef{chap:generalisation_mst}}
+\end{NotationTable}
+
+\begin{NotationTable}{Géométrie d'ordre supérieur et sortie en partition}
+\Not{\mathrm{Del}_K(\mathcal X)}{mosaïque de \nom{Delaunay} d'ordre \(K\).}{\ChapRef{chap:generalisation_mst}}
+\Not{\mathcal F_K}{ensemble des \((K-1)\)-simplexes construits par l'algorithme.}{\ChapRef{chap:conclusion_partie_II}}
+\Not{\ell(\tau)}{étiquette de cluster portée par la face \(\tau\).}{\ChapRef{chap:conclusion_partie_II}}
+%\Not{q_{\mathrm{clust}}}{nombre de clusters sélectionnés.}{\ChapRef{chap:conclusion_partie_II}}
+%\Not{S_\tau}{score local positif associé à une face \(\tau\).}{\ChapRef{chap:conclusion_partie_II}}
+\Not{\psi(t)}{fonction de poids décroissante, souvent \(\psi(t)=1/t^p\).}{\ChapRef{chap:conclusion_partie_II}}
+%\Not{V_x(c)}{score de vote du point \(x\) pour le cluster \(c\).}{\ChapRef{chap:conclusion_partie_II}}
+\Not{\widehat\ell(x)}{étiquette finale attribuée au point \(x\).}{\ChapRef{chap:conclusion_partie_II}}
+\Not{\widehat C_c}{ensemble des points finalement étiquetés par \(c\).}{\ChapRef{chap:conclusion_partie_II}}
+\end{NotationTable}
+
+\begin{NotationTable}{Complexe de \nom[Vietoris-Rips]{Vietoris--Rips} et UMAP}
+\Not{\mathrm{VR}(\mathcal X,r)}{complexe de \nom[Vietoris-Rips]{Vietoris--Rips} de rayon \(r\).}{\ChapRef{chap:conclusion_partie_II}}
+%\Not{G_r=(\mathcal X,E_r)}{graphe seuil associé à \(\mathrm{VR}(\mathcal X,r)\).}{\ChapRef{chap:conclusion_partie_II}}
+\Not{E_r}{arêtes \(\{x,x'\}\) telles que \(d(x,x')\le 2r\).}{\ChapRef{chap:conclusion_partie_II}}
+\Not{\alpha_p}{constante d'intercalage %\nom[Cech]{Čech}--\nom[Vietoris-Rips]{Vietoris--Rips}, 
+\(\sqrt{2p/(p+1)}\).}{\ChapRef{chap:conclusion_partie_II}}
+\Not{k_{\mathrm{nn}}}{nombre de voisins dans UMAP.}{\ChapRef{chap:conclusion_partie_II}}
+\Not{\rho_i,\sigma_i}{distance locale minimale et échelle locale du point \(x_i\) dans UMAP.}{\ChapRef{chap:conclusion_partie_II}}
+\Not{p_{j|i}}{poids orienté de voisinage de \(x_j\) vu depuis \(x_i\).}{\ChapRef{chap:conclusion_partie_II}}
+\Not{w_{ij}}{poids symétrisé par union floue dans UMAP.}{\ChapRef{chap:conclusion_partie_II}}
+\Not{\mathcal L_{\mathrm{UMAP}}(Y)}{entropie croisée optimisée par UMAP.}{\ChapRef{chap:conclusion_partie_II}}
+\end{NotationTable}
+
+\begin{NotationTable}{Percolation continue}
+\Not{\mathcal X_\lambda}{processus ponctuel de \nom{Poisson} homogène d'intensité \(\lambda\).}{\ChapRef{sec:chap_percolation}}
+\Not{\mathcal X_\lambda^0}{version de \nom{Palm}, \(\mathcal X_\lambda\cup\{0\}\).}{\ChapRef{sec:chap_percolation}}
+\Not{\xi}{configuration ponctuelle localement finie.}{\ChapRef{sec:chap_percolation}}
+\Not{\mu}{intensité normalisée, \(\mu=\lambda\omega_p2^{-p}\).}{\ChapRef{sec:chap_percolation}}
+\Not{\mathrm{cc}}{famille de composantes connexes : \(\mathrm{poly}\), \(\mathrm{core}\) ou \(\mathrm{dbscan}\).}{\ChapRef{sec:chap_percolation}}
+\Not{\mathrm{poly}}{\(K\)-polyèdres.}{\ChapRef{sec:chap_percolation}}
+\Not{\mathrm{core}}{composantes de cœurs du Robust Single-Linkage.}{\ChapRef{sec:chap_percolation}}
+\Not{\mathrm{dbscan}}{composantes de type \DBSCAN.}{\ChapRef{sec:chap_percolation}}
+\Not{\Theta^{\mathrm{cc}}_{K,p,r}(\lambda)}{probabilité de percolation de la méthode \(\mathrm{cc}\).}{\ChapRef{sec:chap_percolation}}
+\Not{\widehat\Theta^{\mathrm{cc}}}{estimateur empirique de la fonction de percolation.}{\ChapRef{sec:chap_percolation}}
+\end{NotationTable}
+
+\begin{NotationTable}{Seuils et vitesse de percolation}
+%\Not{C_\infty}{composante infinie ou composante géante.}{\ChapRef{sec:chap_percolation}}
+\Not{\mathcal C_\infty(A)}{réunion des composantes connexes non bornées de \(A\).}{\ChapRef{sec:chap_percolation}}
+\Not{Q=[0,1]^p}{hypercube unité.}{\ChapRef{sec:chap_percolation}}
+\Not{\lambda_c^{\mathrm{cc}}(K,p)}{seuil critique de percolation.}{\ChapRef{sec:chap_percolation}}
+\Not{\lambda_\alpha^{\mathrm{cc}}(K,p)}{quantile de niveau \(\alpha\) de la courbe de percolation.}{\ChapRef{sec:chap_percolation}}
+\Not{\lambda^{\mathrm{cc}}_{1-\varepsilon}(K,p)}{quantile nécessaire pour atteindre un rappel \(1-\varepsilon\).}{\ChapRef{sec:chap_percolation}}
+\Not{v^{\mathrm{cc}}_{\mathrm{crit},K,p}(\varepsilon)}{vitesse critique de percolation \(\lambda_c/\lambda_{1-\varepsilon}\).}{\ChapRef{sec:chap_percolation}}
+\Not{v^{\mathrm{cc}}_{K,p}(\varepsilon)}{vitesse empirique \(\lambda_\varepsilon/\lambda_{1-\varepsilon}\).}{\ChapRef{sec:chap_percolation}}
+\Not{\varepsilon}{niveau de queue, associé au haut rappel \(1-\varepsilon\).}{\ChapRef{sec:chap_percolation}}
+%\Not{\alpha}{niveau de quantile d'une fonction de percolation.}{\ChapRef{sec:chap_percolation}}
+\end{NotationTable}
+
+\begin{NotationTable}{Fenêtre gaussienne \(K\to+\infty\)}
+\Not{N_\mu(x)}{nombre de points dans la boule de rayon \(1/2\) autour de \(x\).}{\ChapRef{sec:chap_percolation}}
+\Not{Z_\mu(x)}{champ de comptage centré réduit, \((N_\mu(x)-\mu)/\sqrt\mu\).}{\ChapRef{sec:chap_percolation}}
+\Not{G_p}{champ gaussien stationnaire limite en dimension \(p\).}{\ChapRef{sec:chap_percolation}}
+\Not{\rho_p(z)}{covariance du champ \(G_p\).}{\ChapRef{sec:chap_percolation}}
+\Not{a}{paramètre de fluctuation dans la fenêtre \(\mu=K+a\sqrt K\).}{\ChapRef{sec:chap_percolation}}
+\Not{\mu_K(a)}{intensité normalisée \(K+a\sqrt K\).}{\ChapRef{sec:chap_percolation}}
+\Not{\lambda_K(a)}{intensité non normalisée associée à \(\mu_K(a)\).}{\ChapRef{sec:chap_percolation}}
+%\Not{F_K^{\mathrm{cc}}(a)}{courbe de percolation réparamétrée par \(a\).}{\ChapRef{sec:chap_percolation}}
+\Not{E_a}{excursion gaussienne \(\{x\in\mathbb R^p\mid G_p(x)\ge -a\}\).}{\ChapRef{sec:chap_percolation}}
+\Not{a_c^{\mathrm{cc}}}{seuil critique dans l'échelle gaussienne \(a\).}{\ChapRef{sec:chap_percolation}}
+%\Not{\mathcal H_p}{espace de \nom{Cameron--Martin} ou RKHS associé à \(G_p\).}{\ChapRef{sec:chap_percolation}}
+\end{NotationTable}
+
+\begin{NotationTable}{Cadre bayésien pour les communautés}
+\Not{K}{nombre de communautés.}{\ChapRef{chap:bayes_clusters_graphes}}
+\Not{V_n}{ensemble des sommets, \(V_n=\{1,\ldots,n\}\).}{\ChapRef{chap:bayes_clusters_graphes}}
+\Not{E_n}{ensemble des arêtes potentielles.}{\ChapRef{chap:bayes_clusters_graphes}}
+\Not{\Lab_K}{ensemble des étiquettes de communautés, \(\{1,\ldots,K\}\).}{\ChapRef{chap:bayes_clusters_graphes}}
+\Not{\Conf_n}{espace des configurations, \((\Lab_K)^{V_n}\).}{\ChapRef{chap:bayes_clusters_graphes}}
+\Not{\sigma,\tau}{configurations de communautés (fonctions de $V_n$ vers $\Lab_K$).}{\ChapRef{chap:bayes_clusters_graphes}}
+\Not{\sigma_i}{étiquette du sommet \(i\) dans la configuration \(\sigma\).}{\ChapRef{chap:bayes_clusters_graphes}}
+\Not{\Sigma_n}{configuration cachée à retrouver.}{\ChapRef{chap:bayes_clusters_graphes}}
+\Not{\Wspace}{espace des poids d'arêtes.}{\ChapRef{chap:bayes_clusters_graphes}}
+\Not{X_n}{attributs observés sur les sommets.}{\ChapRef{chap:bayes_clusters_graphes}}
+\Not{W_n}{poids observés sur les arêtes.}{\ChapRef{chap:bayes_clusters_graphes}}
+\end{NotationTable}
+
+\begin{NotationTable}{Postérieure et recouvrement}
+\Not{\mu_{0,n}}{loi \emph{a priori} sur les configurations.}{\ChapRef{chap:bayes_clusters_graphes}}
+\Not{Q_n}{canal d'observation des poids d'arêtes.}{\ChapRef{chap:bayes_clusters_graphes}}
+\Not{q_n(w\mid x,\sigma)}{densité du canal \(Q_n\).}{\ChapRef{chap:bayes_clusters_graphes}}
+\Not{\Obs_n=(X_n,W_n)}{observation disponible.}{\ChapRef{chap:bayes_clusters_graphes}}
+\Not{\mu_{n,x,w}}{loi postérieure de \(\Sigma_n\) sachant \(X_n=x,W_n=w\).}{\ChapRef{chap:bayes_clusters_graphes}}
+\Not{Z_n(x,w)}{constante de normalisation de la postérieure.}{\ChapRef{chap:bayes_clusters_graphes}}
+\Not{\tau_n}{sortie d'un algorithme de reconstruction.}{\ChapRef{chap:bayes_clusters_graphes}}
+\Not{\rho_n}{loi d'un tirage au hasard, indépendante de l'observation.}{\ChapRef{chap:bayes_clusters_graphes}}
+\Not{\Phi_n}{score comparant vérité cachée et sortie d'algorithme.}{\ChapRef{chap:bayes_clusters_graphes}}
+\Not{\operatorname{ov}_n(\sigma,\tau)}{recouvrement (\emph{overlap}) maximal entre deux configurations, modulo permutation.}{\ChapRef{chap:bayes_clusters_graphes}}
+\Not{\RG_n(s)}{probabilité de succès du meilleur tirage au hasard (\emph{random guess}) au seuil \(s\).}{\ChapRef{chap:bayes_clusters_graphes}}
+\end{NotationTable}
+
+\begin{NotationTable}{Mesures de \nom{Gibbs} et dynamiques de clusters}
+\Not{U_{x,w}(\sigma)}{énergie postérieure associée à \((x,w)\).}{\ChapRef{chap:bayes_clusters_graphes}}
+\Not{\mu(\sigma)}{mesure de \nom{Gibbs} sur les configurations.}{\ChapRef{chap:bayes_clusters_graphes}}
+\Not{Z}{fonction de partition d'une mesure de \nom{Gibbs}.}{\ChapRef{chap:bayes_clusters_graphes}}
+\Not{\mathcal B}{famille des liens ou interactions locales.}{\ChapRef{chap:bayes_clusters_graphes}}
+\Not{b}{lien local (\emph{bond}) : arête, triangle, tétraèdre ou motif plus général.}{\ChapRef{chap:bayes_clusters_graphes}}
+\Not{U_b(\sigma)}{contribution énergétique du lien \(b\).}{\ChapRef{chap:bayes_clusters_graphes}}
+\Not{\omega_b}{sous-lien gelé tiré sur le lien \(b\).}{\ChapRef{chap:bayes_clusters_graphes}}
+\Not{P_b^\sigma}{loi de gel du lien \(b\) sous la configuration \(\sigma\).}{\ChapRef{chap:bayes_clusters_graphes}}
+\Not{T(\sigma,\sigma')}{probabilité de transition de la chaîne de \nom{Markov} de type \nom{Swendsen--Wang} généralisée.}{\ChapRef{chap:bayes_clusters_graphes}}
+\Not{\kappa_n}{objet gelé produit par un pas de dynamique de clusters.}{\ChapRef{chap:bayes_clusters_graphes}}
+\Not{\mathcal C(\kappa_n)}{clusters induits par les gels de \(\kappa_n\).}{\ChapRef{chap:bayes_clusters_graphes}}
+\Not{\theta_\delta(\kappa_n)}{masse portée par les clusters de taille au moins \(\delta n\).}{\ChapRef{chap:bayes_clusters_graphes}}
+\end{NotationTable}
+
+\begin{NotationTable}{Modèle de \nom{Sankararaman--Baccelli}}
+\Not{H}{sous-graphe observé.}{\ChapRef{chap:bayes_clusters_graphes}}
+\Not{f_{\mathrm{in}},f_{\mathrm{out}}}{fonctions de connexion intra-communauté et inter-communautés.}{\ChapRef{chap:bayes_clusters_graphes}}
+\Not{r_e}{longueur de l'arête potentielle \(e\).}{\ChapRef{chap:bayes_clusters_graphes}}
+\Not{W_e(H)}{poids signé déduit de l'observation \(H\).}{\ChapRef{chap:bayes_clusters_graphes}}
+\Not{\mu_H}{postérieure de \nom{Gibbs} sachant le sous-graphe observé \(H\).}{\ChapRef{chap:bayes_clusters_graphes}}
+\Not{p}{paramètre homogène de connexion sur la grille triangulaire.}{\ChapRef{chap:bayes_clusters_graphes}}
+\Not{u_p}{poids absolu \(\log(p/(1-p))\).}{\ChapRef{chap:bayes_clusters_graphes}}
+\Not{p_{\mathrm{lien}}}{probabilité effective de conservation d'une arête gelée.}{\ChapRef{chap:bayes_clusters_graphes}}
+\Not{p_c^{\mathrm{edge}}}{seuil critique obtenu avec la dynamique arête par arête.}{\ChapRef{chap:bayes_clusters_graphes}}
+\Not{p_c^\triangle}{seuil critique obtenu avec la dynamique triangulaire.}{\ChapRef{chap:bayes_clusters_graphes}}
+\end{NotationTable}
+
+\begin{NotationTable}{Images et filtre de \nom{Frangi}}
+\Not{\Omega}{domaine discret de l'image, typiquement \(\Omega\subset\mathbb Z^2\).}{\ChapRef{chap:frangi_fissures}}
+\Not{I:\Omega\to\mathbb R}{image scalaire.}{\ChapRef{chap:frangi_fissures}}
+\Not{\mathcal M}{ensemble des modalités.}{\ChapRef{chap:frangi_fissures}}
+\Not{I^{(m)}}{image de la modalité \(m \in \mathcal M\).}{\ChapRef{chap:frangi_fissures}}
+\Not{\Sigma}{ensemble des échelles gaussiennes du filtre de \nom{Frangi}.}{\ChapRef{chap:frangi_fissures}}
+\Not{G_\sigma}{noyau gaussien d'échelle \(\sigma\).}{\ChapRef{chap:frangi_fissures}}
+\Not{\Hess_\sigma I(x)}{hessienne lissée de l'image \(I\) à l'échelle \(\sigma\).}{\ChapRef{chap:frangi_fissures}}
+\Not{\lambda_1^\sigma(x),\lambda_2^\sigma(x)}{valeurs propres ordonnées de la hessienne lissée.}{\ChapRef{chap:frangi_fissures}}
+%\Not{V_\sigma(x)}{réponse de \nom{Frangi} à l'échelle \(\sigma\).}{\ChapRef{chap:frangi_fissures}}
+%\Not{V(x)}{réponse multi-échelle maximale de \nom{Frangi}.}{\ChapRef{chap:frangi_fissures}}
+%\Not{\beta,c}{paramètres d'échelle de la réponse de \nom{Frangi}.}{\ChapRef{chap:frangi_fissures}}
+\end{NotationTable}
+
+\begin{NotationTable}{Graphe de \nom{Frangi} et squelette}
+\Not{\widehat\Gamma}{squelette ou réseau de fissures extrait.}{\ChapRef{chap:frangi_fissures}}
+\Not{V\subseteq\Omega}{ensemble des pixels candidats.}{\ChapRef{chap:frangi_fissures}}
+\Not{R}{rayon spatial de voisinage entre pixels.}{\ChapRef{chap:frangi_fissures}}
+\Not{E_R}{arêtes reliant les pixels candidats à distance au plus \(R\).}{\ChapRef{chap:frangi_fissures}}
+\Not{\theta^\sigma(x)}{orientation locale estimée à partir de la hessienne.}{\ChapRef{chap:frangi_fissures}}
+\Not{S_{ij}}{similarité de \nom{Frangi} multi-échelle entre deux pixels \(x_i\) et \(x_j\).}{\ChapRef{chap:frangi_fissures}}
+\Not{d_{ij}}{dissimilarité (de \nom{Frangi}) géométrique associée à \(S_{ij}\).}{\ChapRef{chap:frangi_fissures}}
+\Not{\mathcal T}{arbre couvrant minimum utilisé pour extraire le squelette.}{\ChapRef{chap:frangi_fissures}}
+\Not{\tau}{seuil relatif de conservation des pixels ou arêtes.}{\ChapRef{chap:frangi_fissures}}
+\Not{\tau_c}{seuil relatif de centralité.}{\ChapRef{chap:frangi_fissures}}
+\Not{\Hess_\sigma^{\mathrm{fused}}(x)}{hessienne fusionnée au pixel \(x\).}{\ChapRef{chap:frangi_fissures}}
+%\Not{G^\triangle}{graphe dual des arêtes pour les composantes triangles-connexes.}{\ChapRef{chap:frangi_fissures}}
+\end{NotationTable}
+
+\begin{NotationTable}{Métriques d'évaluation}
+\Not{A}{vérité terrain vue comme ensemble de pixels.}{\ChapRef{chap:frangi_fissures}}
+\Not{B}{prédiction vue comme ensemble de pixels.}{\ChapRef{chap:frangi_fissures}}
+\Not{J(A,B)}{indice de \nom{Jaccard}, \(|A\cap B|/|A\cup B|\).}{\ChapRef{chap:frangi_fissures}}
+\Not{T(A,B)}{indice de \nom{Tversky}.}{\ChapRef{chap:frangi_fissures}}
+\Not{\alpha,\beta}{pondérations de l'indice de \nom{Tversky}.}{\ChapRef{chap:frangi_fissures}}
+%\Not{W_1(A,B)}{distance de \nom{Wasserstein} entre distributions discrètes portées par deux réseaux.}{\ChapRef{chap:frangi_fissures}}
+\Not{\mathrm{IoU}}{autre nom de l'indice de \nom{Jaccard} (\emph{Intersection over Union}).}{\ChapRef{chap:frangi_fissures}}
+\Not{\mathrm{ARI}}{indice de \nom{Rand} ajusté (\emph{Adjusted \nom{Rand} Index}).}{\ChapRef{chap:conclusion_partie_II}}
+\end{NotationTable}
+
+\endgroup

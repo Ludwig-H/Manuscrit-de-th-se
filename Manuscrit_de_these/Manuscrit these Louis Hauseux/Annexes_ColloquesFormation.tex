@@ -1,0 +1,443 @@
+% VERSION COMPLETE ET VERIFIEE -- 19 juin 2026
+% !TEX root = main.tex
+% Annexe « Colloques, séminaires et formations »
+% À inclure après cartographie.tex : cartographie.tex contient déjà \appendix.
+
+\chapter{Colloques \& formations}
+\label{ann:colloques-formations}
+
+\begingroup
+
+% -----------------------------------------------------------------------------
+% Charte locale : nuances de gris, dans la continuité de la cartographie.
+% -----------------------------------------------------------------------------
+\colorlet{ChronoBlack}{black!88}
+\colorlet{ChronoDark}{black!70}
+\colorlet{ChronoMid}{black!42}
+\colorlet{ChronoLight}{black!15}
+\colorlet{ChronoPale}{black!5}
+
+% Liens cliquables, mais visuellement fondus dans la charte en niveaux de gris.
+\hypersetup{colorlinks=true,allcolors=ChronoBlack,pdfborder={0 0 0}}
+
+\newcommand{\ChronoType}[1]{%
+  \begingroup
+  \setlength{\fboxsep}{2.5pt}%
+  \colorbox{ChronoPale}{%
+    \textcolor{ChronoDark}{\scriptsize\bfseries\textsc{#1}}%
+  }%
+  \endgroup
+}
+
+\newcommand{\ChronoAnnee}[1]{%
+  \multicolumn{2}{@{}l@{}}{%
+    \parbox{\textwidth}{%
+      \vspace{.35\baselineskip}%
+      {\color{ChronoBlack}\large\bfseries\textsc{#1}}%
+      \par\vspace{.22\baselineskip}%
+      {\color{ChronoLight}\hrule height .7pt}%
+    }%
+  }\\*[.8\baselineskip]
+}
+
+\newcommand{\ChronoEntree}[3]{%
+  {\small\bfseries #1}%
+  &
+  \ChronoType{#2}\par\vspace{.35\baselineskip}%
+  #3%
+  \\[1.15\baselineskip]
+}
+
+% \begin{center}
+%   \setlength{\fboxsep}{9pt}%
+%   \colorbox{ChronoPale}{%
+%     \parbox{.91\textwidth}{%
+%       \small
+%       Dans la continuité de la rubrique établie pour le premier CSI, cette
+%       chronologie rassemble, par ordre antéchronologique, les principaux
+%       colloques, séminaires, écoles thématiques, formations, prix et échanges
+%       scientifiques ayant jalonné la thèse. Pour lever toute ambiguïté, la
+%       mention \enquote{participation} désigne une présence en tant qu'auditeur
+%       ou participant, sans communication scientifique ; les présentations,
+%       posters, prix et responsabilités d'organisation sont signalés
+%       explicitement. Les intitulés des manifestations, communications et
+%       ressources associées sont cliquables.
+%     }%
+%   }
+% \end{center}
+
+\vspace{.7\baselineskip}
+\small
+\setlength{\LTpre}{0pt}
+\setlength{\LTpost}{0pt}
+\setlength{\tabcolsep}{0pt}
+\renewcommand{\arraystretch}{1.04}
+
+\begin{longtable}{%
+  @{}%
+  >{\raggedleft\arraybackslash\color{ChronoDark}}p{.15\textwidth}%
+  @{\hspace{1.05em}}%
+  !{\color{ChronoMid}\vrule width .55pt}%
+  @{\hspace{1.20em}}%
+  >{\raggedright\arraybackslash\color{black}}p{.76\textwidth}%
+  @{}%
+}
+
+\endfirsthead
+\multicolumn{2}{@{}r@{}}{%
+  \scriptsize\color{ChronoMid}\emph{Colloques \& formations --- suite}%
+}\\[.65\baselineskip]
+\endhead
+
+\ChronoAnnee{2026}
+
+\ChronoEntree{17--20 juin 2026}{Forum technologique}{%
+  Participation, sans présentation, avec l'
+  \href{https://www.inria.fr/fr/inria-startup-studio}{Inria Startup Studio} à
+  \href{https://vivatech.com/}{\emph{VivaTech 2026}}, au parc des exposition de la Porte de Versailles (Paris). Cette présence au plus grand rendez-vous européen des start-ups
+  et de la technologie s'inscrit dans la découverte de l'écosystème
+  entrepreneurial, des acteurs du transfert et des voies de valorisation de
+  résultats issus de la recherche.
+}
+
+\ChronoEntree{Juin 2026}{Séminaire}{%
+  Présentation au
+  \href{https://team.inria.fr/mathnet/seminar/}{séminaire de l'équipe
+  \textsc{MathNet}} du Centre Inria de Paris, intitulée
+  \emph{A Bayesian Framework for Community Detection on Graphs}. L'exposé est
+  consacré à une formulation bayésienne de la détection de communautés sur les
+  graphes, ainsi qu'aux principes d'inférence et d'évaluation qui en découlent.
+}
+
+\ChronoEntree{4--7 juin 2026}{Formation entrepreneuriale}{%
+  Participation, sans communication scientifique, au programme
+  \href{https://newsroom.univ-cotedazur.fr/actualites-evenements/starthese-2026-valorisez-vos-travaux-de-recherche}{%
+  \emph{Starthèse 2026}}, organisé à Taglio-Isolaccio (Corse) dans le cadre du
+  \href{https://www.pepite-france.fr/starthese-2026-31-dispositifs-pour-accompagner-les-doctorants-vers-lentrepreneuriat/}{%
+  challenge national Starthèse}. Ce \emph{bootcamp}
+  accompagne les doctorants et jeunes docteurs dans la transformation de
+  travaux de recherche en projets entrepreneuriaux et dans le transfert issues de la recherche.
+}
+
+\ChronoEntree{3 juin 2026}{Organisation \& entrepreneuriat}{%
+  Appui à l'organisation et participation au
+  \href{https://www.minesparis.psl.eu/blog/evenements/deeptech-forum-sophia-antipolis-2/}{%
+  \emph{DeepTech Forum Sophia Antipolis \#2}}, sur le campus de Mines
+  Paris--PSL à Sophia Antipolis. La journée, coorganisée par le mastère
+  spécialisé \emph{Deeptech} de Mines Paris--PSL et Dynergie, est consacrée au
+  passage du laboratoire au marché, au financement de l'innovation de rupture
+  et aux relations entre chercheurs, entrepreneurs, investisseurs et
+  industriels. La contribution porte sur l'organisation de l'événement et la
+  participation aux échanges. Sans présentation scientifique.
+}
+
+\ChronoEntree{7 avril 2026}{Séminaire}{%
+  Présentation à l'\href{https://www.ihp.fr/}{Institut Henri \nom{Poincaré}}
+  (Paris), dans le cadre du séminaire
+  \href{https://imaging-in-paris.github.io/}{\emph{Imaging in Paris}},
+  intitulée \emph{From Statistics to Graphs: Hierarchical Clustering for Image
+  Analysis}. L'exposé relie la définition statistique des clusters de haute
+  densité, leur construction par graphes géométriques et plusieurs applications
+  au traitement d'image et de nuages de points LiDAR.
+}
+
+\ChronoEntree{17 mars 2026}{Journée scientifique}{%
+  Participation en tant qu'auditeur, sans présentation, à la conférence
+  \href{https://www.academie-sciences.fr/lintelligence-artificielle-pour-les-sciences}{%
+  \emph{L'intelligence artificielle pour les sciences}}, organisée par
+  l'Académie des sciences sous la Coupole de l'Institut de France à Paris. La
+  journée présente, pour plusieurs disciplines, la manière dont les méthodes
+  d'intelligence artificielle complètent les approches mathématiques,
+  statistiques et informatiques usuelles.
+}
+
+\ChronoEntree{18 janvier 2026}{Publication}{%
+  Publication dans la revue
+  \href{https://link.springer.com/journal/41109}{\emph{Applied Network Science}}
+  de l'article
+  \href{https://doi.org/10.1007/s41109-025-00756-1}{\emph{Generalization of
+  Single-Linkage with Higher-Order Interactions}} \cite{BibiAppliedNetworkScience}.
+  Ce travail développe la généralisation du Single-Linkage fondée sur des
+  interactions d'ordre supérieur et en établit les principaux fondements
+  théoriques et algorithmiques.
+}
+
+\ChronoAnnee{2025}
+
+\ChronoEntree{Novembre 2025}{Séminaire industriel}{%
+  Séminaire au sein de
+  \href{https://www.valeo.com/fr/valeo-ai/}{\emph{Valeo AI}} (Paris), intitulé
+  \emph{Méthodes de clustering avec graphes. Ou
+  \enquote{Comment hacker (H)DBSCAN ?} Théorie, algorithmes \& applications}.
+  La présentation propose une lecture unifiée des méthodes de clustering
+  hiérarchique, puis montre comment adapter leur critère d'extraction à la
+  structure particulière des données étudiées.
+}
+
+\ChronoEntree{20 novembre 2025}{Entrepreneuriat \& collaboration}{%
+  Participation, sans présentation personnelle, à la
+  \href{https://pole-enter.org/evenements/la-fete-des-startups/}{Fête des
+  start-ups d'Inria Startup Studio}, organisée au Campus Cyber à Paris-La
+  Défense. Cette journée marque le début de la collaboration avec Marie
+  \nom{Aspro} autour de la détection non supervisée d'anomalies dans des nuages
+  de points LiDAR acquis sur des chantiers et sites industriels.
+}
+
+\ChronoEntree{28 octobre 2025}{Conférence}{%
+  Présentation en session poster à la
+  \href{https://asilomarssc.org/}{\emph{Asilomar Conference on Signals,
+  Systems, and Computers 2025}} (Pacific Grove, Californie) de l'article
+  \href{https://cmsworkshops.com/Asilomar2025/view_paper.php?PaperNum=1109}{%
+  \emph{Higher-Order Monte Carlo Cluster Dynamics for Community Detection in
+  Euclidean Graphs}} \cite{BibiMonterey}. Ce travail introduit une dynamique de
+  Monte-Carlo fondée sur des interactions triangulaires pour la détection de
+  communautés sur des graphes euclidiens frustrés.
+}
+
+\ChronoEntree{Octobre 2025}{Séminaire}{%
+  Présentation au
+  \href{https://3ia.univ-cotedazur.eu/research/doctoral-postdoctoral-seminar-1}{%
+  séminaire doctoral et postdoctoral du 3IA Côte d'Azur}
+  (\textsc{Université Côte d'Azur}), sous le titre
+  \emph{Generalization of Single-Linkage with Higher-Order Interactions}.
+}
+
+\ChronoEntree{Juillet puis octobre 2025}{Prix scientifique}{%
+  Candidature au
+  \href{https://www.cnrs.fr/CNRS-Hebdo/cote-azur/Documents/28/Document.aspx}{%
+  prix Pierre \nom{Laffitte}} 2025, sélection parmi les finalistes, puis
+  présentation en finale du dossier
+  \emph{Classification sur nuages de points euclidiens et graphes aléatoires :
+  théorie, algorithmes \& partenariats industriels}. La candidature synthétise
+  les résultats théoriques de la thèse ainsi que leurs prolongements avec le
+  Cerema et \emph{greehill}.
+}
+
+\ChronoEntree{25--29 août 2025}{Conférence}{%
+  Présentation au
+  \href{https://gretsi.fr/archives/colloque/2025}{\emph{GRETSI 2025}}
+  (Strasbourg) de l'article
+  \emph{Généralisation du filtre de Frangi pour l'extraction des réseaux de
+  fissures au sein d'images d'un glissement de terrain} \cite{BibiStrasbourg}.
+  Cette communication est issue de la collaboration engagée avec le Cerema à la
+  suite d'EUSIPCO 2024 et compare une approche géométrique non supervisée à une
+  méthode d'apprentissage profond.
+}
+
+\ChronoEntree{11--14 juin 2025}{Formation entrepreneuriale}{%
+  Participation, sans présentation, à une \emph{Learning Expedition} organisée
+  par \href{https://www.inria.fr/fr/inria-startup-studio}{Inria Startup Studio}
+  à l'occasion de
+  \href{https://vivatech.com/media/press-releases/viva-tech-explores-the-new-frontiers-of-innovation-11-14-june-2025}{%
+  \emph{Viva Technology 2025}} (parc des expositions de la Porte de Versailles, à Paris). Cette
+  immersion au grand rendez-vous européen des start-ups et de la technologie
+  est consacrée à la découverte de l'écosystème entrepreneurial, à la
+  valorisation de résultats de recherche et aux modalités de transfert vers
+  l'industrie.
+}
+
+\ChronoEntree{10--11 juin 2025}{Workshop scientifique}{%
+  Participation en tant qu'auditeur, sans communication, au workshop
+  \href{https://indico.math.cnrs.fr/event/14166/}{\emph{Stat-Mech in Créteil
+  2025}}, organisé à l'Université Paris-Est Créteil par des membres de l'équipe
+  de probabilités du LAMA. Cette édition est consacrée à trois thèmes proches
+  des travaux de thèse : la physique statistique, la percolation et les graphes
+  aléatoires.
+}
+
+\ChronoEntree{Mars 2025}{Séminaire}{%
+  Présentation au
+  \href{https://team.inria.fr/mathnet/seminar/}{séminaire de l'équipe
+  \textsc{MathNet}/\textsc{Dyogene}} du Centre Inria de Paris, intitulée
+  \emph{(Hyper-)graphs, percolation and clustering performances}. L'exposé met
+  en regard les performances des méthodes de clustering hiérarchique et la
+  vitesse du phénomène de percolation dans les graphes et hypergraphes
+  géométriques.
+}
+
+\ChronoEntree{13--14 mars 2025}{Formation entrepreneuriale}{%
+  Participation, sans présentation, à une \emph{Learning Expedition} de
+  \href{https://www.inria.fr/fr/inria-startup-studio}{Inria Startup Studio}
+  lors du
+  \href{https://hello-tomorrow.org/key-highlights-expert-insights-and-groundbreaking-innovations-in-deep-tech-at-the-10th-edition-of-the-hello-tomorrow-global-summit/}{%
+  \emph{Hello Tomorrow Global Summit 2025}} au CENTQUATRE-PARIS, forum
+  international consacré à la \emph{deep tech}.
+  L'immersion porte sur les modèles de valorisation et sur les rencontres entre
+  équipes de recherche, start-ups, industriels et investisseurs.
+}
+
+\ChronoEntree{Janvier--mars 2025}{Échanges scientifiques}{%
+  Plusieurs discussions techniques avec
+  \href{https://www.linkedin.com/in/benjamin-berta/?locale=hu}{Benjamin
+  \nom{Berta}}, CTO de
+  \href{https://www.greehill.fr/}{\emph{greehill}}, sur la segmentation
+  d'instances dans des scènes extérieures acquises par LiDAR, notamment pour
+  l'inventaire automatisé d'arbres urbains. Ces échanges prolongent la rencontre
+  avec Gyula \nom{Fekete} lors de l'école d'été SSRM 2024 et portent sur
+  l'intégration d'une généralisation du Single-Linkage en remplacement de la
+  brique DBSCAN du \emph{pipeline} existant. Collaboration à reprendre après la thèse !
+}
+
+\ChronoEntree{28--29 janvier 2025}{Colloque}{%
+  Participation en tant qu'auditeur, sans communication, au colloque
+  \href{https://www.college-de-france.fr/fr/agenda/colloque/geometries-aleatoires-et-applications}{%
+  \emph{Géométries aléatoires et applications}}, organisé au Collège de France
+  à Paris. Les exposés proposent un panorama des géométries aléatoires, depuis
+  les graphes et surfaces aléatoires jusqu'aux applications en imagerie, en
+  traitement du signal et dans les télécommunications.
+}
+
+\ChronoAnnee{2024}
+
+\ChronoEntree{10--12 décembre 2024}{Conférence}{%
+  Présentation à la
+  \href{https://2024.complexnetworks.org/}{13\ieme{} conférence internationale
+  \emph{Complex Networks and their Applications}} (Istambul) de l'article
+  \href{https://doi.org/10.1007/978-3-031-82431-9_2}{%
+  \emph{Hypergraphs, Percolation, and Hierarchical Clustering}}
+  \cite{BibiIstambul}. Ce travail compare les propriétés de percolation de
+  plusieurs généralisations du Single-Linkage et met en évidence l'intérêt des
+  interactions d'ordre supérieur.
+}
+
+\ChronoEntree{26--30 août 2024}{Conférence}{%
+  Présentation en session poster à
+  \href{https://eusipcolyon.sciencesconf.org/}{\emph{EUSIPCO 2024}} (Lyon) de
+  l'article
+  \href{https://doi.org/10.23919/EUSIPCO63174.2024.10715271}{%
+  \emph{Benefits of Hypergraphs for Density-Based Clustering}}
+  \cite{BibiLyon}; le
+  \href{https://overleaf.irisa.fr/read/hnbyhhrcybgb}{poster associé} est
+  également disponible. La conférence est aussi à l'origine de la mise en
+  relation avec Pierre \nom{Charbonnier} (Cerema), puis de la collaboration sur
+  l'extraction automatique de réseaux de fissures.
+}
+
+\ChronoEntree{29 juillet--2 août 2024}{École d'été}{%
+  Participation à l'école d'été
+  \href{https://ssrm.mik.uni-pannon.hu/}{\emph{Remote Sensing and Microscopy
+  Image Processing} (SSRM)} à Veszprém (Hongrie), organisée en l'honneur de
+  Josiane \nom{Zerubia}. Présentation d'un
+  \href{https://overleaf.irisa.fr/read/qtthyrmpjwgs}{poster} et obtention du
+  second prix de la
+  \href{https://overleaf.irisa.fr/read/wkqjqwhyrtpc}{compétition de recherche
+  par équipes}. Une présentation de Gyula \nom{Fekete} sur l'inventaire des
+  arbres urbains à partir de LiDAR constitue le point de départ des échanges
+  ultérieurs avec \emph{greehill}.
+}
+
+\ChronoEntree{24--28 juin 2024}{École d'été}{%
+  Participation à l'école d'été
+  \href{https://www.normastic.fr/action-transverse-graphes/ecole-dete-graphes/}{%
+  \emph{GRAPHADON --- Graphes et leurs applications au traitement de données}}
+  à l'INSA Rouen Normandie. La formation couvre notamment la théorie des
+  graphes, les graphes sémantiques et dynamiques, le traitement du signal sur
+  graphes et l'apprentissage sur données relationnelles.
+}
+
+\ChronoEntree{10--14 juin 2024}{Compétition scientifique}{%
+  Participation à l'
+  \href{https://www.sigmetrics.org/sigmetrics2024/student_activities.html}{%
+  ACM Student Research Competition de SIGMETRICS 2024} à Venise avec le travail
+  \href{https://doi.org/10.1145/3725536.3725546}{%
+  \emph{How Can We Theoretically Measure the Performance of Density-Based
+  Clustering Algorithms?}} \cite{BibiVenise}. Après la
+  \href{https://overleaf.irisa.fr/read/snxqczzrkqth}{présentation du poster},
+  qualification pour la finale orale, puis obtention du deuxième prix dans la
+  catégorie des doctorants.
+}
+
+\ChronoEntree{3 juin 2024, 14 h}{Séminaire doctoral}{%
+  Présentation d'environ trente minutes, suivie d'une discussion, au
+  \emph{PhD Seminar} du Centre Inria d'\textsc{Université Côte d'Azur}.
+}
+
+\ChronoEntree{27--31 mai 2024}{Colloque}{%
+  Participation aux
+  \href{https://geosto24.sciencesconf.org/}{Journées de géométrie stochastique}
+  à Tours, comprenant des mini-cours et des exposés consacrés aux processus
+  ponctuels, à la géométrie aléatoire et à la percolation. Présentation d'un
+  \href{https://overleaf.irisa.fr/read/snxqczzrkqth}{poster} sur la mesure
+  théorique des performances des algorithmes de clustering fondés sur la
+  densité.
+}
+
+\ChronoEntree{8 mai 2024}{Workshop}{%
+  Exposé à distance au workshop
+  \href{https://www.torontomu.ca/graphs-group/hypergraphs2024/}{%
+  \emph{Modelling and Mining Complex Networks as Hypergraphs}}, organisé par
+  l'Université métropolitaine de Toronto, autour de la généralisation du
+  clustering fondé sur des graphes aux interactions d'ordre supérieur.
+}
+
+\ChronoEntree{8 avril 2024}{Séminaire invité}{%
+  À l'invitation de Gabriele \nom{Moser} et Sebastiano B. \nom{Serpico},
+  présentation au département DITEN de l'Université de Gênes du séminaire
+  \emph{Density-Based Clustering: (Hyper-)Graphs \& Percolation}.
+}
+
+\ChronoEntree{5--6 février 2024}{Colloque}{%
+  Participation aux
+  \href{https://univ-cotedazur.eu/events/complex-days/past-events/edition-2024}{%
+  \emph{Complex Days 2024}} à Nice et présentation des travaux consacrés aux
+  graphes géométriques, au clustering hiérarchique et au phénomène de
+  percolation.
+}
+
+\ChronoAnnee{2023}
+
+\ChronoEntree{28--30 novembre 2023}{Conférence}{%
+  Présentation à la
+  \href{https://2023.complexnetworks.org/}{12\ieme{} conférence internationale
+  \emph{Complex Networks and their Applications}} à Menton du papier
+  \href{https://doi.org/10.1007/978-3-031-53472-0_32}{%
+  \emph{Graph Based Approach for Galaxy Filament Extraction}}
+  \cite{BibiMenton}. Le travail propose un estimateur de densité fondé sur des
+  graphes géométriques et l'applique à l'extraction de filaments de galaxies;
+  le \href{https://overleaf.irisa.fr/read/qqxqttywnwmv}{poster présenté} est
+  accessible en ligne. Le passage aux interactions d'ordre supérieur est évoqué.
+}
+
+\ChronoEntree{Octobre 2023}{Formation}{%
+  Formation de deux jours aux
+  \href{https://www.pssmfrance.fr/}{Premiers secours en santé mentale (PSSM
+  France)}, consacrée au repérage des troubles psychiques, à l'écoute initiale
+  et à l'orientation vers les dispositifs d'aide adaptés.
+}
+
+\ChronoEntree{10--11 octobre 2023}{Mini-cours}{%
+  Mini-cours de Dieter \nom{Mitsche} au Centre de Recerca Matemàtica de
+  Barcelone,
+  \href{https://www.crm.cat/mini-course-on-different-random-geometric-graph-models/}{%
+  \emph{Geometric Random Graph Models}}, composé de quatre séances d'une heure
+  trente sur les graphes géométriques aléatoires euclidiens et hyperboliques,
+  les modèles spatiaux et leurs liens avec la percolation. Une
+  \href{https://www.overleaf.com/read/nxvjcnnmqcwv}{retranscription des notes
+  de cours} est disponible.
+}
+
+\ChronoEntree{7--8 septembre 2023}{Colloque}{%
+  Participation aux
+  \href{https://geostat23.sciencesconf.org/}{XVI\ieme{} Journées de
+  Géostatistique} à Fontainebleau et présentation d'un
+  \href{https://overleaf.irisa.fr/read/pnzpyhsxbycf}{poster} consacré à une
+  approche par graphes pour l'extraction de filaments de galaxies.
+}
+
+\ChronoEntree{28 août--1\ier{} septembre 2023}{École d'été}{%
+  Participation à l'école d'été
+  \href{https://indico.math.cnrs.fr/event/9939/}{\emph{Geometry and Data}} à
+  Strasbourg, consacrée aux outils géométriques pour l'analyse de données, avec
+  des cours et travaux pratiques en transport optimal, analyse de formes,
+  topologie des données astrophysiques et traitement géométrique des images.
+}
+
+\ChronoEntree{Juin 2023}{Formation}{%
+  Participation au \emph{Scientific English CLASSROOM Workshop} du Centre Inria
+  d'Université Côte d'Azur, formation intensive à la communication scientifique
+  en anglais, à l'écrit comme à l'oral.
+}
+
+\end{longtable}
+
+\endgroup

@@ -1,0 +1,264 @@
+\documentclass[tikz,border=10pt]{standalone}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor}
+
+\usetikzlibrary{arrows.meta,calc,positioning,shadows}
+
+% ---------- Couleurs ----------
+\colorlet{DeadlineRed}{red!75!black}
+\colorlet{Accent}{orange!85!black}
+\colorlet{PartI}{blue!60!black}
+\colorlet{PartII}{teal!65!black}
+\colorlet{PartIII}{violet!65!black}
+
+% ---------- Macros ----------
+\newcommand{\daterange}[1]{{\color{DeadlineRed}\bfseries #1}}
+\newcommand{\commentaire}[1]{{\color{black!62}\itshape #1}}
+
+% ---------- Styles TikZ ----------
+\tikzset{
+  spine/.style={
+    draw=black!45,
+    line width=1.4pt
+  },
+  point/.style={
+    circle,
+    fill=DeadlineRed,
+    draw=white,
+    line width=0.8pt,
+    minimum size=5.2mm,
+    inner sep=0pt
+  },
+  conn/.style={
+    -{Latex[length=2.2mm]},
+    draw=black!40,
+    line width=0.9pt
+  },
+  month/.style={
+    font=\bfseries\small,
+    text=black!55
+  },
+  deadline/.style={
+    draw=Accent!85!black,
+    fill=Accent!10,
+    ultra thick,
+    rounded corners=4mm,
+    text width=10.4cm,
+    align=center,
+    inner sep=5mm,
+    drop shadow,
+    font=\bfseries
+  },
+  card/.style={
+    draw=black!12,
+    fill=white,
+    very thick,
+    rounded corners=3.2mm,
+    text width=9.3cm,
+    align=left,
+    inner sep=4mm,
+    drop shadow,
+    font=\small
+  },
+  cardL/.style={card, anchor=east},
+  cardR/.style={card, anchor=west},
+  partbox/.style={
+    ultra thick,
+    rounded corners=4mm,
+    text width=11.7cm,
+    align=left,
+    inner sep=4.5mm,
+    drop shadow,
+    font=\small
+  }
+}
+
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+\def\dy{3.15}
+
+% ---------- Axe central ----------
+\foreach \i in {0,...,17}{
+  \pgfmathsetmacro{\yy}{-\i*\dy}
+  \coordinate (t\i) at (0,\yy);
+}
+
+\draw[spine] ($(t0)+(0,1.25)$) -- ($(t17)+(0,-1.1)$);
+
+% ---------- Titre ----------
+\node[align=center, font=\bfseries\LARGE] at (0,2.35)
+  {Échéancier inversé de la thèse};
+
+\node[align=center, font=\large, text=black!68] at (0,1.25)
+  {du premier jet des chapitres jusqu'à la soutenance};
+
+% ---------- Repères de mois ----------
+\node[month, anchor=east] at (-13.2,0.05) {Sept. 2026};
+\node[month, anchor=east] at (-13.2,-3.15) {Juin};
+\node[month, anchor=east] at (-13.2,-15.9) {Mai};
+\node[month, anchor=east] at (-13.2,-31.0) {Avril};
+\node[month, anchor=east] at (-13.2,-47.0) {Mars};
+
+\draw[black!10, dashed] (-12.4,-4.8) -- (12.4,-4.8);
+\draw[black!10, dashed] (-12.4,-24.1) -- (12.4,-24.1);
+\draw[black!10, dashed] (-12.4,-40.0) -- (12.4,-40.0);
+
+% ---------- Points de la frise ----------
+\foreach \i in {0,...,17}{
+  \node[point] at (t\i) {};
+}
+
+% ---------- Jalons finaux ----------
+\node[deadline] (soutenance) at (t0) {%
+  Soutenance de thèse\\[2pt]
+  \daterange{8 septembre 2026}
+};
+
+\node[deadline, fill=DeadlineRed!8, draw=DeadlineRed!85!black] (rapporteurs) at (t1) {%
+  Manuscrit envoyé aux rapporteurs\\[2pt]
+  \daterange{15 juin 2026}
+};
+
+% ---------- Introduction générale ----------
+\node[cardL] (introgen) at ([xshift=-1.4cm]t2) {%
+\textbf{Introduction générale}\\
+\daterange{20 mai -- 1\ier{} juin}\\[3pt]
+\textbf{Sections :} propos liminaire ; brève histoire du \emph{clustering} et omniprésence du \emph{Single-Linkage} ; deux grandes familles de \emph{clustering} ; nécessité d'une vue hiérarchique.\\[3pt]
+\commentaire{Commentaire condensé : repartir d'une version très synthétique du rapport de recherche de février 2026.}
+};
+\draw[conn] (introgen.east) -- (t2);
+
+% ---------- Conclusion générale ----------
+\node[cardR] (conclugen) at ([xshift=1.4cm]t3) {%
+\textbf{Conclusion générale}\\
+\daterange{20 mai -- 1\ier{} juin}\\[3pt]
+\textbf{Objectif :} refermer l'arc théorique et applicatif, puis ouvrir vers les prolongements méthodologiques et applicatifs.
+};
+\draw[conn] (t3) -- (conclugen.west);
+
+% ---------- Partie III ----------
+\node[partbox, draw=PartIII, fill=PartIII!10] (partIII) at (t4) {%
+{\color{PartIII}\bfseries PARTIE III}\\[-1pt]
+\textbf{Vers des données davantage structurées}\\
+\daterange{1\ier{} mai -- 20 mai}\\[3pt]
+\commentaire{Commentaire condensé : mieux distinguer deux sous-parties, possiblement avec deux introductions ; s'appuyer surtout sur les deux articles (collaboration avec Nahuel, puis avec le Cerema).}
+};
+
+\node[cardL] (p3c1) at ([xshift=-1.4cm]t5) {%
+\textbf{Chapitre. Introduction}\\
+\daterange{1\ier{} mai -- 10 mai}\\[3pt]
+\textbf{Sections :} chaînes de Markov et méthode Monte-Carlo ; cas d'usage en traitement d'image avec la détection de fissures ; retour possible du \emph{model-based}.
+};
+\draw[conn] (p3c1.east) -- (t5);
+
+\node[cardR] (p3c2) at ([xshift=1.4cm]t6) {%
+\textbf{Chapitre. Des (hyper)graphes plus riches}\\
+\daterange{10 mai -- 15 mai}\\[3pt]
+\textbf{Sections :} cadre bayésien pour la détection de communautés sur graphes ; dynamiques de clusters d'ordre supérieur ; exemple où la percolation d'ordre supérieur affine des bornes théoriques.
+};
+\draw[conn] (t6) -- (p3c2.west);
+
+\node[cardL] (p3c3) at ([xshift=-1.4cm]t7) {%
+\textbf{Chapitre. Élargissement au traitement du signal : le cas des fissures sur images}\\
+\daterange{15 mai -- 20 mai}\\[3pt]
+\textbf{Sections :} filtre de Frangi ; graphe de Frangi ; résultats ; ouverture vers une réconciliation entre apprentissage profond et modèles.\\[3pt]
+\commentaire{Commentaire condensé : évoquer possiblement les travaux de Jules et leurs prolongements.}
+};
+\draw[conn] (p3c3.east) -- (t7);
+
+% ---------- Partie II ----------
+\node[partbox, draw=PartII, fill=PartII!10] (partII) at (t8) {%
+{\color{PartII}\bfseries PARTIE II}\\[-1pt]
+\textbf{La généralisation naturelle au moyen d'hypergraphes}\\
+\daterange{10 avril -- 1\ier{} mai}\\[3pt]
+\commentaire{Commentaire condensé : refaire quelques figures, enrichir la bibliographie ; charge de travail modérée.}
+};
+
+\node[cardR] (p2c1) at ([xshift=1.4cm]t9) {%
+\textbf{Chapitre. Introduction : retour sur la non prise en compte de la densité du \emph{Single-Linkage}}\\
+\daterange{10 avril -- 15 avril}
+};
+\draw[conn] (t9) -- (p2c1.west);
+
+\node[cardL] (p2c2) at ([xshift=-1.4cm]t10) {%
+\textbf{Chapitre. Hypergraph-Percol : généralisation du \emph{Single-Linkage} compatible avec les trois points de vue}\\
+\daterange{15 avril -- 20 avril}\\[3pt]
+\textbf{Sections :} généralisation du graphe géométrique et de la composante connexe via le complexe de Čech et les \(K\)-polyèdres ; correspondance avec le modèle de Hartigan et l'estimateur de densité par \(K\) plus proches voisins.
+};
+\draw[conn] (p2c2.east) -- (t10);
+
+\node[cardR] (p2c3) at ([xshift=1.4cm]t11) {%
+\textbf{Chapitre. À la recherche de la généralisation de l'arbre minimum couvrant}\\
+\daterange{20 avril -- 25 avril}\\[3pt]
+\textbf{Sections :} approche persistante par simplexes \(K\)-séparants ; condition nécessaire \(K\)-Gabriel ; mosaïque de Delaunay d'ordre \(K\).\\[3pt]
+\commentaire{Commentaire condensé : ajouter quelques lemmes techniques ; travail limité.}
+};
+\draw[conn] (t11) -- (p2c3.west);
+
+\node[cardL] (p2c4) at ([xshift=-1.4cm]t12) {%
+\textbf{Chapitre. Conclusion de la partie : la richesse structurelle de la mosaïque d'ordre \(K\)}\\
+\daterange{25 avril -- 1\ier{} mai}\\[3pt]
+\commentaire{Commentaire condensé : ouvrir vers d'autres questions, reprendre le rapport de recherche, rester éventuellement volontairement large.}
+};
+\draw[conn] (p2c4.east) -- (t12);
+
+% ---------- Partie I ----------
+\node[partbox, draw=PartI, fill=PartI!10] (partI) at (t13) {%
+{\color{PartI}\bfseries PARTIE I}\\[-1pt]
+\textbf{Du \emph{Single-Linkage} au clustering hiérarchique}\\
+\daterange{15 mars -- 10 avril}\\[3pt]
+\commentaire{Commentaire condensé : partir d'un graphe général, puis préciser que, dans le cadre d'étude \(\mathbb{R}^d\), on se ramène au graphe complet des distances euclidiennes.}
+};
+
+\node[cardR] (p1c1) at ([xshift=1.4cm]t14) {%
+\textbf{Chapitre. Le \emph{Single-Linkage} : trois points de vue équivalents}\\
+\daterange{15 mars -- 20 mars}\\[3pt]
+\textbf{Sections :} introduction au \emph{Single-Linkage} ; pratique via l'arbre minimum couvrant ; théorie via la persistance de graphes géométriques ; modèle statistique de Hartigan et amas de forte densité.\\[3pt]
+\commentaire{Commentaire condensé : refaire quelques figures, mais éviter de lancer de nouvelles expériences.}
+};
+\draw[conn] (t14) -- (p1c1.west);
+
+\node[cardL] (p1c2) at ([xshift=-1.4cm]t15) {%
+\textbf{Chapitre. Les limites du \emph{Single-Linkage}}\\
+\daterange{20 mars -- 24 mars}\\[3pt]
+\textbf{Sections :} \emph{chaining effect} quand la densité manque ; état de l'art actuel avec HDBSCAN.
+};
+\draw[conn] (p1c2.east) -- (t15);
+
+\node[cardR] (p1c3) at ([xshift=1.4cm]t16) {%
+\textbf{Chapitre. Une vue générale sur le clustering hiérarchique : introduire des a priori géométriques, ou comment « hacker » HDBSCAN}\\
+\daterange{24 mars -- 30 mars}\\[3pt]
+\commentaire{Commentaire condensé : refaire plusieurs figures et reprendre les résultats sur SemanticKITTI.}
+};
+\draw[conn] (t16) -- (p1c3.west);
+
+\node[cardL] (p1c4) at ([xshift=-1.4cm]t17) {%
+\textbf{Chapitre. Le phénomène de percolation au cœur des performances}\\
+\daterange{30 mars -- 10 avril}\\[3pt]
+\textbf{Sections :} introduction à la percolation ; vitesse de percolation.\\[3pt]
+\commentaire{Commentaire condensé : produire quelques figures illustratives ; refaire toutes les expériences pour estimer plus finement la vitesse de percolation en dimensions 2 et 3 pour beaucoup plus de \(K\) ; vérifier si le placement des résultats avant la définition de la \(K\)-généralisation reste narrativement satisfaisant.}
+};
+\draw[conn] (p1c4.east) -- (t17);
+
+% ---------- Petites annotations latérales ----------
+\node[align=left, text=black!55, font=\small] at (11.2,-1.45) {%
+\textbf{Lecture :}\\
+on part de la soutenance et on remonte\\
+vers les livrables à fournir aux encadrants.
+};
+
+\node[align=left, text=black!55, font=\small] at (11.3,-5.5) {%
+\textbf{Code couleur :}\\
+\textcolor{DeadlineRed}{dates de remise}\\
+\textcolor{PartI}{Partie I}, \textcolor{PartII}{Partie II}, \textcolor{PartIII}{Partie III}
+};
+
+\end{tikzpicture}
+\end{document}

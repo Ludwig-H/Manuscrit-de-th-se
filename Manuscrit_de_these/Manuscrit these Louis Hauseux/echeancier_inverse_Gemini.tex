@@ -1,0 +1,301 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage[margin=1.2cm, top=2cm, bottom=2cm]{geometry} % Marges optimisées
+\usepackage{fontawesome5}
+\usepackage{xcolor}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{tikz}
+
+% Désactiver la numérotation classique des pages pour le rendu "infographie"
+\pagestyle{empty}
+
+% Police moderne et épurée (sans empattement)
+\renewcommand{\familydefault}{\sfdefault}
+
+% Librairies TikZ nécessaires
+\usetikzlibrary{positioning, shadows, backgrounds, calc}
+
+% Palette de couleurs élégantes
+\definecolor{myblue}{RGB}{41, 128, 185}
+\definecolor{myteal}{RGB}{22, 160, 133}
+\definecolor{mygreen}{RGB}{39, 174, 96}
+\definecolor{mypurple}{RGB}{142, 68, 173}
+\definecolor{myorange}{RGB}{211, 84, 0}
+\definecolor{myred}{RGB}{210, 40, 40}
+
+% Styles globaux des boîtes et des éléments TikZ
+\tikzset{
+    partbox/.style={fill=white, draw=myblue, line width=1.5pt, rounded corners=6pt, inner sep=10pt, align=left, text width=12cm, drop shadow={opacity=0.08, shadow xshift=1.5mm, shadow yshift=-1.5mm}},
+    chapbox/.style={fill=white, draw=gray!30, thick, rounded corners=4pt, inner sep=10pt, align=left, text width=11.5cm, drop shadow={opacity=0.04, shadow xshift=1.5mm, shadow yshift=-1.5mm}},
+    milebox/.style={fill=myorange!5, draw=myorange, line width=2pt, rounded corners=6pt, inner sep=10pt, align=left, text width=12cm, drop shadow={opacity=0.08, shadow xshift=1.5mm, shadow yshift=-1.5mm}},
+    partdate/.style={text=myred, font=\bfseries\large, align=right, minimum width=3.5cm},
+    chapdate/.style={text=myred, font=\bfseries\small, align=right, minimum width=3.2cm},
+    miledate/.style={fill=myorange, text=white, font=\bfseries\Large, rounded corners=4pt, inner sep=10pt, align=center, minimum width=3.5cm}
+}
+
+% Macro pour un rendu de liste condensé et esthétique
+\newcommand{\bulletitem}[2][myblue]{%
+    \par\vspace{0.5mm}\hangindent=1.2em \noindent\makebox[1.2em][l]{\color{#1}\faAngleRight} #2%
+}
+
+% Macros pour lier automatiquement les éléments au fil du temps
+\newcommand{\adddatepart}[3]{
+    \node[partdate, anchor=east] (D#1) at (-0.5, 0 |- #1.center) {#2};
+    \draw[draw=#3, line width=1.5pt] (D#1) -- (#1.west |- #1.center);
+    \fill[#3] (0, 0 |- #1.center) circle (5pt);
+}
+\newcommand{\adddatechap}[2]{
+    \node[chapdate, anchor=east] (D#1) at (-0.5, 0 |- #1.center) {#2};
+    \draw[draw=myred!40, thick] (D#1) -- (#1.west |- #1.center);
+    \fill[myred!80] (0, 0 |- #1.center) circle (3.5pt);
+}
+\newcommand{\adddatemile}[2]{
+    \node[miledate, anchor=east] (D#1) at (-0.5, 0 |- #1.center) {#2};
+    \draw[draw=myorange, line width=2pt] (D#1) -- (#1.west |- #1.center);
+    \fill[myorange] (0, 0 |- #1.center) ++(0,-6pt) -- ++(6pt,6pt) -- ++(-6pt,6pt) -- ++(-6pt,-6pt) -- cycle;
+}
+
+\begin{document}
+
+% =========================================================
+% PAGE 1 : PARTIE I
+% =========================================================
+\vspace*{\fill}
+\begin{center}
+\begin{tikzpicture}
+% Ligne invisible pour forcer la largeur constante du canevas et garantir l'alignement strict
+\path (-4.5, 0) -- (14.0, 0);
+
+% EN-TÊTE GLOBAL
+\node[anchor=south west] at (-4.2, 1.5) {
+    \begin{minipage}{14cm}
+        \Huge\bfseries\color{myblue} Rétro-planning de Thèse \\[3mm]
+        \Large\color{gray!80!black} Soutenance visée : \textbf{8 septembre 2026}\\[2mm]
+        \normalsize\color{myred}\faCalendarCheck\ \textit{Les dates en rouge : livraisons aux encadrants.}
+    \end{minipage}
+};
+
+% PARTIE 1
+\node[partbox, draw=myblue, anchor=north west] (P1) at (1, 0) {
+    \textbf{\Large \color{myblue}Partie I : Du Single-Linkage au clustering hiérarchique}\\
+    \vspace{1.5mm}
+    {\small\color{myblue}\faInfoCircle\ \textit{Note : Partir d'un graphe général, tout en précisant que dans notre cas d'étude $\mathbb{R}^d$, l'on se contentera du graphe complet (matrice) des distances euclidiennes.}}
+};
+\adddatepart{P1}{15 mars\\-- 10 avr.}{myblue}
+
+\node[chapbox, below=0.6cm of P1.south west, anchor=north west] (C1) {
+    \textbf{\large Chapitre 1 : Le Single-Linkage : trois points de vue équivalents}
+    {\normalsize\color{black!80}
+    \bulletitem{Introduction au Single-Linkage}
+    \bulletitem{Le Single-Linkage en pratique : l'arbre minimum couvrant}
+    \bulletitem{Le Single-Linkage en théorie : persistance de graphes géométriques}
+    \bulletitem{Le modèle statistique du Single-Linkage : \textsc{Hartigan} et les amas de forte densité}
+    }
+    \vspace{2mm}
+    \par{\small\color{myorange}\faEdit\ \textit{Action : Refaire quelques figures, mais en règle générale pas de nouvelles expériences pour ce chapitre.}}
+};
+\adddatechap{C1}{15 -- 20 mars}
+
+\node[chapbox, below=0.4cm of C1.south west, anchor=north west] (C2) {
+    \textbf{\large Chapitre 2 : Les limites du Single-Linkage}
+    {\normalsize\color{black!80}
+    \bulletitem{Quand la notion de densité manque : le \emph{chaining effect}}
+    \bulletitem{L'état de l'art aujourd'hui : HDBSCAN}
+    }
+};
+\adddatechap{C2}{20 -- 24 mars}
+
+\node[chapbox, below=0.4cm of C2.south west, anchor=north west] (C3) {
+    \textbf{\large Chapitre 3 : Une vue générale sur le clustering hiérarchique}\\
+    \vspace{1mm}
+    {\normalsize\color{black!80}Introduire des a priori géométriques. Ou comment « hacker » HDBSCAN.}\\
+    \vspace{2mm}
+    {\small\color{myorange}\faEdit\ \textit{Action : Refaire des figures et refaire les résultats sur SemanticKITTI.}}
+};
+\adddatechap{C3}{24 -- 30 mars}
+
+\node[chapbox, below=0.4cm of C3.south west, anchor=north west] (C4) {
+    \textbf{\large Chapitre 4 : Le phénomène de percolation au cœur des performances}
+    {\normalsize\color{black!80}
+    \bulletitem{Introduction à la percolation}
+    \bulletitem{La \emph{vitesse de percolation}}
+    }
+    \vspace{2mm}
+    \par{\small\color{myorange}\faEdit\ \textit{Action : Faire quelques figures illustratives. Surtout : refaire toutes les expériences pour calculer plus précisément la vitesse de percolation en dimension 2,3 pour beaucoup plus de K.}}\\[1mm]
+    {\small\color{myblue}\faQuestionCircle\ \textit{Question : Étrange que les résultats soient avant la définition de la K-généralisation du Single-Linkage ?}}
+};
+\adddatechap{C4}{30 mars\\-- 10 avr.}
+
+% TIMELINE DE FOND & INDICATEURS PAGE 1
+\begin{scope}[on background layer]
+    \draw[gray!20, line width=6pt] (0, 1.5) -- (0, 0 |- C4.south) -- ++(0, -0.8);
+\end{scope}
+\node[text=gray!50] at (0, 0 |- C4.south) [yshift=-1.2cm] {\LARGE\faChevronDown};
+\node[text=gray!50, anchor=west] at (0.3, 0 |- C4.south) [yshift=-1.2cm] {\textit{Suite Partie II page suivante}};
+
+\end{tikzpicture}
+\end{center}
+\vspace*{\fill}
+
+\newpage
+
+% =========================================================
+% PAGE 2 : PARTIE II
+% =========================================================
+\vspace*{\fill}
+\begin{center}
+\begin{tikzpicture}
+\path (-4.5, 0) -- (14.0, 0);
+
+% INDICATEURS PAGE 2 (HAUT)
+\node[text=gray!50] at (0, 1.5) {\LARGE\faChevronDown};
+\node[text=gray!50, anchor=west] at (0.3, 1.5) {\textit{Suite de la page précédente}};
+
+% PARTIE 2
+\node[partbox, draw=myteal, anchor=north west] (P2) at (1, 0) {
+    \textbf{\Large \color{myteal}Partie II : La généralisation naturelle au moyen d'hypergraphes}\\
+    \vspace{1.5mm}
+    {\small\color{myorange}\faEdit\ \textit{Action : Refaire quelques figures et ajouter des références bibliographiques (un peu de travail).}}
+};
+\adddatepart{P2}{10 avr.\\-- 1\textsuperscript{er} mai}{myteal}
+
+\node[chapbox, below=0.6cm of P2.south west, anchor=north west] (C5) {
+    \textbf{\large Chapitre 5 : Introduction}\\
+    \vspace{1mm}
+    {\normalsize\color{black!80}Retour sur la non prise en compte de la densité du Single-Linkage.}
+};
+\adddatechap{C5}{10 -- 15 avr.}
+
+\node[chapbox, below=0.4cm of C5.south west, anchor=north west] (C6) {
+    \textbf{\large Chapitre 6 : Hypergraph-Percol : la généralisation du Single-Linkage, compatible aux trois points de vue}
+    {\normalsize\color{black!80}
+    \bulletitem[myteal]{La généralisation naturelle du graphe géométrique et de la composante connexe : le complexe de \v{C}ech et les $K$-polyèdres}
+    \bulletitem[myteal]{La correspondance avec le modèle de \textsc{Hartigan} et l'estimateur de densité des $K$-Plus Proches Voisins}
+    }
+};
+\adddatechap{C6}{15 -- 20 avr.}
+
+\node[chapbox, below=0.4cm of C6.south west, anchor=north west] (C7) {
+    \textbf{\large Chapitre 7 : À la recherche de la généralisation de l'arbre minimum couvrant}
+    {\normalsize\color{black!80}
+    \bulletitem[myteal]{L'approche persistante : les simplexes $K$-séparants}
+    \bulletitem[myteal]{Une condition nécessaire : être $K$-Gabriel}
+    \bulletitem[myteal]{La bonne structure à observer : la mosaïque de Delaunay d'ordre $K$}
+    }
+    \vspace{2mm}
+    \par{\small\color{myorange}\faEdit\ \textit{Action : Ajouter quelques lemmes techniques (peu de travail).}}
+};
+\adddatechap{C7}{20 -- 25 avr.}
+
+\node[chapbox, below=0.4cm of C7.south west, anchor=north west] (C8) {
+    \textbf{\large Chapitre 8 : Conclusion sur la partie}\\
+    \vspace{1mm}
+    {\normalsize\color{black!80}La richesse structurelle de la mosaïque d'ordre $K$.}\\
+    \vspace{2mm}
+    {\small\color{myteal}\faInfoCircle\ \textit{Note : Ouverture sur d'autres questions. Reprendre le rapport de recherche. Peu de travail si l'on se contente de rester vague.}}
+};
+\adddatechap{C8}{25 avr.\\-- 1\textsuperscript{er} mai}
+
+% TIMELINE DE FOND & INDICATEURS PAGE 2 (BAS)
+\begin{scope}[on background layer]
+    \draw[gray!20, line width=6pt] (0, 1.5) -- (0, 0 |- C8.south) -- ++(0, -0.8);
+\end{scope}
+\node[text=gray!50] at (0, 0 |- C8.south) [yshift=-1.2cm] {\LARGE\faChevronDown};
+\node[text=gray!50, anchor=west] at (0.3, 0 |- C8.south) [yshift=-1.2cm] {\textit{Suite Partie III page suivante}};
+
+\end{tikzpicture}
+\end{center}
+\vspace*{\fill}
+
+\newpage
+
+% =========================================================
+% PAGE 3 : PARTIE III + CONCLUSION + JALONS
+% =========================================================
+\vspace*{\fill}
+\begin{center}
+\begin{tikzpicture}
+\path (-4.5, 0) -- (14.0, 0);
+
+% INDICATEURS PAGE 3 (HAUT)
+\node[text=gray!50] at (0, 1.5) {\LARGE\faChevronDown};
+\node[text=gray!50, anchor=west] at (0.3, 1.5) {\textit{Suite de la page précédente}};
+
+% PARTIE 3
+\node[partbox, draw=mygreen, anchor=north west] (P3) at (1, 0) {
+    \textbf{\Large \color{mygreen}Partie III : Vers des données davantage structurées}\\
+    \vspace{1.5mm}
+    {\small\color{mygreen}\faInfoCircle\ \textit{Note : Faire deux sous-parties plus distinctes (avec deux introductions ?).}}\\
+    {\small\color{myorange}\faEdit\ \textit{Action : Reprendre les deux articles (Nahuel \& Cerema). Peu de travail sous réserve qu'ils soient bien faits.}}
+};
+\adddatepart{P3}{1\textsuperscript{er} -- 20 mai}{mygreen}
+
+\node[chapbox, below=0.6cm of P3.south west, anchor=north west] (C9) {
+    \textbf{\large Chapitre 9 : Introduction}
+    {\normalsize\color{black!80}
+    \bulletitem[mygreen]{Chaînes de Markov et méthode Monte-Carlo}
+    \bulletitem[mygreen]{Brève introduction à un cas d'usage : détection de fissures. Petit historique : un retour sensible au \emph{model-based} ?}
+    }
+};
+\adddatechap{C9}{1\textsuperscript{er} -- 10 mai}
+
+\node[chapbox, below=0.4cm of C9.south west, anchor=north west] (C10) {
+    \textbf{\large Chapitre 10 : Des (hyper)graphes plus riches (\emph{features}, données manquantes...)}
+    {\normalsize\color{black!80}
+    \bulletitem[mygreen]{Un cadre bayésien à la détection de communautés sur graphes}
+    \bulletitem[mygreen]{Les dynamiques de clusters d'ordre supérieur}
+    \bulletitem[mygreen]{Un exemple où la percolation d'ordre supérieur affine des bornes théoriques}
+    }
+};
+\adddatechap{C10}{10 -- 15 mai}
+
+\node[chapbox, below=0.4cm of C10.south west, anchor=north west] (C11) {
+    \textbf{\large Chapitre 11 : Élargissement au traitement du signal}\\
+    \vspace{1mm}
+    {\normalsize\color{black!80}Le cas d'usage des fissures sur images.}\\
+    {\normalsize\color{black!80}
+    \bulletitem[mygreen]{Un classique : le filtre de Frangi}
+    \bulletitem[mygreen]{Une structure plus riche : le graphe de Frangi}
+    \bulletitem[mygreen]{Résultats et ouverture : vers une réconciliation deep-learning et modèles}
+    }
+    \vspace{2mm}
+    \par{\small\color{mygreen}\faQuestionCircle\ \textit{Question : Parler des travaux de Jules et sa suite ?}}
+};
+\adddatechap{C11}{15 -- 20 mai}
+
+% INTRO & CONCLUSION GÉNÉRALE
+\node[partbox, draw=mypurple, below=0.8cm of C11.south west, anchor=north west] (IC) {
+    \textbf{\Large \color{mypurple}Introduction générale \& Conclusion générale}
+    {\normalsize\color{black!80}
+    \bulletitem[mypurple]{Propos liminaire et brève histoire du \emph{clustering}. L'omniprésence du Single-Linkage.}
+    \bulletitem[mypurple]{Les deux grandes familles de \emph{clustering} (Parler du besoin de passer à une vue hiérarchique)}
+    }
+    \vspace{2mm}
+    \par{\small\color{myorange}\faEdit\ \textit{Action : Reprendre une partie très synthétique du rapport de recherche de fév. 2026.}}
+};
+\adddatepart{IC}{20 mai\\-- 1\textsuperscript{er} juin}{mypurple}
+
+% LIVRABLES FINAUX (JALONS)
+\node[milebox, below=1cm of IC.south west, anchor=north west] (M1) {
+    \textbf{\Large \color{myorange}\faBook\ \ Livraison du Manuscrit aux Rapporteurs}
+};
+\adddatemile{M1}{15 juin}
+
+\node[milebox, below=0.5cm of M1.south west, anchor=north west] (M2) {
+    \textbf{\LARGE \color{myorange}\faGraduationCap\ \ Soutenance de Thèse !}
+};
+\adddatemile{M2}{8 sept.}
+
+% TIMELINE DE FOND - PAGE 3
+\begin{scope}[on background layer]
+    \draw[gray!20, line width=6pt] (0, 1.5) -- (0, 0 |- M2.center);
+\end{scope}
+
+\end{tikzpicture}
+\end{center}
+\vspace*{\fill}
+
+\end{document}

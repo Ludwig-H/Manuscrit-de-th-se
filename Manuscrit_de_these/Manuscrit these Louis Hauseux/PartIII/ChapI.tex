@@ -1,0 +1,476 @@
+\chapter{Introduction}
+\label{chap:introduction_partie_III}
+
+Lors des deux premières parties de ce manuscrit, nous avions un cadre géométrique où les données étaient principalement des nuages de points plongés dans l'espace euclidien $\mathbb R^p$ de dimension $p$. 
+L'objectif de cette troisième partie est de montrer que les idées de ce cadre minimaliste peuvent se transposer à des données bien davantage structurées que par leur seule géométrie.
+Nous nous intéressons à deux cas pratiques : des graphes (pondérés et signés) et des images (multimodales). 
+
+Ce changement de nature des données justifie l'emploi de méthodes spécifiques, issues de la physique statistique et du traitement du signal, et qui feront l'objet des deux chapitres suivants \ref{chap:bayes_clusters_graphes} \& \ref{chap:frangi_fissures}.
+
+
+\section{Détection de communautés et méthodes de Monte-Carlo}
+
+Les graphes sont des objets naturels pour modéliser de très nombreux problèmes ; il est donc nécessaire de pouvoir les analyser convenablement \cite{AvrachenkovDreveton2022}.
+Une des premières tâches d'analyse que l'on peut demander est de regrouper des nœuds $V$ présentant des comportements communs ; ces clusters sont appelés \textit{communautés} en théorie des graphes. Ainsi est apparu le terme de détection de communautés sur graphe \cite{Fortunato2010, CherifiPallaSzymanskiLu2019CommunityStructure}.
+Dit autrement, on cherche à faire du clustering sur l'ensemble des sommets $V$.
+L'on supposera tout au long de ce chapitre et du suivant que le nombre de communautés $K \in \mathbb N^\star$ est donné à l'avance.
+
+
+
+% Nous nous intéressons à l'une d'elles, la dynamique de \nom{Swendsen-Wang}\cite{SwendsenWang}.
+% Étant donné un graphe et une configuration de spins, c'est-à-dire un estimateur des communautés, cette dynamique forme aléatoirement des clusters et produit une nouvelle configuration. Ce faisant, elle construit une chaîne de \nom{Markov} sur l'ensemble des configurations dont la distribution stationnaire est celle de \nom{Gibbs-Boltzmann}.
+
+\subsection{De l'optimisation à l'échantillonnage de \nom{Gibbs}}
+
+Pour faire de la détection de communautés sur graphe, des méthodes dont les idées sont issues de la physique statistique ont été proposées \cite{Reichardt2006, ConstantPottsModel}.
+Elles ont l'avantage d'être intuitives, élégantes mathématiquement, ainsi que de pouvoir être analysées théoriquement.
+Ces méthodes formulent l'inférence des communautés non pas comme une simple optimisation (où il s'agirait de trouver la ``meilleure'' configuration de communautés), mais comme un problème d'échantillonnage d'une certaine distribution de probabilité sur l'espace des configurations 
+
+\[
+\Conf_K \eqdef \{1 ; \dots ; K\}^V.
+\]
+%(L'on supposera donc $K$, le nombre de communautés, donné.)
+
+La loi cible, notée $\mu$, prend souvent la forme d'une mesure de \nom{(Boltzmann--)Gibbs} \cite{Parisi} :
+\[
+\mu(\sigma) = \frac{1}{Z} \exp\big(- H(\sigma)\big), 
+\]
+où $H(\sigma)$ désigne l'\emph{énergie} (ou le coût) de la configuration $\sigma$, pénalisant les configurations à forte énergie en leur attribuant une faible probabilité. 
+Le terme de normalisation $Z \eqdef \sum_{\sigma \in \Conf_K} \exp\big(- H(\sigma)\big)$ est appelé \emph{fonction de partition}.
+
+La taille de l'espace des configurations ($K^{\module{V}}$) croît de façon exponentielle avec le nombre de nœuds ; l'exploration complète de $\Conf_K$ devient impossible en pratique. 
+%L'inférence bayésienne exacte est donc impossible par calcul direct.
+
+Il s'agit donc de pouvoir convenablement échantillonner selon la mesure de \nom{Gibbs}, c'est-à-dire d'avoir un algorithme qui tire des configurations $\sigma$ selon leur probabilité $\mu(\sigma)$ de \nom{Gibbs} (\emph{i.e.} un \emph{\nom{Gibbs} sampler} en anglais).
+%De nombreux algorithmes de type Monte Carlo \nom{Markov} Chain (MCMC) ont été proposés pour obtenir un \textit{\nom{Gibbs} sampler}.
+%On peut grossièrement distinguer deux catégories d'algorithmes MCMC pour le \textit{\nom{Gibbs} sampling}.
+%(L'algorithme de \nom{Louvain} précité \cite{Louvain2008} pour maximiser la modularité n'est pas un \textit{\nom{Gibbs} sampler} néanmoins, il cherche aussi à minimiser une énergie de \nom{Gibbs} comme \Eq\ref{Energie}. Son efficacité vient du fait qu'il applique d'abord des changements locaux de type single-spin update, puis une fois un minimum local d'énergie trouvé, il procède à de macro-changements en regroupant ensemble tous les nœuds d'un même cluster.)
+
+
+
+\subsection{Le théorème ergodique et les chaînes de \nom{Markov}}
+
+Pour échantillonner de la sorte, l'on recourt souvent à des méthodes de Monte-Carlo par chaînes de \nom{Markov} (\emph{\nom{Markov} Chain Monte Carlo}, ou MCMC en anglais) \cite{Robert1996MCMC,JustinSaintFlour2025}.
+
+Le principe consiste à construire une chaîne de \nom{Markov} $(\Sigma_t)_{t\in\mathbb{N}}$ définie par un noyau de transition $P$, telle que sa distribution stationnaire soit exactement la mesure cible $\mu$. Cette invariance est souvent obtenue en imposant une condition de réversibilité locale (\emph{detailed balance} en anglais).
+
+Soit $\phi$ une fonction d'intérêt sur les configurations dont on cherche à évaluer l'espérance $ \mathbb E_{\Sigma \sim \mu} \bigl[ \phi(\Sigma)\bigr]$.
+Grâce au théorème ergodique \cite{JustinSaintFlour2025}, si la chaîne simulée est irréductible et apériodique, cette espérance peut être estimée par la moyenne empirique sur les visites de $(\Sigma_t)$. En effet, presque sûrement
+\[
+\lim_{T\to\infty} \frac{1}{T} \sum_{t=1}^T \phi(\Sigma_t) = \sum_{\sigma \in \Conf_K} \phi(\sigma)\mu(\sigma). 
+\]
+
+Pour revenir plus spécifiquement à la détection de communautés, parmi les méthodes MCMC, les plus simples ont une dynamique locale : à chaque pas, elles choisissent un nœud au hasard, puis changent son étiquette (transition de $\sigma $ vers $\sigma'$, différant de $\sigma$ seulement sur le nœud choisi). Cette transition se fait aléatoirement, selon une distribution qui permet de respecter la réversibilité locale.
+On dit en anglais de telles dynamiques qu'elles opèrent par \emph{single-spin update}.
+Ainsi font les dynamiques de \nom{Metropolis--Hastings} et de \nom{Glauber} \cite{GlauberMetropolisDiaconis2009}.
+
+
+Un algorithme fameux de détection de communautés, dit de \nom{Louvain} \cite{Louvain2008}\footnote{Pour une approche plus physique statistique, voir le \emph{Constant \nom{Potts} Model} \cite{ConstantPottsModel}, intégré à un raffinement de l'algorithme de \nom{Louvain} : l'algorithme de \nom{Leiden} \cite{Leiden2019}.}, consiste à maximiser une certaine \emph{modularité}, qui n'est autre que l'opposé d'une énergie sur les configurations.
+L'efficacité de l'algorithme de \nom{Louvain}  vient du fait qu'il applique d'abord des changements locaux de type \emph{single-spin update}, puis une fois un minimum local d'énergie trouvé, il procède à de macro-changements en regroupant ensemble tous les nœuds d'un même cluster. 
+
+\subsection{Dynamiques de clusters face à la frustration}
+
+Le théorème ergodique garantit la convergence presque sûre. Le problème en pratique vient de la vitesse à laquelle cette convergence se produit \cite{Robert1996MCMC} (le temps de mélange de la chaîne de \nom{Markov}, ou \emph{mixing time} en anglais). 
+
+Lorsque le système présente de fortes corrélations spatiales, les dynamiques locales classiques peinent à explorer l'espace des configurations et se retrouvent piégées dans des \emph{minima} locaux d'énergie (souvent très médiocres par rapport au minimum global) \cite{CeleuxRobert2000PoorMixing}.
+L'algorithme de \SW{} \cite{SwendsenWang}, généralisé par \nom{Edwards \& Sokal} \cite{EdwardsSokal}, s'appuie sur le modèle de percolation des amas aléatoires (\emph{random-cluster model}) \cite{FortuinKasteleyn, Grimmett2006} pour créer des dynamiques de clusters. %Nous y reviendrons plus en détail dans le chapitre consacré.
+
+Toutefois lorsque le réseau comporte des interactions concurrentes, \emph{e.g.} dans le cas que nous allons étudier : des arêtes tant attractives (ferromagnétiques) que répulsives (anti-ferromagnétiques), le phénomène dit de \emph{frustration} apparaît \cite{FaiblesseSwendsen-WangFrustration, RevueSpinGlassesPercolation2024}. 
+Ces informations locales contradictoires bloquent la construction de clusters pertinents et gèlent la dynamique. 
+Pour surmonter cet obstacle, inspirés par les travaux de \nom{Kandel, Ben-Av et Domany} \cite{KBD1992}, nous proposerons d'étendre la dynamique de \SW{} en y intégrant des interactions d'ordre supérieur. 
+
+\subsection{La percolation comme garantie théorique pour le recouvrement des communautés}
+
+
+C'est ici que le lien avec les deux parties précédentes du manuscrit apparaît plus clairement : les interactions d'ordre supérieur \emph{via} une dynamique triangulaire permettent de réduire la frustration.
+
+Mieux encore : au sein du cadre bayésien que nous aurons rigoureusement construit, la détection des communautés n'est théoriquement possible qu'à la condition que la dynamique de clusters percole. De même qu'au chapitre \ref{sec:chap_percolation}, le phénomène de percolation dépend du type d'interaction. Avantage une nouvelle fois aux interactions d'ordre supérieur !
+
+
+
+\section{Extraction de réseaux de fissures au sein d'images : le retour vers des modèles géométriques plus explicites ?}
+
+Le second domaine abordé dans cette partie concerne le traitement d'image \cite{jain1989fundamentals, Zerubia1995, Gonzalez2018ImageProcessing}, motivé par l'extraction automatique de réseaux de fissures. 
+
+Il y a notamment deux raisons qui font que l'établissement d'une cartographie fiable de ces structures linéiques est crucial : pour l'inspection des infrastructures civiles (\emph{e.g.} des piles de pont sur lesquelles le réseau de fissures représenterait un risque \cite{cerema_iqoa_ponts_dalles}) et la surveillance des aléas géologiques (évacuation d'une zone en cas de risque de glissement de terrain) \cite{bird2016coastal, fauchard2023diachronic}. 
+%L'objectif n'est pas de produire un simple masque de segmentation binaire, mais d'extraire un squelette conservant la topologie, la connectivité et les ramifications du réseau \cite{lee1994building}.
+
+\subsection{Les limites de l'apprentissage profond en extraction de réseaux}
+
+Actuellement, l'apprentissage profond (\emph{deep learning} en anglais) domine la vision par ordinateur, avec des architectures éprouvées comme le U-Net \cite{Unet2015}, DeepCrack \cite{DeepCrack2019}, les \emph{transformers} \cite{CrackFormer2021} ou les modèles de diffusion \cite{CrackSegDiff2024}. 
+Toutefois, leur utilisation se heurte à des limites pratiques sévères, récemment soulignées par \nom{Zhang} \emph{et al}. \cite{Zhang2025Review} : 
+\begin{enumerate}
+    \item Un coût prohibitif pour la constitution de bases de données annotées par des experts \cite{JosianeGANCrack2020}. 
+    \item Plus fâcheux encore : une capacité de généralisation qui s'effondre fréquemment face à des changements de domaine \cite{Zhang2025Review} (\emph{domain shifts} en anglais).
+\end{enumerate}
+
+Le second point peut être dû à de multiples causes allant de la variation des capteurs à celle des matériaux observés, en passant par les différences de conditions d'observation \cite{Zhang2025Review}.
+
+\subsection{Le retour à des modèles physiques ? Du pixel au graphe spatial}
+
+Ces contraintes justifient une voie complémentaire : le retour (au moins partiellement) à des modèles géométriques explicites (\emph{model-based}), s'affranchissant de (ou limitant) la phase d'entraînement (le modèle est dit alors \emph{training-free} en anglais). 
+
+Historiquement, avant l'avènement du \emph{deep learning}, ce sont ces modèles qui prévalaient.
+Ainsi sont apparus des filtres (c'est-à-dire des fonctions de l'ensemble des pixels dans $[ 0 ; 1]$) fondés sur l'analyse de la matrice hessienne de l'image.
+Citons \emph{exempli gratia} le filtre de \nom{Sato} \cite{Sato1998}. Le plus fameux est peut-être le filtre de \nom{Frangi} \cite{Frangi1998} qui analyse de façon multi-échelle les valeurs propres de la matrice hessienne ; le filtre de \nom{Frangi} est un standard pour rehausser (puis détecter) les structures tubulaires. 
+%Cependant, ce filtre prend des décisions strictement locales (au niveau du pixel), ce qui tend à fragmenter le réseau en présence de bruit.
+
+Le \S~\ref{chap:frangi_fissures} propose de généraliser ce filtre en déplaçant la réponse, de pixélique qu'elle était, vers un (hyper-)graphe spatial de similarité entre paires/triplets de pixels. 
+
+L'information contenue dans une paire/un triplet de pixels est beaucoup plus riche que la simple réponse pixélique ; par exemple, si deux pixels sont chacun dans une structure tubulaire, rien n'indique que ce soit la même structure si l'on ne regarde le bon alignement des deux structures.
+
+Une fois cette information bien encodée dans un graphe de similarité, baptisé graphe de \nom{Frangi}, nous avons développé un algorithme -- lointain cousin de \HGP-Clusterer -- pour l'extraction du réseau de fissures. 
+Cet algorithme s'appuie ainsi sur le calcul d'un arbre minimum couvrant élagué par une mesure de centralité d'intermédiarité (\emph{betweenness centrality} en anglais) \cite{Freeman1977, AvrachenkovDreveton2022}. 
+
+Un grand avantage de cette méthode est sa flexibilité : elle intègre très naturellement la multi-modalité au niveau des opérateurs différentiels (images optiques ou radar ; reconstruction  photogrammétrique pour ajouter une modalité de profondeur, \emph{etc.}).
+
+
+Une nouvelle fois, nous montrons que nous pouvons utilement tirer parti des interactions d'ordre supérieur (composantes triangle-connexes) pour filtrer les artefacts sur des images fortement texturées.
+
+
+% \section{Plan de la Partie III}
+
+% Cette troisième partie s'articule en deux chapitres, unis par la volonté d'exploiter explicitement la structure topologique et géométrique des données, tout en évitant les écueils de l'optimisation locale naïve et de l'apprentissage boîte-noire :Chapitre 11 : Un cadre bayésien pour la détection de communautés sur graphes.Nous formalisons la détection de communautés sur des graphes signés. Nous y détaillons notre dynamique de clusters d'ordre supérieur et montrons, via la théorie de la percolation, comment elle repousse les obstructions à l'échantillonnage et améliore les bornes théoriques de détection par rapport aux approches classiques.Chapitre 12 : Extension au traitement du signal et extraction de fissures.Nous transposons ces concepts au traitement d'image en construisant le graphe de Frangi généralisé. Nous y présentons son extension à la multimodalité, et l'évaluation de ses performances face aux réseaux de neurones de l'état de l'art, mettant en évidence sa stabilité sans aucun besoin de données d'entraînement.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
+
+
+
+
+% Les deux premières parties de ce manuscrit ont étudié des données qui portaient déjà une géométrie, mais une géométrie encore relativement simple : un nuage de points dans un espace euclidien, une distance, puis une filtration de graphes ou d'hypergraphes construite à partir de cette distance.
+% Cette troisième partie part d'une situation différente. Les données ne sont plus seulement des points à relier : elles peuvent déjà être des graphes pondérés, des images, des signaux multimodaux, ou des objets dans lesquels les relations locales sont elles-mêmes une partie essentielle de l'information.
+% Ce déplacement est important : il ne s'agit plus seulement de construire une structure sur les données, mais aussi de tenir compte de structures déjà présentes dans l'observation.
+
+% Cette évolution a deux conséquences.
+% La première est statistique : lorsque la structure observée est un graphe signé, bruité, incomplet, ou plus généralement un ensemble d'interactions, il devient naturel de raisonner en termes de modèle probabiliste, de postérieure et d'échantillonnage.
+% L'objectif n'est plus nécessairement de produire directement une seule partition optimale, mais de comprendre une loi sur les configurations possibles.
+% C'est le point de départ du chapitre suivant : donner un cadre bayésien à la détection de communautés sur graphes, puis construire des dynamiques de clusters de type \nom{Swendsen--Wang} adaptées à des interactions plus riches que de simples arêtes.
+
+% La seconde conséquence est plus appliquée : lorsque les données sont des images, la structure intéressante peut être fine, ramifiée, incomplète et mal contrastée.
+% La détection de fissures en est un bon exemple.
+% Les méthodes d'apprentissage profond dominent aujourd'hui la segmentation de fissures, avec des architectures de type U-Net, DeepCrack, Transformers, modèles de diffusion ou modèles de fondation adaptés \cite{Unet2015,DeepCrack2019,CrackFormer2021,CrackSegDiff2024,Kirillov2023SAM,Ge2024CrackSAM}.
+% Mais cette domination pratique ne supprime pas les difficultés classiques : coût d'annotation, changement de domaine, dépendance au capteur, manque de données multimodales bien annotées.
+% La revue récente de \nom{Zhang} \emph{et al.} insiste précisément sur ce déplacement du domaine : on ne cherche plus seulement de bons scores sur un jeu de données donné, mais des méthodes plus sobres en annotation et plus généralisables \cite{Zhang2025Review}.
+
+% Ce chapitre introductif fixe donc le vocabulaire et les motivations de la partie.
+% La première section rappelle brièvement le principe des chaînes de \nom{Markov} et de la méthode \nom{Monte-Carlo} par chaînes de \nom{Markov}.
+% La seconde section introduit la détection de fissures comme exemple de traitement d'image où le retour à des modèles géométriques explicites est non seulement défendable, mais parfois nécessaire.
+
+% \section{Chaînes de \nom{Markov} et méthode \nom{Monte-Carlo}}
+% \label{sec:partIII_markov_montecarlo}
+
+% \subsection{Échantillonner plutôt qu'optimiser}
+
+% % Dans les deux premières parties, les algorithmes étudiés construisaient principalement une hiérarchie déterministe.
+% % Le Single-Linkage, HDBSCAN, puis notre généralisation par hypergraphes géométriques renvoient un objet combinatoire : un arbre, une filtration, une famille emboîtée de composantes.
+% % Il y a bien sûr de l'aléatoire dans l'analyse théorique, puisque les points peuvent être tirés selon une densité ou un processus ponctuel, mais l'algorithme lui-même reste essentiellement déterministe une fois les données observées.
+
+% % Dans cette troisième partie, cette situation change.
+% % Pour un graphe signé pondéré, une image bruitée, ou une structure dont l'observation est incertaine, il peut être artificiel de chercher immédiatement une solution unique.
+% % 
+
+% Le cas qui va nous intéresser est celui de la détection de communauté sur graphe \cite{Fortunato2010}. Il s'agit de produire un clustering des sommets $V$ d'un graphe. Ce que nous appellerons une configuration est une application
+% \[
+%     \sigma:V\longrightarrow \{1,\ldots,K\},
+% \]
+% qui attribue une communauté à chaque sommet.
+% L'espace des configurations est alors
+% \[
+%     \Conf_K=\{1,\ldots,K\}^{V}.
+% \]
+
+% Il est souvent plus naturel de définir non pas une unique configuration $\sigma_0$ qui serait la ``vérité'' à retrouver mais associer à toute configuration $\sigma \in \Conf_K$ une certaine vraisemblance et définir de la sorte une loi de probabilité sur les configurations.
+% C'est l'esprit de la statistique bayésienne.
+
+% Le problème est que la taille de l'espace $\Conf_K$ à explorer vaut $K^{|V|}$.
+% Cette croissance rend très vite impossible toute exploration exhaustive.
+% % Même l'écriture de la constante de normalisation d'une loi de \nom{Gibbs} devient impraticable.
+% Il faut donc remplacer le calcul exact par une exploration aléatoire bien contrôlée.
+
+
+
+
+% Une façon classique de procéder consiste à construire une chaîne de \nom{Markov} (c'est-à-dire un processus aléatoire dont les transitions ne dépendent que de l'état actuel) qui se promène dans l'espace des configurations.
+
+
+
+% et dont la loi stationnaire est précisément la loi cible.
+% Au lieu de calculer directement une somme sur toutes les configurations, on simule une trajectoire longue
+% \[
+%     X_0,X_1,X_2,\ldots
+% \]
+% et l'on remplace les moyennes sous la loi cible par des moyennes temporelles le long de cette trajectoire.
+% C'est le principe des méthodes \nom{Monte-Carlo} par chaînes de \nom{Markov}, ou MCMC \cite{Metropolis1953,Hastings1970,GlauberMetropolisDiaconis2009}.
+
+% \subsection{Chaînes de \nom{Markov} : noyau, invariance, réversibilité}
+
+% Nous rappelons ici le cadre élémentaire, uniquement pour fixer les notations.
+% Soit $\mathcal E$ un espace d'états fini ou dénombrable.
+% Une chaîne de \nom{Markov} homogène sur $\mathcal E$ est décrite par un noyau de transition
+% \[
+%     P(x,y)=\mathbb P(X_{t+1}=y\mid X_t=x),
+%     \qquad x,y\in\mathcal E.
+% \]
+% La propriété de \nom{Markov} signifie que, conditionnellement à l'état présent, le futur ne dépend pas du passé.
+% Autrement dit, tout ce que la chaîne utilise pour avancer est contenu dans son état courant.
+% Cette hypothèse donne un cadre suffisamment simple pour être analysé, tout en restant assez riche pour modéliser des dynamiques utiles.
+
+% Une probabilité $\pi$ sur $\mathcal E$ est dite invariante pour $P$ si
+% \begin{equation}
+%     \pi P = \pi,
+%     \qquad\text{c'est-à-dire}\qquad
+%     \pi(y)=\sum_{x\in\mathcal E}\pi(x)P(x,y).
+%     \label{eq:partIII_invariance_markov}
+% \end{equation}
+% Si $X_t$ suit la loi $\pi$, alors $X_{t+1}$ suit encore la loi $\pi$.
+% Dans le contexte MCMC, $\pi$ est précisément la loi que l'on souhaite échantillonner.
+
+% Une condition suffisante très pratique pour obtenir l'invariance est la réversibilité.
+% On dit que $P$ est réversible par rapport à $\pi$ si
+% \begin{equation}
+%     \pi(x)P(x,y)=\pi(y)P(y,x),
+%     \qquad x,y\in\mathcal E.
+%     \label{eq:partIII_balance_detaille}
+% \end{equation}
+% Cette relation est souvent appelée condition de balance détaillée.
+% En sommant \eqref{eq:partIII_balance_detaille} sur $x$, on retrouve \eqref{eq:partIII_invariance_markov}.
+% La réversibilité est donc plus forte que l'invariance, mais elle est beaucoup plus simple à vérifier.
+% C'est pour cette raison qu'elle apparaît partout dans les algorithmes MCMC \cite{Norris1998,LevinPeresWilmer2009}.
+
+% Sous des hypothèses classiques d'irréductibilité et d'apériodicité, la chaîne converge vers sa loi invariante.
+% Plus précisément, pour une fonction test $\varphi:\mathcal E\to\mathbb R$, l'ergodicité donne
+% \begin{equation}
+%     \frac1T\sum_{t=1}^{T}\varphi(X_t)
+%     \xrightarrow[T\to+\infty]{}
+%     \sum_{x\in\mathcal E}\varphi(x)\pi(x),
+%     \label{eq:partIII_ergodique_markov}
+% \end{equation}
+% au moins dans les cadres élémentaires que nous utiliserons.
+% Le problème pratique n'est donc pas seulement de construire une chaîne correcte ; il faut aussi qu'elle mélange assez vite pour être utile.
+% Sinon, l'algorithme possède une garantie asymptotique, mais reste inutilisable en pratique.
+
+% \subsection{La méthode MCMC}
+
+% Le paradigme MCMC consiste à partir d'une loi cible $\pi$ que l'on ne sait pas échantillonner directement, puis à construire une chaîne de \nom{Markov} ayant $\pi$ pour loi invariante.
+% L'exemple fondateur est l'algorithme de \nom{Metropolis}, introduit pour des simulations de physique statistique \cite{Metropolis1953}, puis généralisé par \nom{Hastings} \cite{Hastings1970}.
+% On se donne une proposition $q(x,y)$, qui propose de passer de $x$ à $y$, et l'on accepte ce mouvement avec probabilité
+% \begin{equation}
+%     a(x,y)
+%     =
+%     1\wedge
+%     \frac{\pi(y)q(y,x)}{\pi(x)q(x,y)}.
+%     \label{eq:partIII_metropolis_hastings}
+% \end{equation}
+% Cette correction d'acceptation-rejet garantit la réversibilité par rapport à $\pi$.
+% Elle a aussi un intérêt considérable : elle ne demande de connaître $\pi$ qu'à une constante multiplicative près.
+% C'est exactement ce que l'on veut lorsqu'une constante de normalisation est impossible à calculer.
+
+% Dans les modèles de \nom{Gibbs}, la loi cible s'écrit souvent sous la forme
+% \begin{equation}
+%     \pi_\beta(\sigma)
+%     =
+%     \frac{1}{Z_\beta}\exp\bigl(-\beta H(\sigma)\bigr),
+%     \qquad
+%     Z_\beta=
+%     \sum_{\eta\in\Sigma}\exp\bigl(-\beta H(\eta)\bigr),
+%     \label{eq:partIII_gibbs_generale}
+% \end{equation}
+% où $H$ est une énergie, $\beta$ une température inverse, et $Z_\beta$ la fonction de partition.
+% Le facteur $Z_\beta$ est généralement hors de portée, mais il disparaît dans le rapport de \eqref{eq:partIII_metropolis_hastings}.
+% C'est l'une des raisons pour lesquelles les méthodes MCMC sont devenues centrales en physique statistique, en statistique bayésienne, en traitement d'image et en apprentissage probabiliste \cite{GemanGeman1984,GlauberMetropolisDiaconis2009}.
+
+% Le \emph{Gibbs sampler} est une variante locale particulièrement importante.
+% Au lieu de proposer un changement quelconque, on choisit une coordonnée, puis on la rééchantillonne selon sa loi conditionnelle sachant toutes les autres.
+% Pour une configuration de spins $\sigma=(\sigma_i)_{i\in V}$, un pas local consiste par exemple à choisir un sommet $i$ et à remplacer $\sigma_i$ selon
+% \[
+%     \mathbb P(\sigma_i=s\mid \sigma_{V\setminus\{i\}}),
+%     \qquad s\in\{1,\ldots,K\}.
+% \]
+% Ce type de dynamique est simple, robuste et facile à implémenter.
+% Il a toutefois une faiblesse majeure : lorsqu'il existe de fortes corrélations à longue distance, changer un seul spin à la fois peut être extrêmement lent.
+% La chaîne explore alors l'espace des configurations par petits mouvements, alors que le passage d'une région de forte probabilité à une autre peut demander un changement coordonné de nombreux spins.
+
+% \subsection{Dynamiques de clusters}
+
+% Les dynamiques de clusters répondent précisément à cette faiblesse.
+% Au lieu de modifier localement une coordonnée, elles identifient des groupes de spins fortement corrélés et les mettent à jour simultanément.
+% La dynamique de \nom{Swendsen--Wang} en est l'exemple classique \cite{SwendsenWang}.
+% Elle repose sur la représentation en amas aléatoires de \nom{Fortuin--Kasteleyn} \cite{FortuinKasteleyn,Grimmett2006} et sur le formalisme de \nom{Edwards--Sokal} \cite{EdwardsSokal}.
+% L'idée est la suivante : étant donnée une configuration de spins, on ajoute aléatoirement des liaisons entre spins compatibles, on obtient des clusters, puis on repeint ces clusters plutôt que les spins isolés.
+
+% Cette stratégie peut changer brutalement l'état global du système tout en préservant la loi de \nom{Gibbs}.
+% Elle est particulièrement efficace lorsque les corrélations spatiales sont longues, comme dans les modèles de spins proches d'un seuil critique.
+% Elle fait aussi apparaître un lien profond entre échantillonnage et percolation : les clusters gelés par la dynamique ne sont pas seulement un artifice algorithmique, ils donnent une lecture géométrique des corrélations de la loi de \nom{Gibbs}.
+% Ce lien sera central dans le chapitre suivant.
+
+% Dans les graphes signés, les interactions peuvent être attractives ou répulsives.
+% Un poids positif indique que deux sommets ont tendance à partager la même étiquette ; un poids négatif indique au contraire qu'ils ont tendance à appartenir à des communautés différentes.
+% Lorsque ces contraintes locales se contredisent, on parle de frustration.
+% La frustration est banale dans les modèles de spins désordonnés, et désagréable dans les algorithmes : elle crée des paysages d'énergie avec beaucoup de minima locaux.
+% Les dynamiques locales y restent piégées, tandis que les dynamiques de clusters classiques peuvent construire de mauvais clusters parce qu'elles ne voient que des interactions binaires.
+
+% Le chapitre suivant part de cette observation.
+% Nous y construisons un cadre bayésien général pour la détection de communautés sur graphes pondérés signés, puis nous introduisons une famille de dynamiques de clusters d'ordre supérieur.
+% Dans le cas $K=2$, l'idée est d'ajouter des interactions triangulaires qui ne changent pas la loi cible, mais qui améliorent la dynamique d'échantillonnage en réduisant la frustration effective.
+% Le point important est le suivant : les interactions d'ordre supérieur ne servent pas seulement à enrichir un modèle ; elles peuvent aussi améliorer la manière dont on l'explore.
+
+% \Contributions{Le rôle de cette première section n'est pas de refaire une théorie générale des chaînes de \nom{Markov}. Il est plus modeste : rappeler le principe des méthodes MCMC, expliquer pourquoi les lois de \nom{Gibbs} apparaissent naturellement dans la détection de communautés sur graphes, et préparer l'introduction des dynamiques de clusters d'ordre supérieur du chapitre suivant.}
+
+% \section{Détection de fissures : un retour sensible au \emph{model-based}~?}
+% \label{sec:partIII_detection_fissures}
+
+% \subsection{De la fissure comme masque à la fissure comme réseau}
+
+% La détection de fissures est un problème simple à énoncer, mais difficile à résoudre de façon robuste.
+% On dispose d'une image d'une chaussée, d'un ouvrage d'art, d'un mur, d'un massif rocheux ou d'une surface géologique.
+% On souhaite identifier les fissures.
+% Selon l'application, cette identification peut prendre plusieurs formes : classification d'une image entière, détection d'une boîte englobante, segmentation pixélique, ou extraction d'un squelette représentant le réseau.
+
+% Dans cette partie, c'est surtout cette dernière vision qui nous intéresse.
+% Une fissure n'est pas seulement une région noire sur fond clair.
+% C'est une structure fine, allongée, parfois discontinue, qui porte une géométrie : largeur, orientation, ramifications, intersections, connectivité.
+% Pour certaines applications, notamment en géosciences ou en inspection d'infrastructures, ces propriétés géométriques sont aussi importantes que le masque binaire lui-même.
+% Le problème n'est donc pas seulement de répondre à la question « ce pixel est-il fissuré ? », mais aussi de comprendre comment les pixels fissurés s'organisent en réseau.
+
+% Cette distinction explique le choix méthodologique du dernier chapitre.
+% Nous ne cherchons pas seulement à produire une segmentation dense.
+% Nous cherchons à extraire une structure graphe, c'est-à-dire un objet directement éditable et interprétable.
+% Les pixels candidats deviennent des sommets ; les compatibilités locales entre pixels deviennent des arêtes ; l'extraction finale se fait par composantes, arbre couvrant minimum et centralité.
+% Le vocabulaire du clustering et des graphes, développé dans les parties précédentes, réapparaît donc dans un contexte apparemment différent : le traitement d'image.
+
+% \subsection{Petit historique}
+
+% Historiquement, la détection de fissures a d'abord reposé sur l'inspection visuelle.
+% Cette inspection reste parfois la référence pratique, mais elle est coûteuse, subjective et difficile à reproduire à grande échelle.
+% Les premières méthodes automatiques ont donc naturellement utilisé les outils classiques du traitement d'image : seuillage d'intensité, détection de contours, opérations morphologiques, filtrage multi-échelle, analyse de texture.
+% Ces méthodes ont l'avantage d'être rapides et interprétables.
+% Elles ont aussi un défaut évident : elles confondent facilement une fissure avec une ombre, une rayure, une strie d'asphalte ou un artefact d'acquisition.
+% Ces confusions sont d'autant plus fréquentes que les images réelles présentent des variations importantes de texture, d'illumination et de capteur.
+
+% Parmi ces méthodes classiques, les filtres hessiens occupent une place particulière.
+% Le filtre de \nom{Frangi}, introduit pour rehausser les structures vasculaires en imagerie médicale \cite{Frangi1998}, s'appuie sur les valeurs propres de la hessienne lissée d'une image.
+% Une structure tubulaire ou curviligne se reconnaît localement par une forte courbure dans une direction et une faible variation dans la direction longitudinale.
+% Des travaux voisins, comme ceux de \nom{Sato} \emph{et al.} \cite{Sato1998}, appartiennent à la même famille d'outils multi-échelles.
+% Pour une fissure fine, l'analogie est naturelle : une fissure ressemble localement à une vallée sombre et allongée.
+
+% À partir des années 2010, l'apprentissage profond a profondément changé le domaine.
+% Les réseaux convolutionnels, en particulier U-Net \cite{Unet2015}, puis des architectures spécialisées comme DeepCrack \cite{DeepCrack2019}, ont permis d'obtenir des performances très élevées en segmentation de fissures.
+% Les Transformers, par exemple CrackFormer \cite{CrackFormer2021}, puis les modèles de diffusion \cite{CrackSegDiff2024}, ont encore enrichi l'arsenal.
+% Plus récemment, les modèles de fondation en vision, représentés par SAM \cite{Kirillov2023SAM}, ont été adaptés à la segmentation de fissures par ajustement fin, comme dans CrackSAM \cite{Ge2024CrackSAM}.
+
+% Ce mouvement est tout à fait logique.
+% Une fissure peut avoir une apparence très variable, et les réseaux profonds apprennent précisément ce genre de variabilité lorsque les données annotées sont suffisamment nombreuses et représentatives.
+% Mais cette condition est lourde.
+% Annoter une fissure au pixel près peut demander beaucoup de temps, surtout lorsque seule une expertise métier permet de distinguer une fissure réelle d'une structure visuellement semblable.
+% Dans nos propres travaux avec le \href{https://www.cerema.fr/fr/mots-cles/equipe-recherche-endsum}{Cerema}, l'annotation d'une seule grande image de glissement de terrain a demandé un travail expert conséquent \cite{BibiStrasbourg}.
+% Ce coût d'annotation limite mécaniquement la constitution de jeux d'apprentissage massifs.
+
+% La revue de \nom{Zhang} \emph{et al.} résume bien l'évolution actuelle du domaine \cite{Zhang2025Review}.
+% Trois tendances s'y dégagent : le passage de l'apprentissage pleinement supervisé à des paradigmes plus sobres en annotation ; l'importance croissante de la généralisation inter-domaines ; et la diversification des capteurs, avec des données RGB, infrarouges, de profondeur ou issues de scanners laser.
+% Ces tendances rejoignent directement les contraintes de notre application : images rares, multimodalité, changements de capteur, fonds fortement texturés, manque de vérité terrain parfaitement alignée.
+
+% \subsection{Pourquoi revenir aux modèles explicites ?}
+
+% Le retour au \emph{model-based} ne doit pas être compris comme une nostalgie des années 1990.
+% Il ne s'agit pas de prétendre que les réseaux profonds seraient inutiles.
+% Ils sont souvent excellents, surtout lorsque les données de test ressemblent aux données d'entraînement.
+% Le point est plus simple : dans des contextes où l'annotation est rare, où les modalités changent, et où l'on veut un objet interprétable, les modèles géométriques explicites gardent un rôle important.
+
+% Les modèles explicites ont trois avantages.
+% Premièrement, ils imposent des hypothèses lisibles.
+% Dans le cas du filtre de \nom{Frangi}, l'hypothèse est que la structure recherchée est localement curviligne et possède un comportement de hessienne compatible avec une ligne sombre ou claire.
+% Cette hypothèse peut être discutée, corrigée, inversée selon la modalité.
+% Elle n'est pas cachée dans des millions de paramètres.
+% Deuxièmement, ces modèles peuvent fonctionner sans données annotées.
+% Troisièmement, ils produisent souvent des sorties plus faciles à corriger par un expert : un squelette ou un graphe est plus commode à éditer qu'un masque bruité de plusieurs millions de pixels.
+
+% Le prix à payer est évident.
+% Un modèle explicite est moins souple qu'un grand réseau entraîné sur un jeu de données adapté.
+% Il peut échouer lorsque ses hypothèses sont fausses : fissure trop épaisse, contraste inversé non identifié, texture ambiguë, bruit structuré, désalignement des modalités.
+% Mais cet échec est souvent compréhensible.
+% Dans beaucoup d'applications scientifiques, cette interprétabilité constitue un avantage réel : elle permet de relier les échecs de la méthode aux hypothèses du modèle.
+
+% Le dernier chapitre propose donc une voie intermédiaire.
+% Nous partons du filtre de \nom{Frangi}, mais nous le déplaçons du pixel vers le graphe.
+% Au lieu de calculer seulement une réponse locale $V(x)$, nous construisons une similarité entre paires de pixels voisins.
+% Deux pixels sont reliés s'ils sont spatialement proches, s'ils présentent une géométrie hessienne compatible, et si leurs orientations locales sont cohérentes.
+% Cette construction donne un graphe de similarité, sur lequel on peut appliquer des outils de connectivité, d'arbre couvrant minimum et de centralité.
+
+% Cette formulation permet aussi d'intégrer naturellement plusieurs modalités.
+% Une image visible, une carte de profondeur et une image infrarouge ne donnent pas exactement le même signal.
+% Mais si elles observent la même fissure, elles doivent partager une géométrie locale cohérente.
+% Plutôt que de concaténer naïvement des canaux comme entrée d'un réseau, nous fusionnons les informations au niveau des hessiennes normalisées, puis nous appliquons la même chaîne de traitement.
+% Le jeu FIND, qui combine notamment intensité et information de profondeur, fournit un premier cadre de test pour cette approche \cite{FIND2022}.
+
+% Enfin, cette approche prolonge naturellement les idées d'ordre supérieur étudiées dans ce manuscrit.
+% Sur une image très texturée, une simple arête entre deux pixels peut être un indice trop faible.
+% Imposer que les arêtes appartiennent à des triangles cohérents revient à demander une densité locale de relations compatibles.
+% C'est une version très concrète du même thème : les interactions d'ordre supérieur peuvent rendre une structure plus stable que les interactions binaires seules.
+% Dans le chapitre sur les fissures, ce principe apparaît sous la forme de composantes triangle-connexes.
+
+% \subsection{Complémentarité avec l'apprentissage profond}
+
+% Le point de vue défendu ici n'oppose pas apprentissage profond et modèles mathématiques.
+% Cette opposition est commode pour écrire des introductions agressives, mais assez pauvre scientifiquement.
+% Les deux approches peuvent se compléter.
+% Un modèle géométrique peut fournir des pré-annotations, des contraintes de connectivité, des post-traitements topologiques ou des modules différentiables.
+% À l'inverse, un réseau profond peut apprendre des apparences complexes que des hypothèses hessiennes simples ne capturent pas.
+
+% Une piste intéressante consiste donc à utiliser les méthodes géométriques comme instruments d'annotation semi-automatique.
+% Le graphe de \nom{Frangi} produit un squelette éditable ; un expert peut le corriger plus vite qu'il ne dessinerait une vérité terrain depuis une image brute.
+% Une autre piste consiste à injecter explicitement des opérateurs différentiels dans les architectures apprenantes.
+% Des travaux récents autour de neurones inspirés du filtre de \nom{Frangi} vont dans cette direction \cite{NeuroneFrangi2023}.
+% Enfin, les modèles de fondation peuvent bénéficier de contraintes explicites sur les structures fines, discontinues et connectées : les fissures ont une topologie et une géométrie qui ne sont pas celles d'objets compacts ordinaires.
+
+% \Contributions{La seconde section de ce chapitre situe le travail sur les fissures dans l'histoire récente du traitement d'image. Nous y justifions le choix d'une méthode sans apprentissage, fondée sur un modèle géométrique explicite, non comme concurrent universel de l'apprentissage profond, mais comme réponse adaptée aux cas où l'annotation, la généralisation et la multimodalité posent problème.}
+
+% \section{Plan de la partie}
+% \label{sec:partIII_plan}
+
+% Cette troisième partie comporte deux chapitres principaux après cette introduction.
+
+% \paragraph{Chapitre~\ref{chap:bayes_clusters_graphes}.}
+% Le premier chapitre technique revient aux graphes, mais dans un cadre plus riche que celui des parties précédentes.
+% Les sommets portent des communautés cachées, les arêtes sont pondérées et signées, et l'on décrit le problème au moyen d'un modèle bayésien.
+% La loi cible est une postérieure, souvent de type \nom{Gibbs}, et l'enjeu est de l'échantillonner efficacement.
+% Nous y introduisons une famille de dynamiques de clusters d'ordre supérieur, inspirées de \nom{Swendsen--Wang}, et nous montrons comment elles permettent de mieux traiter la frustration dans des graphes spatiaux.
+% Ce chapitre reprend et développe les travaux menés avec \nom{Nahuel Soprano-Loto} et \nom{Konstantin Avrachenkov} \cite{BibiMonterey,BibiInformationInference}.
+
+% \paragraph{Chapitre~\ref{chap:frangi_fissures}.}
+% Le second chapitre technique applique le langage des graphes à des images.
+% Nous partons du filtre de \nom{Frangi} et construisons un graphe de similarité entre pixels afin d'extraire des réseaux de fissures sans entraînement supervisé.
+% La méthode intègre plusieurs modalités, utilise une extraction par arbre couvrant minimum et peut être enrichie par des interactions d'ordre supérieur.
+% Elle est évaluée sur des images de glissements de terrain, sur FIND, sur des images visibles-thermiques et sur CrackForest \cite{FIND2022,shi2016automatic,BibiStrasbourg,BibiISPRS}.
+
+% \Synthese{Cette partie étend le fil directeur du manuscrit au-delà des nuages de points euclidiens. Dans les graphes signés, la structure est portée par une loi de \nom{Gibbs} et par des dynamiques d'échantillonnage. Dans les images, la structure est portée par des réponses différentielles locales et par un graphe de compatibilité entre pixels. Dans les deux cas, l'idée reste la même : exploiter explicitement la structure des données plutôt que l'écraser dans une représentation trop pauvre.}
