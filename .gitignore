@@ -29,3 +29,6 @@
 !**/images/**/*.pdf
 !**/fig/**/*.pdf
 !**/figures/**/*.pdf
+
+# Track the final PDF at the root
+!/Manuscrit_de_these.pdf
