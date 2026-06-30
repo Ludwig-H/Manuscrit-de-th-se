@@ -1366,6 +1366,49 @@ la dynamique \SW{} arête par arête ne permet pas de conclure si le modèle est
 La première borne est obtenue par la percolation indépendante d'arêtes de paramètre $2p-1$, donc par \eqref{eq:chapII_pc_edges}. La dynamique triangulaire, elle, produit le modèle de percolation corrélée dont le seuil est décrit en \Eq[eq:chapII_pc_triangles]. Dans l'intervalle \eqref{eq:chapII_interval_improvement}, les clusters triangulaires restent sous-critiques. Le \Th~\ref{th:chapII_balanced_perco_bound} assure alors que le recouvrement partiel est impossible. La stricte amélioration vient de \eqref{eq:chapII_pc_comparison}.
 \end{Preuve}
 
+\subsubsection{Résultats expérimentaux}
+
+Pour valider nos bornes de non-recouvrement, des simulations ont été menées sur une grille triangulaire de $1\,000\,000$ de nœuds. La \Fig[fig:chapII_triangular_grid_experiments] montre l'évolution du recouvrement et de la taille de la plus grande composante pour trois régimes de bruit :
+
+\begin{itemize}
+    \item \textbf{Bruit $p = 0,70$} : La dynamique par arêtes percole ($p > 0,673$), formant une composante géante qui regroupe environ $90\,\%$ des points. La dynamique triangulaire reste sous-critique ($p < 0,719$) avec une plus grande composante de taille nulle. La dynamique avec scission de poids, quant à elle, percole et regroupe environ $64\,\%$ des points. Le recouvrement de toutes les dynamiques reste proche de zéro et ressemble à du bruit. Les communautés ne sont pas recouvrables.
+    
+    \item \textbf{Bruit $p = 0,72$} : Les trois dynamiques percolent ($p > 0,719$) et forment des composantes géantes, regroupant environ $95\,\%$ des points pour les arêtes, $86\,\%$ pour la scission et $55\,\%$ pour les triangles. Le recouvrement reste pourtant plat et très proche de zéro. La percolation, bien que présente, ne suffit pas pour sortir du bruit : le recouvrement partiel n'est pas encore atteint.
+    
+    \item \textbf{Bruit $p = 0,80$} : Des composantes géantes massives se forment pour toutes les dynamiques ($99\,\%$ des points pour les arêtes, $98\,\%$ pour la scission et $96\,\%$ pour les triangles). Le recouvrement se détache cette fois nettement du bruit pour atteindre environ $0,007$ pour les triangles et $0,005$ pour le cas scindé. Le recouvrement partiel semble ainsi atteint.
+\end{itemize}
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{0.95\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{img/Overlap_0.7.png}
+    \caption{Régime $p = 0,70$}
+    \label{fig:chapII_triangular_grid_070}
+  \end{subfigure}
+  
+  \vspace{1em}
+  
+  \begin{subfigure}[b]{0.95\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{img/Overlap_0.72.png}
+    \caption{Régime $p = 0,72$}
+    \label{fig:chapII_triangular_grid_072}
+  \end{subfigure}
+  
+  \vspace{1em}
+  
+  \begin{subfigure}[b]{0.95\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{img/Overlap_0.80.png}
+    \caption{Régime $p = 0,80$}
+    \label{fig:chapII_triangular_grid_080}
+  \end{subfigure}
+  \caption{Évolution du recouvrement (gauche) et de la proportion de points dans la plus grande composante connexe (droite) pour $p=0,70$, $p=0,72$ et $p=0,80$ sur une grille triangulaire de $10^6$ nœuds.}
+  \label{fig:chapII_triangular_grid_experiments}
+\end{figure}
+
+
 % \begin{figure}[H]
 % \centering
 % \begin{tikzpicture}[x=1cm,y=1cm]
