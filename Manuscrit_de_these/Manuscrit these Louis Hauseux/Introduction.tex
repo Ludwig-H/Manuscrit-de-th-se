@@ -31,16 +31,16 @@ En pratique, la densité $f$ est inconnue, il faut donc l'estimer. L'estimateur 
     \bigl\{
         y\in\mathbb{R}^p
         \;\bigm|\;
-        \module{B(y,r)\cap \mathcal X} \geq K
+        \module{\overline B(y,r)\cap \mathcal X} \geq K
     \bigr\}.
 \]
-Autrement dit, un point $y \in \mathbb R^p$ appartient à $L_K(r)$ si la boule de centre $y$ et de rayon $r$ contient au moins $K$ points du nuage $\mathcal X$.
+Autrement dit, un point $y \in \mathbb R^p$ appartient à $L_K(r)$ si la boule fermée de centre $y$ et de rayon $r$ contient au moins $K$ points du nuage $\mathcal X$.
 
 Un phénomène remarquable se produit pour $K=1$. Les composantes connexes de $L_1(r)$ sont exactement les composantes connexes de l'union de boules fermées
 \[
     L_1(r)
     =
-    \bigcup_{x\in X} \overline B(x,r),
+    \bigcup_{x\in \mathcal X} \overline B(x,r),
 \]
 et donc celles du graphe géométrique qui relie deux points $x,x'\in \mathcal X$ dès que $\|x-x'\|\leq 2r$. 
 Cette hiérarchie est précisément celle produite par l'algorithme du \emph{Single-Linkage} \cite{DendriteSingleLinkage1951, GowerRoss1969} (algorithme dit parfois du « saut minimum » en français). Mieux encore, toute l'information hiérarchique (comprenant tous les niveaux $r \in \mathbb R_+$) est contenue dans un unique graphe très parcimonieux : l'arbre minimum couvrant.
@@ -128,22 +128,22 @@ Pour voir la structure correcte, il faut repartir de la définition :
     \bigl\{
         y\in\mathbb{R}^p
         \;\bigm|\;
-        \module{B(y,r)\cap \mathcal X} \geq K
+        \module{\overline B(y,r)\cap \mathcal X} \geq K
     \bigr\}.
 \]
 Dire que $y\in L_K(r)$ signifie que $y$ est simultanément dans au moins $K$ boules centrées sur des points de $\mathcal X$. 
 Les objets élémentaires ne sont donc plus des arêtes, mais des intersections de $K$ boules. Celles-ci sont encodées par les $(K-1)$-simplexes du complexe de \v{C}ech
 \[
-    \check{C}(X,r)
+    \check{C}(\mathcal X,r)
     \eqdef
     \left\{
-        \sigma\subset X
+        \sigma\subset \mathcal X
         \;\middle|\;
-        \bigcap_{x\in\sigma} B(x,r) \neq \varnothing
+        \bigcap_{x\in\sigma} \overline B(x,r) \neq \varnothing
     \right\}.
 \]
 
-La généralisation proposée dans ce manuscrit consiste alors à construire un graphe auxiliaire $\Gamma_K(\mathcal X,r)$ dont les sommets sont les $(K-1)$-simplexes de $\check{C}(X,r)$, deux tels simplexes $\sigma$ et $\tau$ étant adjacents lorsque leur union $\sigma\cup\tau$ est encore un simplexe de $\check{C}(X,r)$. 
+La généralisation proposée dans ce manuscrit consiste alors à construire un graphe auxiliaire $\Gamma_K(\mathcal X,r)$ dont les sommets sont les $(K-1)$-simplexes de $\check{C}(\mathcal X,r)$, deux tels simplexes $\sigma$ et $\tau$ étant adjacents lorsque leur union $\sigma\cup\tau$ est encore un simplexe de $\check{C}(\mathcal X,r)$. 
 Les composantes connexes de ce graphe auxiliaire définissent les $K$-polyèdres.
 
 Pour $K=1$, on retrouve exactement les composantes connexes ordinaires du graphe géométrique, donc le Single-Linkage. 
@@ -225,7 +225,7 @@ Le graphe géométrique est remplacé par le complexe de \v{C}ech, et les compos
 %     H^{\mathrm{discrets}}_{\widehat f_K}(r),
 % \]
 % qui montre que \HGP-Clusterer retrouve exactement les amas discrets de forte densité de l'estimateur \KNN. 
-Nous étudions ensuite la question algorithmique : comment éviter de construire tout le complexe de \v{C}ech ? (tout comme le Single-Linkage ne construit pas de graphe géoémtrique.)
+Nous étudions ensuite la question algorithmique : comment éviter de construire tout le complexe de \v{C}ech ? (tout comme le Single-Linkage ne construit pas de graphe géométrique.)
 Le rôle de l'arbre minimum couvrant du Single-Linkage est alors généralisé et la structure qui permet de l’identifier dans l'espace euclidien de petite dimension est identifiée : %joué par une structure liée aux simplexes de \nom{Gabriel} et à 
 il s'agit de la mosaïque de \nom{Delaunay} d'ordre supérieur.
 
