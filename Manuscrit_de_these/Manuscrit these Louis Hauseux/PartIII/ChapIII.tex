@@ -9,17 +9,16 @@
 \providecommand{\matnorm}[1]{\left\lvert\mkern-2mu\left\lvert\mkern-2mu\left\lvert #1 \right\rvert\mkern-2mu\right\rvert\mkern-2mu\right\rvert}
 
 Ce chapitre aborde un tout autre type de données : les images.
-Ici, les sommets de nos (hyper)graphes seront des pixels. Le problème reste de même nature : il faut en extraire des structures d'intérêt, savoir : des réseaux de fissures (et ce à partir de données locales imparfaites). 
+Ici, les sommets de nos (hyper)graphes seront des pixels. Le problème reste de même nature : il faut en extraire des structures d'intérêt, à savoir des réseaux de fissures (et ce à partir de données locales imparfaites). 
 
 Ces images pouvant contenir des fissures sont obtenues dans des contextes variés : images de glissements de terrain (prises par un capteur optique dans le domaine visible), données de profondeur (laser 3D profilométrique \cite{FIND2022} ou reconstruction photogrammétrique) sur des infrastructures civiles, images infra-rouges thermiques de fissures géologiques. L'objectif n'est pas seulement de produire un \emph{masque} binaire (une réponse binaire par pixel), mais d'extraire un réseau \cite{JeongTarabalkaNisseZerubia2016Curvilinear} (\emph{i.e.} un graphe) qui conserve autant que possible la connectivité, les ramifications et l'orientation générale des fissures.
 
-L'avantage de produire en sortie un graphe (par rapport par exemple à un masque binaire) est que cela en fait un objet éditable, pouvant ainsi servir d'aide à l'annotation
-\cite{CharbonnierMoliard2003CheminsMinimauxFissures}.
+L'avantage de produire en sortie un graphe (par rapport par exemple à un masque binaire) est de fournir un objet géométrique facilement éditable, ce qui permet d'envisager la méthode comme un outil d'aide à l'annotation semi-automatique \cite{CharbonnierMoliard2003CheminsMinimauxFissures}.
 
 
 
 \paragraph{Cadre du problème}
-On se donne un domaine discret $\Omega \subset \mathbb Z^2$. Les données avec vérité de terrain nous ont manqué jusqu'à présent, mais il n'y aucun obstacle particulier à ce que l'image soit 3D $\Omega \subset \mathbb Z^3$. Une \emph{modalité} est un signal scalaire
+On se donne un domaine discret $\Omega \subset \mathbb Z^2$. Les données avec vérité de terrain nous ont manqué jusqu'à présent, mais il n'y a aucun obstacle particulier à ce que l'image soit 3D $\Omega \subset \mathbb Z^3$. Une \emph{modalité} est un signal scalaire
 \[
     I : \Omega \longrightarrow \mathbb R.
 \]
@@ -36,22 +35,20 @@ La sortie visée est un ensemble de pixels
 \]
 qui représente le squelette du réseau. Par squelette, nous entendons ici  la projection au niveau des pixels d'un (hyper)graphe. Nous nous sommes limités dans ce manuscrit aux cas $K=1$ (graphe standard) et $K=2$ (composantes triangle-connexes).
 Lorsque $K=1$, la sortie $\widehat \Gamma$ est donc une représentation linéique, de largeur un pixel, qui garde le centre géométrique des fissures plutôt que leur épaisseur. 
-Lorsque $K=2$, $\widehat \Gamma$ correspond aux pixels des triangles des composantes triangle-connexes sélectionnées. Si l'on souhaite tout de même avoir une représentation linéique, $\widehat \Gamma$ peut alors faire l'objet d'un amincissement au moyen d'un algorithme de squelettisation comme celui de \nom{Lee} \cite{Lee1994, SciKitSkeletonization}. %\textcolor{red}{Ajouter la référence de Lee.}
+Lorsque $K=2$, $\widehat \Gamma$ correspond aux pixels des triangles des composantes triangle-connexes sélectionnées. Si l'on souhaite tout de même avoir une représentation linéique, $\widehat \Gamma$ peut alors faire l'objet d'un amincissement au moyen d'un algorithme de squelettisation comme celui de \nom{Lee} \cite{Lee1994, SciKitSkeletonization}. 
 
 
 En particulier, les métriques d'évaluation devront tenir compte de ce choix. % pour comparer directement un squelette de largeur un pixel à un masque épais serait 
 
-Le chapitre reprend les travaux menés avec le \href{https://www.cerema.fr/fr/mots-cles/equipe-recherche-endsum}{Cerema}, depuis une première version consacrée aux images du glissement de terrain des Vaches Noires \cite{BibiStrasbourg}, jusqu'à une version plus générale intégrant la multimodalité, l'accélération GPU et les interactions d'ordre supérieur (et destinée à être soumise au journal de l'\href{https://www.sciencedirect.com/journal/isprs-journal-of-photogrammetry-and-remote-sensing}{ISPRS} \cite{BibiISPRS}).
-%\textcolor{red}{Insérer référence à soumettre à IJPRS.}
+Le chapitre reprend les travaux menés avec le \href{https://www.cerema.fr/fr/mots-cles/equipe-recherche-endsum}{Cerema}, depuis une première version consacrée aux images du glissement de terrain des Vaches Noires \cite{BibiStrasbourg}, jusqu'à une version plus générale intégrant la multimodalité, l'accélération GPU et les interactions d'ordre supérieur, présentée à la conférence EUVIP 2026 \cite{BibiISPRS}.
 %L'accent est mis sur la version la plus récente du travail : une méthode sans apprentissage, fondée sur le filtre de \Frangi, mais formulée dans un graphe.
 
 \paragraph{Positionnement}
 Les méthodes d'apprentissage profond dominent aujourd'hui la détection de fissures : réseaux convolutionnels de type U-Net \cite{Unet2015}, DeepCrack \cite{DeepCrack2019}, Transformers \cite{CrackFormer2021}, puis modèles de diffusion comme CrackSegDiff \cite{CrackSegDiff2024}. Ces méthodes sont souvent excellentes quand les images de test ressemblent aux images d'apprentissage. La revue récente de \nom{Zhang} \emph{et al.} \cite{Zhang2025Review} insiste cependant sur deux difficultés qui nous concernent directement : le coût d'annotation et la mauvaise généralisation aux changements de domaine. %Les fissures ne se comportent pas comme des chats sur Internet : il n'y a pas un jeu de données mondial, propre, massif, et consensuel, miraculeusement disponible pour chaque capteur.
-%\textcolor{red}{Une ligne sur CrackSAM ?}
+
 
 L'idée défendue ici est complémentaire : revenir à des modèles géométriques explicites. 
-%\textcolor{red}{Articuler : coordonnants : En effet, le prix à payer ... mais le gain attendu ...}
-En effet, le prix à payer est une performance parfois plus faible sur des données propres et proches d'un jeu d'entraînement mais il y a un gain attendu : une meilleure stabilité lorsque l'on change de capteur, de texture, de saison ou de type de matériau.
+Certes, les performances de notre méthode géométrique peuvent s'avérer légèrement en retrait sur des données propres proches de la distribution d'apprentissage. En revanche, le gain est double : une meilleure robustesse aux changements de domaine et la possibilité d'utiliser ce formalisme comme outil d'aide à l'annotation.
 
 \section{Un classique : le filtre de \Frangi}
 \label{sec:chapIII_frangi_classique}
@@ -111,7 +108,7 @@ Le second terme mesure l'intensité de la réponse de second ordre. Dans notre c
 \]
 }
 
-%\textcolor{red}{Car il suffit d'inverser.}
+
 
 Une forme simple de réponse de \Frangi{} est alors
 \begin{equation}
@@ -135,7 +132,7 @@ C'est exactement le point où les graphes deviennent utiles.
 
 L'idée originale de notre méthode consiste à remplacer la réponse pixélique du filtre de \Frangi{} par une similarité entre paires de pixels voisins. 
 Autrement dit, au lieu de se demander seulement « le pixel $x$ appartient-il à une fissure ? », on demande aussi « les pixels $x_i$ et $x_j$ appartiennent-ils à deux morceaux compatibles de la même fissure ? ».
-Cette seconde approche est beaucoup plus riche en terme d'information sur le réseau de fissures contenu dans l'image.
+Cette seconde approche est beaucoup plus riche en termes d'information sur le réseau de fissures contenu dans l'image.
 
 On construit donc un graphe spatial
 \[
@@ -277,14 +274,14 @@ L'algorithme complet \Alg~\ref{alg:chapIII_frangi_graph} est résumé ci-dessous
 \end{algorithmic}
 \end{algorithm}
 
-La dernière mise en œuvre \cite{BibiISPRS} faite lors de les étapes lourdes sont vectorisées avec PyTorch et calculées de sur GPU. Les voisinages sont extraits avec des opérations de type \texttt{unfold}, puis les arêtes sont traitées par morceaux pour éviter de saturer la mémoire GPU.
+Dans notre dernière mise en œuvre \cite{BibiISPRS}, les étapes de calcul intensives sont vectorisées avec PyTorch et exécutées sur GPU. Les voisinages sont extraits avec des opérations de type \texttt{unfold}, puis les arêtes sont traitées par morceaux pour éviter de saturer la mémoire GPU.
 
 \subsection{Extension à la multimodalité}
 \label{subsec:chapIII_multimodalite}
 
 La fusion multimodale est souvent traitée en apprentissage profond par concaténation de canaux (par exemple canaux spectraux), fusion de caractéristiques intermédiaires, ou fusion tardive des prédictions. 
 Ces approches dépendent fortement de l'architecture du réseau et du jeu de modalités vu pendant l'entraînement. Ajouter une modalité demande souvent de réentraîner le modèle, voire de le modifier, ce qui représente un coût non négligeable.
-%\textcolor{red}{Ajouter "Éq" pour "équation".}
+
 Ici, la fusion se fait avant le graphe, directement au niveau des opérateurs différentiels (hessienne). Pour chaque modalité $m\in\mathcal M$, on calcule la hessienne
 \[
     \Hess^{(m)}_\sigma(x).
@@ -422,7 +419,7 @@ Le modèle U-Net de comparaison est adapté par \emph{transfer learning} sur une
     \label{fig:chapIII_vaches_resultats}
 \end{figure}
 
-Les résultats (qualitativement en \Fig~\ref{fig:chapIII_vaches_resultats}, quantitativement en \Tab~\ref{tab:chapIII_vaches}) sont du même ordre que ceux de la méthode supervisée. U-Net obtient légèrement de meilleurs scores de recouvrement sur ces deux images car ce réseau de neurones a été adapté sur une image très proche (\emph{via transfer learning}), annotée dans le même contexte. En revanche, le graphe de \Frangi{} n'utilise aucune annotation et isole plus directement l'ossature principale du réseau. Sur \texttt{Test1}, cela donne même une meilleure distance de \nom{Wasserstein}. 
+Les résultats (qualitativement en \Fig~\ref{fig:chapIII_vaches_resultats}, quantitativement en \Tab~\ref{tab:chapIII_vaches}) sont du même ordre que ceux de la méthode supervisée. U-Net obtient de légèrement meilleurs scores de recouvrement sur ces deux images car ce réseau de neurones a été adapté sur une image très proche (\emph{via transfer learning}), annotée dans le même contexte. En revanche, le graphe de \Frangi{} n'utilise aucune annotation et isole plus directement l'ossature principale du réseau. Sur \texttt{Test1}, cela donne même une meilleure distance de \nom{Wasserstein}. 
 Ce résultat montre que notre méthode géométrique simple sans annotation est compétitive sans avoir besoin d'annotation experte coûteuse indispensable en apprentissage profond.
 
 \subsection{Fusion multimodale : FIND}
@@ -452,7 +449,7 @@ FIND \cite{FIND2022} permet de tester la fusion entre intensité, profondeur et 
         \includegraphics[width=\linewidth]{img/Resultat_1FIND.png}\\
         {\small Squelette}
     \end{minipage}
-    \caption{Exemple de fusion multimodale sur FIND (image \texttt{0001}). La similarité de \Frangi{} généralisée isole la fissure principale malgré les stries visibles dans l'intensité. %\textcolor{red}{Ajouter a) b) c) d) et la fissure (en rouge) daans d)}
+    \caption{Exemple de fusion multimodale sur FIND (image \texttt{0001}). La similarité de \Frangi{} généralisée isole la fissure principale malgré les stries visibles dans l'intensité. 
     }
     \label{fig:chapIII_find_pipeline}
 \end{figure}
@@ -553,7 +550,7 @@ C'est un résultat important, parce qu'il illustre exactement un compromis évoq
         \end{tikzpicture}
         \caption{\textsc{Wasserstein}}
     \end{subfigure}
-    \caption{%\textcolor{red}{Retour des axes}
+    \caption{
     Dégradation des performances sur FIND bruité. Le bruit augmente de gauche à droite. L'échelle verticale va de 0\% à 100\%. La méthode géométrique reste plus stable, tandis que CrackSegDiff se dégrade fortement hors de sa distribution d'entraînement.}
     \label{fig:chapIII_find_noise}
 \end{figure}
@@ -620,7 +617,7 @@ Les essais de sensibilité donnent les tendances suivantes :
         \includegraphics[width=\linewidth]{img/sensitivity_tau.png}\\
         {\small Seuil $\tau$}
     \end{minipage}
-    \caption{Exemples de courbes de sensibilité sur CrackForest (bleu : \nom{Jaccard} ; vert : \nom{Tversky} ; rouge : \nom{Wasserstein}). Les réponses les plus instables apparaissent lorsque le graphe est trop fragmenté ou au contraire trop dense.%\textcolor{red}{À séparer}
+    \caption{Exemples de courbes de sensibilité sur CrackForest (bleu : \nom{Jaccard} ; vert : \nom{Tversky} ; rouge : \nom{Wasserstein}). Les réponses les plus instables apparaissent lorsque le graphe est trop fragmenté ou au contraire trop dense.
     }
     \label{fig:chapIII_sensitivity_examples}
 \end{figure}
@@ -630,7 +627,7 @@ Nous avons aussi testé l'interaction entre $R$ et $\sigma_0$ par une grille de 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.85\textwidth]{img/correlation_R_sigma0.png}
-    \caption{%\textcolor{red}{Refaire et séparer }
+    \caption{
     Interaction entre le rayon du graphe $R$ et l'échelle de base $\sigma_0$ sur CrackForest.}
     \label{fig:chapIII_correlation_R_sigma0}
 \end{figure}
@@ -656,18 +653,11 @@ La conclusion naturelle de ce chapitre n'est pas qu'il faudrait choisir entre ap
 
 L'apprentissage profond est excellent pour apprendre des structures aux apparences complexes. Mais il demande des données annotées, et sa robustesse hors distribution reste fragile, notamment dans les contextes de fissures où les capteurs, les matériaux et les résolutions changent souvent \cite{Zhang2025Review}. Les modèles de type \Frangi{}, eux, généralisent mieux parce qu'ils reposent sur des contraintes géométriques simples, mais ils manquent parfois de souplesse face à des cas visuels ambigus.
 
-Pour continuer ce travail de recherche, une première piste consiste à utiliser les modèles géométriques comme outils d'annotation. Le graphe de \Frangi{} produit un squelette éditable, souvent proche du réseau principal. Il pourrait servir à générer des pré-annotations, ensuite corrigées par un expert. Cela réduirait le coût de constitution de bases d'apprentissage, qui est l'un des freins majeurs du domaine.
+Pour continuer ce travail de recherche, une première piste consiste à utiliser les modèles géométriques comme outils d'annotation. Le graphe de \Frangi{} produit un squelette éditable, souvent proche du réseau principal. Notre méthode peut ainsi générer des pré-annotations géométriques structurées (graphes), destinées à être corrigées par un expert. Cela réduirait le coût de constitution de bases d'apprentissage, qui est l'un des freins majeurs du domaine.
 
 Une deuxième piste consiste à injecter explicitement des opérateurs différentiels dans les réseaux. Des travaux récents autour de neurones ou couches inspirés du filtre de \Frangi{} montrent que l'on peut intégrer des réponses hessiennes dans une architecture entraînable \cite{NeuroneFrangi2023}. Ce type d'approche est intéressant : le réseau n'a plus à redécouvrir seul que les lignes allongées ont une géométrie de second ordre : on lui donne l'outil.
 
 Une troisième piste concerne les modèles de fondation en vision par ordinateur. SAM \cite{Kirillov2023SAM} et ses adaptations aux fissures, comme CrackSAM \cite{Ge2024CrackSAM}, montrent l'intérêt de grands modèles pré-entraînés. Mais les fissures posent une difficulté particulière : ce sont des objets fins, discontinus, dont la topologie compte autant que l'apparence. Une contrainte de graphe, ou une pénalisation de connectivité, pourrait servir de post-traitement ou même de module différentiable pour réduire les phénomènes de sur-détection et de sous-détection.
 
-%Enfin, les discussions autour des travaux de Pierre \nom{Chesnay} et Frédéric \nom{Jurie} vont précisément dans cette direction : 
-
-%Les travaux de \textcolor{red}{Trouver une référence de Chesnay ou de Jurie ?} vont précisément dans cette direction : ne plus opposer modèles explicites et apprentissage mais chercher des architectures où les \emph{a priori} géométriques restent visibles.
-
-%Le graphe de \Frangi{} fournit une proposition concrète pour 
-
 \Synthese{
-%\textcolor{red}{Dé-télégraphier } 
-Le filtre de \Frangi{} classique donne une réponse locale. Nous avons introduit un \emph{graphe} de \Frangi{}, qui ajoute une notion de compatibilité entre pixels. Cette méthode a l'avantage de permettre de faire de la fusion multimodale, en agissant au niveau des hessiennes. Nos expérimentations montrent que les interactions d'ordre supérieur renforcent la connexité dans les milieux granulaires. L'ensemble donne une méthode sans apprentissage, imparfaite mais robuste et dont l'application principale que nous lui voyons serait un logiciel d'aide à l'annotation de vérité terrain (la sortie étant un graphe, elle est facilement éditable).}
+Le filtre de \Frangi{} classique donne une réponse locale. Nous avons introduit un \emph{graphe} de \Frangi{}, qui ajoute une notion de compatibilité entre pixels et permet la fusion multimodale au niveau des hessiennes. Nos expérimentations montrent que les interactions d'ordre supérieur renforcent la connexité dans les milieux granulaires. Bien que moins précise localement que l'apprentissage profond sur des données idéales, cette méthode non supervisée offre une alternative robuste. Son intérêt principal réside dans son intégration au sein d'outils d'annotation assistée pour les experts : la sortie sous forme de graphe étant aisément éditable, elle permet d'accélérer la labellisation interactive de grands volumes de données.}
