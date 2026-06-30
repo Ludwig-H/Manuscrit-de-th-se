@@ -15,7 +15,7 @@ Nous montrons d'abord dans ce chapitre que la structure d'arbre (l'ultramétriqu
 Il est possible de ``hacker'' l'étape d'extraction de \HDBSCAN en substituant à sa fonction de coût statistique des \emph{a priori}. 
 Nous illustrons cette démarche avec notre généralisation du Single-Linkage, {\HGP-Clusterer} (\HGP pour Hypergraphe-Percol'), qui sera théorisé dans la partie suivante. Nous proposons deux cas d'usage réels : la détection d'anomalies par rapport à un modèle 3D théorique (\copyright Naval Group) et la segmentation d'instance 4D sur des nuages de points LiDAR (sur le jeu de données \href{https://semantic-kitti.org/}{SemanticKITTI} \cite{SemanticKITTI}).
 
-\Contributions{Nous adoptons une vue unificatrice du clustering hiérarchique (en intégrant le formalisme de l'analyse convexe). Nous nous appuyons ensuite sur les récents travaux de \nom{Draganov} \etal \cite{Draganov2025} pour rappeler qu'un arbre ultramétrique simplifie drastiquement les algorithmes de clustering : le $k$-Means, \texttt{NP}-complet dans $\mathbb R^p$, y est résolu optimalement en temps de tri. 
+\Contributions{Nous adoptons une vue unificatrice du clustering hiérarchique (en intégrant le formalisme de l'analyse convexe). Nous nous appuyons ensuite sur les récents travaux de \nom{Draganov} \etal \cite{Draganov2025} pour rappeler qu'un arbre ultramétrique simplifie drastiquement les algorithmes de clustering : le $k$-Means, NP-difficile dans sa formulation euclidienne usuelle, y est résolu de manière exacte sur l'arbre en temps de tri. 
 Nous montrons comment remplacer la fonction de coût de \HDBSCAN, l'excès de masse, par une fonction de coût intégrant des \emph{a priori} géométriques. Nous montrons l'efficacité de cette approche sur des nuages 3D et 4D avec notre algorithme {\HGP-Clusterer} pour deux applications industrielles (détection d'anomalies sur un chantier naval et \emph{tracking} par transport optimal sur SemanticKITTI).}
 
 
@@ -120,12 +120,12 @@ En faisant varier $\gamma$, la séquence temporelle de coalescence des centroïd
 
 \subsection{Quand les problèmes \texttt{NP}-difficiles deviennent triviaux}
 
-Si la recherche de centroïdes optimaux (comme dans le $k$-Means ou le $k$-Median) est connue pour être un problème NP-complet dans l'espace euclidien $\mathbb R^p$ pour $k \ge 2$, la situation change radicalement dès lors que la métrique est une ultramétrique, c'est-à-dire que l'on dispose d'une structure d'arbre.
+Si la recherche de centroïdes optimaux (comme dans le $k$-Means ou le $k$-Median) est NP-difficile dans l'espace euclidien $\mathbb R^p$ dès que $k \ge 2$ et $p \ge 2$, la situation change radicalement lorsque l'on restreint l'espace de recherche à une hiérarchie ultramétrique (structure d'arbre) donnée.
 
 En théorie des graphes, de nombreux algorithmes \texttt{NP}-difficiles sur des graphes généraux deviennent de complexité quasi-linéaire lorsque le graphe est un arbre. Il en va de même pour le clustering, comme l'ont montré \nom{Draganov} \etal dans leur récent article \cite{Draganov2025}.
 
-\begin{Resultat}{Résolution optimale du $k$-Means sur les hiérarchies ultramétriques \cite{Draganov2025}}{draganov_kMeans}
-Pour n'importe quelle hiérarchie, les objectifs de clustering recourant aux centres (tels que le $k$-Means, $k$-Median, ou $k$-Centre) peuvent être résolus \emph{de manière optimale}. Mieux encore, l'ensemble complet des solutions optimales pour tout $k \in \IntervalleEntiers{1 ; n}$ peut être trouvé en un temps équivalent à celui d'un tri, soit $\mathcal{O}(n \log n)$. %Enfin, les solutions de ces clusterings optimaux forment elles-mêmes une hiérarchie.
+\begin{Resultat}{Résolution optimale du $k$-Means contraint par une hiérarchie \cite{Draganov2025}}{draganov_kMeans}
+Pour n'importe quelle hiérarchie ultramétrique donnée, les objectifs de clustering fondés sur les centres (tels que le $k$-Means, $k$-Median, ou $k$-Centre) contraints par cette hiérarchie peuvent être résolus de manière exacte. L'ensemble complet des solutions optimales pour tout $k \in \IntervalleEntiers{1 ; n}$ est alors calculable en temps de tri, soit $\mathcal{O}(n \log n)$ opérations.
 \end{Resultat}
 
 Ce résultat est une excellente nouvelle : une fois que nous disposons d'un bon arbre hiérarchique, il n'y a plus à s'en remettre à une heuristique : la hiérarchie elle-même devient un espace dans lequel chercher \emph{très rapidement} la solution qui nous intéresse (qu'il s'agisse d'un $k$-Means optimal ou de toute autre exploration guidée selon le problème).
