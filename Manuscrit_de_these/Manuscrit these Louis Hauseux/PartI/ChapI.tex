@@ -24,7 +24,7 @@ avec $\Sigma_c = \sigma^2 \mathrm{Id}$ (où $\sigma^2 \to 0$) et $\pi_c = \frac{
 \emph{Nota bene} : dans la perspective générative, il est nécessaire de faire une hypothèse forte sur la distribution des points (ici, un mélange gaussien dégénéré) %; il serait autrement impossible d'
 permettant ainsi d'avoir un estimateur pouvant générer de nouveaux points \emph{a priori} dans \emph{tout} l'espace $\mathbb R^p$.
 %Ne pas faire d'hypothèse sur la distribution des points (ici, un mélange gaussien dégénéré) nous conduirait à une impasse : il faudrait, dans la perspective générative, construire un estimateur et l'évaluer en tout point de l'{espace $\mathbb R^p$}, ou au moins sur une discrétisation suffisamment fine. (pour quel pas de discrétisation ? avec quelles garanties théoriques ?)
-\item Au contraire, l'algorithme qui nous intéresse, le Single-Linkage, ne fait aucune hypothèse sur la densité des données ; il résout le problème de partitionnement en se concentrant exclusivement sur les frontières (ou les vides) entre les points et \emph{discrimine} les clusters en identifiant les frontières pertinente. 
+\item Au contraire, l'algorithme qui nous intéresse, le Single-Linkage, ne fait aucune hypothèse sur la densité des données ; il résout le problème de partitionnement en se concentrant exclusivement sur les frontières (ou les vides) entre les points et \emph{discrimine} les clusters en identifiant les frontières pertinentes. 
 Comme nous le verrons dans la suite (\emph{cf.} la synthèse en fin de chapitre), le Single-Linkage parvient à identifier exactement les clusters de forte densité d'un estimateur sans pour autant construire cet estimateur.
 Sa complexité est $\mathcal{O}(n^2)$ dans le pire cas, mais nous verrons qu'il existe d'importantes optimisations tirant parti de la géométrie de $\mathbb R^p$.
 \end{enumerate}
@@ -89,7 +89,7 @@ Il existe trois algorithmes historiques pour extraire l'arbre minimum couvrant d
 \begin{itemize}
     \item \textbf{``Single-Linkage parallèle'' : \nom{Borůvka}} (1926) \cite{Boruvka1926}. À chaque itération, chaque composante connexe identifie et contracte son arête sortante la plus courte. Le nombre de composantes diminue de moitié à chaque passe, garantissant une complexité en $\mathcal{O}(m \log n)$. Il s'agit d'un Single-Linkage massivement parallélisé.
 
-    \item \textbf{Approche gloutonne : \nom{Kruskal}} (1956) \cite{Kruskal1956}. Les arêtes sont triées par poids croissant, puis insérées séquentiellement sous réserve de ne former aucun cycle\footnote{Rappelons qu'un arbre est par définition un graphe connexe acyclique.}. L'étape limitante est le tri des arêtes, de complexité $\mathcal{O}(\operatorname{Tri}(m))$ (citons le \texttt{QuickSort} \cite{Hoare1962} en complexité moyenne $\mathcal O (m \log m)$ de \nom{Hoare}\footnote{Tony \nom{Hoare} (1934 -- †2026), décédé alors que j'allais me lancer dans rédaction de ce manuscrit.}). C'est en pratique la méthode la plus utilisée, tant pour sa simplicité que pour la complexité mémoire optimale en $\mathcal{O}(n)$ de la structure auxiliaire d'ensembles disjoints (\texttt{Union-Find}) \cite{Tarjan1975} utilisée une fois le tri des arêtes effectué.
+    \item \textbf{Approche gloutonne : \nom{Kruskal}} (1956) \cite{Kruskal1956}. Les arêtes sont triées par poids croissant, puis insérées séquentiellement sous réserve de ne former aucun cycle\footnote{Rappelons qu'un arbre est par définition un graphe connexe acyclique.}. L'étape limitante est le tri des arêtes, de complexité $\mathcal{O}(\operatorname{Tri}(m))$ (citons le \texttt{QuickSort} \cite{Hoare1962} en complexité moyenne $\mathcal O (m \log m)$ de \nom{Hoare}\footnote{Tony \nom{Hoare} (1934 -- †2026), décédé alors que j'allais me lancer dans la rédaction de ce manuscrit.}). C'est en pratique la méthode la plus utilisée, tant pour sa simplicité que pour la complexité mémoire optimale en $\mathcal{O}(n)$ de la structure auxiliaire d'ensembles disjoints (\texttt{Union-Find}) \cite{Tarjan1975} utilisée une fois le tri des arêtes effectué.
 
     \item \textbf{Croissance locale : \nom{Jarník}--\nom{Prim}--\nom{Dijkstra}} (1930/1957/1959). Cet algorithme fait croître un \emph{unique} arbre en y rattachant itérativement le sommet non visité le plus proche. Sur un espace géométrique dense, son exécution en $\mathcal{O}(n^2)$ est asymptotiquement optimale.
 \end{itemize}
@@ -196,7 +196,7 @@ sont exactement les mêmes que celles de
 \Remarque{Par abus de langage, nous parlons de ``composante connexe'' pour désigner l'ensemble des nœuds du sous-graphe induit (et non le sous-graphe lui-même).}
 
 \begin{Preuve}[Preuve du \Res~\ref{res:chapIV_mst_sous_niveaux_graphe}]
-Soit $r \ge 0$. L'inclusion $T_{\le r}\subseteq G_{\le r}$ est immédiate. Pour l'autre sens, supposons que deux sommets $u,v$ soient connectés dans $G_{\le r}$ mais pas dans $T_{\le r}$. Sur l'unique chemin de $T$ reliant $u$ à $v$, il existe donc une arête $e$ de poids strictement supérieur à $r$. Retirer $e$ de $T$ définit une coupe $(A,V\setminus A)$. Comme $u$ et $v$ sont connectés dans $G_{\le r}$, il existe une arête $e'$ de $G_{\le r}$ qui traverse cette coupe (voir le \Res~\ref{res:prim} ci-après). Alors
+Soit $r \ge 0$. L'inclusion $T_{\le r}\subseteq G_{\le r}$ est immédiate. Pour l'autre sens, supposons que deux sommets $u,v$ soient connectés dans $G_{\le r}$ mais pas dans $T_{\le r}$. Sur l'unique chemin de $T$ reliant $u$ à $v$, il existe donc une arête $e$ de poids strictement supérieur à $r$. Retirer $e$ de $T$ définit une coupe $(A,V\setminus A)$. Comme $u$ et $v$ sont connectés dans $G_{\le r}$, le chemin les reliant dans $G_{\le r}$ contient nécessairement au moins une arête $e'$ traversant cette coupe. Alors
 \[
     w(e')\le r < w(e),
 \]
@@ -447,7 +447,7 @@ En pratique, la densité $f$ est inconnue ; l'approche statistique classique con
 L'estimateur des $K$-Plus Proches Voisins (\KNN pour $K$-\emph{Nearest Neighbours} en anglais) \cite{BiauDevroye} est le choix non-paramétrique le plus naturel pour ce faire.
 
 \begin{Definition}{Estimateur de densité des $K$-Plus Proches Voisins (\KNN) \cite{BiauDevroye}}{K-NN}
-Soit $\mathcal X \subset \mathbb R^p $ un nuage de l'espace euclidien contenant $n\in \mathbb N^\star$ points et $K \in \mathbb N^\star$ un entier avec tel que $K \le n$. L'estimateur de densité des $K$-Plus Proches Voisins $\widehat f_{K}$ (noté plus simplement $\widehat \lambda$) est défini pour tout point $y \in \mathbb R^p$ par 
+Soit $\mathcal X \subset \mathbb R^p $ un nuage de l'espace euclidien contenant $n\in \mathbb N^\star$ points et $K \in \mathbb N^\star$ un entier tel que $K \le n$. L'estimateur de densité des $K$-Plus Proches Voisins $\widehat f_{K}$ (noté plus simplement $\widehat \lambda$) est défini pour tout point $y \in \mathbb R^p$ par 
 \[
 \boxed{
     \widehat \lambda = \widehat f_{K}(y) \eqdef \frac{K}{n}  \frac{1}{\omega_p r_K(y)^p} 
