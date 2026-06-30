@@ -10,7 +10,7 @@ Des versions du Single-Linkage tentant d'intégrer une densité à $K$ voisins o
 
 \Contributions{Ce chapitre constitue encore une revue : le point de départ en est les limites du Single-Linkage ; le point d'arrivée les réponses qui ont été apportées, avec une description plus précise de ce qui est unanimement considéré aujourd'hui comme l'« état-de-l'art » \cite{HDBSCAN2025SOTA, FLASC2025} pour le clustering fondé sur la densité : \HDBSCAN \cite{HDBSCAN, HDBSCAN2017}.
 
-Les simples changements de fonction de liaison (remplacer le \emph{Single-} par le \emph{Complete-} ou \emph{Average-}Linkage) apportent plus d'instabilité qu'elles ne règlent de problème (\Res[res:instabilite_complete_linkage]).
+Les simples changements de fonction de liaison (remplacer le \emph{Single-} par le \emph{Complete-} ou \emph{Average-}Linkage) apportent plus d'instabilité qu'ils ne règlent de problème (\Res[res:instabilite_complete_linkage]).
 
 Cette revue est critique et, comme nous le verrons dans la partie suivante, \HDBSCAN ne répond pas aux objectifs qu'il s'était fixés, savoir : remplacer l'estimateur de densité $1$-NN du Single-Linkage par un \KNN. Les utilisateurs réguliers de \HDBSCAN savent  d'ailleurs que le paramètre correspondant à ce $K$, \texttt{min\_samples}, produit de mauvais résultats lorsqu'il est trop grand et recommandent souvent en pratique de ne pas excéder une dizaine (même pour des données dépassant les milliers de points). La raison n'en est pas que l'estimateur \KNN lisserait trop les clusters, elle est fondamentalement liée à l'approximation de \HDBSCAN : la recherche $\min \max$ sur le graphe de voisinage muni de la distance de cœur ne représente plus rien pour $K \gtrsim 10$, et certainement pas les véritables amas discrets de forte densité \KNN.}
 
@@ -107,7 +107,7 @@ C'est \nom{Hartigan} \cite{hartigan81} qui a montré mathématiquement les cons�
 %Ce manque de robustesse géométrique a des conséquences statistiques profondes, formalisées par \nom{Hartigan} \cite{hartigan81}. En étudiant la convergence du Single-Linkage vers les véritables composantes de haute densité d'une distribution continue, \nom{Hartigan} a mis en lumière une dichotomie fondamentale liée à la dimension de l'espace $p$.
 
 \begin{Definition}{(\nom{Hartigan})-Consistance d'un algorithme de clustering hiérarchique \cite{hartigan81}}{hartigan_consistency}
-Un algorithme de clustering hiérarchique $\theta$ (\Def[def:dendrogramme]) est dit \emph{consistant} (au sens de \nom{Hartigan}) si, quels que soient $f$ une fonction de densité suffisamment régulière sur $\mathbb R^p$,  $\lambda > 0$, et $A,B$ deux amas disjoints de forte densité de $f$ au niveau $\lambda$ (et de mesure strictement positive), alors $\theta$ sépare asymptotiquement parfaitement $A$ et $B$ ;  c'est-à-dire qu'avec probabilité tendant vers $1$ lorsque $n\to \infty$, si $\mathcal X_n$ est un nuage de $n$ points tirés i.i.d. selon $f$, il existe $r_n > 0$ tel que $A_n, B_n \in \theta(r_n)$ et $A_n \supseteq A \cap \mathcal X_n, B_n \supseteq B \cap \mathcal X $.
+Un algorithme de clustering hiérarchique $\theta$ (\Def[def:dendrogramme]) est dit \emph{consistant} (au sens de \nom{Hartigan}) si, quels que soient $f$ une fonction de densité suffisamment régulière sur $\mathbb R^p$,  $\lambda > 0$, et $A,B$ deux amas disjoints de forte densité de $f$ au niveau $\lambda$ (et de mesure strictement positive), alors $\theta$ sépare asymptotiquement parfaitement $A$ et $B$ ;  c'est-à-dire qu'avec probabilité tendant vers $1$ lorsque $n\to \infty$, si $\mathcal X_n$ est un nuage de $n$ points tirés i.i.d. selon $f$, il existe $r_n > 0$ tel que $\theta(r_n)$ contient deux clusters disjoints $A_n$ et $B_n$ satisfaisant $A_n \supseteq A \cap \mathcal X_n$ et $B_n \supseteq B \cap \mathcal X_n$.
 \end{Definition}
 
 \begin{Resultat}{Consistance et inconsistance du Single-Linkage \cite{hartigan81}}{hartigan_consistency}
@@ -120,7 +120,7 @@ Un algorithme de clustering hiérarchique $\theta$ (\Def[def:dendrogramme]) est 
 L'explication de cette inconsistance réside dans le phénomène mathématique de {la percolation continue} \cite{MeesterRoy, penrose2003}. En dimension $p \ge 2$, à mesure que le rayon de connexion augmente, des composantes géantes apparaissent presque sûrement. Cependant, avant qu'une composante géante ne parvienne à absorber l'intégralité des points appartenant à son amas de densité, elle \emph{percole} (fusionne) inévitablement avec les composantes géantes voisines \emph{via} des ponts de bruit ($=$ \emph{chaining effect} ; voir \emph{supra} la \Fig[fig:MST_GrapheGeometrique], avec un amas de forte densité central). On ne peut alors espérer recouvrer qu'une \emph{fraction} des points du cluster. 
 
 
-En dimension $p=1$, ce phénomène de percolation n'existe pas (pour un modèle de \nom{Poisson} à: l'espace vide maximum sépare toujours parfaitement les modes de la densité.
+En dimension $p=1$, ce phénomène de percolation n'existe pas : l'espace vide maximum sépare toujours parfaitement les modes de la densité.
 
 
 Nous reviendrons plus amplement sur ce phénomène de percolation dans la partie suivante de ce manuscrit (et notamment au chapitre \ref{sec:chap_percolation}), où nous montrerons comment la théorie nous permet de mesurer la vitesse de percolation (\emph{percolation rate} \cite{BibiVenise, BibiIstambul}) des algorithmes pour quantifier théoriquement cette inconsistance.
@@ -192,7 +192,7 @@ L'ultramétrique $u^{\mathrm{RSL}}$ induite par le Robust Single-Linkage pouvant
 Soit $\mathcal X \subset \mathbb R^p$ un nuage $n$ de points, et $K \in \mathbb N^\star, K\le n$ un entier. Soit $d_{\mathrm{mreach}, K}$ la distance d'atteignabilité mutuelle sur $\mathcal X$. Alors l'ultramétrique $u^{\mathrm{RSL_K}}$ induite par le Robust Single-Linkage sur $\mathcal X$ peut s'exprimer ainsi :
 \[
 \boxed{
-    \forall x,x' \in \mathcal X, \ u^{\mathrm{RSL_K}}(x,x') = \min_{\omega : x \rightsquigarrow x'} \max_{(u, v) \in \omega} d_{\mathrm{mreach}, K}(u,v)
+    \forall x,x' \in \mathcal X, \ u^{\mathrm{RSL}_K}(x,x') = \frac{1}{2} \min_{\omega : x \rightsquigarrow x'} \max_{(u, v) \in \omega} d_{\mathrm{mreach}, K}(u,v)
     }
     \]
 où le minimum est pris sur l'ensemble des chemins $\omega$ de $x$ à $x'$.
@@ -239,7 +239,7 @@ Par voie de conséquence, \DBSCAN a fortement amélioré la gestion du bruit au 
     \item \textbf{Bruit} (\emph{noise} / \emph{outliers}). Tous les autres points, considérés comme isolés.
 \end{enumerate}
 \end{Definition}
-\Remarque{la faiblesse du Robust Single-Linkage consistait à ne pas tenir compte de ce que les auteurs de \DBSCAN appellent les points \emph{accessibles}. À un certain niveau $r$, ces points ne font pas partie d'un cœur (ils n'ont pas $K$ voisins), pour autant ils ont participé à la formation d'un amas de forte densité \KNN. Ne pas en tenir compte est une erreur. (Erreur qu'on pourra d'ailleurs mesurer dans le chapitre \ref{sec:chap_percolation} grâce à la vitesse de percolation.)
+\Remarque{La faiblesse du Robust Single-Linkage consistait à ne pas tenir compte de ce que les auteurs de \DBSCAN appellent les points \emph{accessibles}. À un certain niveau $r$, ces points ne font pas partie d'un cœur (ils n'ont pas $K$ voisins), pour autant ils ont participé à la formation d'un amas de forte densité \KNN. Ne pas en tenir compte est une erreur. (Erreur qu'on pourra d'ailleurs mesurer dans le chapitre \ref{sec:chap_percolation} grâce à la vitesse de percolation.)
 Ces points correspondent à ce que nous avons appelés des points \emph{couverts} par un amas, sans pour autant faire partie d'un amas (voir \Def[def:HDC_discret]).}
 % en faire partie (voir \Def[def:HDC_discret]) : 
 % \[
