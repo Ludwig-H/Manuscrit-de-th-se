@@ -8,7 +8,7 @@ La réponse est oui ! et le mécanisme à l'œuvre est la \emph{percolation}.
 
 C'est dans ce chapitre que tout l'intérêt de ce que nous avons appelé l'\emph{analyse persistante} apparaît : faire varier un rayon $r$ pour observer des composantes apparaître, croître puis disparaître en fusionnant, cela revient à observer un phénomène de percolation. Certaines statistiques sur cette composante géante permettent de quantifier ce que l'on peut espérer récupérer d'un amas de forte densité.
 
-L'algorithme de Single-Linkage n'est pas consistant en dimension $p \ge 2$ à cause de ce phénomène de percolation ; il l'est seulement dans le cas très particulier de la dimension $p=1$, où ce phénomène de seuil n'a pas lieu. En dimension $p \ge 2$, on ne peut plus espérer retrouver intégralement tous les points de deux amas disjoints de forte densité avant que leur cluster associé ne fusionne, seulement une \emph{fraction}. L'importance (asymptotique) de cette fraction se lit dans la fonction de probabilité de percolation
+L'algorithme de Single-Linkage n'est pas consistant en dimension $p \ge 2$ à cause de ce phénomène de percolation ; il l'est seulement dans le cas très particulier de la dimension $p=1$, où ce phénomène de seuil n'a pas lieu. En dimension $p \ge 2$, on ne peut plus espérer retrouver intégralement tous les points de deux amas disjoints de forte densité avant que leur cluster associé ne fusionne, mais seulement une \emph{fraction}. L'importance (asymptotique) de cette fraction se lit dans la fonction de probabilité de percolation
 \[
     \lambda\longmapsto \Theta^{\mathrm{cc}}_{K,p}(\lambda)
 \]
@@ -106,7 +106,7 @@ une famille de composantes croissante en une variable rayon $r$.
     \item $\mathrm{dbscan}$ désigne les composantes connexes de \DBSCAN \cite{DBSCAN}.
 \end{enumerate} 
 \Remarque{
-Les \emph{c\oe urs} du Robust Single-Linkage ne sont pas les mêmes objets que les cœurs au sens usuel de la théorie des graphes, définis comme les plus grands sous-graphes induits pour que chaque sommet ait un degré $\ge K$. Ces cœurs correspondent à une procédure d'élagage récursif sur les nœuds ayant un degré strictement plus petit que $K$, jusqu'à stabilisation. Tandis que les cœurs au sens du Robust Single-Linkage n'ont qu'un seul tour d'élagage.
+Les \emph{c\oe urs} du Robust Single-Linkage ne sont pas les mêmes objets que les cœurs au sens usuel de la théorie des graphes, définis comme les plus grands sous-graphes induits pour que chaque sommet ait un degré $\ge K$. Ces cœurs correspondent à une procédure d'élagage récursif sur les nœuds ayant un degré strictement plus petit que $K$, jusqu'à stabilisation ; au contraire, les cœurs au sens du Robust Single-Linkage n'ont qu'un seul tour d'élagage.
 }
 
 On définit la probabilité de percolation par
@@ -321,7 +321,7 @@ Montrons à présent que ces seuils sont non dégénérés (dans $]0 ; + \infty[
 \geq
 \lambda^{\mathrm{bool}}_{c}(p),
 \]
-et l'on conclue grâce à l'inégalité stricte $\lambda^{\mathrm{bool}}_{c}(p)>0$ (voir par exemple \cite{penrose2003,MeesterRoy}).
+et l'on conclut grâce à l'inégalité stricte $\lambda^{\mathrm{bool}}_{c}(p)>0$ (voir par exemple \cite{penrose2003,MeesterRoy}).
 
 La finitude du seuil s'obtient par domination d'une percolation de sites \cite{Percolation2006} sur une grille discrète $a \mathbb Z^p$ . On pave $\mathbb R^p$ par des cubes de côté $a$ suffisamment petit et l’on déclare un cube ``ouvert'' s'il est inclus dans $L_K^\lambda$. En faisant tendre $\lambda \to +\infty$, la probabilité d’ouverture dépasse le seuil critique de percolation de sites sur $\mathbb Z^p$, les sites ouverts percolent, et donc $L_K^\lambda$ aussi.
 
@@ -725,7 +725,7 @@ Les variables
 \[
     Y_J\eqdef \mathcal X_{\mu/\module{B(0,1/2)}}(A_J)
 \]
-sont des \nom{Poisson} indépendantes qui permettent d'écrire (en les combinant linéairement) le vecteur %, et
+sont des variables de \nom{Poisson} indépendantes qui permettent d'écrire (en les combinant linéairement) le vecteur %, et
 % \[
 %     Y_J\sim \operatorname{\nom{Poisson}}\left(\frac{\mu}{\module{B(0,1/2)}}|A_J|\right).
 % \]
@@ -966,7 +966,7 @@ on a
 L'on voit avec cette formulation réapparaître les deux défauts du Robust Single-Linkage par rapport à \HGP-Clusterer : 
 \begin{enumerate}
     \item La dilatation $\delta_{1/2}$ est appliquée avant l'identification des composantes géantes $\mathcal C_\infty$, provoquant une percolation précoce ($a_c^{\mathrm{core}} = a_c^{\mathrm{dbscan}} \le a_c^{\mathrm{poly}}).$
-    \item La condition d'être un point c\oe ur, c'est-à-dire (en terme de champ gaussien) d'appartenir à l'excursion $E_a$ est beaucoup trop restrictive.
+    \item La condition d'être un point c\oe ur, c'est-à-dire (en termes de champ gaussien) d'appartenir à l'excursion $E_a$ est beaucoup trop restrictive.
 \end{enumerate}
 
 \DBSCAN évite l'erreur du second point (en permettant  à un point d'être seulement \emph{accessible}), mais pas du premier : la percolation de ses composantes a lieu trop tôt (comparer \Fig~\ref{fig:Theta_HGP_d2} avec les \Fig~\ref{fig:Theta_RSL_d2} \& \ref{fig:Theta_DBSCAN_d2}). 
@@ -1005,7 +1005,7 @@ où $U_p <1$ est associé au coût lié à l'obstruction
 \forall x \in B(0 , 1/2) , \ \ \ \ G_p(x) < -1.
 \]
 
-Ajouté à cela que $a_c^{\mathrm{poly}} \ge a_c^{\mathrm{core}}$ et vous obtenez une meilleure vitesse de percolation asymptotique pour \HGP-Clusterer.
+Ajoutez à cela que $a_c^{\mathrm{poly}} \ge a_c^{\mathrm{core}}$ et vous obtenez une meilleure vitesse de percolation asymptotique pour \HGP-Clusterer.
 
 \Remarque{Ces résultats, qui ne sont qu'à l'ébauche d'intuitions, mériteraient pour être rigoureusement développés d'introduire l'espace de \nom{Cameron--Martin} \cite{cameron1944transformations, Bogachev1998GaussianMeasures}, qui est l'espace de \nom{Hilbert} à noyau reproduisant \cite{BerlinetThomasAgnan2004} (RKHS pour \emph{Reproducing Kernel \nom{Hilbert} Space} en anglais) adapté à l'étude des processus gaussiens. Pour ce qui est du coût de l'obstruction, c'est une conséquence du théorème de \nom{Schilder} \cite{schilder1966, DemboZeitouni2010}. %Pour ce qui est de la percolation des lignes de niveaux de champs gaussiens, il faudrait aller voir du côté des travaux de \nom{Severo} \emph{et al.} \cite{DuminilCopinSevero2020, MuirheadRiveraSevero2022}. REVOIR LES REFERENCES
 %Ce n'est pas l'objet de cette thèse.
