@@ -122,7 +122,7 @@ En faisant varier $\gamma$, la séquence temporelle de coalescence des centroïd
 
 Si la recherche de centroïdes optimaux (comme dans le $k$-Means ou le $k$-Median) est connue pour être un problème NP-complet dans l'espace euclidien $\mathbb R^p$ pour $k \ge 2$, la situation change radicalement dès lors que la métrique est une ultramétrique, c'est-à-dire que l'on dispose d'une structure d'arbre.
 
-En théorie des graphes, de nombreux algorithmes \texttt{NP}-difficiles sur des graphes généraux deviennent de complexité quasi-linéaire lorsque le graphe est un arbre. Il en va de même pour le clustering, comme l'ont montré \nom{Draganov} \etal dans leur récent papier \cite{Draganov2025}.
+En théorie des graphes, de nombreux algorithmes \texttt{NP}-difficiles sur des graphes généraux deviennent de complexité quasi-linéaire lorsque le graphe est un arbre. Il en va de même pour le clustering, comme l'ont montré \nom{Draganov} \etal dans leur récent article \cite{Draganov2025}.
 
 \begin{Resultat}{Résolution optimale du $k$-Means sur les hiérarchies ultramétriques \cite{Draganov2025}}{draganov_kMeans}
 Pour n'importe quelle hiérarchie, les objectifs de clustering recourant aux centres (tels que le $k$-Means, $k$-Median, ou $k$-Centre) peuvent être résolus \emph{de manière optimale}. Mieux encore, l'ensemble complet des solutions optimales pour tout $k \in \IntervalleEntiers{1 ; n}$ peut être trouvé en un temps équivalent à celui d'un tri, soit $\mathcal{O}(n \log n)$. %Enfin, les solutions de ces clusterings optimaux forment elles-mêmes une hiérarchie.
@@ -240,7 +240,7 @@ Nous construisons la hiérarchie du nuage LiDAR avec {\HGP-Clusterer}. Lors de l
 
 Pour un nœud donné de l'arbre, la fonction calcule sa ``{pureté}'' géométrique (par exemple à l'aide de l'index de \nom{Gini} \cite{IndexGini}) : on vérifie la proportion de ses points qui tombent à l'intérieur ou à l'extérieur des limites du modèle théorique.
 \begin{itemize}
-    \item Si un nœud parent est hybride (il contient à la fois des points de la structure valide du navire et une anomalie qui y est accollée), la fonction de coût force la scission de l'arbre pour isoler la composante étrangère.
+    \item Si un nœud parent est hybride (il contient à la fois des points de la structure valide du navire et une anomalie qui y est accolée), la fonction de coût force la scission de l'arbre pour isoler la composante étrangère.
     \item Dès qu'une branche atteint un seuil adéquat de pureté (la grande majorité de ses points sont situés ou bien hors du modèle théorique, ou bien peuvent être rattachés au modèle), l'algorithme valide le cluster (en tant qu'anomalie ou en tant qu'objet conforme au modèle 3D).
 \end{itemize}
 
@@ -306,7 +306,7 @@ Notre processus de \emph{streaming} se divise en deux étapes (voir un exemple e
     \label{fig:comparaison_SemanticKITTI}
 \end{figure}
 
-Les résultats (\Fig~\ref{fig:comparaison_SemanticKITTI}) montrent que les pistes principales sont bien détectées et suivies au cours du temps. L'algorithme présente encore quelques faiblesses pour un transfert vers l'industrie : la gestion du bruit, des petites pistes lointaines, et des occlusions, rendant certaines pistes ``clignotantes'' notamment. Le temps de réponse est aussi un problème : de l'ordre de la seconde pour l'instant lorsqu'une version industrielle impose de pouvoir traiter plusieurs trames à la seconde (dix trames par seconde avec les capteurs qui ont servi à l'établissement de SemanticKITTI) .
+Les résultats (\Fig~\ref{fig:comparaison_SemanticKITTI}) montrent que les pistes principales sont bien détectées et suivies au cours du temps. L'algorithme présente encore quelques faiblesses pour un transfert vers l'industrie : la gestion du bruit, des petites pistes lointaines, et des occlusions, rendant certaines pistes ``clignotantes'' notamment. Le temps de réponse est aussi un problème : de l'ordre de la seconde pour l'instant lorsqu'une version industrielle impose de pouvoir traiter plusieurs trames à la seconde (dix trames par seconde avec les capteurs qui ont servi à l'établissement de SemanticKITTI).
 
 
 
