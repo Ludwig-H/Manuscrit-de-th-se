@@ -65,7 +65,7 @@
 }
 
 
-Ce chapitre s'intéresse au cas où les données possèdent une structure de graphe (non orienté, pondéré signé, avec potentiellement des attributs sur les sommets). 
+Ce chapitre s'intéresse au cas où les données possèdent une structure de graphe (non orienté, pondéré et signé, avec potentiellement des attributs sur les sommets). 
 Dans le domaine des graphes, on ne parle plus alors de clustering (sur les nœuds) mais de \emph{détection de communautés sur graphes} \cite{Fortunato2010}. L'objectif général est de partitionner les sommets en groupes/clusters, appelés communautés, de sorte que les sommets d'un même groupe aient des profils d'interaction similaires (\emph{e.g.} fortement reliés entre eux : cas \emph{assortatif}).
 
 Pour analyser correctement les graphes, l'on a besoin de modèles génératifs probabilistes \cite{AvrachenkovDreveton2022}.
@@ -207,7 +207,7 @@ Lorsque $Q_n$ admet une densité $q_n(w\mid x,\sigma)$ par rapport à une mesure
     \mu_{0,n}(\sigma\mid x)\,q_n(w\mid x,\sigma).
     \label{eq:chapII_posterieure_densite}
 \end{equation}
-Où la constante $Z_n(x,w)$ normalise la mesure (dans le cas des mesures de \nom{Gibbs}, on parle de fonction de partition).
+où la constante $Z_n(x,w)$ normalise la mesure (dans le cas des mesures de \nom{Gibbs}, on parle de fonction de partition).
 
 L'architecture de notre modèle bayésien est résumée en \Fig~\ref{fig:chapII_modele_bayesien} ci-dessous.
 
@@ -253,7 +253,7 @@ La définition usuelle d'un système faiblement/partiellement recouvrable (\emph
 Notre cadre bayésien nous permet de définir rigoureusement ce qu'est un tirage aléatoire dans ce contexte général : c'est un algorithme qui ignore la réalisation de $X_n, W_n$ (voir \Def~\ref{def:chapII_random_guess} ci-dessous et l'illustration en \Fig~\ref{fig:chapII_algo_vs_guess}).
 
 \begin{Definition}{Tirage au hasard (\emph{random guess})}{chapII_random_guess}
-Un tirage au hasard, ou \emph{random guess}, est un algorithme dont le noyau ne dépend pas de la réalisation observée. Il existe donc une mesure de probabilité $\rho_n\in\mathcal \mathcal{M}_1(\Conf_n)$ telle que
+Un tirage au hasard, ou \emph{random guess}, est un algorithme dont le noyau ne dépend pas de la réalisation observée. Il existe donc une mesure de probabilité $\rho_n\in\mathcal{M}_1(\Conf_n)$ telle que
 \[
     \Loi(\tau_n'\mid X_n,W_n)=\rho_n.
 \]
@@ -467,7 +467,7 @@ Si la mesure \emph{a priori} impose des communautés de proportions limites $(p_
 
 On distingue habituellement plusieurs niveaux de récupération dans les modèles à communautés cachées \cite{Abbe2017,SankararamanBaccelli2018}.
 \begin{enumerate}
-    \item Le recouvrement partiel (\emph{weak/partial recovery)} demande seulement un gain strict au-dessus du meilleur tirage au hasard (\emph{random guess}), au sens probabiliste de la \Def~\ref{def:chapII_weak_general}.
+    \item Le recouvrement partiel (\emph{weak/partial recovery}) demande seulement un gain strict au-dessus du meilleur tirage au hasard (\emph{random guess}), au sens probabiliste de la \Def~\ref{def:chapII_weak_general}.
     \item Le recouvrement presque parfait (\emph{almost perfect recovery} en anglais) demande $\ov_n(\Sigma_n,\tau_n)\to1$ en probabilité.
     \item Le recouvrement parfait (\emph{perfect recovery} en anglais) demande l'égalité exacte $\ov_n(\Sigma_n,\tau_n) = 1$ avec une probabilité tendant vers $1$.
 \end{enumerate}
@@ -521,7 +521,7 @@ Dans notre cadre, le régime qui présente l'intérêt principal est le recouvre
 \label{sec:chapII_couplage}
 
 Le résultat probabiliste ci-dessous est une forme de l'identité de \nom{Nishimori} \cite{Nishimori1980,Nishimori2001} : si la postérieure est la vraie loi conditionnelle des étiquettes, alors la vérité cachée $\Sigma$ et une réplique postérieure $\Sigma^{(1)}$ sont échangeables conditionnellement à l'observation. 
-Utilisés implicitement dans notre travail préparatoire \cite{BibiMonterey}, nous explicitons ici ce résultat (\Th~\ref{th:chapII_resampling}, classique en statistiques) qui va nous permettre de coupler la vérité terrain avec un pas de dynamique de clusters (\Cor~\ref{cor:chapII_markov_invariant}), en particulier pour savoir si une famille de modèle est partiellement recouvrable (\Cor~\ref{cor:chapII_overlap_markov}).
+Utilisé implicitement dans notre travail préparatoire \cite{BibiMonterey}, nous explicitons ici ce résultat (\Th~\ref{th:chapII_resampling}, classique en statistiques) qui va nous permettre de coupler la vérité terrain avec un pas de dynamique de clusters (\Cor~\ref{cor:chapII_markov_invariant}), en particulier pour savoir si une famille de modèles est partiellement recouvrable (\Cor~\ref{cor:chapII_overlap_markov}).
 Cette idée est illustrée en \Fig~\ref{fig:chapII_resampling}.
 
 \begin{Theoreme}{Rééchantillonnage postérieur \cite{Nishimori1980,Nishimori2001}}{chapII_resampling}
@@ -717,7 +717,7 @@ Si une configuration $\sigma$ satisfait toutes les arêtes, le produit des signe
 \label{fig:chapII_frustration_triangle}
 \end{figure}
 
-La frustration apparaît dès qu'un cycle impose un nombre impair d'arêtes négatives. Le triangle pleinement répulsif est le plus petit exemple. Dans notre travail préparatoire, nous avions appelés de tels triangles contradictoires de façon inhérente (\emph{inherently contradictory} dans le texte \cite{BibiMonterey}), contrairement aux autres triangles, seulement potentiellement contradictoires (\emph{potentially contradictory}), et satisfaits ou non selon la configuration $\sigma$ choisie.
+La frustration apparaît dès qu'un cycle impose un nombre impair d'arêtes négatives. Le triangle pleinement répulsif est le plus petit exemple. Dans notre travail préparatoire, nous avions appelé de tels triangles contradictoires de façon inhérente (\emph{inherently contradictory} dans le texte \cite{BibiMonterey}), contrairement aux autres triangles, seulement potentiellement contradictoires (\emph{potentially contradictory}), et satisfaits ou non selon la configuration $\sigma$ choisie.
 
 Par invariance de jauge, l'on peut se ramener (comme pour la définition d'une dynamique sur les triangles dans la suite du chapitre) à analyser seulement deux triangles :
 \begin{enumerate}
@@ -769,7 +769,7 @@ La règle de gel est dite \emph{réversible} (localement) si, pour tout $b$, tou
 \end{Definition}
 
 \begin{Theoreme}{Invariance par balance locale}{chapII_invariance_balance}
-Supposons que les choix de gel des liens soient indépendants, que la règle de gel soit localement réversible \eqref{eq:chapII_balance_cluster}, et que $P_b^\sigma(\varnothing)>0$ pour tout $b$ et tout $\sigma$. Alors la dynamique obtenue après recoloriage des clusters est réversible par rapport à la mesure
+Supposons que les choix de gel des liens soient indépendants, que la règle de gel soit localement réversible \eqref{eq:chapII_balance_cluster}, et que $P_b^\sigma(\varnothing)>0$ pour tout $b$ et toute $\sigma$. Alors la dynamique obtenue après recoloriage des clusters est réversible par rapport à la mesure
 \[
     \mu(\sigma)=Z^{-1}e^{-U(\sigma)}.
 \]
@@ -835,8 +835,7 @@ La \Fig~\ref{fig:chapII_SW_step} montre un exemple d'un pas de cette dynamique a
     \node[spin] (\n) at (\x,\y) {$\s$};
   \draw[freeze] (a3)--(b3); \draw[freeze] (d3)--(e3); \draw[freeze] (c3)--(f3);
 \end{tikzpicture}
-\caption{Un pas de \SW{} signé : partant d'une configuration $\sigma : V \to \bigl\{ + ; - \bigr\}$, l'on gèle aléatoirement certaines des arêtes satisfaites (en gras), puis on recolorie aléatoirement les clusters ainsi formés ; on obtient de la sorte une nouvelle configuration $\sigma'$ %La dynamique est correcte pour la mesure cible, mais elle peut geler trop d'information contradictoire dans les systèmes frustrés.
-}
+\caption{Un pas de \SW{} signé : partant d'une configuration $\sigma : V \to \bigl\{ + ; - \bigr\}$, l'on gèle aléatoirement certaines des arêtes satisfaites (en gras), puis on recolorie aléatoirement les clusters ainsi formés ; on obtient de la sorte une nouvelle configuration $\sigma'$.}
 \label{fig:chapII_SW_step}
 \end{figure}
 
@@ -849,7 +848,7 @@ La dynamique arête par arête décrite ci-dessus est réversible par rapport à
 
 \subsubsection{Transfert d'énergie vers les triangles}
 
-Comme nous l'avons décrit en \cite{BibiMonterey}, il est tout à fait possible, \emph{via} un jeu de ré-écriture de ``transférer'' l'énergie d'un premier ensemble de liens $\mathcal B$ donné vers un second (multi-)ensemble $\mathcal B'$. Si l'on trouve $U'_0$ et des $U'_{b'}, b' \in \mathcal B$ tels que 
+Comme nous l'avons décrit en \cite{BibiMonterey}, il est tout à fait possible, \emph{via} un jeu de réécriture permettant de ``transférer'' l'énergie d'un premier ensemble de liens $\mathcal B$ donné vers un second (multi-)ensemble $\mathcal B'$. Si l'on trouve $U'_0$ et des $U'_{b'}, b' \in \mathcal B$ tels que 
 \[
 \forall \sigma \in \Conf_n, \ \ \ U(\sigma) = U_0'(\sigma) + \sum_{b' \in \mathcal B'} U'_{b'}(\sigma),
 \]
@@ -926,7 +925,7 @@ Distinguons les deux types de triangles :
     \item Un triangle $t$ pleinement \textbf{répulsif} possède deux niveaux d'énergie :
     \begin{itemize}
         \item Un état de haute énergie $+++$ (ou par symétrie $---$) : $U_t(+++)=U_t(---) = 3u$ où aucune arête n'est satisfaite. On gèle $\varnothing$ avec la probabilité $1$.
-        \item Tous les autres états de basse énergie : $u$. Deux des trois arêtes sont satisfaites. On introduit des corrélations sur le mécanisme de gel pour ne pas geler inutilement le triangle entier : si l'on gèle, on ne gèle \emph{exactement} que l'une des deux arêtes satisfaites, garantissant ainsi (avec un minimum de gel) de rester dans un état de basse énergie.
+        \item Tous les autres états de basse énergie : $u$. Deux des trois arêtes sont satisfaites. On introduit des corrélations sur le mécanisme de gel pour ne pas geler inutilement le triangle entier : si l'on gèle, on ne gèle que l'une des deux arêtes satisfaites, garantissant ainsi (avec un minimum de gel) de rester dans un état de basse énergie.
     \end{itemize}
 \end{enumerate}
 
@@ -1327,9 +1326,9 @@ Au-delà, l'on ne peut pas conclure.
 \subsubsection{Dynamique triangulaire}
 
 Sur la grille triangulaire, on choisit une famille de triangles indépendants de sorte que chaque arête appartienne à un unique triangle. Si l'on considère cette grille peinte comme un damier, l'on pourra prendre tous les triangles blancs, orientés vers le haut.
-À effet de bord négligeable, chaque poids d'arête est transféré son unique triangle blanc adjacent. La dynamique de clusters utilise donc des liens triangulaires corrélés.
+À effet de bord négligeable, chaque poids d'arête est transféré à son unique triangle blanc adjacent. La dynamique de clusters utilise donc des liens triangulaires corrélés.
 
-Dans le cas d'une percolation corrélée de triangles indépendants \cite{PercolationGrilleTrianglesCorrelations}, le seuil critique est atteint lorsque la probabilité d'avoir un triangle plein (deux ou trois arêtes ``ouvertes'', c'est-à-dire gelées) est supérieur à la probabilité d'un triangle vide (aucune arête gelée).
+Dans le cas d'une percolation corrélée de triangles indépendants \cite{PercolationGrilleTrianglesCorrelations}, le seuil critique est atteint lorsque la probabilité d'avoir un triangle plein (deux ou trois arêtes ``ouvertes'', c'est-à-dire gelées) est supérieure à la probabilité d'un triangle vide (aucune arête gelée).
 Les calculs (voir \Tab~\ref{tab:chapII_triangle_dynamics}) donnent le seuil critique
 \begin{equation}
     p_c^{\triangle}
@@ -1476,7 +1475,7 @@ Pour valider nos bornes de non-recouvrement, des simulations ont été menées s
 
 Le modèle de \SB{} s'applique assez naturellement à l'assemblage d'haplotypes ; ce fut d'ailleurs l'objet de leur collaboration avec \nom{Vikalo} \cite{SankararamanVikaloBaccelli2020}.
 
-L'assemblage d'haplotypes consiste à reconstruire les deux longues chaînes nuclétidiques de deux chromosomes homologues à partir de fragments, ou \emph{lectures} (\emph{reads} en anglais) de ces dernières.
+L'assemblage d'haplotypes consiste à reconstruire les deux longues chaînes nucléotidiques de deux chromosomes homologues à partir de fragments, ou \emph{lectures} (\emph{reads} en anglais) de ces dernières.
 
 Les sommets du graphe sont les lectures (repérées spatialement sur $\mathbb Z$) et les arêtes représentent la vraisemblance que deux lectures (celles d'intersection non vide) soient ou non de la même  (\emph{i.e.} issues ou non du même chromosome).
 
@@ -1629,7 +1628,7 @@ L'avantage de notre cadre bayésien est qu'il correspond au problème : il est p
     \item \textbf{Un tirage au hasard} (ou \emph{random guess}) :  un algorithme agnostique de la réalisation observée (qui ne peut se fonder par conséquent que sur les \emph{a priori}).
     \item \textbf{Recouvrer faiblement/partiellement/fractionnellement les communautés} : avoir un algorithme qui batte asymptotiquement le meilleur \emph{random guess}. 
     \item {La vérité cachée}  $\Sigma$ des modèles génératifs peut être remplacée par une réplique postérieure $\Sigma^{(1)}$. Ce résultat (classique en statistiques) est notre \Th[th:chapII_resampling].
-    \item Ainsi, toute {dynamique} de \nom{Markov} qui laisse la postérieure invariante fournit donc un couplage (\Cor[cor:chapII_markov_invariant]).
+    \item Ainsi, toute dynamique de \nom{Markov} qui laisse la postérieure invariante fournit un couplage (\Cor[cor:chapII_markov_invariant]).
     \item En particulier, les \textbf{dynamiques de clusters} permettent d'obtenir des bornes par percolation (bornes qui dépendent du type de dynamique).
     \item Si l'on applique nos résultats au modèle de \SB{} avec une simple dynamique par arête (\SW{} standard), l'on retrouve leurs résultats : la percolation du graphe avec probabilité $f_{\mathrm{in}} - f_{\mathrm{out}}$ est une condition nécessaire au recouvrement faible. Mieux : la probabilité de percolation donne une borne supérieure à la fraction recouvrable des nœuds.
     \item Notre dynamique triangulaire d'ordre supérieur donne de meilleures bornes que \SW{} standard (à tout le moins sur la grille triangulaire, où les bornes exactes sont calculables). 
