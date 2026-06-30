@@ -420,7 +420,7 @@
 				\if\@coTutelleLogo\@empty\else
 		 		\put(430, 715){ 
 					\parbox[t][4cm]{10cm}{ 
-						\includegraphics[height=2.2cm]{\@coTutelleLogo}
+						\includegraphics[height=1.5cm]{\@coTutelleLogo}
 					}
 				}
 				\fi
