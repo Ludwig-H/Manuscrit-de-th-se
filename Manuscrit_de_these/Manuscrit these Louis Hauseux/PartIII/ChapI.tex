@@ -1,11 +1,11 @@
 \chapter{Introduction}
 \label{chap:introduction_partie_III}
 
-Lors des deux premières parties de ce manuscrit, nous avions un cadre géométrique où les données étaient principalement des nuages de points plongés dans l'espace euclidien $\mathbb R^p$ de dimension $p$. 
+Au cours des deux premières parties de ce manuscrit, nous avions un cadre géométrique où les données étaient principalement des nuages de points plongés dans l'espace euclidien $\mathbb R^p$ de dimension $p$. 
 L'objectif de cette troisième partie est de montrer que les idées de ce cadre minimaliste peuvent se transposer à des données bien davantage structurées que par leur seule géométrie.
 Nous nous intéressons à deux cas pratiques : des graphes (pondérés et signés) et des images (multimodales). 
 
-Ce changement de nature des données justifie l'emploi de méthodes spécifiques, issues de la physique statistique et du traitement du signal, et qui feront l'objet des deux chapitres suivants \ref{chap:bayes_clusters_graphes} \& \ref{chap:frangi_fissures}.
+Ce changement de nature des données justifie l'emploi de méthodes spécifiques, issues de la physique statistique et du traitement du signal, qui feront l'objet des deux chapitres suivants \ref{chap:bayes_clusters_graphes} \& \ref{chap:frangi_fissures}.
 
 
 \section{Détection de communautés et méthodes de Monte-Carlo}
@@ -13,7 +13,7 @@ Ce changement de nature des données justifie l'emploi de méthodes spécifiques
 Les graphes sont des objets naturels pour modéliser de très nombreux problèmes ; il est donc nécessaire de pouvoir les analyser convenablement \cite{AvrachenkovDreveton2022}.
 Une des premières tâches d'analyse que l'on peut demander est de regrouper des nœuds $V$ présentant des comportements communs ; ces clusters sont appelés \textit{communautés} en théorie des graphes. Ainsi est apparu le terme de détection de communautés sur graphe \cite{Fortunato2010, CherifiPallaSzymanskiLu2019CommunityStructure}.
 Dit autrement, on cherche à faire du clustering sur l'ensemble des sommets $V$.
-L'on supposera tout au long de ce chapitre et du suivant que le nombre de communautés $K \in \mathbb N^\star$ est donné à l'avance.
+L'on supposera tout au long de ce chapitre et du suivant que le nombre de communautés $K \ge 2$ est donné à l'avance.
 
 
 
@@ -55,7 +55,7 @@ Pour échantillonner de la sorte, l'on recourt souvent à des méthodes de Monte
 Le principe consiste à construire une chaîne de \nom{Markov} $(\Sigma_t)_{t\in\mathbb{N}}$ définie par un noyau de transition $P$, telle que sa distribution stationnaire soit exactement la mesure cible $\mu$. Cette invariance est souvent obtenue en imposant une condition de réversibilité locale (\emph{detailed balance} en anglais).
 
 Soit $\phi$ une fonction d'intérêt sur les configurations dont on cherche à évaluer l'espérance $ \mathbb E_{\Sigma \sim \mu} \bigl[ \phi(\Sigma)\bigr]$.
-Grâce au théorème ergodique \cite{JustinSaintFlour2025}, si la chaîne simulée est irréductible et apériodique, cette espérance peut être estimée par la moyenne empirique sur les visites de $(\Sigma_t)$. En effet, presque sûrement
+Grâce au théorème ergodique \cite{JustinSaintFlour2025}, si la chaîne simulée sur cet espace fini est irréductible de mesure invariante $\mu$, cette espérance peut être estimée presque sûrement par la moyenne empirique le long de la trajectoire $(\Sigma_t)$ :
 \[
 \lim_{T\to\infty} \frac{1}{T} \sum_{t=1}^T \phi(\Sigma_t) = \sum_{\sigma \in \Conf_K} \phi(\sigma)\mu(\sigma). 
 \]
@@ -66,7 +66,7 @@ Ainsi font les dynamiques de \nom{Metropolis--Hastings} et de \nom{Glauber} \cit
 
 
 Un algorithme fameux de détection de communautés, dit de \nom{Louvain} \cite{Louvain2008}\footnote{Pour une approche plus physique statistique, voir le \emph{Constant \nom{Potts} Model} \cite{ConstantPottsModel}, intégré à un raffinement de l'algorithme de \nom{Louvain} : l'algorithme de \nom{Leiden} \cite{Leiden2019}.}, consiste à maximiser une certaine \emph{modularité}, qui n'est autre que l'opposé d'une énergie sur les configurations.
-L'efficacité de l'algorithme de \nom{Louvain}  vient du fait qu'il applique d'abord des changements locaux de type \emph{single-spin update}, puis une fois un minimum local d'énergie trouvé, il procède à de macro-changements en regroupant ensemble tous les nœuds d'un même cluster. 
+L'efficacité de l'algorithme de \nom{Louvain}  vient du fait qu'il applique d'abord une approche de mise à jour locale, puis une fois un minimum local d'énergie trouvé, il procède à de macro-changements en regroupant ensemble tous les nœuds d'un même cluster. 
 
 \subsection{Dynamiques de clusters face à la frustration}
 
@@ -84,7 +84,7 @@ Pour surmonter cet obstacle, inspirés par les travaux de \nom{Kandel, Ben-Av et
 
 C'est ici que le lien avec les deux parties précédentes du manuscrit apparaît plus clairement : les interactions d'ordre supérieur \emph{via} une dynamique triangulaire permettent de réduire la frustration.
 
-Mieux encore : au sein du cadre bayésien que nous aurons rigoureusement construit, la détection des communautés n'est théoriquement possible qu'à la condition que la dynamique de clusters percole. De même qu'au chapitre \ref{sec:chap_percolation}, le phénomène de percolation dépend du type d'interaction. Avantage une nouvelle fois aux interactions d'ordre supérieur !
+Mieux encore : au sein du cadre bayésien que nous aurons rigoureusement construit, nous verrons que pour une dynamique de clusters donnée, l'absence de percolation de ces clusters empêche théoriquement tout recouvrement partiel des communautés. Le phénomène de percolation, qui dépend du type d'interaction, devient ainsi une condition nécessaire à la réussite de l'échantillonneur. Avantage une nouvelle fois aux interactions d'ordre supérieur !
 
 
 
@@ -92,7 +92,7 @@ Mieux encore : au sein du cadre bayésien que nous aurons rigoureusement constru
 
 Le second domaine abordé dans cette partie concerne le traitement d'image \cite{jain1989fundamentals, Zerubia1995, Gonzalez2018ImageProcessing}, motivé par l'extraction automatique de réseaux de fissures. 
 
-Il y a notamment deux raisons qui font que l'établissement d'une cartographie fiable de ces structures linéiques est crucial : pour l'inspection des infrastructures civiles (\emph{e.g.} des piles de pont sur lesquelles le réseau de fissures représenterait un risque \cite{cerema_iqoa_ponts_dalles}) et la surveillance des aléas géologiques (évacuation d'une zone en cas de risque de glissement de terrain) \cite{bird2016coastal, fauchard2023diachronic}. 
+Il y a notamment deux raisons qui font que l'établissement d'une cartographie fiable de ces structures linéiques est crucial, tant pour l'inspection des infrastructures civiles (\emph{e.g.} de piles de ponts sur lesquelles le réseau de fissures représenterait un risque \cite{cerema_iqoa_ponts_dalles}) que pour la surveillance des aléas géologiques (évacuation d'une zone en cas de risque de glissement de terrain) \cite{bird2016coastal, fauchard2023diachronic}. 
 %L'objectif n'est pas de produire un simple masque de segmentation binaire, mais d'extraire un squelette conservant la topologie, la connectivité et les ramifications du réseau \cite{lee1994building}.
 
 \subsection{Les limites de l'apprentissage profond en extraction de réseaux}
@@ -115,7 +115,7 @@ Ainsi sont apparus des filtres (c'est-à-dire des fonctions de l'ensemble des pi
 Citons \emph{exempli gratia} le filtre de \nom{Sato} \cite{Sato1998}. Le plus fameux est peut-être le filtre de \nom{Frangi} \cite{Frangi1998} qui analyse de façon multi-échelle les valeurs propres de la matrice hessienne ; le filtre de \nom{Frangi} est un standard pour rehausser (puis détecter) les structures tubulaires. 
 %Cependant, ce filtre prend des décisions strictement locales (au niveau du pixel), ce qui tend à fragmenter le réseau en présence de bruit.
 
-Le \S~\ref{chap:frangi_fissures} propose de généraliser ce filtre en déplaçant la réponse, de pixélique qu'elle était, vers un (hyper-)graphe spatial de similarité entre paires/triplets de pixels. 
+Le chapitre~\ref{chap:frangi_fissures} propose de généraliser ce filtre en déplaçant la réponse, de pixélique qu'elle était, vers un (hyper-)graphe spatial de similarité entre paires/triplets de pixels. 
 
 L'information contenue dans une paire/un triplet de pixels est beaucoup plus riche que la simple réponse pixélique ; par exemple, si deux pixels sont chacun dans une structure tubulaire, rien n'indique que ce soit la même structure si l'on ne regarde le bon alignement des deux structures.
 
