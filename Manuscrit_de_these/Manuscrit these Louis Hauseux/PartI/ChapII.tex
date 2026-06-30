@@ -38,7 +38,7 @@ Une relation binaire sur $\mathcal X$ (généralement notée en notation infixe 
     \item \textbf{Transitive.} $\forall x, y, z \in \mathcal{X}, \text{ si } x \sim y \text{ et } y \sim z \text{ alors } x \sim z.$
 \end{enumerate}
 
-La donnée d'une relation d'équivalence $\sim$ sur $\mathcal X$ fournit une partition canonique : il suffit de prendre la clôture transitive de chaque singleton $\left\{ x \right\}$ quand $x $ parcourt $\mathcal X$.
+La donnée d'une relation d'équivalence $\sim$ sur $\mathcal X$ fournit une partition canonique : il suffit de regrouper les points selon leurs classes d'équivalence $[x] = \{y \in \mathcal X \mid y \sim x\}$ quand $x$ parcourt $\mathcal X$.
 Et réciproquement, de toute partition l'on peut tirer une relation d'équivalence dont les classes d'équivalence soient les éléments de la partition originale.
 
 \Remarque{Nous nous permettons tout au long de ce manuscrit de substituer les termes de partition et de relation d'équivalence.}
@@ -159,7 +159,7 @@ Soit $(\mathcal X,d)$ un espace métrique fini. Le dendrogramme $\thetaSL$ produ
 
 \subsection{Équivalence entre les dendrogrammes et les ultramétriques}
 
-Le \Res[res:equivalence_ultrametrique-dendrogramme], explicite l'équivalence entre les dendrogrammes et les espaces ultramétriques (\Def~\ref{def:ultrametrique} ci-dessous).
+Le \Res[res:equivalence_ultrametrique-dendrogramme] explicite l'équivalence entre les dendrogrammes et les espaces ultramétriques (\Def~\ref{def:ultrametrique} ci-dessous).
 Nous ne rentrerons pas dans les détails, mais il est parfois plus pratique de manipuler des espaces ultramétriques (finis dans notre cas) que des dendrogrammes ; cela permet un certain formalisme que \nom{Carlsson} \& \nom[Memoli]{Mémoli} ont utilisé (voir ci-dessous, et notamment le \Res[res:Axiomatique_Single-Linkage_unique]).
 
 \begin{Definition}{Ultramétrique}{ultrametrique}
@@ -181,7 +181,7 @@ Il existe une bijection canonique entre l'ensemble des ultramétriques $u$ et l'
 La partition $\theta(r)$ est définie par la relation d'équivalence $\sim_r$ suivante :
 \[
 \boxed{
-    x \sim_r y \iff u(x, y) \leq 2r .
+    x \sim_r y \iff u(x, y) \leq r .
     }
 \]
 
@@ -189,7 +189,7 @@ La partition $\theta(r)$ est définie par la relation d'équivalence $\sim_r$ su
 La distance ultramétrique est le seuil d'apparition du premier cluster contenant le couple :
 \begin{equation}\label{eq:ancetre_commun}
 \boxed{
-    u(x, y) = 2\inf \{ r \geq 0 \mid \exists C \in \theta(r), \ x \in C \text{ et } y \in C \}
+    u(x, y) = \inf \{ r \geq 0 \mid \exists C \in \theta(r), \ x \in C \text{ et } y \in C \}
     }
 \end{equation}
 \end{Resultat}
@@ -214,7 +214,7 @@ Pour sortir de l'aporie mise en avant par \nom{Kleinberg}, \nom{Carlsson} \& \no
 \end{Definition}
 
 
-\Remarque{Vu ainsi, le Single-Linkage $u^{\mathrm{SL}}$ est en fait la plus grande ultramétrique sur $\X$ \emph{sous-dominante}, c'est-à-dire sous la contrainte $u \le d$.}
+\Remarque{Vu ainsi, le Single-Linkage $u^{\mathrm{SL}}$ est en fait la plus grande ultramétrique sur $\X$ \emph{sous-dominante}, c'est-à-dire sous la contrainte $u \le d/2$.}
 
 \nom{Carlsson} \& \nom[Memoli]{Mémoli} \cite{CarlssonMemoli2010} obtiennent surtout les deux résultats suivants :
 \begin{enumerate}%[label=(\roman*)]
@@ -228,11 +228,11 @@ Soit $T$ une méthode de clustering hiérarchique qui à tout espace métrique f
 une ultramétrique $T : (\X,d) \mapsto (\X,u)$, et supposons que $T$ vérifie :
 \begin{enumerate}%[label=(\roman*)]
     \item \textbf{Normalisation à deux points.} Si $|\X|=2$ et $d(x,x')=2\delta$, alors $u(x,x')=\delta$.
-    \item \textbf{Fonctorialité}. Pour toute application $1$-lipschitzienne $\phi:(\X,d_\X)\to(\Y,d_\Y)$.
+    \item \textbf{Fonctorialité}. Pour toute application $1$-lipschitzienne $\phi:(\X,d_\X)\to(\Y,d_\Y)$,
     on a $u_\Y(\phi(x),\phi(x'))\le u_\X(x,x')$ pour tous $x,x'\in\X$ ;
     \item \textbf{Séparation.} Pour tout $(\X,d)$, et tous $x\neq x'\in\X$,
     \[
-    u(x,x') \ \ge\  \sep(\X,d)\eqdef \tfrac12 \min_{a\neq b\in\X} d(a,b).
+    \boxed{u(x,x') \ \ge\  \sep(\X,d)\eqdef \tfrac12 \min_{a\neq b\in\X} d(a,b).}
     \]
 \end{enumerate}
 Alors $T$ coïncide nécessairement avec le Single-Linkage hiérarchique \[T = T^{\mathrm{SL}}.\]
