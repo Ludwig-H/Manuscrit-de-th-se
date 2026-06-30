@@ -7,12 +7,12 @@ Ce chapitre achève la deuxième partie consacrée à la généralisation du Sin
 
 Premier problème rencontré en pratique (\S~\ref{sec:chapV_partition_stricte}) : il est parfois nécessaire d'avoir une partition stricte des données $\mathcal X$ (et non un recouvrement comme les $K$-polyèdres produits par \HGP-Clusterer $\theta^{\mathrm{HGP}}$).
 
-Nous décrivons ensuite (\S~\ref{sec:chapV_k2_empirique}) la mise en œuvre optimisée pour $K=2$ ne nécessitant que le calcul de la triangulation de \nom{Delaunay} standard et qui nous a permis d'obtenir des résultats empiriques à la fois sur des données synthétiques 2D et des données réelles 8D (les huiles d'olive italiennes) pour illustrer la supériorité de \HGP-Clusterer face à \HDBSCAN \cite{BibiAppliedNetworkScience}. 
+Nous décrivons ensuite (\S~\ref{sec:chapV_k2_empirique}) la mise en œuvre optimisée pour $K=2$, qui ne nécessite que le calcul de la triangulation de \nom{Delaunay} standard et nous a permis d'obtenir des résultats empiriques à la fois sur des données synthétiques 2D et des données réelles 8D (les huiles d'olive italiennes) pour illustrer la supériorité de \HGP-Clusterer face à \HDBSCAN \cite{BibiAppliedNetworkScience}. 
 
-Il arrive aussi parfois que les données $\mathcal X$ soient de trop grande dimension pour pouvoir calculer la triangulation de \nom{Delaunay} (phénomène dit du «~fléau de la dimension~», \emph{curse of dimensionality} \cite{Pestov2000CurseDimensionality} en anglais). Ou bien les données peuvent tout simplement ne pas provenir de l'espace euclidien. (Supposons qu'on ait une matrice de distance, éventuellement creuse, représentant des données dans un espace métrique quelconque.) En ce cas, nous pouvons recourir à un autre complexe que celui de \v Cech : le complexe de \nom{Vietoris--Rips} (\S~\ref{sec:chapV_vietoris_rips}).
+Il arrive aussi parfois que les données $\mathcal X$ soient de trop grande dimension pour pouvoir calculer la triangulation de \nom{Delaunay} (phénomène dit du «~fléau de la dimension~», \emph{curse of dimensionality} \cite{Pestov2000CurseDimensionality} en anglais), ou bien qu'elles ne proviennent tout simplement pas de l'espace euclidien (lorsque l'on dispose par exemple d'une matrice de distances représentant des données dans un espace métrique quelconque). Dans ce cas, nous pouvons recourir à un autre complexe que celui de \v Cech : le complexe de \nom{Vietoris--Rips} (\S~\ref{sec:chapV_vietoris_rips}).
 
 Pour terminer ce chapitre, nous revenons en \S~\ref{sec:chapV_reduction_dimension} sur l'objet mathématique au cœur de \HGP-Clusterer, et qui contient toute l'information de la hiérarchie \KNN : la mosaïque de \nom{Delaunay} d'ordre $K$.
-Nous l'avons utilisée à des fins de clustering, alors nous avons montré qu'il suffisait d'extraire un arbre minimum couvrant sur certaines de ses cellules. Mais on aurait pu l'utiliser pour d'autres fins de structuration automatique de données !
+Nous l'avons utilisée à des fins de clustering, lors nous avons montré qu'il suffisait d'extraire un arbre minimum couvrant sur certaines de ses cellules. Mais l'on aurait également pu l'utiliser à d'autres fins de structuration automatique de données !
 Nous esquissons une direction de travail encore ouverte : utiliser la mosaïque comme support d'une réduction de dimension de type UMAP, mais en recourant à des interactions d'ordre supérieur.
 
 %\Contributions{}
@@ -20,7 +20,7 @@ Nous esquissons une direction de travail encore ouverte : utiliser la mosaïque 
 \section{Et lorsqu'on impose une partition stricte des données ?}
 \label{sec:chapV_partition_stricte}
 
-Jusqu'ici, \HGP-Clusterer a été présenté comme une hiérarchie exacte de $K$-polyèdres. Ce point est fondamental : pour $K\ge2$, l'objet naturel n'est pas une partition de $\X$, mais un recouvrement de $\mathcal X$ (ou bien une partition des $(K-1)$-simplexes). 
+Jusqu'ici, \HGP-Clusterer a été présenté comme une hiérarchie exacte de $K$-polyèdres. Ce point est fondamental : pour $K\ge2$, l'objet naturel n'est pas une partition de $\mathcal X$, mais un recouvrement de $\mathcal X$ (ou bien une partition des $(K-1)$-simplexes). 
 
 Un point peut appartenir à plusieurs $K$-polyèdres, parce qu'il peut apparaître dans plusieurs $(K-1)$-simplexes situés dans des composantes différentes du graphe $\Gamma_K(\mathcal X)_r$ ; c'est précisément l'information géométrique portée par les intersections d'ordre supérieur.
 
@@ -63,7 +63,7 @@ La masse d'une face dans l'arbre condensé est alors
     S_\tau
     \sum_{x\in\tau}\frac1{T_x},
 \]
-avec la convention $1/T_x=0$ lorsque $T_x=0$. Ainsi, lorsqu'un point appartient à au moins une face, il distribue une masse totale égale à $1$ entre les faces qui le contiennent. C'est ce poids $m_\tau$, et non le simple comptage des faces, qui est utilisé par le seuil \texttt{min\_cluster\_size} dans l'arbre condensé (même idées algorithmiques que \HDBSCAN).
+avec la convention $1/T_x=0$ lorsque $T_x=0$. Ainsi, lorsqu'un point appartient à au moins une face, il distribue une masse totale égale à $1$ entre les faces qui le contiennent. C'est ce poids $m_\tau$, et non le simple comptage des faces, qui est utilisé par le seuil \texttt{min\_cluster\_size} dans l'arbre condensé (mêmes idées algorithmiques que \HDBSCAN).
 
 La conversion en partition stricte se fait ensuite par vote pondéré. Pour tout point $x\in\X$ et tout cluster $c$, on définit
 \[
@@ -105,11 +105,11 @@ Pour $K=1$, les faces sont les points eux-mêmes ; le vote est donc trivial et r
 Lorsque $K=2$, les sommets du graphe dual sont les arêtes de la filtration, et les fusions sont portées par des triangles. Deux arêtes deviennent adjacentes lorsqu'elles sont facettes d'un même triangle de \v Cech. % La hiérarchie n'est donc plus une percolation d'arêtes entre points, mais une percolation de triangles entre arêtes.
 
 \begin{Fait}{Le $2$-graphe de \nom{Gabriel} se lit dans la triangulation de \nom{Delaunay} \cite{BibiAppliedNetworkScience}}{opt_K2_gabriel}
-Les triangles aigus de \nom{Gabriel} sont des triangles de \nom{Delaunay}, puisque leur sphère minimale est leur sphère circonscrite. Les triangles obtus de \nom{Gabriel} ont pour boule minimale le disque de diamètre leur plus long côté ; dans ce cas, les deux petites arêtes appartiennent à la triangulation de \nom{Delaunay}, ce qui suffit pour énumérer les triangles de \nom{Gabriel} (aigus et obtus) sans parcourir tous les triplets de points.
+Les triangles aigus de \nom{Gabriel} sont des triangles de \nom{Delaunay}, puisque leur sphère minimale est leur sphère circonscrite. Les triangles obtus de \nom{Gabriel} ont pour boule minimale le disque ayant pour diamètre leur plus long côté ; dans ce cas, les deux petites arêtes appartiennent à la triangulation de \nom{Delaunay}, ce qui suffit pour énumérer les triangles de \nom{Gabriel} (aigus et obtus) sans parcourir tous les triplets de points.
 \end{Fait}
 \begin{Preuve}
 Il suffit de jongler avec les notions de \nom{Gabriel} et de \nom{Delaunay} comme l'illustre la \Fig~\ref{fig:chapV_gabriel_obtus} ci-dessous. 
-La boule de diamètre le plus grand côté ne contient qu'un seul point (le troisième sommet du triangle obtus). Il existe donc des boules contenant les plus petites arêtes et vides d'autres points du nuage $\mathcal X$ ; par conséquent ces arêtes sont de \nom{Delaunay}.
+La boule ayant pour diamètre le plus grand côté ne contient qu'un seul point (le troisième sommet du triangle obtus). Il existe donc des boules contenant les plus petites arêtes et vides d'autres points du nuage $\mathcal X$ ; par conséquent ces arêtes sont de \nom{Delaunay}.
 % Si le triangle est acutangle, sa plus petite boule englobante est son disque circonscrit. Comme le triangle est $2$-\nom{Gabriel}, ce disque ne contient aucun autre point de $\mathcal X$ dans son intérieur. C'est exactement le critère du cercle vide pour être une face de \nom{Delaunay} dans le plan.
 
 % Supposons maintenant que le triangle $\sigma=\{a,b,c\}$ soit obtusangle en $a$ (voir \Fig~\ref{fig:chapV_gabriel_obtus}). Sa plus petite boule englobante $B_\sigma$ est le disque de diamètre $[b,c]$, et le sommet $a$ appartient à l'intérieur strict de $B_\sigma$. La condition $2$-\nom{Gabriel} garantit que $B_\sigma$ ne contient aucun point de $\mathcal X\setminus\{a,b,c\}$ dans son intérieur.
@@ -247,10 +247,10 @@ portent donc un \((K-1)\)-simplexe
         \tau = Q \cup Q' .
 \)
 
-Autrement dit, les arêtes élémentaires de \(\mathrm{Del}_{K-1}(X)\)
+Autrement dit, les arêtes élémentaires de \(\mathrm{Del}_{K-1}(\mathcal X)\)
 fournissent des candidats pour les sommets de \(\Gamma_K(\mathcal X)\).
 
-Regardons à présent les arêtes de \(\Gamma_K(\mathcal X)\) : soit \(\sigma \subseteq \X\) un \(K\)-simplexe de \nom{Gabriel}, \(|\sigma|=K+1\). Notons comme à l'accoutumée
+Regardons à présent les arêtes de \(\Gamma_K(\mathcal X)\) : soit \(\sigma \subseteq \mathcal X\) un \(K\)-simplexe de \nom{Gabriel}, \(|\sigma|=K+1\). Notons comme à l'accoutumée
 \(
         B_\sigma = B(c_\sigma,\rho(\sigma))
 \)
@@ -288,11 +288,11 @@ et leur union redonne le simplexe entier :
 \]
 Par conséquent, on obtient le résultat suivant généralisant \Fact~\ref{fait:opt_K2_gabriel} à $K\ge 2$.
 \begin{Theoreme}{Le $K$-graphe de \nom{Gabriel} se lit dans la mosaïque de \nom{Delaunay} \(\mathrm{Del}_{K-1}\) d'ordre $K-1$}{KGabriel_depuis_KM1Delaunay}
-Tout \(K\)-simplexe de \nom{Gabriel} peut être identifié à partir de deux \((K-1)\)-simplexes portés par des arêtes élémentaires de \(\mathrm{Del}_{K-1}(X)\).
+Tout \(K\)-simplexe de \nom{Gabriel} peut être identifié à partir de deux \((K-1)\)-simplexes portés par des arêtes élémentaires de \(\mathrm{Del}_{K-1}(\mathcal X)\).
 \end{Theoreme}
 
 
-Ce \Th~\ref{th:KGabriel_depuis_KM1Delaunay} permet le résultat algorithmique suivant : pour retrouver la hiérarchie complète des niveaux \KNN, il suffit\footnote{Il y a tout de même un coût supplémentaire non négligeable en grande dimension : trouver le rayon de filtration $r_\sigma$ des simplexes $\sigma$ candidats, par exemple au moyen de l'algorithme de \nom{Welzl} \cite{Welzl1991} (et éventuellement tester qu'ils sont bien de \nom{Gabriel}).} de construire la mosaïque \(\mathrm{Del}_{K-1}(X)\) d'ordre $K-1$.
+Ce \Th~\ref{th:KGabriel_depuis_KM1Delaunay} permet le résultat algorithmique suivant : pour retrouver la hiérarchie complète des niveaux \KNN, il suffit\footnote{Il y a tout de même un coût supplémentaire non négligeable en grande dimension : trouver le rayon de filtration $r_\sigma$ des simplexes $\sigma$ candidats, par exemple au moyen de l'algorithme de \nom{Welzl} \cite{Welzl1991} (et éventuellement tester qu'ils sont bien de \nom{Gabriel}).} de construire la mosaïque \(\mathrm{Del}_{K-1}(\mathcal X)\) d'ordre $K-1$.
 % \((K-1)\)-simplexes candidats, former les unions de deux tels candidats
 % dont l'union a cardinal \(K+1\), puis ne conserver que les unions
 % \(\sigma\) qui satisfont le test Gabriel, c'est-à-dire
@@ -310,15 +310,15 @@ Ce \Th~\ref{th:KGabriel_depuis_KM1Delaunay} permet le résultat algorithmique su
 \Fact~\ref{fait:opt_K2_gabriel} permet d'obtenir \Fact~\ref{fait:chapV_k2_gabriel_plan} ainsi que l'\Alg~\ref{alg:chapV_hgp_k2} utilisé dans la suite de ce chapitre sur les données expérimentales. 
 
 \begin{Fait}{Extraction planaire du \(2\)-graphe de \nom{Gabriel} \cite{BibiAppliedNetworkScience}}{chapV_k2_gabriel_plan}
-Soit $\X\subset\mathbb R^2$ un nuage fini en position générale. Tous les triangles de \nom{Gabriel} de $\X$ peuvent être extraits à partir de la triangulation de \nom{Delaunay} ordinaire de $\X$. En particulier, le graphe dual des arêtes reliées par les triangles de \nom{Gabriel} peut être construit en temps $\mathcal O(n\log n)$ dans le plan.
+Soit $\X\subset\mathbb R^2$ un nuage fini en position générale. Tous les triangles de \nom{Gabriel} de $\mathcal X$ peuvent être extraits à partir de la triangulation de \nom{Delaunay} ordinaire de $\mathcal X$. En particulier, le graphe dual des arêtes reliées par les triangles de \nom{Gabriel} peut être construit en temps $\mathcal O(n\log n)$ dans le plan.
 \end{Fait}
 
 
 
 \begin{algorithm}[htbp]
   \caption{{\HGP-Clusterer} pour $K=2$ avec sortie en partition stricte}\label{alg:chapV_hgp_k2}
-  \textbf{Entrée :} Nuage de points $\X\subset\mathbb R^p$, seuil \texttt{min\_cluster\_size}, choix de poids $\psi$\\
-  \textbf{Sortie :} Clustering sur $\X$
+  \textbf{Entrée :} Nuage de points $\mathcal X\subset\mathbb R^p$, seuil \texttt{min\_cluster\_size}, choix de poids $\psi$\\
+  \textbf{Sortie :} Clustering sur $\mathcal X$
   \begin{algorithmic}[1]
     \State Construire la triangulation de \nom{Delaunay} $\mathrm{Del}(\mathcal X)$.
     \State Extraire les triangles de \nom{Gabriel} : triangles aigus de $\mathrm{Del}(\X)$ satisfaisant le test de vacuité, puis triangles obtus énumérés à partir des couples d'arêtes de \nom{Delaunay} incidentes (voir \Fact~\ref{fait:opt_K2_gabriel}).
@@ -482,7 +482,7 @@ L'extension exhaustive par $1$-plus proche voisin des points non classés donne 
 \subsection{Résultats sur SIPU}
 \label{subsec:chapV_sipu}
 
-Le \emph{benchmark} public SIPU \cite{Sipu}, utilisé ici \emph{via} \nom{ClustBench} \cite{Clustbench}, regroupe des jeux de données synthétiques de formes et de tailles très variées. Les jeux admettant une vérité terrain multiple -- et donc sujette à ambiguïté --, comme \texttt{compound}, \texttt{flame}, \texttt{pathbased} et \texttt{r15}, n'ont pas été retenus ; \texttt{worms\_64} est également écarté à cause de sa dimension $64$ (du fait du fléau de la dimension, la triangulation de \nom{Delaunay} n'est pas calculable).
+Le \emph{benchmark} public SIPU \cite{Sipu}, utilisé ici \emph{via} \nom{ClustBench} \cite{Clustbench}, regroupe des jeux de données synthétiques de formes et de tailles très variées. Les jeux admettant une vérité terrain multiple -- et donc sujets à ambiguïté --, comme \texttt{compound}, \texttt{flame}, \texttt{pathbased} et \texttt{r15}, n'ont pas été retenus ; \texttt{worms\_64} est également écarté à cause de sa dimension $64$ (du fait du fléau de la dimension, la triangulation de \nom{Delaunay} n'est pas calculable).
 
 La comparaison avec \HDBSCAN \cite{HDBSCAN2017} est rigoureusement faite : on garde le même seuil minimal de percolation, \texttt{min\_cluster\_size}$=\sqrt n$, le même estimateur de densité $\widehat\rho=1/r$%
 , et le même critère d'excès de masse ($\psi(t) = \tfrac1t$). Toutes choses égales par ailleurs, la seule différence est donc le type de connexité : connexité standard de graphe géométrique pour \HDBSCAN, connexité par triangles de \v Cech pour \HGP-Clusterer avec $K=2$ \cite{BibiAppliedNetworkScience}.
