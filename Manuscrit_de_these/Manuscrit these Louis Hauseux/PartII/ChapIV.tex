@@ -74,12 +74,6 @@ aucun point de $\mathcal X\setminus\sigma$ n'appartient à la frontière de sa p
 % En particulier, les points de $\sigma\cap\partial B_\sigma$ forment l'ensemble de support de la boule minimale.
 Autrement dit, aucun point du nuage extérieur à $\sigma$ ne se trouve sur
 la frontière de la plus petite boule englobante de $\sigma$.
-
-
-L'on supposera de plus (pour éviter toute ambiguïté lors des scissions/fusions) l'unicité des rayons : deux simplexes $\sigma$ et $\sigma'$ ayant des supports $\sigma\cap\partial B_\sigma$ et $\sigma'\cap\partial B_{\sigma'}$ distincts ont nécessairement un rayon différent :
-\[
-\rho(\sigma) \ne \rho(\sigma').
-\]
 \end{Definition}
 
 \Remarques{
@@ -212,18 +206,44 @@ Si $|\tau \cup \tau'|=K+1$, l'adjacence est déjà élémentaire. Si $|\tau \cup
 \Notation{À partir de maintenant,  $\Gamma_K(\mathcal X,r)$ désignera uniquement la version élaguée du graphe, réduit aux adjacences élémentaires. Nous noterons ce graphe indifféremment $\Gamma_K(\mathcal X)_{\le r}$ et $\Gamma_K(\mathcal X)$, sans indice, quand nous prenons $r=+\infty$. Nous noterons aussi $\Gamma_K(\mathcal X)_{< r}$ le sous-graphe de $\Gamma_K(\mathcal X)_{\le r}$ privé de tous les simplexes $\sigma$ (sommets et arêtes) ayant un rayon $\rho(\sigma)$ exactement égal à $r$.}
 
 \begin{Definition}{Simplexe $K$-séparant}{chapIV_simplexe_separant}
-Soit $\sigma\subseteq\mathcal X$ un $K$-simplexe, et posons $r_\sigma=\rho(\sigma)$.
-On dit que $\sigma$ est \emph{$K$-séparant} si les $K$-polyèdres de $\Gamma_K(\mathcal X)_{< r_\sigma}$ et $\Gamma_K(\mathcal X)_{\le r_\sigma}$ ne sont pas égaux.
-% On dit que $\sigma$ est \emph{$K$-séparant} si au moins deux de ses facettes appartiennent à deux composantes connexes distinctes de
-% \[
-%     \Gamma_K(\mathcal X)_{< r_\sigma}.
-% \]
-% \Remarque{Ces composantes sont nécessairement fusionnées dans
-% $
-%      \Gamma_K(\mathcal X)_{< r_\sigma}
-% $
-% par les arêtes induites par $\sigma$.}
+Soit $\sigma\subseteq\mathcal X$ un $K$-simplexe, et posons
+\[
+    r_\sigma \eqdef \rho(\sigma).
+\]
+On appelle \emph{facettes actives} de $\sigma$ les facettes déjà présentes strictement avant la naissance de $\sigma$ :
+\[
+    \mathcal F_{<}(\sigma)
+    \eqdef
+    \left\{
+        \tau\subset\sigma
+        \ \middle|\
+        \module{\tau}=K
+        \ \text{et}\
+        \rho(\tau)<r_\sigma
+    \right\}.
+\]
+On dit que $\sigma$ est \emph{$K$-séparant} s'il existe deux facettes actives
+\[
+    \tau,\tau'\in\mathcal F_{<}(\sigma)
+\]
+qui appartiennent à deux composantes connexes distinctes de
+\[
+    \Gamma_K(\mathcal X)_{<r_\sigma}.
+\]
+Autrement dit, $\sigma$ est $K$-séparant lorsqu'il provoque effectivement une fusion entre deux $K$-polyèdres déjà présents.
 \end{Definition}
+
+\Remarque{
+Sous l'hypothèse de position générale pour la filtration de \v Cech, un $K$-simplexe $\sigma$ possède toujours au moins deux facettes actives. En effet, si
+\[
+    S_\sigma \eqdef \sigma\cap\partial B_\sigma
+\]
+désigne l'ensemble de support de sa plus petite boule englobante, alors $\module{S_\sigma}\ge2$ et, pour tout $s\in S_\sigma$,
+\[
+    \rho(\sigma\setminus\{s\})<\rho(\sigma).
+\]
+Les facettes actives sont donc au moins les $\sigma\setminus\{s\}$, avec $s\in S_\sigma$. Les autres facettes, obtenues en retirant un sommet intérieur de $B_\sigma$, peuvent en revanche naître exactement au même niveau que $\sigma$.
+}
 
 Autrement dit, un simplexe $K$-séparant est un simplexe qui change réellement la connectivité persistante des $K$-polyèdres. Pour $K=1$, les $1$-simplexes séparants sont exactement les arêtes qui relient deux composantes distinctes du graphe géométrique au moment où elles apparaissent ; ce sont les arêtes de l'arbre minimum couvrant.
 
@@ -475,16 +495,11 @@ l'ensemble des sommets de $\sigma$ situés sur la frontière de la boule minimal
 \end{figure}
 
 
-Les seules facettes de $\sigma$ qui existent strictement avant le niveau $r$ sont les facettes
+D'après la définition d'un simplexe $K$-séparant (\Def[def:chapIV_simplexe_separant]) et la remarque associée, les facettes actives de $\sigma$ (c'est-à-dire celles existant strictement avant $r$) sont exactement les facettes
 \[
     \tau_s\eqdef\sigma\setminus\{s\},
     \qquad s\in S.
 \]
-En effet, si l'on retire un point de support $s\in S$, le rayon diminue strictement :
-\[
-    \rho(\tau_s)<r.
-\]
-À l'inverse, si l'on retire un sommet intérieur $u\in\sigma\setminus S$, la boule minimale reste $B_\sigma$, donc la facette correspondante naît au même niveau $r$.
 
 Montrons maintenant que toutes les facettes actives $\tau_s$, $s\in S$, sont déjà dans la même composante de $\Gamma_K(\mathcal X)_{<r}$.
 Soient $s,t\in S$, $s\neq t$. Considérons les deux $K$-simplexes
