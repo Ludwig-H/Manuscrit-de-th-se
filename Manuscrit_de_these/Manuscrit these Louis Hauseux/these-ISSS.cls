@@ -509,8 +509,8 @@
 			
 			
 			\vfill
-			\hspace*{-2.cm}
 			\if\@coFinanceursLogo\@empty \else
+				\hfill
 				\foreach \img in \@coFinanceursLogo {
 					\includegraphics[height=1.4cm]{\img}\hfill
 				}
