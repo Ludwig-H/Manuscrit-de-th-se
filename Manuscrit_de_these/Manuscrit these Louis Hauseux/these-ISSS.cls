@@ -455,14 +455,14 @@
 			}
 			
 			
-			\vspace*{3.5cm}
+			\vspace*{2.8cm}
 			\hspace*{-1.5cm}
 			\begin{minipage}[b][2cm]{16cm}
 				\centering
 				{\color{white}\fontsize{36pt}{36pt}\selectfont\bfseries\rmfamily 
 				    % \@type
 				}
-			\end{minipage}\\[1.5cm]
+			\end{minipage}\\[0.5cm]
 			
 			\hspace*{-1.5cm}
 			%%%% Bloc Titre + Sous-titre. S'étend vers le haut.
@@ -481,10 +481,10 @@
 			\hspace*{-1.5cm}
 			\begin{minipage}{16cm}
 				\centering
-				\vspace*{1.5cm}
+				\vspace*{1.0cm}
 				{\fontsize{24pt}{24pt}\selectfont\bfseries\rmfamily \@firstname\ \IFmiddlename \@lastname}\\[0.5cm]
 				{\fontsize{14pt}{14pt}\selectfont \@laboratoire}
-			\end{minipage}\\[1.cm]
+			\end{minipage}\\[0.6cm]
 			
 			\hspace*{-1.cm}
 			\if@master
@@ -504,7 +504,7 @@
 					{\bfseries Devant le jury, composé de :}
 					
 					\@leJury
-				\end{minipage}\\[1cm]
+				\end{minipage}\\[0.6cm]
 			\fi
 			
 			
@@ -512,9 +512,10 @@
 			\hspace*{-2.cm}
 			\if\@coFinanceursLogo\@empty \else
 				\foreach \img in \@coFinanceursLogo {
-					\includegraphics[height=2cm]{\img}\hfill
+					\includegraphics[height=1.4cm]{\img}\hfill
 				}
 			\fi
+			\vspace*{0.5cm}
 		\end{center}
 	\end{titlepage}
 	\voffset=-.3cm
