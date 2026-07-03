@@ -455,14 +455,14 @@
 			}
 			
 			
-			\vspace*{2.8cm}
+			\vspace*{1.8cm}
 			\hspace*{-1.5cm}
 			\begin{minipage}[b][2cm]{16cm}
 				\centering
 				{\color{white}\fontsize{36pt}{36pt}\selectfont\bfseries\rmfamily 
-				    % \@type
+				    \@type
 				}
-			\end{minipage}\\[0.5cm]
+			\end{minipage}\\[1.5cm]
 			
 			\hspace*{-1.5cm}
 			%%%% Bloc Titre + Sous-titre. S'étend vers le haut.
