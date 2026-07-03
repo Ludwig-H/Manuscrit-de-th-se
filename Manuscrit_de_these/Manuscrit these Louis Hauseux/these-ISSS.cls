@@ -411,7 +411,7 @@
 			\if\@coTutelle\@empty\else{\\\bfseries et de} \@coTutelle\fi\\[0.2cm]
 			{\bfseries Dirigée par :} \@directeurThese\\
 			\if\@codirecteurThese\@empty\else{\bfseries Co-dirigée par :} \@codirecteurThese\\\fi
-			\if\@coencadrantThese\@empty\else{\bfseries Co-encadrée par :} \@coencadrantThese\\\fi
+			%\if\@coencadrantThese\@empty\else{\bfseries Co-encadrée par :} \@coencadrantThese\\\fi
 		\fi
 	\fi
 	\if\@date\@empty\else{{\bfseries Soutenue le :} \@date}\fi
@@ -460,7 +460,7 @@
 			\begin{minipage}[b][2cm]{16cm}
 				\centering
 				{\color{white}\fontsize{36pt}{36pt}\selectfont\bfseries\rmfamily 
-				    \@type
+				    % \@type
 				}
 			\end{minipage}\\[1.5cm]
 			
