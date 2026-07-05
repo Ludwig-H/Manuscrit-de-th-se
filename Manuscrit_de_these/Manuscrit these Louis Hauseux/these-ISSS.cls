@@ -437,7 +437,7 @@
 			% 		}
 			% 	}
             \AddToShipoutPicture*{
-    \put(25.75, 262){ 
+    \put(25.75, 299.5){ 
         \parbox[b][\paperheight]{\paperwidth}{ 
             \vfill 
             \includegraphics[width=\paperwidth, draft=False]{Logos/visuel.jpg}
@@ -455,7 +455,7 @@
 			}
 			
 			
-			\vspace*{1.8cm}
+			\vspace*{0.5cm}
 			\hspace*{-1.5cm}
 			\begin{minipage}[b][2cm]{16cm}
 				\centering
