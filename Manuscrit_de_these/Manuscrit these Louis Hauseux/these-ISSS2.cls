@@ -1661,6 +1661,14 @@
 					##1, ##2, ##3 \\
 					\g@addto@macro\@invites{##1, ##2, ##3 \\}
 				}
+				\def\coencadrant##1##2##3{%
+					\gdef\@coencadrantThese{##1, ##2, ##3}%
+					##1, ##2, ##3 \\%
+				}
+				\def\codirecteur##1##2##3{%
+					\gdef\@codirecteurThese{##1, ##2, ##3}%
+					##1, ##2, ##3 \\%
+				}
 				\begin{lrbox}{\@juryBoxA}
 					\begin{tabular}{p{0.65\linewidth}}
 						\if\@president\@empty\else\@president, \@presidentAdr\\\fi
