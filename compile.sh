@@ -12,8 +12,8 @@ latexmk -pdflua -interaction=nonstopmode main.tex
 if [ $? -eq 0 ]; then
     echo "Compilation réussie !"
     # Copier le PDF généré vers la racine
-    cp main.pdf ../../Manuscrit_de_these.pdf
-    echo "Le PDF mis à jour a été copié à la racine sous le nom Manuscrit_de_these.pdf"
+    cp main.pdf ../../ManuscritThese_LouisHauseux.pdf
+    echo "Le PDF mis à jour a été copié à la racine sous le nom ManuscritThese_LouisHauseux.pdf"
 else
     echo "Erreur lors de la compilation."
     exit 1
