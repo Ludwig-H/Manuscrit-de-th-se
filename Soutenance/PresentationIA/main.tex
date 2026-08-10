@@ -1,0 +1,600 @@
+% !TEX program = lualatex
+\pdfvariable objcompresslevel = 0
+\documentclass[A4,svgnames,9pt,aspectratio=169]{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{mathtools}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{booktabs}
+\usepackage{colortbl}
+\usepackage{tikz}
+\usetikzlibrary{positioning, shapes, arrows.meta, calc}
+\usepackage{fontspec}
+\newfontfamily\looneyfont{Pacifico-Regular.ttf}[Path=theme/]
+
+\hypersetup{
+   allcolors=rouge_inria,
+   pdfauthor   = {Louis Hauseux},
+   pdftitle    = {AI for Research & Science: Three Use-Cases},
+   pdfsubject  = {Presentation at the NEO-AMELEAS Workshop},
+   pdfkeywords = {Louis Hauseux, AI, research, science, use-cases}
+}
+
+\title[AI for Research \& Science]{\large AI for Research \& Science\\[6pt] \normalsize \normalfont Three use-cases}
+\subtitle{\small Presentation at the NEO-AMELEAS Workshop}
+\date[1 July 2026]{1 July 2026}
+\author[L. Hauseux]{%
+   \small Louis \textsc{Hauseux} (Inria Sophia Antipolis, 3IA--DS4H scholarship from Université Côte d'Azur) \\[3pt]
+   \footnotesize Supervised by \href{https://www-sop.inria.fr/members/Konstantin.Avratchenkov/me.html}{Konstantin \textsc{Avrachenkov}} (\textsc{Neo}) \& \href{https://www-sop.inria.fr/members/Josiane.Zerubia/index-eng.html}{Josiane \textsc{Zerubia}} (\textsc{Ayana})
+}
+\institute{Saclay}
+
+\usetheme{inria}
+\setbeamertemplate{bibliography item}[text]
+
+
+\setbeamertemplate{footnote}{%
+  \hspace*{0.6cm}%
+  \raisebox{8pt}{%
+    \usebeamerfont{footnote}\usebeamercolor[fg]{footnote}%
+    \insertfootnotemark~\insertfootnotetext%
+  }%
+}
+
+\colorlet{inria-bleu}{inria-2024-bleu-azur}
+
+\newcounter{tocsectioncounter}
+\renewcommand{\contentsname}{Outline}
+\setbeamertemplate{section in toc}{%
+    \vspace*{2ex}%
+    \setcounter{tocsectioncounter}{\inserttocsectionnumber}%
+    \textcolor{inria-noir}{\textbf{\Roman{tocsectioncounter})~\inserttocsection}}\par%
+}
+\setbeamertemplate{subsection in toc}{%
+    \vspace*{0.8ex}%
+    \hspace*{2em}\textcolor{inria-rouge}{$\bullet$}~\textcolor{inria-noir}{\inserttocsubsection}\par%
+}
+
+\begin{document}
+
+% Page de titre
+\frame{\titlepage}
+
+% Plan
+\begin{frame}{Outline}
+  \tableofcontents[hideallsubsections]
+\end{frame}
+
+\section[AI for Skeptical People (I)]{AI for Skeptical People (I) \\[2pt] \quad \normalsize\normalfont Creating Vector Images with TikZ}
+\frame{\sectionpage}
+
+\subsection{Creating Vector Images with TikZ}
+\begin{frame}{Enhancing Visual Quality: Fast Vector Graphics with AI}
+    \begin{itemize}
+        \setlength{\itemsep}{14pt}
+        \item \textbf{Fast \& Professional Figures}: AI allows you to generate high-quality illustrations quickly without wasting time.
+        \item \textbf{What is TikZ?}: A native LaTeX programming language for vector graphics that integrates perfectly with your document.
+        \item \textbf{Full Control}: Since TikZ figures are code-based, you always keep full control to manually edit or fine-tune any detail at any time.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Example: Target Raster Image}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.62\textwidth}
+            \begin{center}
+                \includegraphics[width=\textwidth]{imgs/EoM_HDBSCAN.png}
+            \end{center}
+        \end{column}
+        \begin{column}{0.35\textwidth}
+            \textbf{The Challenge}:
+            \begin{itemize}
+                \setlength{\itemsep}{12pt}
+                \item A 1D density plot illustrating the \emph{excess of mass} in HDBSCAN.
+                \item Simple raster formats (PNG/JPG) are pixelated and cannot match document fonts.
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Example: Prompting the AI}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.62\textwidth}
+            \begin{center}
+                \includegraphics[width=\textwidth]{imgs/Prompt_EoM_HDBSCAN.png}
+            \end{center}
+        \end{column}
+        \begin{column}{0.35\textwidth}
+            \textbf{Human-AI Collaboration}:
+            \begin{itemize}
+                \setlength{\itemsep}{12pt}
+                \item Simply upload the target image and ask the AI to reproduce it in TikZ.
+                \item Saves hours of calculating coordinates and writing syntax manually.
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Example: The Generated TikZ Code}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.55\textwidth}
+            \textbf{TikZ Code Structure}:
+            \begin{block}{}
+                \texttt{\scriptsize
+                \textbackslash begin\{tikzpicture\}[scale=0.45] \\
+                \ \ \textbackslash tikzset\{declare function=\{f(x) = ...\}\} \\
+                \ \ \\
+                \ \ \% Draw density curve \\
+                \ \ \textbackslash draw[thick, blue] plot[domain=0:8] ...; \\
+                \ \ \\
+                \ \ \% Draw cluster tree bars \\
+                \ \ \textbackslash draw[very thick, red] (1.87,1.70) -- ...; \\
+                \ \ \\
+                \ \ \% Add labels \\
+                \ \ \textbackslash draw[<-, semithick] (1.87,1.82) -- ...; \\
+                \textbackslash end\{tikzpicture\}
+                }
+            \end{block}
+        \end{column}
+        \begin{column}{0.42\textwidth}
+            \textbf{LaTeX Integration}:
+            \begin{itemize}
+                \setlength{\itemsep}{12pt}
+                \item \textbf{Include Package}:
+                \begin{itemize}
+                    \item Add \texttt{\textbackslash usepackage\{tikz\}} in your preamble.
+                \end{itemize}
+                \item \textbf{Direct Placement}:
+                \begin{itemize}
+                    \item Paste the generated code directly in the document body.
+                \end{itemize}
+                \item \textbf{No Assets to Manage}:
+                \begin{itemize}
+                    \item No need for external image files (PNG/PDF).
+                \end{itemize}
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Example: The Native TikZ Result}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.65\textwidth}
+            \begin{center}
+                \begin{tikzpicture}[scale=0.45, >=latex, font=\scriptsize]
+                    \tikzset{declare function={f(\x) = 1.8*exp(-pow(\x-1.8, 2)/0.4) + 4.5*exp(-pow(\x-3.5, 2)/0.8) + 2.8*exp(-pow(\x-6.0, 2)/0.6);}}
+                    
+                    \draw[->, thick] (0,-0.1) -- (0,5.2) node[left] {$f(x)$};
+                    \draw[->, thick] (-0.2,0) -- (8.2,0);
+                    \draw[thick, blue!80!black] plot[domain=0:8.0, samples=100] (\x, {f(\x)});
+                    
+                    \draw[very thick, inria-rouge] (1.876, 1.705) -- (1.876, 1.941);
+                    \draw[very thick, inria-rouge] (3.499, 1.705) -- (3.499, 4.501);
+                    \draw[very thick, inria-rouge] (1.876, 1.705) -- (3.499, 1.705);
+                    \draw[very thick, inria-rouge] (2.327, 1.705) -- (2.327, 0.761);
+                    \draw[very thick, inria-rouge] (5.999, 0.761) -- (5.999, 2.802);
+                    \draw[very thick, inria-rouge] (2.327, 0.761) -- (5.999, 0.761);
+                    \draw[very thick, inria-rouge] (4.899, 0.761) -- (4.899, 0);
+                    
+                    \draw[<-, shorten <=1pt, semithick] (1.876, 1.823) -- ++(-0.4, 0) node[left] {$C_1$};
+                    \draw[<-, shorten <=1pt, semithick] (3.499, 3.103) -- ++(-0.4, 0) node[left] {$C_2$};
+                    \draw[<-, shorten <=1pt, semithick] (2.327, 1.233) -- ++(-0.4, 0) node[left] {$C_4$};
+                    \draw[<-, shorten <=1pt, semithick] (5.999, 1.781) -- ++(-0.4, 0) node[left] {$C_3$};
+                    \draw[<-, shorten <=1pt, semithick] (4.899, 0.380) -- ++(-0.4, 0) node[left] {$C_5$};
+                \end{tikzpicture}%
+                \hfill
+                \begin{tikzpicture}[scale=0.45, >=latex, font=\scriptsize]
+                    \tikzset{declare function={f(\x) = 1.8*exp(-pow(\x-1.8, 2)/0.4) + 4.5*exp(-pow(\x-3.5, 2)/0.8) + 2.8*exp(-pow(\x-6.0, 2)/0.6);}}
+                    \definecolor{c1}{RGB}{142, 198, 155} \definecolor{c2}{RGB}{232, 135, 135} 
+                    \definecolor{c3}{RGB}{221, 211, 153} \definecolor{c4}{RGB}{175, 152, 199} \definecolor{c5}{RGB}{152, 210, 228}
+                    
+                    \draw[->, thick] (0,-0.1) -- (0,5.2) node[left] {$f(x)$};
+                    \draw[->, thick] (-0.2,0) -- (8.2,0);
+                    \def\fillpath{ (0,0) -- plot[domain=0:8.0, samples=100] (\x, {f(\x)}) -- (8.0,0) -- cycle }
+                    \fill[c5] \fillpath;
+                    \begin{scope} \clip (-0.1, 0.761) rectangle (8.5, 6); \fill[c4] \fillpath; \end{scope}
+                    \begin{scope} \clip (4.899, 0.761) rectangle (8.5, 6); \fill[c3] \fillpath; \end{scope}
+                    \begin{scope} \clip (-0.1, 1.705) rectangle (4.899, 6); \fill[c2] \fillpath; \end{scope}
+                    \begin{scope} \clip (-0.1, 1.705) rectangle (2.327, 6); \fill[c1] \fillpath; \end{scope}
+                    \begin{scope}
+                        \clip \fillpath;
+                        \draw[white, line width=1.2pt] (-0.1, 0.761) -- (8.5, 0.761);
+                        \draw[white, line width=1.2pt] (-0.1, 1.705) -- (4.899, 1.705);
+                    \end{scope}
+                    \draw[thick, blue!80!black] plot[domain=0:8.0, samples=100] (\x, {f(\x)});
+                    
+                    \begin{scope}[shift={(0.6, 4.85)}]
+                        \fill[white, rounded corners=2pt, fill opacity=0.85, draw=gray!30, thin] (-0.15, 0.25) rectangle (6.8, -0.25);
+                        \fill[c1] (0, 0.1) rectangle (0.4, -0.1); \node[right] at (0.4, 0) {\tiny $C_1$};
+                        \fill[c2] (1.3, 0.1) rectangle (1.7, -0.1); \node[right] at (1.7, 0) {\tiny $C_2$};
+                        \fill[c3] (2.6, 0.1) rectangle (3.0, -0.1); \node[right] at (3.0, 0) {\tiny $C_3$};
+                        \fill[c4] (3.9, 0.1) rectangle (4.3, -0.1); \node[right] at (4.3, 0) {\tiny $C_4$};
+                        \fill[c5] (5.2, 0.1) rectangle (5.6, -0.1); \node[right] at (5.6, 0) {\tiny $C_5$};
+                    \end{scope}
+                \end{tikzpicture}
+            \end{center}
+        \end{column}
+        \begin{column}{0.32\textwidth}
+            \textbf{Why it works}:
+            \begin{itemize}
+                \setlength{\itemsep}{10pt}
+                \item Native vector rendering means infinite scaling and crispness.
+                \item Complete control over font size and styling.
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\section[AI for Skeptical People (II)]{AI for Skeptical People (II) \\[2pt] \quad \normalsize\normalfont Finding a Mathematical Counter-Example}
+\frame{\sectionpage}
+
+\subsection{Finding a Mathematical Counter-Example}
+
+\begin{frame}{Case Study: GSBM on Lattices}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.48\textwidth}
+            \begin{center}
+                \begin{tikzpicture}[scale=0.58, every node/.style={circle, draw, minimum size=0.4cm, inner sep=0.5pt, font=\scriptsize\bfseries}]
+                    % Row 0 (Y=0)
+                    \node[fill=inria-bleu!30, draw=inria-bleu] (A1) at (0,0) {$+$};
+                    \node[fill=inria-bleu!30, draw=inria-bleu] (A2) at (2,0) {$+$};
+                    \node[fill=inria-rouge!30, draw=inria-rouge] (A3) at (4,0) {$-$};
+
+                    % Row 1 (Y=1.73)
+                    \node[fill=inria-bleu!30, draw=inria-bleu] (B1) at (1,1.73) {$+$};
+                    \node[fill=inria-rouge!30, draw=inria-rouge] (B2) at (3,1.73) {$-$};
+                    \node[fill=inria-rouge!30, draw=inria-rouge] (B3) at (5,1.73) {$-$};
+
+                    % Row 2 (Y=3.46)
+                    \node[fill=inria-bleu!30, draw=inria-bleu] (C1) at (0,3.46) {$+$};
+                    \node[fill=inria-rouge!30, draw=inria-rouge] (C2) at (2,3.46) {$-$};
+                    \node[fill=inria-rouge!30, draw=inria-rouge] (C3) at (4,3.46) {$-$};
+
+                    % Row 3 (Y=5.20)
+                    \node[fill=inria-bleu!30, draw=inria-bleu] (D1) at (1,5.20) {$+$};
+                    \node[fill=inria-rouge!30, draw=inria-rouge] (D2) at (3,5.20) {$-$};
+
+                    % Horizontal Edges
+                    \draw[very thick, black] (A1) -- (A2);
+                    \draw[very thick, dashed, black] (A2) -- (A3);
+                    \draw[very thick, dashed, black] (B1) -- (B2);
+                    \draw[very thick, black] (B2) -- (B3);
+                    \draw[very thick, dashed, black] (C1) -- (C2);
+                    \draw[thin, dashed, black] (C2) -- (C3);
+                    \draw[thin, black] (D1) -- (D2);
+
+                    % Diagonals Up-Right
+                    \draw[thin, dashed, black] (A1) -- (B1);
+                    \draw[very thick, dashed, black] (A2) -- (B2);
+                    \draw[very thick, black] (A3) -- (B3);
+                    \draw[very thick, dashed, black] (B1) -- (C2);
+                    \draw[very thick, black] (B2) -- (C3);
+                    \draw[very thick, black] (C1) -- (D1);
+                    \draw[very thick, black] (C2) -- (D2);
+
+                    % Diagonals Up-Left
+                    \draw[very thick, black] (B1) -- (A2);
+                    \draw[very thick, black] (B2) -- (A3);
+                    \draw[thin, dashed, black] (C1) -- (B1);
+                    \draw[thin, dashed, black] (C2) -- (B2);
+                    \draw[very thick, black] (C3) -- (B3);
+                    \draw[very thick, dashed, black] (D1) -- (C2);
+                    \draw[very thick, black] (D2) -- (C3);
+                \end{tikzpicture}
+            \end{center}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \textbf{Geometric Stochastic Block Model (GSBM)}:
+            \begin{itemize}
+                \setlength{\itemsep}{6pt}
+                \item \textbf{Ground Truth} $\Sigma_x \in \{+1, -1\}$:
+                \begin{itemize}
+                    \item Node colors represent spins (50\% $+$, 50\% $-$).
+                \end{itemize}
+                \item \textbf{Observations} $Y_e \in \{+1, -1\}$:
+                \begin{itemize}
+                    \item Satisfied with probability $p = 0.75$.
+                \end{itemize}
+                \item \textbf{Graphical Code}:
+                \begin{itemize}
+                    \item Solid: $Y_e = +1$ | Dashed: $Y_e = -1$.
+                    \item Bold: Satisfied | Thin: Frustrated.
+                \end{itemize}
+                \item \textbf{The Goal}: Recover $\Sigma$ partially (better than random guess) $\implies$ \textbf{Weak Recovery}.
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Case Study: The Long-Path Intuition}
+    \begin{center}
+        \begin{tikzpicture}[scale=0.58, every node/.style={circle, draw, minimum size=0.4cm, inner sep=0.5pt, font=\scriptsize\bfseries}]
+            \node[fill=inria-bleu!30, draw=inria-bleu] (x) at (0,0) {$+$};
+            \node[fill=inria-bleu!30, draw=inria-bleu] (v1) at (2,0) {};
+            \node[fill=inria-bleu!30, draw=inria-bleu] (v2) at (4,0) {};
+            
+            % Suspension dots as a node without border
+            \node[draw=none, minimum size=0cm, inner sep=0pt] (dots) at (5.5,0) {\large $\dots$};
+            
+            \node[fill=inria-bleu!30, draw=inria-bleu] (vn1) at (7,0) {};
+            \node[fill=inria-bleu!30, draw=inria-bleu] (y) at (9,0) {$+$};
+
+            \draw[very thick, black] (x) -- (v1);
+            \draw[thin, dashed, black] (v1) -- (v2);
+            \draw[thin, black] (v2) -- (4.8,0);
+            \draw[thin, black] (6.2,0) -- (vn1);
+            \draw[thin, dashed, black] (vn1) -- (y);
+        \end{tikzpicture}
+    \end{center}
+    \textbf{The Correlation Decay Dilemma}:
+    \begin{itemize}
+        \setlength{\itemsep}{6pt}
+        \item For two distant $+$-nodes $x, y$ at distance $n$, we infer them as same-community ($+ +$) only if the path has an \textbf{even} number of antiferromagnetic edges.
+        \item As $n \to \infty$, the probability that the path's sign product matches this true label ($+ +$) washes out:
+        \[ \mathbb{P}(\text{even}) \xrightarrow[n \to \infty]{} \frac{1}{2} \]
+        \item \textbf{The False Conjecture}: Simulations on increasingly larger grids showed the overlap vanishing. This intuition led me to question if weak recovery was truly possible for any noise level, \emph{i.e.}, $p_c < 1$.
+        \item \emph{The Catch}: The MCMC cluster dynamics simply had an extremely long mixing-time on larger grids, masking the true static phase.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Case Study: Prompting the AI}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.58\textwidth}
+            \begin{center}
+                \includegraphics[height=5.2cm, keepaspectratio]{imgs/Prompt_WeakRecovery.png}
+            \end{center}
+        \end{column}
+        \begin{column}{0.38\textwidth}
+            \textbf{The Research Question}:
+            \begin{itemize}
+                \setlength{\itemsep}{12pt}
+                \item We uploaded our draft manuscript describing a plaquette dynamics.
+                \item We asked the AI to formalize the proof that the threshold $p_c^{(m)} \to 1$ as the plaquette size $m \to \infty$.
+                \item If true, this would prove no recovery is possible for any $p < 1$.
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Case Study: ChatGPT's Verdict}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.58\textwidth}
+            \begin{center}
+                \includegraphics[width=\textwidth]{imgs/ReponseChatGPT5.5Pro_WeakRecovery.png}
+            \end{center}
+        \end{column}
+        \begin{column}{0.38\textwidth}
+            \textbf{The AI's Answer}:
+            \begin{itemize}
+                \setlength{\itemsep}{12pt}
+                \item The model spent \textbf{18 minutes} reasoning.
+                \item It immediately disproved the theorem: \textbf{``on the square lattice, the statement `no weak recovery for all $p < 1$' is false.''}
+                \item Proving $p_c^{(m)} \to 1$ was impossible because the MAP estimator actually achieves recovery.
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Case Study: Why MAP Works (Peierls Contours)}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.42\textwidth}
+            \begin{center}
+                \begin{tikzpicture}[scale=1.0, every node/.style={circle, draw, minimum size=0.35cm, inner sep=0pt, font=\tiny\bfseries}]
+                    % Grid of nodes
+                    \foreach \x in {0,1,2,3} {
+                        \foreach \y in {0,1,2} {
+                            % Determine if inside error contour (1,1) or (2,1)
+                            \pgfmathsetmacro{\iserr}{0}
+                            \ifnum\x=1 \ifnum\y=1 \gdef\iserr{1}\fi\fi
+                            \ifnum\x=2 \ifnum\y=1 \gdef\iserr{1}\fi\fi
+                            
+                            \ifnum\iserr=1
+                                \node[fill=inria-rouge!30, draw=inria-rouge] (N-\x-\y) at (\x,\y) {$-$};
+                            \else
+                                \node[fill=inria-bleu!30, draw=inria-bleu] (N-\x-\y) at (\x,\y) {$+$};
+                            \fi
+                        }
+                    }
+                    
+                    % Draw grid edges
+                    \foreach \x in {0,1,2,3} {
+                        \foreach \y in {0,1,2} {
+                            \ifnum\x<3
+                                \draw[gray!40, thin] (\x,\y) -- (\x+1,\y);
+                            \fi
+                            \ifnum\y<2
+                                \draw[gray!40, thin] (\x,\y) -- (\x,\y+1);
+                            \fi
+                        }
+                    }
+                    
+                    % Draw the dual contour in orange/red
+                    \draw[orange, line width=1.5pt, dashed] (0.5,0.5) -- (2.5,0.5) -- (2.5,1.5) -- (0.5,1.5) -- cycle;
+                    \node[draw=none, orange, font=\scriptsize\bfseries] at (1.5, 1.7) {Contour $\gamma$};
+                    
+                    % Highlight the crossed edges (boundary edges): dashed very thick if satisfied, solid thin if frustrated
+                    \draw[very thick, dashed, black] (1,0) -- (1,1);
+                    \draw[very thick, dashed, black] (2,0) -- (2,1);
+                    \draw[thin, black] (0,1) -- (1,1);
+                    \draw[very thick, dashed, black] (3,1) -- (2,1);
+                    \draw[very thick, dashed, black] (1,2) -- (1,1);
+                    \draw[thin, black] (2,2) -- (2,1);
+                \end{tikzpicture}
+            \end{center}
+        \end{column}
+        \begin{column}{0.54\textwidth}
+            \textbf{Peierls Contour Argument}:
+            \begin{itemize}
+                \setlength{\itemsep}{8pt}
+                \item \textbf{Contours}: Each closed loop $\gamma$ on the dual grid crosses a certain number of edges (some satisfied, others not).
+                \item \textbf{MAP Optimality}: The Maximum\emph{ A Posteriori} (MAP) configuration must have a majority of satisfied edges along any contour $\gamma$:
+                \[ B(\gamma) \ge \frac{|\gamma|}{2} \]
+                Otherwise, flipping the spins inside $\gamma$ would improve the MAP score.
+                \item \textbf{Result}: The probability of having such a contour decays exponentially as $p \to 1$, ensuring weak recovery for $p > p_c$ (where $p_c$ is the critical threshold).
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\section[AI for Enthusiasts]{AI for Enthusiasts \\[2pt] \quad \normalsize\normalfont Full Integration (GitHub + Codespaces + Antigravity = Gemini-CLI)}
+\frame{\sectionpage}
+
+\begin{frame}{The Paradigm Shift: From Craftsman to AI Manager}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.48\textwidth}
+            \begin{center}
+                \href{https://www.youtube.com/watch?v=qQq9qC2xv_4&t=4108s}{
+                    \includegraphics[width=\textwidth]{imgs/arthur_mensch_audition.jpg}
+                }
+                \vskip 4pt
+                \tiny \href{https://www.youtube.com/watch?v=qQq9qC2xv_4&t=4108s}{\textcolor{inria-bleu}{\textbf{Arthur Mensch (Mistral AI) at the French Parliament (2026)} $\to$}}
+            \end{center}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \textbf{A New Era of Programming}:
+            \begin{itemize}
+                \setlength{\itemsep}{8pt}
+                \item \textbf{No More "Craftsmanship"}: Developers write very few lines of code directly.
+                \item \textbf{Managers of AI Agents}: Engineers pilot, orchestrate, and audit AI models that do the heavy lifting.
+                \item \textbf{Massive Productivity}: Factored by up to 10--20$\times$ for solo developers.
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\subsection{The Integration Suite}
+\begin{frame}{Tools of the Trade: GitHub}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.40\textwidth}
+            \begin{center}
+                \includegraphics[width=0.8\textwidth]{imgs/github_logo.png}
+            \end{center}
+        \end{column}
+        \begin{column}{0.56\textwidth}
+            \textbf{The Foundation of Collaboration}:
+            \begin{itemize}
+                \setlength{\itemsep}{12pt}
+                \item \textbf{Git Hosting}: Version control for tracking project history.
+                \item \textbf{Collaboration}: Pull Requests, issues, and team discussions.
+                \item \textbf{Automation}: GitHub Actions to build, test, and release code.
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Tools of the Trade: GitHub Codespaces}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.40\textwidth}
+            \begin{center}
+                \includegraphics[width=0.8\textwidth]{imgs/codespaces_logo.png}
+            \end{center}
+        \end{column}
+        \begin{column}{0.56\textwidth}
+            \textbf{Development in the Cloud}:
+            \begin{itemize}
+                \setlength{\itemsep}{12pt}
+                \item \textbf{Instant Setup}: One-click Docker container with all required tools.
+                \item \textbf{Accessibility}: Code directly in the browser or connect via VS Code.
+                \item \textbf{Standardization}: Consistent dev environment across the team.
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Tools of the Trade: Antigravity (Gemini-CLI)}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.40\textwidth}
+            \begin{center}
+                \includegraphics[width=0.8\textwidth]{imgs/gemini_logo.png}
+            \end{center}
+        \end{column}
+        \begin{column}{0.56\textwidth}
+            \textbf{Agentic AI Pair-Programming}:
+            \begin{itemize}
+                \setlength{\itemsep}{12pt}
+                \item \textbf{Autonomy}: Creates plans, edits files, and runs terminal commands.
+                \item \textbf{Full Context}: Analyzes the repository and checks documentation.
+                \item \textbf{AI Power}: Leverages advanced Google Gemini models.
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Full Integration Workflow}
+    \begin{center}
+        \begin{tikzpicture}[node distance=2.5cm, auto, >=latex, 
+            box/.style={draw, rectangle, rounded corners, minimum width=2.5cm, minimum height=1.0cm, align=center, fill=inria-bleu!10, draw=inria-bleu, thick, font=\footnotesize}]
+            
+            % Nodes
+            \node[box] (github) {\textbf{GitHub} \\ Repository \& PRs};
+            \node[box, right of=github, node distance=3.8cm] (codespace) {\textbf{Codespaces} \\ Cloud Sandbox};
+            \node[box, right of=codespace, node distance=3.8cm] (antigravity) {\textbf{Antigravity} \\ Gemini-CLI Agent};
+            
+            % Arrows
+            \draw[->, thick, inria-bleu] (github) -- node[above, font=\tiny] {Clone} (codespace);
+            \draw[<->, thick, inria-bleu] (codespace) -- node[above, font=\tiny] {Runs} node[below, font=\tiny] {Edits} (antigravity);
+            
+            % Curved arrow from Antigravity back to GitHub
+            \draw[->, thick, dashed, orange, bend left=30] (antigravity) to node[above, font=\tiny, align=center] {Git Push\\(Auto PR)} (github);
+        \end{tikzpicture}
+    \end{center}
+    \vspace{0.2cm}
+    \begin{itemize}
+        \setlength{\itemsep}{6pt}
+        \item \textbf{Continuous Loop}: Developer spawns Codespaces $\to$ Antigravity agent edits and compiles code $\to$ Pushes updates back to GitHub.
+        \item \textbf{Autonomous Coding}: Pair-programming at scale directly from the cloud.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Case Study: Workflow Setup}
+    \textbf{Three Simple Steps to Get Started}:
+    \vskip 12pt
+    \begin{enumerate}
+        \setlength{\itemsep}{14pt}
+        \item \textbf{Prepare the GitHub Repository}:
+              Upload all necessary research material (manuscripts, drafts, bibtex), the Inria Beamer template ZIP, images, and documentation.
+        \item \textbf{Launch GitHub Codespaces}:
+              Create the cloud container from the repository in one click to get a standardized workspace.
+        \item \textbf{Spawn Antigravity}:
+              Run the agent in the terminal and start prompting to edit code, search, and build the project.
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Step 1: The Source Repository on GitHub}
+    \begin{center}
+        \includegraphics[width=0.9\textwidth]{imgs/Crop_GitHub.png}
+    \end{center}
+    \vskip -4pt
+    \centering \tiny \textcolor{gray}{Standard GitHub repo populated with thesis drafts, templates, bibliography, and folders.}
+\end{frame}
+
+\begin{frame}{Steps 2 \& 3: Interactive Prompting in Codespaces}
+    \begin{center}
+        \includegraphics[width=0.9\textwidth]{imgs/Crop_Antigravity.png}
+    \end{center}
+    \vskip -4pt
+    \centering \tiny \textcolor{gray}{Launch the Codespace container and spawn the Antigravity agent in the terminal to start prompting.}
+\end{frame}
+
+\begin{frame}{Steps 2 \& 3: Interactive Prompting in Codespaces}
+    \begin{center}
+        \includegraphics[width=0.9\textwidth]{imgs/Crop_Antigravity2.png}
+    \end{center}
+    \vskip -4pt
+    \centering \tiny \textcolor{gray}{The agent executes multi-step plans in the background while communicating progress back to the developer.}
+\end{frame}
+
+\begin{frame}[plain]
+    \begin{center}
+        \vfill
+        {\looneyfont\fontsize{55}{65}\selectfont The end!}
+        \vfill
+    \end{center}
+\end{frame}
+
+\bibliographystyle{plain}
+\bibliography{referencesThesis}
+
+\end{document}
