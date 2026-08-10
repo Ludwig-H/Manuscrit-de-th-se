@@ -162,6 +162,13 @@
 % Figure haplotypes (3 étapes), reprise de la présentation NIM
 \input{figs/haplotype_macro}
 
+% Couleurs matplotlib (annotations des courbes de percolation)
+\definecolor{mplC0}{HTML}{1F77B4}
+\definecolor{mplC1}{HTML}{FF7F0E}
+\definecolor{mplC2}{HTML}{2CA02C}
+\definecolor{mplC3}{HTML}{D62728}
+\definecolor{mplC4}{HTML}{9467BD}
+
 % Encadré des formules importantes
 \newcommand{\formulebox}[1]{%
   {\setlength{\fboxsep}{8pt}\setlength{\fboxrule}{0.8pt}%
@@ -807,8 +814,8 @@
         \begin{column}{0.42\textwidth}
             \begin{itemize}
                 \setlength{\itemsep}{11pt}
-                \item $\Theta(\lambda)$ : fraction des points\\ dans la \textbf{composante géante}
-                \item Sous le seuil critique $\lambda_c$ : $\Theta = 0$
+                \item En ordonnée : la fraction des points\\ dans la \textbf{composante géante}
+                \item Sous le seuil critique $\lambda_c$ : rien
                 \item La \textbf{fraction récupérable} d'un amas\\ se lit sur la courbe
             \end{itemize}
         \end{column}
@@ -817,25 +824,37 @@
 
 \begin{frame}{Quantifier : la \emph{vitesse de percolation}}
     \begin{columns}[c, onlytextwidth]
-        \begin{column}{0.56\textwidth}
+        \begin{column}{0.58\textwidth}
             \begin{center}
-                \includegraphics[width=\textwidth]{imgs/vitesse_percolation_RSL_d2.png}
+                \begin{tikzpicture}
+                    \node[anchor=south west, inner sep=0] (img) at (0,0) {\includegraphics[width=0.96\textwidth]{imgs/vitesse_percolation_HGP_d2.png}};
+                    \begin{scope}[x={(img.south east)}, y={(img.north west)}]
+                        \foreach \xc/\couleur/\k in {0.183/mplC0/1, 0.300/mplC1/2, 0.412/mplC2/3, 0.534/mplC3/4, 0.650/mplC4/5} {
+                            \draw[\couleur, dashed, line width=0.7pt] (\xc, 0.129) -- (\xc, 0.35);
+                            \node[\couleur, font=\scriptsize, anchor=north] at (\xc, 0.115) {$\lambda_c^{\k}$};
+                        }
+                        \foreach \xs/\couleur/\k in {0.231/mplC0/1, 0.372/mplC1/2, 0.503/mplC2/3, 0.642/mplC3/4, 0.776/mplC4/5} {
+                            \draw[\couleur, dashed, line width=0.7pt] (\xs, 0.961) -- (\xs, 0.74);
+                            \node[\couleur, font=\scriptsize, anchor=south] at (\xs, 0.965) {$\lambda_{1-\varepsilon}^{\k}$};
+                        }
+                    \end{scope}
+                \end{tikzpicture}
 
-                \vspace{0.15cm}
-                {\small Probabilité de percolation des composantes du Robust Single-Linkage}
+                \vspace{0.1cm}
+                {\small Probabilité de percolation des $K$-polyèdres}
             \end{center}
         \end{column}
-        \begin{column}{0.42\textwidth}
+        \begin{column}{0.40\textwidth}
             \begin{center}
-                \formulebox{$\displaystyle v \;=\; \frac{\lambda_{\varepsilon}}{\lambda_{1-\varepsilon}}$}
+                \formulebox{$\displaystyle v \;=\; \frac{\lambda_{c}}{\lambda_{1-\varepsilon}}$}
             \end{center}
 
             \vspace{0.25cm}
             \begin{itemize}
                 \setlength{\itemsep}{10pt}
-                \item $\lambda_{\varepsilon}$ : le fond \textbf{commence} à percoler ($\Theta = \varepsilon$)
-                \item $\lambda_{1-\varepsilon}$ : l'amas est presque \textbf{entier} ($\Theta = 1 - \varepsilon$)
-                \item Plus $v$ est \textbf{proche de $1$}, meilleur est l'algorithme \citb{src24} \citb{cn24}
+                \item $\lambda_{c}$ : le fond \textbf{commence} à percoler
+                \item $\lambda_{1-\varepsilon}$ : l'amas est presque \textbf{entier}
+                \item Plus $v$ est \textbf{proche de $1$},\\ meilleur est l'algorithme \citb{src24} \citb{cn24}
             \end{itemize}
         \end{column}
     \end{columns}
@@ -1251,6 +1270,25 @@
         \item Estimateur $\widehat v = \widehat\lambda_{\varepsilon} / \widehat\lambda_{1-\varepsilon}$
         \item Repère : seuil critique du modèle booléen ($K=1$, 2D) : $\lambda_c \approx 1{,}44$
     \end{itemize}
+\end{frame}
+
+\begin{frame}{Vitesses de percolation : Robust Single-Linkage et DBSCAN}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.48\textwidth}
+            \begin{center}
+                \includegraphics[width=\textwidth]{imgs/vitesse_percolation_RSL_d2.png}
+
+                {\scriptsize Robust Single-Linkage : la percolation converge trop lentement vers $1$}
+            \end{center}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \begin{center}
+                \includegraphics[width=\textwidth]{imgs/vitesse_percolation_DBSCAN_d2.png}
+
+                {\scriptsize DBSCAN : la frontière est réintégrée, mais les cœurs percolent trop tôt}
+            \end{center}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 \begin{frame}{Quand $K \to +\infty$ : la fenêtre gaussienne}
