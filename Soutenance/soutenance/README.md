@@ -54,6 +54,15 @@ Les figures de la dynamique hiérarchique proviennent de GitHub
 `Ludwig-H/Presentation-MathNet-2026-06-15/research` (SVG convertis) ; celles
 de CrackSAM-GeoLoRA de l'import `ISPRS/CrackSAM-GeoLoRA/` de ce dépôt.
 
+## Charte graphique
+
+- **Bleu canard Inria** (`inria-2024-bleu-canard`) : les données (points, nuages, feuilles)
+- **Rouge Inria** (`inria-rouge`) : les structures extraites (arêtes, dendrogrammes,
+  squelettes, racines) et les travaux de l'auteur (citations)
+- **Gris foncé** (`gris_fonce_inria`) : éléments neutres (coupes, légendes, littérature)
+- **Encadrés de formules** (`\formulebox`) : liseré rouge Inria, fond gris 4 %
+- Courbes matplotlib : palette d'origine, annotations aux couleurs des courbes
+
 ## Système de citations
 
 Citations entre crochets définies dans le préambule (`\DeclareRef` /

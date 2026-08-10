@@ -1,0 +1,35 @@
+% Dendrogramme des horloges exponentielles (charte : feuilles bleu canard,
+% branches rouge Inria, coupe en gris) — feuilles = Glauber, racines = SW.
+\begin{tikzpicture}[scale=0.82, >=latex, font=\scriptsize]
+    % Axe du temps d'horloge
+    \draw[->, thick] (-1.1, 0) -- (-1.1, 4.7) node[above] {$\beta$};
+    \draw[thick] (-1.2, 0) -- (-1.0, 0) node[left=6pt] {$0$};
+    \draw[thick] (-1.2, 4.0) -- (-1.0, 4.0) node[left=6pt] {$1$};
+
+    % Feuilles
+    \foreach \x in {0,...,7} {
+        \fill[inria-2024-bleu-canard] (\x*0.95, 0) circle (2.4pt);
+    }
+
+    % Branches (composante gauche)
+    \draw[very thick, inria-rouge] (0,0) -- (0,0.7) -- (0.95,0.7) -- (0.95,0);
+    \draw[very thick, inria-rouge] (1.9,0) -- (1.9,1.3) -- (2.85,1.3) -- (2.85,0);
+    \draw[very thick, inria-rouge] (0.475,0.7) -- (0.475,2.2) -- (2.375,2.2) -- (2.375,1.3);
+    \draw[very thick, inria-rouge, dashed] (1.425,2.2) -- (1.425,4.0);
+    % Branches (composante droite)
+    \draw[very thick, inria-rouge] (3.8,0) -- (3.8,0.95) -- (4.75,0.95) -- (4.75,0);
+    \draw[very thick, inria-rouge] (5.7,0) -- (5.7,1.65) -- (6.65,1.65) -- (6.65,0);
+    \draw[very thick, inria-rouge] (4.275,0.95) -- (4.275,2.9) -- (6.175,2.9) -- (6.175,1.65);
+    \draw[very thick, inria-rouge, dashed] (5.225,2.9) -- (5.225,4.0);
+    % Racines
+    \fill[inria-rouge] (1.425,4.0) circle (2.4pt);
+    \fill[inria-rouge] (5.225,4.0) circle (2.4pt);
+
+    % Coupe à l'instant beta
+    \draw[dashed, thick, gris_fonce_inria] (-0.6, 1.9) -- (7.1, 1.9);
+    \node[gris_fonce_inria, right] at (7.1, 1.9) {coupe à l'instant $\beta$};
+
+    % Étiquettes des deux extrémités
+    \node[right, align=left] at (7.1, 0) {feuilles : \textbf{Glauber}};
+    \node[right, align=left] at (7.1, 4.0) {racines : \textbf{Swendsen--Wang}};
+\end{tikzpicture}

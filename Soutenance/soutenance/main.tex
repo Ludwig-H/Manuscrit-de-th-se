@@ -977,7 +977,7 @@
     \begin{columns}[c, onlytextwidth]
         \begin{column}{0.48\textwidth}
             \begin{center}
-                \includegraphics[height=3.5cm]{imgs/GraphesSignes_triangles.png}
+                \includegraphics[height=3.5cm]{imgs/GraphesSignes_graphe.png}
 
                 \small \textbf{Graphes signés} : les liens \emph{créent} les communautés
             \end{center}
@@ -1009,10 +1009,10 @@
 
 \begin{frame}{Au-delà de Swendsen--Wang : triangles et hiérarchie}
     \begin{center}
-        \includegraphics[width=0.78\textwidth]{imgs/Echelle_Glauber_SW.png}
+        \input{figs/dendro_horloges}
     \end{center}
 
-    \vspace{0.2cm}
+    \vspace{0.25cm}
     \begin{itemize}
         \setlength{\itemsep}{7pt}
         \item Face à la frustration, le gel \textbf{corrélé par triangles} gèle moins\ldots\ et percole plus tard
@@ -1024,7 +1024,7 @@
 
 \begin{frame}{Le recouvrement reformulé en percolation}
     \begin{center}
-        \formulebox{$\mathrm{ov} \;\le\; \dfrac{1}{K} \;+\; \dfrac{K-1}{K}\,\theta^{\max}$}
+        \formulebox{$\mathrm{ov} \;\le\; \dfrac{1}{2} \;+\; \dfrac{\theta^{\max}}{2}$}
 
         \vspace{0.15cm}
         {\small $\theta^{\max}$ : masse des composantes \textbf{géantes} de l'objet gelé}
@@ -1036,7 +1036,7 @@
         \item Pour \textbf{toute} dynamique de clusters invariante : \textbf{sans percolation, pas de recouvrement}
         \item Un pas de SW standard $\Rightarrow$ percolation $f_{\mathrm{in}} - f_{\mathrm{out}}$ : le théorème de \citb{sb18}, \textbf{exactement}
         \item La dynamique triangulaire percole plus tard : borne \textbf{strictement meilleure}\\
-        (sur la grille triangulaire : $p_c$ passe de $0{,}674$ à $0{,}719$) \citb{asilomar25} \citb{ii26}
+        (sur la grille triangulaire : $p_c$ passe de $0{,}674$ à $0{,}719$) \citb{ii26}
     \end{itemize}
 \end{frame}
 
