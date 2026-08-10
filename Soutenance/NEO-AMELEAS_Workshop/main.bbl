@@ -1,0 +1,89 @@
+\begin{thebibliography}{10}
+
+\bibitem{BoissonnatChazalYvinec}
+Jean-Daniel Boissonnat, Frédéric Chazal, and Mariette Yvinec.
+\newblock {\em Geometric and Topological Inference}.
+\newblock Cambridge Texts in Applied Mathematics. Cambridge University Press,
+  2018.
+
+\bibitem{HDBSCAN}
+Ricardo J. G.~B. Campello, Davoud Moulavi, and Joerg Sander.
+\newblock Density-based clustering based on hierarchical density estimates.
+\newblock In {\em Advances in Knowledge Discovery and Data Mining}, pages
+  160--172. Springer, 2013.
+
+\bibitem{RobustSingleLinkage2010}
+Kamalika Chaudhuri and Sanjoy Dasgupta.
+\newblock Rates of convergence for the cluster tree.
+\newblock In {\em Advances in Neural Information Processing Systems},
+  volume~23, pages 343--351. Curran Associates, Inc., 2010.
+
+\bibitem{DBSCAN}
+Martin Ester, Hans-Peter Kriegel, J\"{o}rg Sander, and Xiaowei Xu.
+\newblock A density-based algorithm for discovering clusters in large spatial
+  databases with noise.
+\newblock In {\em Proceedings of the Second International Conference on
+  Knowledge Discovery and Data Mining}, KDD'96, page 226–231. AAAI Press,
+  1996.
+
+\bibitem{hartigan81}
+John~A. Hartigan.
+\newblock Consistency of single linkage for high-density clusters.
+\newblock {\em J. of the Am. Stat. Ass.}, 76(374):388--394, 1981.
+
+\bibitem{BibiMenton}
+Louis Hauseux, Konstantin Avrachenkov, and Josiane Zerubia.
+\newblock Graph based approach for galaxy filament extraction.
+\newblock In {\em Complex Networks {\&} Their Applications XII}, pages
+  384--396. Springer, 2023.
+
+\bibitem{BibiLyon}
+Louis Hauseux, Konstantin Avrachenkov, and Josiane Zerubia.
+\newblock Benefits of hypergraphs for density-based clustering.
+\newblock In {\em {32nd European Signal Processing Conference (EUSIPCO)}},
+  Lyon, France, August 2024.
+
+\bibitem{BibiAppliedNetworkScience}
+Louis Hauseux, Konstantin Avrachenkov, and Josiane Zerubia.
+\newblock Generalization of single-linkage with higher-order interactions.
+\newblock {\em Applied Network Science}, 11(1):9, 2026.
+
+\bibitem{HDBSCAN2017}
+Leland McInnes and John Healy.
+\newblock Accelerated hierarchical density based clustering.
+\newblock In {\em IEEE International Conference on Data Mining Workshops
+  (ICDMW)}, pages 33--42, 2017.
+
+\bibitem{Oh2025}
+Gyeongrok Oh, Youngdong Jang, Jonghyun Choi, Suk-Ju Kang, Guang Lin, and
+  Sangpil Kim.
+\newblock {Training-Free Global Geometric Association for 4D LiDAR Panoptic
+  Segmentation}.
+\newblock {\em arXiv preprint arXiv:2512.18991}, 2025.
+
+\bibitem{osangEdelsbrunner2023algorithm}
+Georg Osang and Herbert Edelsbrunner.
+\newblock A simple algorithm for higher-order {D}elaunay mosaics and alpha
+  shapes.
+\newblock {\em Algorithmica}, 85:277--295, 2023.
+
+\bibitem{penrose2003}
+Mathew Penrose.
+\newblock {\em Random Geometric Graphs}, volume~5 of {\em Oxford Studies in
+  Probability}.
+\newblock Oxford University Press, 2003.
+
+\bibitem{Sautier2025}
+Corentin Sautier, Gilles Puy, Alexandre Boulch, Renaud Marlet, and Vincent
+  Lepetit.
+\newblock {Is clustering enough for LiDAR instance segmentation? A
+  state-of-the-art training-free baseline}.
+\newblock {\em arXiv preprint arXiv:2503.13203}, 2025.
+
+\bibitem{tourr}
+Hadley Wickham, Dianne Cook, Heike Hofmann, and Andreas Buja.
+\newblock {tourr}: An {R} package for exploring multivariate data with
+  projections.
+\newblock {\em Journal of Statistical Software}, 40(2):1--18, 2011.
+
+\end{thebibliography}
