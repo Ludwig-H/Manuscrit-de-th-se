@@ -829,13 +829,13 @@
                 \begin{tikzpicture}
                     \node[anchor=south west, inner sep=0] (img) at (0,0) {\includegraphics[width=0.96\textwidth]{imgs/vitesse_percolation_HGP_d2.png}};
                     \begin{scope}[x={(img.south east)}, y={(img.north west)}]
-                        % décollage des courbes : seuils critiques (ronds sur la courbe)
-                        \foreach \xc/\couleur/\k in {0.170/mplC0/1, 0.278/mplC1/2, 0.384/mplC2/3, 0.496/mplC3/4} {
-                            \fill[\couleur] (\xc, 0.134) circle (2.1pt);
+                        % décollage des courbes : seuils critiques (ronds au genou des courbes)
+                        \foreach \xc/\couleur/\k in {0.178/mplC0/1, 0.293/mplC1/2, 0.407/mplC2/3, 0.525/mplC3/4} {
+                            \fill[\couleur] (\xc, 0.234) circle (2.1pt);
                             \node[\couleur, font=\scriptsize, anchor=north] at (\xc, 0.100) {$\lambda_c^{\k}$};
                         }
-                        \fill[mplC4] (0.604, 0.134) circle (2.1pt);
-                        \node[mplC4, font=\scriptsize, anchor=north] at (0.588, 0.100) {$\lambda_c^{5}$};
+                        \fill[mplC4] (0.637, 0.234) circle (2.1pt);
+                        \node[mplC4, font=\scriptsize, anchor=north] at (0.645, 0.100) {$\lambda_c^{5}$};
                         % quantiles 1-epsilon : ronds à l'épaule de saturation
                         \foreach \xs/\couleur/\k in {0.213/mplC0/1, 0.344/mplC1/2, 0.471/mplC2/3, 0.596/mplC3/4, 0.722/mplC4/5} {
                             \fill[\couleur] (\xs, 0.916) circle (2.1pt);
