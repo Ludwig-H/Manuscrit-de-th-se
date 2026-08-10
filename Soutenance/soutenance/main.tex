@@ -699,14 +699,16 @@
 \begin{frame}{$K$-arbre couvrant et mosaïque de \textsc{Delaunay} d'ordre $K$}
     \begin{columns}[c, onlytextwidth]
         \begin{column}{0.54\textwidth}
-            Comme pour $K=1$, toute la hiérarchie tient dans une structure creuse :
-
-            \vspace{0.3cm}
             \begin{itemize}
-                \setlength{\itemsep}{8pt}
-                \item \v{C}ech $\to$ $K$-séparants $\to$ \textsc{Gabriel} $\to$ \textbf{$K$-arbre couvrant}
-                \item Domaine de calcul : la \textbf{mosaïque de \textsc{Delaunay} d'ordre $K$} \citb{edelsbrunner23}
-                \item Pour $K=2$ : tout se lit dans la triangulation de \textsc{Delaunay} standard, en $\mathcal O(n\log n)$ dans le plan
+                \setlength{\itemsep}{10pt}
+                \item \textbf{Fusions critiques} : les simplexes $K$-séparants,\\
+                tous $K$-\textsc{Gabriel} (boule minimale vide)
+                \item \textbf{Arbre couvrant} $\longrightarrow$ \textbf{$K$-arbre couvrant} :\\
+                élagué à $r$, il redonne les $K$-polyèdres \citb{ans26}
+                \item \textbf{\textsc{Delaunay}} $\longrightarrow$ \textbf{mosaïque d'ordre $K$} :\\
+                elle porte tous les simplexes $K$-\textsc{Gabriel} \citb{edelsbrunner23}
+                \item Pour $K=2$ : tout se lit dans \textsc{Delaunay},\\
+                en $\mathcal O(n\log n)$ dans le plan
             \end{itemize}
         \end{column}
 
@@ -733,7 +735,7 @@
     \reffoot{edelsbrunner23}
 \end{frame}
 
-\begin{frame}{En pratique ($K=2$) : les huiles d'olive italiennes}
+\begin{frame}{En pratique ($K=2$) : les huiles d'olive italiennes \citb{forina83}}
     \begin{columns}[c, onlytextwidth]
         \begin{column}{0.40\textwidth}
             \begin{center}
@@ -754,7 +756,7 @@
     \end{columns}
     \vspace{0.25cm}
     \begin{center}
-        \footnotesize 572 points de $\mathbb R^8$ \citb{forina83} : précision $96{,}1\,\%$, couverture au-delà de l'état de l'art \citb{rolle23} \citb{ans26}
+        \footnotesize 572 points de $\mathbb R^8$ : précision $96{,}1\,\%$, au-delà de l'état de l'art \citb{rolle23} \citb{ans26}
     \end{center}
     \reffoot{forina83,rolle23}
 \end{frame}
