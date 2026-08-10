@@ -130,7 +130,7 @@
 \DeclareMyRef{cn23}{CN 23}{L.~Hauseux, K.~Avrachenkov, J.~Zerubia, « Graph based approach for galaxy filament extraction », \textit{Complex Networks \& Their Applications}, Menton, 2023.}
 \DeclareMyRef{eusipco24}{EUSIPCO 24}{L.~Hauseux, K.~Avrachenkov, J.~Zerubia, « Benefits of hypergraphs for density-based clustering », \textit{EUSIPCO}, Lyon, 2024.}
 \DeclareMyRef{cn24}{CN 24}{L.~Hauseux, K.~Avrachenkov, J.~Zerubia, « Hypergraphs, percolation and hierarchical clustering », \textit{Complex Networks \& Their Applications}, Istanbul, 2024.}
-\DeclareMyRef{src24}{Sigm SRC}{L.~Hauseux, « How can we theoretically measure the performance of density-based clustering algorithms? », ACM SIGMETRICS SRC, Venise, 2024 (2\up{e} prix).}
+\DeclareMyRef{src24}{Sigm SRC 24}{L.~Hauseux, « How can we theoretically measure the performance of density-based clustering algorithms? », ACM SIGMETRICS SRC, Venise, 2024 (2\up{e} prix).}
 \DeclareMyRef{ans26}{ANS 26}{L.~Hauseux, K.~Avrachenkov, J.~Zerubia, « Generalization of Single-Linkage with higher-order interactions », \textit{Applied Network Science}, 11(9), 2026.}
 \DeclareMyRef{gretsi25}{GRETSI 25}{L.~Hauseux, R.~Antoine, P.~Foucher, P.~Charbonnier, J.~Zerubia, « Généralisation du filtre de Frangi pour l'extraction des réseaux de fissures », GRETSI, 2025.}
 \DeclareMyRef{asilomar25}{Asilomar 25}{L.~Hauseux, N.~Soprano-Loto, K.~Avrachenkov, « Higher-order Monte Carlo cluster dynamics for community detection in Euclidean graphs », Asilomar, 2025.}
@@ -829,13 +829,17 @@
                 \begin{tikzpicture}
                     \node[anchor=south west, inner sep=0] (img) at (0,0) {\includegraphics[width=0.96\textwidth]{imgs/vitesse_percolation_HGP_d2.png}};
                     \begin{scope}[x={(img.south east)}, y={(img.north west)}]
-                        \foreach \xc/\couleur/\k in {0.183/mplC0/1, 0.300/mplC1/2, 0.412/mplC2/3, 0.534/mplC3/4, 0.650/mplC4/5} {
-                            \draw[\couleur, dashed, line width=0.7pt] (\xc, 0.129) -- (\xc, 0.35);
-                            \node[\couleur, font=\scriptsize, anchor=north] at (\xc, 0.115) {$\lambda_c^{\k}$};
+                        % décollage des courbes : seuils critiques (ronds sur la courbe)
+                        \foreach \xc/\couleur/\k in {0.170/mplC0/1, 0.278/mplC1/2, 0.384/mplC2/3, 0.496/mplC3/4} {
+                            \fill[\couleur] (\xc, 0.134) circle (2.1pt);
+                            \node[\couleur, font=\scriptsize, anchor=north] at (\xc, 0.100) {$\lambda_c^{\k}$};
                         }
-                        \foreach \xs/\couleur/\k in {0.231/mplC0/1, 0.372/mplC1/2, 0.503/mplC2/3, 0.642/mplC3/4, 0.776/mplC4/5} {
-                            \draw[\couleur, dashed, line width=0.7pt] (\xs, 0.961) -- (\xs, 0.74);
-                            \node[\couleur, font=\scriptsize, anchor=south] at (\xs, 0.965) {$\lambda_{1-\varepsilon}^{\k}$};
+                        \fill[mplC4] (0.604, 0.134) circle (2.1pt);
+                        \node[mplC4, font=\scriptsize, anchor=north] at (0.588, 0.100) {$\lambda_c^{5}$};
+                        % quantiles 1-epsilon : ronds à l'épaule de saturation
+                        \foreach \xs/\couleur/\k in {0.213/mplC0/1, 0.344/mplC1/2, 0.471/mplC2/3, 0.596/mplC3/4, 0.722/mplC4/5} {
+                            \fill[\couleur] (\xs, 0.916) circle (2.1pt);
+                            \node[\couleur, font=\scriptsize, anchor=south] at (\xs, 0.960) {$\lambda_{1-\varepsilon}^{\k}$};
                         }
                     \end{scope}
                 \end{tikzpicture}
@@ -884,9 +888,9 @@
     \vspace{0.4cm}
     \begin{itemize}
         \setlength{\itemsep}{6pt}
-        \item Les $K$-polyèdres (HGP) : la vitesse \textbf{croît} avec $K$, dans toutes les dimensions
-        \item Robust SL : augmenter $K$ \textbf{dégrade} les performances (jeter la frontière des amas est rédhibitoire)
-        \item DBSCAN répare partiellement\ldots\ mais sa connectivité reste celle des cœurs, qui percolent trop tôt
+        \item Les $K$-polyèdres : la vitesse \textbf{croît} avec $K$, dans toutes les dimensions
+        \item Robust SL : augmenter $K$ \textbf{dégrade} (jeter la frontière est rédhibitoire)
+        \item DBSCAN : la connectivité des cœurs percole trop tôt
     \end{itemize}
 \end{frame}
 
