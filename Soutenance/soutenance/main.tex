@@ -797,17 +797,15 @@
                 \includegraphics[width=\textwidth]{imgs/vitesse_percolation_HGP_d2.png}
 
                 \vspace{0.15cm}
-                {\scriptsize Probabilité de percolation $\lambda \mapsto \widehat\Theta^{\mathrm{poly}}_{K,2}(\lambda)$, $K$-polyèdres, dimension 2}
+                {\small Probabilité de percolation des $K$-polyèdres}
             \end{center}
         \end{column}
         \begin{column}{0.42\textwidth}
             \begin{itemize}
-                \setlength{\itemsep}{9pt}
-                \item $\Theta(\lambda)$ : fraction des points dans la \textbf{composante géante} à l'intensité $\lambda$
-                \item En dessous du seuil critique $\lambda_c$ : rien ($\Theta = 0$).\\
-                {\small (Pour $K=1$ en 2D : $\lambda_c \approx 1{,}44$.)}
-                \item \textbf{Une fraction seulement} d'un amas dense est récupérable avant que le fond ne percole\ldots
-                \item \ldots\ et cette fraction se \textbf{lit sur la courbe} $\Theta$
+                \setlength{\itemsep}{11pt}
+                \item $\Theta(\lambda)$ : fraction des points\\ dans la \textbf{composante géante}
+                \item Sous le seuil critique $\lambda_c$ : $\Theta = 0$
+                \item La \textbf{fraction récupérable} d'un amas\\ se lit sur la courbe
             \end{itemize}
         \end{column}
     \end{columns}
@@ -820,23 +818,23 @@
                 \includegraphics[width=\textwidth]{imgs/vitesse_percolation_RSL_d2.png}
 
                 \vspace{0.15cm}
-                {\scriptsize $\Theta^{\mathrm{core}}$ converge trop lentement vers $1$ : la frontière n'est jamais rattrapée}
+                {\small Probabilité de percolation des composantes du Robust Single-Linkage}
             \end{center}
         \end{column}
         \begin{column}{0.42\textwidth}
-            À rappel $1-\varepsilon$ fixé ($\varepsilon = 3\,\%$) :
             \begin{center}
                 \begin{beamercolorbox}[rounded=true,sep=8pt]{block body}
                     \centering
-                    $\displaystyle v^{\mathrm{cc}}_{K,p}(\varepsilon) \;=\; \frac{\lambda^{\mathrm{cc}}_{\varepsilon}(K,p)}{\lambda^{\mathrm{cc}}_{1-\varepsilon}(K,p)}$
+                    $\displaystyle v \;=\; \frac{\lambda_{\varepsilon}}{\lambda_{1-\varepsilon}}$
                 \end{beamercolorbox}
             \end{center}
 
-            \vspace{0.3cm}
+            \vspace{0.25cm}
             \begin{itemize}
-                \setlength{\itemsep}{8pt}
-                \item Plus $v$ est proche de $1$, plus l'algorithme récupère \textbf{vite} un amas dense avant la percolation du fond
-                \item Un critère \textbf{théorique} pour comparer les algorithmes \citb{src24} \citb{cn24}
+                \setlength{\itemsep}{10pt}
+                \item $\lambda_{\varepsilon}$ : le fond \textbf{commence} à percoler ($\Theta = \varepsilon$)
+                \item $\lambda_{1-\varepsilon}$ : l'amas est presque \textbf{entier} ($\Theta = 1 - \varepsilon$)
+                \item Plus $v$ est \textbf{proche de $1$}, meilleur est l'algorithme \citb{src24} \citb{cn24}
             \end{itemize}
         \end{column}
     \end{columns}
