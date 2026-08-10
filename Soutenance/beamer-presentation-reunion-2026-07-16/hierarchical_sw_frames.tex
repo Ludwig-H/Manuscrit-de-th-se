@@ -1,0 +1,460 @@
+% Hierarchical Swendsen--Wang dynamics.
+% Eight concise frames: construction, exact move, and stationarity.
+
+\begin{frame}{Exponential Clocks Turn \textsc{Swendsen}--\textsc{Wang} into a Hierarchy}
+  \[
+    \mu(\sigma)\propto
+    \mu_0(\sigma)
+    \exp\!\left[-\sum_{e\in E}|W_e|\ind{e\text{ is not satisfied}}\right].
+  \]
+
+  \begin{columns}[onlytextwidth,c]
+    \begin{column}{0.46\textwidth}
+      For each satisfied edge, independently,
+      \[
+        \boxed{\ \xi_e\sim\operatorname{Exp}(|W_e|)\ },
+      \]
+      and set $\xi_e=+\infty$ otherwise.
+
+      At level $t$, keep the links with $\xi_e\leq t$.
+
+      \begin{block}{Classical cut}
+        \[
+          \mathbb P(\xi_e\leq1)
+          =1-e^{-|W_e|}.
+        \]
+      \end{block}
+    \end{column}
+
+    \begin{column}{0.50\textwidth}
+      \centering
+      \begin{tikzpicture}[
+        x=.82cm,y=.78cm,
+        v/.style={circle,draw,fill=white,minimum size=4.8mm,inner sep=0pt,font=\tiny},
+        active/.style={line width=1.5pt,draw=inria-2024-gris-bleu},
+        late/.style={line width=1pt,draw=gray!45},
+        lab/.style={fill=white,inner sep=1pt,font=\tiny}
+      ]
+        \node[v] (a) at (0,0) {$a$};
+        \node[v] (b) at (1.5,1.1) {$b$};
+        \node[v] (c) at (3,0) {$c$};
+        \node[v] (d) at (4.5,1.1) {$d$};
+        \node[v] (e) at (6,0) {$e$};
+        \draw[active] (a)--node[lab,sloped] {.18} (b);
+        \draw[active] (b)--node[lab,sloped] {.42} (c);
+        \draw[active] (c)--node[lab,sloped] {.67} (d);
+        \draw[active] (a)--node[lab,sloped,below] {.74} (c);
+        \draw[active] (b)--node[lab,sloped] {.88} (d);
+        \draw[late] (d)--node[lab,sloped] {1.26} (e);
+
+        \draw[-{Latex[length=2.3mm]},line width=.9pt]
+          (0,-1.25)--(6.4,-1.25) node[right,font=\scriptsize] {$t$};
+        \foreach \x/\lab in {.75/.18,1.8/.42,3.0/.67,3.6/.74,4.3/.88,5.75/1.26}
+          \draw (\x,-1.37)--(\x,-1.13) node[above,font=\tiny] {$\lab$};
+        \draw[inria-2024-rouge,line width=1.2pt] (5.1,-1.52)--(5.1,-.98);
+        \node[font=\scriptsize,text=inria-2024-rouge,above] at (5.1,-.98) {$t=1$};
+      \end{tikzpicture}
+    \end{column}
+  \end{columns}
+
+  \begin{center}
+    \textbf{One clock sample contains every scale, not only the cut $t=1$.}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Kruskal Reads the Whole Hierarchy}
+  \[
+    \Pi_t=\operatorname{cc}\{e:\xi_e\leq t\},
+    \qquad
+    \boxed{\ D_{\leq1}=(\Pi_t)_{0\leq t\leq1}.\ }
+  \]
+
+  \begin{columns}[onlytextwidth,c]
+    \begin{column}{0.62\textwidth}
+      \centering
+      \begin{tikzpicture}[
+        x=.52cm,y=.66cm,
+        v/.style={circle,draw,fill=white,minimum size=4.2mm,inner sep=0pt,font=\tiny},
+        w/.style={fill=white,inner sep=1pt,font=\tiny},
+        ge/.style={line width=1pt,draw=inria-2024-gris-bleu},
+        fe/.style={line width=1.6pt,draw=inria-2024-rouge},
+        arr/.style={-{Latex[length=2.3mm]},line width=1pt,draw=inria-2024-rouge}
+      ]
+        \node[v] (a) at (0,0) {$a$};
+        \node[v] (b) at (1.35,1.15) {$b$};
+        \node[v] (c) at (2.7,0) {$c$};
+        \node[v] (d) at (4.05,1.15) {$d$};
+        \node[v] (e) at (5.4,0) {$e$};
+        \draw[ge] (a)--node[w,sloped] {.18} (b);
+        \draw[ge] (b)--node[w,sloped] {.42} (c);
+        \draw[ge] (a)--node[w,sloped,below] {.74} (c);
+        \draw[ge] (c)--node[w,sloped] {.67} (d);
+        \draw[ge] (b)--node[w,sloped] {.88} (d);
+        \draw[ge,draw=gray!40] (d)--node[w,sloped] {1.26} (e);
+        \node[font=\scriptsize] at (2.7,-.72) {clock graph};
+
+        \draw[arr] (5.9,.52)--(6.75,.52)
+          node[midway,above,font=\scriptsize,text=black] {Kruskal};
+
+        \node[v] (aa) at (7.25,0) {$a$};
+        \node[v] (bb) at (8.60,1.15) {$b$};
+        \node[v] (cc) at (9.95,0) {$c$};
+        \node[v] (dd) at (11.30,1.15) {$d$};
+        \node[v] (ee) at (12.65,0) {$e$};
+        \draw[fe] (aa)--node[w,sloped] {.18} (bb);
+        \draw[fe] (bb)--node[w,sloped] {.42} (cc);
+        \draw[fe] (cc)--node[w,sloped] {.67} (dd);
+        \node[font=\scriptsize] at (9.95,-.72) {minimum spanning forest};
+      \end{tikzpicture}
+    \end{column}
+
+    \begin{column}{0.34\textwidth}
+      \centering
+      \begin{tikzpicture}[
+        x=.68cm,y=2.50cm,
+        leaf/.style={circle,draw,fill=white,minimum size=4mm,inner sep=0pt,font=\tiny},
+        merge/.style={circle,draw=inria-2024-bleu-canard,
+          fill=inria-2024-bleu-canard!10,minimum size=4mm,inner sep=0pt},
+        branch/.style={line width=.9pt,draw=inria-2024-gris-bleu},
+        cut/.style={densely dashed,line width=.7pt,draw=gray!55}
+      ]
+        \node[leaf] (a) at (0,0) {$a$};
+        \node[leaf] (b) at (1,0) {$b$};
+        \node[leaf] (c) at (2,0) {$c$};
+        \node[leaf] (d) at (3,0) {$d$};
+        \node[leaf] (e) at (4.2,0) {$e$};
+        \node[merge] (ab) at (.5,.18) {};
+        \node[merge] (abc) at (1.25,.42) {};
+        \node[merge] (abcd) at (2.125,.67) {};
+        \foreach \x/\y in {a/ab,b/ab,ab/abc,c/abc,abc/abcd,d/abcd}
+          \draw[branch] (\x)--(\y);
+        \draw[cut] (-.3,1)--(4.5,1)
+          node[right,font=\tiny,text=black] {$1$};
+        \node[font=\tiny,anchor=east] at (-.08,.18) {.18};
+        \node[font=\tiny,anchor=east] at (.66,.42) {.42};
+        \node[font=\tiny,anchor=east] at (1.54,.67) {.67};
+        \node[font=\scriptsize] at (2.0,-.18) {dendrogram $D_{\leq1}$};
+      \end{tikzpicture}
+    \end{column}
+  \end{columns}
+
+  \[
+    \boxed{
+    \operatorname{cc}\{e:\xi_e\leq t\}
+    =\operatorname{cc}\{e\in\mathrm{MSF}:\xi_e\leq t\}
+    \quad(0\leq t\leq1).}
+  \]
+
+  \begin{center}
+    \textbf{The MSF computes the hierarchy; its law still uses all graph links.}
+  \end{center}
+\end{frame}
+
+\begin{frame}{At Each Merge, Every Crossing Link Competes}
+  For $u:C=C_1\mathbin{\dot\cup}C_2$, use the whole cut
+  \[
+    E_u=\bigl\{\{i,j\}\in E:i\in C_1,\ j\in C_2\bigr\},
+    \qquad
+    \boxed{
+    \Lambda_u(\sigma)=
+      \sum_{e\in E_u}|W_e|\ind{e\text{ satisfied by }\sigma}.}
+  \]
+
+  \begin{columns}[onlytextwidth,c]
+    \begin{column}{0.43\textwidth}
+      \centering
+      \begin{tikzpicture}[
+        x=.72cm,y=.62cm,
+        cluster/.style={rounded corners=7pt,draw=inria-2024-bleu-canard,
+          fill=inria-2024-bleu-canard!7,minimum width=1.75cm,minimum height=2.85cm},
+        link/.style={line width=1pt,draw=inria-2024-gris-bleu},
+        off/.style={line width=.8pt,densely dotted,draw=gray!50},
+        lab/.style={fill=white,inner sep=1pt,font=\tiny}
+      ]
+        \node[cluster] (c1) at (0,0) {};
+        \node[cluster] (c2) at (5.2,0) {};
+        \node[font=\bfseries] at (0,1.55) {$C_1$};
+        \node[font=\bfseries] at (5.2,1.55) {$C_2$};
+        \foreach \y in {-.90,-.30,.30,.90}{
+          \node[spin] at (0,\y) {};
+          \node[spin] at (5.2,\y) {};
+        }
+        \draw[link] (.22,.90)--node[lab] {$e_1$} (4.98,.90);
+        \draw[off] (.22,.30)--node[lab] {$e_2$} (4.98,.30);
+        \draw[link] (.22,-.30)--node[lab] {$e_3$} (4.98,-.30);
+        \draw[link] (.22,-.90)--node[lab] {$e_4$} (4.98,-.90);
+        \node[font=\scriptsize,align=center] at (2.6,-1.75)
+          {solid: satisfied\\dotted: $\xi_e=+\infty$};
+      \end{tikzpicture}
+    \end{column}
+
+    \begin{column}{0.53\textwidth}
+      \centering
+      \begin{tikzpicture}[x=1.05cm,y=.62cm]
+        \node[anchor=east,font=\scriptsize] at (0,2.1) {$\xi_{e_1}$};
+        \node[anchor=east,font=\scriptsize] at (0,1.25) {$\xi_{e_3}$};
+        \node[anchor=east,font=\scriptsize] at (0,.40) {$\xi_{e_4}$};
+        \foreach \y/\x in {2.1/2.55,1.25/1.35,.40/3.15}{
+          \draw[-{Latex[length=2mm]},gray!75] (0,\y)--(4.0,\y);
+          \draw[line width=1.2pt,inria-2024-bleu-canard] (\x,\y-.18)--(\x,\y+.18);
+        }
+        \draw[densely dashed,inria-2024-rouge,line width=1pt]
+          (1.35,.05)--(1.35,2.48);
+        \node[font=\scriptsize,text=inria-2024-rouge,anchor=west]
+          at (1.48,2.43) {$\beta_u$};
+      \end{tikzpicture}
+
+      \[
+        \boxed{
+        \beta_u=\min_{\substack{e\in E_u\\e\text{ satisfied}}}\xi_e.}
+      \]
+      Therefore the merge-time density is simply
+      \[
+        \boxed{
+        \Lambda_u(\sigma)e^{-\beta_u\Lambda_u(\sigma)}.}
+      \]
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{The \textsc{Edwards}--\textsc{Sokal} Lift Gives the Exact Conditional Law}
+  For an admissible $D_{\leq1}$,
+  \[
+    \boxed{
+    \mathbb P(dD\mid\sigma)
+      =e^{-\Lambda_\infty(\sigma)}
+       \prod_{u}
+       \Lambda_u(\sigma)e^{-\beta_u\Lambda_u(\sigma)}\,dD,}
+  \]
+  where $\Lambda_\infty$ is the satisfied weight between the final components.
+
+  \begin{columns}[onlytextwidth,c]
+    \begin{column}{0.42\textwidth}
+      \begin{block}{Joint law}
+        \[
+          \nu(\sigma,D)
+          \propto
+          \mu_0(\sigma)e^{-U(\sigma)}
+          \mathbb P(D\mid\sigma).
+        \]
+      \end{block}
+      Its $\sigma$-marginal is the target Gibbs law $\mu$.
+    \end{column}
+
+    \begin{column}{0.12\textwidth}
+      \centering
+      \textcolor{inria-2024-rouge}{\Large $\Longrightarrow$}
+
+      \scriptsize
+      Bayes +\newline cancellation
+    \end{column}
+
+    \begin{column}{0.42\textwidth}
+      \begin{block}{Conditional law}
+        \[
+          \boxed{
+          \nu(\sigma\mid D)
+          \propto
+          \mu_0(\sigma)
+          \prod_u
+          \Lambda_u(\sigma)e^{(1-\beta_u)\Lambda_u(\sigma)}.}
+        \]
+      \end{block}
+    \end{column}
+  \end{columns}
+
+  \begin{center}
+    \textbf{This is the law used to flip clusters at every level.}
+  \end{center}
+\end{frame}
+
+\begin{frame}{One Merge Gives Four Joint Cluster Moves}
+  At $u:C=C_1\mathbin{\dot\cup}C_2$, let $\sigma^{ab}$ flip $C_1$ when $a=1$
+  and $C_2$ when $b=1$.  In the binary signed model:
+
+  \begin{columns}[onlytextwidth,c]
+    \begin{column}{0.43\textwidth}
+      \centering
+      \begin{tikzpicture}[
+        move/.style={rounded corners=5pt,draw=inria-2024-bleu-canard,
+          fill=inria-2024-bleu-canard!6,minimum width=2.45cm,
+          minimum height=1.25cm,align=center,font=\scriptsize},
+        parity/.style={font=\tiny,text=gray!70}
+      ]
+        \node[move] (m00) at (0,1.25)
+          {$\boldsymbol{(0,0)}$\\keep $C_1$, keep $C_2$\\$\Lambda_u$};
+        \node[move] (m10) at (3.05,1.25)
+          {$\boldsymbol{(1,0)}$\\flip $C_1$, keep $C_2$\\$A_u-\Lambda_u$};
+        \node[move] (m01) at (0,-.35)
+          {$\boldsymbol{(0,1)}$\\keep $C_1$, flip $C_2$\\$A_u-\Lambda_u$};
+        \node[move] (m11) at (3.05,-.35)
+          {$\boldsymbol{(1,1)}$\\flip $C_1$, flip $C_2$\\$\Lambda_u$};
+      \end{tikzpicture}
+
+      \vspace{0.4em}
+      $\displaystyle A_u=\sum_{e\in E_u}|W_e|$.
+    \end{column}
+
+    \begin{column}{0.53\textwidth}
+      The four exact weights are
+      \[
+        q_u^{ab}
+        =\mu_0(\sigma^{ab})
+        \prod_{v\succeq u}
+        \left[
+          \Lambda_v(\sigma^{ab})
+          e^{(1-\beta_v)\Lambda_v(\sigma^{ab})}
+        \right],
+      \]
+      \[
+        \boxed{
+        p_u(a,b\mid\sigma,D)
+        =\frac{q_u^{ab}}
+        {\displaystyle\sum_{c,d\in\{0,1\}}q_u^{cd}}.}
+      \]
+
+      \begin{block}{Only what changes is recomputed}
+        The node $u$, its ancestors, and $\mu_0$.
+        Descendants and disjoint branches cancel.
+      \end{block}
+    \end{column}
+  \end{columns}
+
+  \begin{center}
+    \textcolor{inria-2024-rouge}{\textbf{One four-state draw---not two independent flips.}}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Each Local Move Satisfies Detailed Balance}
+  For the four-state orbit
+  \[
+    \mathcal O_u(\sigma)
+      =\{\sigma^{00},\sigma^{10},\sigma^{01},\sigma^{11}\},
+  \]
+  the previous rule is a heat bath.  Hence, for $x,y\in\mathcal O_u$,
+  \[
+    \boxed{
+    \nu(x\mid D)K_u^D(x,y)
+      =\frac{\nu(x\mid D)\nu(y\mid D)}
+             {\nu(\mathcal O_u\mid D)}
+      =\nu(y\mid D)K_u^D(y,x).}
+  \]
+
+  \begin{columns}[onlytextwidth,c]
+    \begin{column}{0.44\textwidth}
+      \centering
+      \begin{tikzpicture}[
+        leaf/.style={circle,draw,fill=white,minimum size=4.2mm,inner sep=0pt,font=\tiny},
+        merge/.style={circle,draw=inria-2024-bleu-canard,
+          fill=inria-2024-bleu-canard!10,minimum size=4.2mm,inner sep=0pt},
+        branch/.style={line width=1pt,draw=inria-2024-gris-bleu}
+      ]
+        \node[leaf] (a) at (0,0) {$a$};
+        \node[leaf] (b) at (1,0) {$b$};
+        \node[leaf] (c) at (2,0) {$c$};
+        \node[leaf] (d) at (3,0) {$d$};
+        \node[leaf] (e) at (4.4,0) {$e$};
+        \node[merge] (ab) at (.5,.8) {};
+        \node[merge] (abc) at (1.25,1.55) {};
+        \node[merge] (root) at (2.125,2.3) {};
+        \foreach \x/\y in {a/ab,b/ab,ab/abc,c/abc,abc/root,d/root}
+          \draw[branch] (\x)--(\y);
+        \node[font=\scriptsize,text=inria-2024-bleu-canard] at (2.125,2.75)
+          {final root $R$};
+        \node[font=\scriptsize,text=gray!70] at (4.4,.55) {singleton root};
+      \end{tikzpicture}
+    \end{column}
+
+    \begin{column}{0.52\textwidth}
+      Final components use the analogous two-state heat bath:
+      \[
+        \boxed{
+        \mathbb P(\text{flip }R\mid\sigma,D)
+          =\frac{\mu_0(\sigma^R)}
+                 {\mu_0(\sigma)+\mu_0(\sigma^R)}.}
+      \]
+      For a uniform prior this is $1/2$: ordinary
+      \textsc{Swendsen}--\textsc{Wang} recolouring, including singleton roots.
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{A Hierarchical Sweep Preserves Gibbs}
+  \begin{center}
+    \begin{tikzpicture}[
+      box/.style={rounded corners=6pt,draw=inria-2024-bleu-canard,
+        fill=inria-2024-bleu-canard!7,minimum width=2.4cm,
+        minimum height=1.15cm,align=center},
+      arr/.style={-{Latex[length=3mm]},line width=1.2pt,draw=inria-2024-rouge}
+    ]
+      \node[box] (s) at (0,0) {$\sigma\sim\mu$};
+      \node[box] (d) at (3.6,0) {sample $D$\\from the clocks};
+      \node[box] (h) at (7.2,0) {root and node\\heat baths};
+      \node[box] (sp) at (10.8,0) {$\sigma'\sim\mu$};
+      \draw[arr] (s)--node[above,font=\scriptsize,text=black]
+        {$\mathbb P(D\mid\sigma)$} (d);
+      \draw[arr] (d)--node[above,font=\scriptsize,text=black]
+        {$K_D$} (h);
+      \draw[arr] (h)--node[above,font=\scriptsize,text=black]
+        {discard $D$} (sp);
+    \end{tikzpicture}
+  \end{center}
+
+  Every local heat bath preserves the same conditional law, so
+  \[
+    \nu(\,\cdot\mid D)K_D=\nu(\,\cdot\mid D)
+    \qquad\Longrightarrow\qquad
+    \boxed{\ \mu P=\mu.\ }
+  \]
+
+  \begin{columns}[onlytextwidth,T]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Fixed sweep}
+        Stationary for Gibbs, but not necessarily reversible.
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Symmetric random order}
+        Every order and its reverse are equally likely: the whole dynamics
+        satisfies detailed balance.
+      \end{block}
+    \end{column}
+  \end{columns}
+
+  \begin{center}
+    \textbf{Main result: the hierarchical dynamics has Gibbs stationary.}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Stopping the Sweep: the Simple Rule}
+  \begin{columns}[onlytextwidth,c]
+    \begin{column}{0.47\textwidth}
+      \begin{block}{\Large $\checkmark$ Keep the full $D_{\leq1}$}
+        Sample the full dendrogram, then choose from $D$---before the flips---
+        a depth, a subtree, or a prefix of the sweep.
+
+        \vspace{0.5em}
+        Every such partial sweep still preserves Gibbs:
+        \[
+          \boxed{\ \mu P_{\mathrm{partial}}=\mu.\ }
+        \]
+      \end{block}
+    \end{column}
+
+    \begin{column}{0.47\textwidth}
+      \begin{alertblock}{\Large $\boldsymbol{\neq}$ Observe only $D_{\leq t}$}
+        Actually truncating the auxiliary variable at $t<1$ gives a different
+        conditional law, with the residual factor
+        \[
+          \boxed{\ e^{(1-t)\Lambda_\infty^t(\sigma)}.\ }
+        \]
+
+        The full-$D$ flip probabilities cannot simply be reused.
+      \end{alertblock}
+    \end{column}
+  \end{columns}
+
+  \begin{center}
+    \textbf{Stop the updates if desired; do not silently change the auxiliary law.}
+  \end{center}
+\end{frame}
