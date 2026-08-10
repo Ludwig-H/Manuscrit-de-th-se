@@ -159,8 +159,6 @@
 }
 \newcommand{\ind}[1]{\mathbb{I}_{\{#1\}}}
 
-% Figure haplotypes (3 étapes), reprise de la présentation NIM
-\input{figs/haplotype_macro}
 
 \begin{document}
 
@@ -968,175 +966,40 @@
     \end{columns}
 \end{frame}
 
-\begin{frame}{Graphes signés : l'exemple des haplotypes}
-  \centering
-  \only<1>{%
-    \begin{block}{1. Deux chromosomes homologues (haplotypes)}
-      L'humain est diploïde : chaque chromosome existe en deux copies
-    \end{block}
-    \drawHaplotypePresentation{1}
-  }%
-  \only<2>{%
-    \begin{block}{2. Séquençage haut débit : des lectures ADN}
-      Le séquenceur produit des fragments courts et chevauchants issus des deux chromosomes
-    \end{block}
-    \drawHaplotypePresentation{2}
-  }%
-  \only<3>{%
-    \begin{block}{3. Modélisation : un graphe signé bruité}
-      Nœuds $=$ lectures \qquad arêtes $=$ chevauchements (attractions / répulsions)\\
-      \textbf{But} : retrouver l'affectation cachée {\large $\boldsymbol{\Sigma}$}, une détection de communautés \citb{sb18}
-    \end{block}
-    \drawHaplotypePresentation{3}
-  }%
-  \reffoot{sb18}
-\end{frame}
-
-\begin{frame}{Un couplage bayésien par dynamique de clusters}
+\begin{frame}[t]{Détection de communautés sur graphes signés}
     \begin{center}
         \input{figs/sw_pas}
     \end{center}
 
-    \vspace{0.2cm}
+    \vspace{0.25cm}
     \begin{itemize}
-        \setlength{\itemsep}{6pt}
-        \item Un pas de \textsc{Swendsen}--\textsc{Wang} signé : geler les arêtes satisfaites, recolorier les amas \citb{sw87}
-        \item Un pas depuis la vérité $\Sigma$ produit une \textbf{réplique} \emph{a posteriori} : un couplage vérité--observation \citb{asilomar25}
-        \item Petits amas recoloriés au hasard : \textbf{seules les composantes géantes} portent l'information
+        \setlength{\itemsep}{9pt}
+        \item Un \textbf{cadre bayésien} pour les graphes signés (attractions et répulsions) \citb{sb18}
+        \item Des \textbf{dynamiques de clusters} d'ordre supérieur \citb{sw87}
+        \item La \textbf{percolation} des amas gelés conditionne le recouvrement :\\ des bornes plus fines \citb{asilomar25} \citb{ii26}
     \end{itemize}
-    \reffoot{sw87,asilomar25}
+    \reffoot{sb18,sw87,asilomar25,ii26}
 \end{frame}
 
-\begin{frame}{La percolation, encore : des bornes strictement meilleures}
-    \begin{columns}[c, onlytextwidth]
-        \begin{column}{0.52\textwidth}
-            \begin{itemize}
-                \setlength{\itemsep}{9pt}
-                \item La percolation des amas gelés est \textbf{nécessaire} au recouvrement des communautés ;\\
-                {\small un pas de SW-arêtes redonne exactement la borne de \citb{sb18} ($p_e = f_{\mathrm{in}} - f_{\mathrm{out}}$)}
-                \item Face à la \textbf{frustration}, la dynamique \textbf{triangulaire} corrèle le gel pour geler moins\ldots
-                \item \ldots\ donc percole \textbf{plus tard} :\\ des bornes \textbf{strictement meilleures} \citb{ii26}
-            \end{itemize}
-        \end{column}
-        \begin{column}{0.44\textwidth}
-            \begin{center}
-                \begin{beamercolorbox}[rounded=true,sep=8pt]{block body}
-                    \centering
-                    Sur la grille triangulaire :\\[6pt]
-                    $p_c^{\mathrm{ar\hat{e}tes}} = \tfrac12 + \sin\bigl(\tfrac{\pi}{18}\bigr) \approx 0{,}673$\\[6pt]
-                    $p_c^{\triangle} = \tfrac74 - \tfrac{\sqrt{17}}{4} \approx 0{,}719$
-                \end{beamercolorbox}
-
-                \vspace{0.4cm}
-                {\small Sur tout l'intervalle $[0{,}673\,;\,0{,}719)$, seuls les \textbf{triangles} prouvent l'impossibilité du recouvrement}
-            \end{center}
-        \end{column}
-    \end{columns}
-    \reffoot{ii26}
-\end{frame}
-
-\begin{frame}{Validation à $10^6$ nœuds}
-    \begin{center}
-        \includegraphics[width=0.64\textwidth]{imgs/LargestComp0.72.png}
-    \end{center}
-    \vspace{0.15cm}
-    \begin{columns}[onlytextwidth,T]
-        \begin{column}{0.48\textwidth}
-            \begin{itemize}
-                \item À $p = 0{,}72$ : composantes géantes\ldots
-                \item \ldots\ mais l'\emph{overlap} reste au bruit
-            \end{itemize}
-        \end{column}
-        \begin{column}{0.48\textwidth}
-            \begin{itemize}
-                \item \textbf{Percoler est nécessaire, pas suffisant}
-                \item Le recouvrement effectif apparaît vers $p = 0{,}80$
-            \end{itemize}
-        \end{column}
-    \end{columns}
-\end{frame}
-
-\begin{frame}{Détecter des fissures : du pixel\ldots\ à la paire de pixels}
+\begin{frame}[t]{Extraction de réseaux de fissures sur images}
     \begin{center}
         \begin{tabular}{cccc}
             \includegraphics[width=0.21\textwidth]{imgs/Intensity_1FIND.png} &
             \includegraphics[width=0.21\textwidth]{imgs/Range_1FIND.png} &
             \includegraphics[width=0.21\textwidth]{imgs/FrangiSim_1FIND.png} &
             \includegraphics[width=0.21\textwidth]{imgs/Resultat_1FIND.png} \\
-            {\scriptsize intensité (stries trompeuses)} & {\scriptsize profondeur (la vraie vallée)} & {\scriptsize similarité du graphe} & {\scriptsize squelette extrait} \\
+            {\scriptsize intensité} & {\scriptsize profondeur} & {\scriptsize similarité du graphe} & {\scriptsize squelette extrait} \\
         \end{tabular}
     \end{center}
 
-    \vspace{0.2cm}
+    \vspace{0.25cm}
     \begin{itemize}
-        \setlength{\itemsep}{5pt}
-        \item Le filtre de \textsc{Frangi} \citb{frangi98} répond : « ce \textbf{pixel} ressemble-t-il à une fissure ? » (hessienne, \emph{vesselness})
-        \item Notre \textbf{graphe de Frangi} répond : « ces \textbf{deux pixels} sont-ils des morceaux de la \emph{même} fissure ? » \citb{gretsi25}
-        \item \textbf{Multimodalité} fusionnée au niveau des hessiennes normalisées, sans aucun réentraînement
+        \setlength{\itemsep}{9pt}
+        \item Du \textbf{pixel} (filtre de \textsc{Frangi} \citb{frangi98}) à la \textbf{paire de pixels} (graphe de Frangi \citb{gretsi25})
+        \item \textbf{Multimodal}, sans apprentissage ; la connexité $K=2$ bloque la percolation du bruit \citb{euvip26}
+        \item Robuste hors distribution ; la sortie est un \textbf{graphe éditable} \citb{isprs26}
     \end{itemize}
-    \reffoot{frangi98,gretsi25}
-\end{frame}
-
-\begin{frame}{L'ordre supérieur, encore : la connexité $K = 2$ anti-bruit}
-    \begin{center}
-        \includegraphics[width=0.94\textwidth]{imgs/Raphael_algo_1.png}
-    \end{center}
-
-    \vspace{0.2cm}
-    \begin{itemize}
-        \setlength{\itemsep}{5pt}
-        \item Le bruit granulaire forme des \textbf{chaînes}\ldots\ mais rarement des \textbf{triangles}
-        \item Une vraie fissure (un ruban de quelques pixels d'épaisseur) en forme toujours
-        \item Les composantes triangles-connexes bloquent la percolation du bruit \citb{euvip26}
-    \end{itemize}
-    \reffoot{euvip26}
-\end{frame}
-
-\begin{frame}{Sans entraînement\ldots\ et robuste}
-    \begin{columns}[c, onlytextwidth]
-        \begin{column}{0.40\textwidth}
-            \begin{center}
-                \includegraphics[height=0.52\textheight]{imgs/Test1_512_512_result.png}
-
-                {\scriptsize Vaches Noires : vérité (vert), nous (rouge), U-Net (bleu)}
-            \end{center}
-        \end{column}
-        \begin{column}{0.58\textwidth}
-            \begin{center}
-                \includegraphics[width=\textwidth]{imgs/Resultats_SpeckleIntesity.png}
-
-                {\scriptsize Sous bruit croissant, notre méthode (rouge) reste stable}
-            \end{center}
-        \end{column}
-    \end{columns}
-
-    \vspace{0.2cm}
-    \begin{itemize}
-        \setlength{\itemsep}{4pt}
-        \item Compétitif avec un U-Net ayant coûté \textbf{deux jours d'annotation experte}
-        \item Le supervisé domine sur données propres\ldots\ mais \textbf{s'effondre hors distribution}
-        \item La sortie est un \textbf{graphe éditable} : une aide à l'annotation \citb{isprs26}
-    \end{itemize}
-    \reffoot{isprs26}
-\end{frame}
-
-\begin{frame}{Transfert immédiat : le Palais des Papes}
-    \begin{columns}[c, onlytextwidth]
-        \begin{column}{0.48\textwidth}
-            \begin{center}
-                \includegraphics[width=0.94\textwidth]{imgs/PalaisDesPapes.png}
-
-                {\small Mur de soutènement fracturé (orthoimage)}
-            \end{center}
-        \end{column}
-        \begin{column}{0.48\textwidth}
-            \begin{center}
-                \includegraphics[width=0.94\textwidth]{imgs/PalaisDesPapes_Result.png}
-
-                {\small Fracture extraite, \textbf{sans réentraînement}}
-            \end{center}
-        \end{column}
-    \end{columns}
+    \reffoot{frangi98,gretsi25,euvip26,isprs26}
 \end{frame}
 
 % ============================================================
