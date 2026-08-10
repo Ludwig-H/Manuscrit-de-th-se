@@ -1023,19 +1023,23 @@
 \end{frame}
 
 \begin{frame}{Le recouvrement reformulé en percolation}
-    \begin{center}
-        \formulebox{$\mathrm{ov} \;\le\; \dfrac{1}{2} \;+\; \dfrac{\theta^{\max}}{2}$}
+    \begin{itemize}
+        \item \textbf{Recouvrement faible} : battre asymptotiquement le hasard --- $\mathrm{ov} \ge \tfrac12 + \eta$ ($\eta > 0$)
+    \end{itemize}
 
-        \vspace{0.15cm}
-        {\small $\theta^{\max}$ : masse des composantes \textbf{géantes} de l'objet gelé}
+    \vspace{0.25cm}
+    \begin{center}
+        \formulebox{\parbox{0.78\textwidth}{\centering \textbf{Théorème} \citb{sb18} : la \textbf{percolation} du modèle à connexion $f_{\mathrm{in}} - f_{\mathrm{out}}$\\[2pt]
+        est une condition \textbf{nécessaire} au recouvrement faible}}
     \end{center}
 
     \vspace{0.3cm}
     \begin{itemize}
         \setlength{\itemsep}{9pt}
-        \item Pour \textbf{toute} dynamique de clusters invariante : \textbf{sans percolation, pas de recouvrement}
-        \item Un pas de SW standard $\Rightarrow$ percolation $f_{\mathrm{in}} - f_{\mathrm{out}}$ : le théorème de \citb{sb18}, \textbf{exactement}
-        \item La dynamique triangulaire percole plus tard : borne \textbf{strictement meilleure}\\
+        \item Dans notre cadre bayésien, \textbf{sans percolation des amas gelés, pas de recouvrement}
+        \item Avec la dynamique de \textsc{Swendsen}--\textsc{Wang} classique : on \textbf{retrouve exactement} leur théorème\\
+        (le gel est une percolation $f_{\mathrm{in}} - f_{\mathrm{out}}$) \citb{ii26}
+        \item Avec la dynamique \textbf{triangulaire} : borne \textbf{strictement améliorée}\\
         (sur la grille triangulaire : $p_c$ passe de $0{,}674$ à $0{,}719$) \citb{ii26}
     \end{itemize}
 \end{frame}
