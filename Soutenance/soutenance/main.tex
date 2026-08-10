@@ -881,7 +881,7 @@
         \begin{column}{0.48\textwidth}
             \begin{itemize}
                 \setlength{\itemsep}{10pt}
-                \item L'arbre hiérarchique n'est pas qu'une sortie :\\ on peut y \textbf{injecter des a priori} géométriques
+                \item L'arbre hiérarchique n'est pas qu'une sortie :\\ on peut y \textbf{injecter des \emph{a priori}} géométriques
                 \item \textbf{Détection d'anomalies 3D} : comparaison\\ au modèle théorique du navire (\copyright~\textsc{Naval Group})
                 \item Benchmark de $2 \times 10^6$ points : objets étrangers\\ \textbf{parfaitement isolés}, sans aucun apprentissage
             \end{itemize}
@@ -898,13 +898,13 @@
     \end{columns}
 \end{frame}
 
-\begin{frame}{Panoptique 4D : des a priori plutôt que des annotations}
+\begin{frame}{Panoptique 4D : des \emph{a priori} plutôt que des annotations}
     \begin{columns}[c, onlytextwidth]
         \begin{column}{0.48\textwidth}
             \begin{itemize}
                 \setlength{\itemsep}{10pt}
                 \item État de l'art : sémantique profonde\\ $+$ clustering spatial \citb{sautier25} \citb{oh25}
-                \item Nos \textbf{a priori faibles} : volumes attendus des objets (véhicules, piétons) injectés dans la hiérarchie
+                \item Nos \textbf{\emph{a priori} faibles} : volumes attendus des objets (véhicules, piétons) injectés dans la hiérarchie
                 \item Association temporelle par \textbf{transport optimal} déséquilibré $+$ filtre de \textsc{Kalman}, \emph{training-free}
             \end{itemize}
         \end{column}
@@ -916,7 +916,7 @@
                 \includegraphics[width=0.48\textwidth]{imgs/kitti_3d_prior_2.jpg}
 
                 \vspace{0.3cm}
-                \scriptsize A priori géométriques appliqués aux volumes des instances
+                \scriptsize \emph{A priori} géométriques appliqués aux volumes des instances
             \end{center}
         \end{column}
     \end{columns}
