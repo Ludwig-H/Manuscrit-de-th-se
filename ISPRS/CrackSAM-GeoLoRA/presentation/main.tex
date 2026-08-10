@@ -1,0 +1,415 @@
+\documentclass[A4,svgnames,9pt,aspectratio=169]{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
+
+\usetheme{inria}
+\graphicspath{{figures/}}
+
+\hypersetup{
+  colorlinks=true,
+  allcolors=rouge_inria,
+  pdfauthor={Louis Hauseux, Raphaël Antoine, Philippe Foucher, Pierre Charbonnier, Josiane Zerubia},
+  pdftitle={CrackSAM-GeoLoRA},
+  pdfsubject={Guidage géométrique dans SAM 2 : résultat négatif ; gain de la dilatation},
+  pdfkeywords={SAM 2, CrackSAM, LoRA, Frangi, IoU tolérante}
+}
+
+\definecolor{success}{HTML}{3C8D5A}
+\definecolor{warning}{HTML}{D98200}
+\definecolor{failure}{HTML}{C9191E}
+\definecolor{inkblue}{HTML}{27348B}
+\definecolor{softblue}{HTML}{E9F2F8}
+\definecolor{softred}{HTML}{FBEAEC}
+\definecolor{softgreen}{HTML}{EAF5EE}
+\definecolor{softgray}{HTML}{F1F2F4}
+
+\newcommand{\IoU}{\mathrm{IoU}}
+\newcommand{\source}[1]{%
+  \par\vfill{\raggedright\fontsize{5.8}{6.6}\selectfont\color{black!62}#1\par}%
+}
+\newcommand{\statusbadge}[2]{%
+  \tikz[baseline=(n.base)]\node[rounded corners=2pt,fill=#1!13,draw=#1!55,
+  inner xsep=4pt,inner ysep=1.5pt,text=#1,font=\bfseries\scriptsize] (n) {#2};%
+}
+\newcommand{\metriccard}[4]{%
+  \begin{tikzpicture}
+    \node[rounded corners=4pt,draw=#1!50,fill=#1!8,minimum width=3.05cm,
+      minimum height=1.35cm,align=center,inner sep=4pt] {%
+      {\scriptsize #2}\\[-1pt]
+      {\Large\bfseries\color{#1} #3}\\[-1pt]
+      {\fontsize{5.8}{6.5}\selectfont\color{black!62} #4}%
+    };
+  \end{tikzpicture}%
+}
+% Vignette d'un panneau, sur cinq colonnes.
+\newcommand{\widepanel}[2]{%
+  \begin{minipage}[t]{0.188\textwidth}
+    \centering
+    {\fontsize{6.1}{6.8}\selectfont\bfseries #1}\par\vspace{1pt}
+    \setlength{\fboxsep}{0.7pt}%
+    \fcolorbox{black!16}{white}{%
+      \includegraphics[width=0.94\linewidth,height=1.86cm,keepaspectratio]{#2}}
+  \end{minipage}%
+}
+% Vignette d'un panneau, sur quatre colonnes.
+\newcommand{\compactpanel}[2]{%
+  \begin{minipage}[t]{0.235\textwidth}
+    \centering
+    {\fontsize{6.1}{6.8}\selectfont\bfseries #1}\par\vspace{1pt}
+    \setlength{\fboxsep}{0.7pt}%
+    \fcolorbox{black!16}{white}{%
+      \includegraphics[width=0.93\linewidth,height=1.80cm,keepaspectratio]{#2}}
+  \end{minipage}%
+}
+\newcommand{\caserow}[6]{%
+  \noindent
+  \begin{minipage}[c]{0.62\linewidth}
+    {\scriptsize\bfseries #1}
+  \end{minipage}\hfill
+  \begin{minipage}[c]{0.36\linewidth}
+    \raggedleft\statusbadge{#5}{#6}
+  \end{minipage}\par
+  \vspace{1pt}
+  \compactpanel{Image}{#2_image.jpg}\hfill
+  \compactpanel{Vérité terrain}{#2_gt.jpg}\hfill
+  \compactpanel{#3}{#2_ref.jpg}\hfill
+  \compactpanel{#4}{#2_var.jpg}%
+}
+\newcommand{\threewayrow}[4]{%
+  \noindent
+  \begin{minipage}[c]{0.56\linewidth}
+    {\scriptsize\bfseries #1}
+  \end{minipage}\hfill
+  \begin{minipage}[c]{0.42\linewidth}
+    \raggedleft\statusbadge{warning}{#4}
+  \end{minipage}\par
+  \vspace{1pt}
+  \widepanel{Image}{#2_image.jpg}\hfill
+  \widepanel{Vérité terrain}{#2_gt.jpg}\hfill
+  \widepanel{Baseline}{#2_ref.jpg}\hfill
+  \widepanel{\texttt{tol3}}{#2_var.jpg}\hfill
+  \widepanel{\texttt{geo\_tol3}}{#3_var.jpg}%
+}
+\newcommand{\synthpanel}[2]{%
+  \begin{minipage}[t]{0.185\textwidth}
+    \centering
+    {\fontsize{6.1}{6.8}\selectfont\bfseries #1}\par\vspace{1pt}
+    \setlength{\fboxsep}{0.7pt}%
+    \fcolorbox{black!16}{white}{\includegraphics[width=0.86\linewidth]{#2}}
+  \end{minipage}%
+}
+\newcommand{\colourkey}{%
+  \textcolor{success}{$\blacksquare$}~vrai positif \quad
+  \textcolor{failure}{$\blacksquare$}~faux positif \quad
+  \textcolor{inkblue}{$\blacksquare$}~manqué}
+
+\title[CrackSAM-GeoLoRA]{CrackSAM-GeoLoRA}
+\subtitle{Le guidage géométrique n'aide pas. La dilatation, un peu.}
+\date[09/08/2026]{9 août 2026}
+\author[L. \textsc{Hauseux} et al.]{%
+  {\small Louis \textsc{Hauseux}, Josiane \textsc{Zerubia}}\\
+  {\small Raphaël \textsc{Antoine}, Philippe \textsc{Foucher}, Pierre \textsc{Charbonnier}}%
+}
+\institute{Inria, équipe \textsc{Ayana} \quad---\quad Cerema, équipe \textsc{Endsum}}
+
+\begin{document}
+
+\frame{\titlepage}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{Deux résultats}
+  \centering
+  \vspace{0.10cm}
+  \begin{tikzpicture}
+    \node[rounded corners=6pt,draw=failure!50,fill=softred,text width=5.4cm,
+      minimum height=3.1cm,align=left,inner sep=9pt,anchor=north west]
+      at (0,0) {%
+      {\large\bfseries\color{failure} Géométrie : rien}\\[6pt]
+      Évidence \textbf{alignée} contre évidence \textbf{d'une autre image} :\\[4pt]
+      $|\Delta| < 0{,}001$ à toutes les tolérances\\[2pt]
+      le contrôle est devant \textbf{5 fois sur 6}\\[6pt]
+      {\scriptsize Par image : $-0{,}0007$ en moyenne,
+      603 gains, 866 pertes.}};
+    \node[rounded corners=6pt,draw=success!50,fill=softgreen,text width=5.4cm,
+      minimum height=3.1cm,align=left,inner sep=9pt,anchor=north west]
+      at (6.4,0) {%
+      {\large\bfseries\color{success} Dilatation : un peu}\\[6pt]
+      Perte tolérante à \textbf{3 px} contre baseline :\\[4pt]
+      \textbf{$+0{,}0035$} en IoU stricte\\[2pt]
+      \textbf{$+0{,}0179$} à 1 px de tolérance\\[6pt]
+      {\scriptsize Aucun paramètre ajouté, aucun coût de calcul.}};
+  \end{tikzpicture}
+
+  \vspace{0.34cm}
+  \statusbadge{inkblue}{6 variantes, budget strictement égal, 1\,695 images de test}
+
+  \source{Khánh Hà, monomodal visible. 8--9 août 2026, RTX PRO 6000 Blackwell.}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{Ce qu'on ajoute à la Frangi--similarité}
+  \centering
+  \vspace{0.04cm}
+  \widepanel{Image}{b2t_gain_ct6774_image.jpg}\hfill
+  \widepanel{\texttt{frangi\_sim}}{b2t_gain_ct6774_frangi.jpg}\hfill
+  \widepanel{\texttt{ofs}}{b2t_gain_ct6774_ofs.jpg}\hfill
+  \widepanel{\texttt{ofa}}{b2t_gain_ct6774_ofa.jpg}\hfill
+  \widepanel{\texttt{phase\_sym}}{b2t_gain_ct6774_phase.jpg}
+
+  \vspace{0.22cm}
+  \small
+  \begin{tabularx}{0.94\linewidth}{>{\ttfamily\footnotesize}p{4.1cm}X}
+    \toprule
+    \normalfont\bfseries 11 canaux, jamais multipliés &
+      \normalfont\bfseries Rôle \\
+    \midrule
+    frangi\_sim & la carte des essais précédents : propose \\
+    ofs, ofa, abs\_energy & flux orienté : récuse une frontière d'ombre \\
+    even\_odd, dbic, profile & modèle explicite : ligne ou marche \\
+    phase\_sym & Gabor en quadrature : polarité sombre \\
+    cos2$\theta$, sin2$\theta$, scale & orientation et largeur \\
+    \bottomrule
+  \end{tabularx}
+
+  \vspace{0.18cm}
+  \statusbadge{failure}{filtres accordés sur 19,1 px : trop épais pour ces fissures}
+
+  \source{\texttt{cracktree200\_6774}. Évidence calculée à $224^2$.}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{Où elle entre dans SAM 2}
+  \centering
+  \vspace{0.10cm}
+  \begin{tikzpicture}[>=Latex,font=\scriptsize]
+    \node[rounded corners=4pt,draw=black!30,fill=softgray,text width=2.0cm,
+      align=center,inner sep=4pt] at (0,0.95) (rgb) {Image RGB\\$448^2$};
+    \node[rounded corners=4pt,draw=warning!55,fill=warning!8,text width=2.35cm,
+      align=center,inner sep=4pt] at (3.0,0.95) (hiera) {%
+      \textbf{SAM 2 Hiera-L}\\LoRA q/v $r=4$\\453\,248 params};
+    \node[rounded corners=4pt,draw=black!30,fill=softgray,text width=2.0cm,
+      align=center,inner sep=4pt] at (0,-1.15) (geo) {11 canaux\\$224^2$};
+    \node[rounded corners=4pt,draw=inkblue!55,fill=softblue,text width=2.35cm,
+      align=center,inner sep=4pt] at (3.0,-1.15) (enc) {%
+      \textbf{Encodeur géométrique}\\290\,801 params};
+    \node[rounded corners=4pt,draw=inkblue!45,fill=white,text width=3.35cm,
+      align=left,inner sep=4pt] at (7.1,-1.15) (inj) {%
+      \textcolor{inkblue}{\textbf{3 projections init. à ZÉRO}}\\[1.5pt]
+      $+$ \texttt{high\_res[0]} \hfill $32{\times}256^2$\\
+      $+$ \texttt{high\_res[1]} \hfill $64{\times}128^2$\\
+      $+$ \texttt{embeddings} \hfill $256{\times}64^2$};
+    \node[rounded corners=4pt,draw=success!50,fill=softgreen,text width=2.35cm,
+      align=center,inner sep=4pt] at (10.7,0.95) (dec) {%
+      \textbf{Mask decoder}\\logits $448^2$};
+    \draw[->,thick] (rgb) -- (hiera);
+    \draw[->,thick] (geo) -- (enc);
+    \draw[->,thick] (enc) -- (inj);
+    \draw[->,thick] (hiera) -- (dec);
+    \draw[->,thick] (inj.east) -| (dec.south);
+  \end{tikzpicture}
+
+  \vspace{0.30cm}
+  \statusbadge{inkblue}{à l'initialisation, le modèle \emph{est} la baseline}
+  \hspace{0.3cm}
+  \statusbadge{success}{correction additive, révocable}
+  \hspace{0.3cm}
+  \statusbadge{failure}{\texttt{mask\_input} jamais utilisé}
+
+  \source{L'invite dense de juillet coûtait $-0{,}0979$ d'IoU : cette interface
+  reste un contrôle négatif.}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{Le protocole : six barreaux, un contrôle}
+  \small
+  \begin{tabularx}{\linewidth}{>{\ttfamily}p{2.75cm}p{2.3cm}>{\raggedright\arraybackslash}p{1.7cm}r>{\raggedright\arraybackslash}X}
+    \toprule
+    \normalfont Variante & Perte & Évidence & Params &
+      \normalfont Isole \\
+    \midrule
+    baseline & CrackSAM & --- & 453\,248 & l'ancre \\
+    cldice & $+$ clDice & --- & 453\,248 & la continuité \\
+    geo & $+$ clDice & alignée & 744\,049 & la géométrie \\
+    \textbf{tol3} & $+$ \textbf{tolérante 3 px} & --- & 453\,248 &
+      \textbf{la dilatation} \\
+    geo\_tol3 & $+$ tolérante 3 px & alignée & 744\,049 & la géométrie \\
+    \textbf{geo\_tol3\_permuted} & $+$ tolérante 3 px &
+      \textbf{d'une autre image} & 744\,049 & \textbf{le contrôle} \\
+    \bottomrule
+  \end{tabularx}
+
+  \vspace{0.30cm}
+  \centering
+  \metriccard{inkblue}{Budget}{5 époques}{même graine, même ordre}
+  \hspace{0.25cm}
+  \metriccard{success}{Corpus}{9\,121 / 1\,695}{train / test}
+  \hspace{0.25cm}
+  \metriccard{warning}{Durée}{40--41 min}{par variante}
+
+  \source{Le contrôle permuté a la même capacité et la même perte : seul
+  l'appariement image~$\leftrightarrow$~évidence est détruit. Sans lui, on ne
+  sépare pas la géométrie des paramètres ajoutés.}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{La géométrie n'aide pas}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.42\textwidth}
+      \centering
+      \small
+      \setlength{\tabcolsep}{3pt}%
+      \begin{tabularx}{\linewidth}{Xrrr}
+        \toprule
+        $k$ & \ttfamily alignée & \ttfamily permutée & $\Delta$ \\
+        \midrule
+        0 & 0,6270 & 0,6265 & $+0{,}0004$ \\
+        1 & 0,7597 & \textbf{0,7601} & $-0{,}0005$ \\
+        3 & 0,8635 & \textbf{0,8644} & $-0{,}0009$ \\
+        8 & 0,9374 & \textbf{0,9378} & $-0{,}0004$ \\
+        \bottomrule
+      \end{tabularx}
+      \\[6pt]
+      \statusbadge{failure}{l'alignement ne sert à rien}
+    \end{column}
+    \begin{column}{0.55\textwidth}
+      \centering
+      \compactpanel{\texttt{frangi\_sim}}{t2g_gain_riss_frangi.jpg}\hfill
+      \compactpanel{\texttt{ofs}}{t2g_gain_riss_ofs.jpg}\hfill
+      \compactpanel{\texttt{ofa}}{t2g_gain_riss_ofa.jpg}\hfill
+      \compactpanel{\texttt{phase\_sym}}{t2g_gain_riss_phase.jpg}
+      \\[4pt]
+      {\scriptsize Image du \emph{plus grand gain} de la géométrie :
+      \textbf{aucun canal ne désigne la fissure}.}
+    \end{column}
+  \end{columns}
+
+  \vspace{0.26cm}
+  \centering
+  \statusbadge{inkblue}{l'adapter s'active pourtant : projections jusqu'à $1{,}79\times10^{-3}$}
+
+  \source{Le déficit résiduel de \texttt{geo\_tol3} face à \texttt{tol3} vient
+  des 290\,801 paramètres ajoutés, non d'un mauvais usage de la géométrie.}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{Et la galerie de gains trompe}
+  \threewayrow{\texttt{CRACK500\_20160405\_171336}}{b2t_loss_crack171336}{t2g_gain_crack171336}{0,875 $\rightarrow$ 0,510 $\rightarrow$ 0,807}
+
+  \vspace{0.22cm}
+  \threewayrow{\texttt{Rissbilder\_for\_Florian}}{b2t_loss_riss}{t2g_gain_riss}{0,422 $\rightarrow$ 0,153 $\rightarrow$ 0,405}
+
+  \vspace{0.14cm}
+  \centering
+  \statusbadge{failure}{la géométrie rend ce que la dilatation avait coûté, et reste sous la baseline}
+
+  \vspace{0.10cm}
+  {\fontsize{6.4}{7.4}\selectfont \colourkey}
+
+  \source{Ces deux images sont les deux plus grands gains de la géométrie. Ce
+  sont aussi les deux plus grandes pertes de \texttt{tol3}.}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{Pourquoi dilater}
+  \centering
+  \vspace{0.04cm}
+  \synthpanel{parfait}{synth_perfect.png}\hfill
+  \synthpanel{décalé 2 px}{synth_shifted.png}\hfill
+  \synthpanel{2$\times$ trop large}{synth_wide.png}\hfill
+  \synthpanel{rompu 4 px}{synth_break4.png}\hfill
+  \synthpanel{rompu 20 px}{synth_break20.png}
+
+  \vspace{0.20cm}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.45\textwidth}
+      \centering
+      \small
+      \setlength{\tabcolsep}{4pt}%
+      \begin{tabularx}{\linewidth}{Xrr}
+        \toprule
+        IoU & strict & 3 px \\
+        \midrule
+        décalé de 2 px & 0,200 & \textbf{1,000} \\
+        2$\times$ trop large & 0,429 & \textbf{1,000} \\
+        rompu sur 4 px & 0,917 & \textbf{1,000} \\
+        rompu sur 20 px & 0,583 & 0,708 \\
+        \bottomrule
+      \end{tabularx}
+    \end{column}
+    \begin{column}{0.51\textwidth}
+      \small
+      La vérité terrain \textbf{dilatée d'un pixel} n'obtient plus que
+      \textbf{0,881} contre elle-même, et \textbf{0,799} à deux pixels.\\[4pt]
+      Baseline, à 1 px de tolérance : la précision passe de 0,759 à
+      \textbf{0,888}, le rappel seulement de 0,761 à 0,812.\\[4pt]
+      \statusbadge{failure}{un décalage de 2 px est plus puni qu'une rupture de 20 px}
+    \end{column}
+  \end{columns}
+
+  \source{La tolérance est une distance d'appariement : elle pardonne le
+  placement et la largeur, et une rupture seulement si elle est plus courte que
+  $2k$.}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{Ce que la dilatation gagne}
+  \caserow{\texttt{cracktree200\_6774} --- réseau fin entièrement
+    manqué}{b2t_gain_ct6774}{Baseline}{Avec
+    \texttt{tol3}}{success}{0,000 $\rightarrow$ 0,219}
+
+  \vspace{0.18cm}
+  \caserow{\texttt{GAPS384\_0552} --- la contrepartie : débordement le long
+    d'un bord clair}{b2t_loss_gaps552}{Baseline}{Avec
+    \texttt{tol3}}{failure}{0,517 $\rightarrow$ 0,308}
+
+  \vspace{0.20cm}
+  \centering
+  \small
+  \setlength{\tabcolsep}{5pt}%
+  \begin{tabular}{lrrrr}
+    \toprule
+    IoU tampon & strict & 1 px & 3 px & 8 px \\
+    \midrule
+    \ttfamily baseline & 0,6241 & 0,7407 & 0,8396 & 0,9213 \\
+    \ttfamily tol3 & \textbf{0,6276} & \textbf{0,7586} & \textbf{0,8607} &
+      \textbf{0,9346} \\
+    \bottomrule
+  \end{tabular}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{Suite}
+  \small
+  \begin{tabularx}{\linewidth}{c>{\raggedright\arraybackslash}X}
+    \toprule
+    \textbf{1} & \textbf{Adopter la perte tolérante à 3 px par défaut.} Gain
+      acquis, aucun paramètre, aucun coût. \\
+    \textbf{2} & \textbf{Arrêter le guidage géométrique sur Khánh Hà.} Le
+      modèle est indifférent à l'alignement de l'évidence. \\
+    3 & \textbf{Le tester où l'information existe} : FIND multimodal, portée et
+      thermique, que SAM 2 ne peut pas voir. \\
+    \bottomrule
+  \end{tabularx}
+
+  \vspace{0.30cm}
+  \centering
+  \statusbadge{failure}{à ne pas faire : plus de capacité, plus d'époques, un GNN}
+
+  \vspace{0.20cm}
+  \statusbadge{warning}{limites : 5 époques et non 20, pas d'IC95, \texttt{tol5} non exécuté}
+
+  \source{Sur ce corpus --- monomodal visible, annotations épaisses, baseline
+  supervisée sur le même domaine --- le Frangi généralisé n'apporte aucune
+  information que la LoRA n'ait déjà apprise.}
+\end{frame}
+
+\end{document}

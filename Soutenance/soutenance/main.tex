@@ -96,6 +96,7 @@
     \textcolor{gris_fonce_inria}{[\csname ref@lab@#1\endcsname]}%
   \fi}
 \newcommand{\citb}[1]{\mbox{{\footnotesize\bfseries\refbracket{#1}}}}
+\newcommand{\bibligne}[1]{\item {\bfseries\refbracket{#1}}\ \csname ref@full@#1\endcsname}
 \newcommand{\reffoot}[1]{%
   \begin{textblock}{0.90}[0,1](0.05,0.925)%
     \begingroup\tiny\raggedright\color{gris_fonce_inria}%
@@ -158,6 +159,14 @@
   interedge/.style={negedge, draw=gray!60}
 }
 \newcommand{\ind}[1]{\mathbb{I}_{\{#1\}}}
+
+% Figure haplotypes (3 étapes), reprise de la présentation NIM
+\input{figs/haplotype_macro}
+
+% Encadré des formules importantes
+\newcommand{\formulebox}[1]{%
+  {\setlength{\fboxsep}{8pt}\setlength{\fboxrule}{0.8pt}%
+   \fcolorbox{inria-rouge}{gray!4}{#1}}}
 
 
 \begin{document}
@@ -359,7 +368,7 @@
     \begin{columns}[c, onlytextwidth]
         \begin{column}{0.56\textwidth}
             \begin{center}
-                {\Large\mathversion{bold} $\forall x \in \mathbb{R}^p, \quad \widehat{f}_{K\text{-NN}}(x) = \dfrac{K}{n \, \omega_p \, r_K(x)^p}$}
+                \formulebox{\Large\mathversion{bold} $\forall x \in \mathbb{R}^p, \quad \widehat{f}_{K\text{-NN}}(x) = \dfrac{K}{n \, \omega_p \, r_K(x)^p}$}
 
                 \vspace{1.0cm}
 
@@ -447,7 +456,7 @@
             \vspace{0.5cm}
             L'arbre minimum couvrant euclidien\\ vit dans la triangulation de \textsc{Delaunay} \citb{boissonnat18} :
             \begin{center}
-                arbre minimum couvrant $\subseteq$ \textsc{Delaunay}
+                \formulebox{arbre minimum couvrant $\subseteq$ \textsc{Delaunay}}
             \end{center}
 
             \vspace{0.4cm}
@@ -498,7 +507,10 @@
 
             \vspace{0.3cm}
             \textbf{HDBSCAN} \citb{campello13} : fait varier le seuil $r$ continûment et extrait les clusters par \textbf{excès de masse}
-            \[ E(C) = \int_C \bigl(f(x) - \lambda\bigr)\, \mathrm{d}x. \]
+
+            \begin{center}
+                \formulebox{$E(C) = \displaystyle\int_C \bigl(f(x) - \lambda\bigr)\, \mathrm{d}x$}
+            \end{center}
 
             \vspace{0.15cm}
             \begin{center}
@@ -821,10 +833,7 @@
         \end{column}
         \begin{column}{0.42\textwidth}
             \begin{center}
-                \begin{beamercolorbox}[rounded=true,sep=8pt]{block body}
-                    \centering
-                    $\displaystyle v \;=\; \frac{\lambda_{\varepsilon}}{\lambda_{1-\varepsilon}}$
-                \end{beamercolorbox}
+                \formulebox{$\displaystyle v \;=\; \frac{\lambda_{\varepsilon}}{\lambda_{1-\varepsilon}}$}
             \end{center}
 
             \vspace{0.25cm}
@@ -981,6 +990,39 @@
     \reffoot{sb18,sw87,asilomar25,ii26}
 \end{frame}
 
+\begin{frame}{Au-delà de Swendsen--Wang : triangles et hiérarchie}
+    \begin{center}
+        \includegraphics[width=0.78\textwidth]{imgs/Echelle_Glauber_SW.png}
+    \end{center}
+
+    \vspace{0.2cm}
+    \begin{itemize}
+        \setlength{\itemsep}{7pt}
+        \item Face à la frustration, le gel \textbf{corrélé par triangles} gèle moins\ldots\ et percole plus tard
+        \item Une \textbf{hiérarchie d'horloges} : chaque arête satisfaite reçoit $\xi_e \sim \mathrm{Exp}(|W_e|)$ ;\\
+        couper le dendrogramme à l'instant $\beta$ donne une dynamique invariante
+        \item Les \textbf{racines} ($\beta = 1$) redonnent Swendsen--Wang ; les \textbf{feuilles} ($\beta = 0$), Glauber \citb{ii26}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Le recouvrement reformulé en percolation}
+    \begin{center}
+        \formulebox{$\mathrm{ov} \;\le\; \dfrac{1}{K} \;+\; \dfrac{K-1}{K}\,\theta^{\max}$}
+
+        \vspace{0.15cm}
+        {\small $\theta^{\max}$ : masse des composantes \textbf{géantes} de l'objet gelé}
+    \end{center}
+
+    \vspace{0.3cm}
+    \begin{itemize}
+        \setlength{\itemsep}{9pt}
+        \item Pour \textbf{toute} dynamique de clusters invariante : \textbf{sans percolation, pas de recouvrement}
+        \item Un pas de SW standard $\Rightarrow$ percolation $f_{\mathrm{in}} - f_{\mathrm{out}}$ : le théorème de \citb{sb18}, \textbf{exactement}
+        \item La dynamique triangulaire percole plus tard : borne \textbf{strictement meilleure}\\
+        (sur la grille triangulaire : $p_c$ passe de $0{,}674$ à $0{,}719$) \citb{asilomar25} \citb{ii26}
+    \end{itemize}
+\end{frame}
+
 \begin{frame}[t]{Extraction de réseaux de fissures sur images}
     \begin{center}
         \begin{tabular}{cccc}
@@ -1000,6 +1042,27 @@
         \item Robuste hors distribution ; la sortie est un \textbf{graphe éditable} \citb{isprs26}
     \end{itemize}
     \reffoot{frangi98,gretsi25,euvip26,isprs26}
+\end{frame}
+
+\begin{frame}{Et ensuite ? Guider un modèle de fondation}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.46\textwidth}
+            \begin{center}
+                \includegraphics[width=\textwidth]{imgs/CrackSAM_cas_reussite.jpg}
+
+                {\scriptsize Un réseau entièrement manqué par la baseline, retrouvé (IoU $0 \to 0{,}22$)}
+            \end{center}
+        \end{column}
+        \begin{column}{0.52\textwidth}
+            \begin{itemize}
+                \setlength{\itemsep}{9pt}
+                \item SAM~2 $+$ LoRA $+$ \textbf{11 canaux d'évidence géométrique}, injectés à initialisation nulle
+                \item Acquis : la \textbf{perte tolérante} (3 px), issue de l'incertitude d'annotation, bat la baseline
+                \item Contrôle causal (évidence permutée) :\\ en monomodal, la géométrie n'ajoute rien\ldots
+                \item \ldots\ la perspective : le \textbf{multimodal}, où SAM n'a pas accès à cette information \citb{isprs26}
+            \end{itemize}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 % ============================================================
@@ -1059,17 +1122,389 @@
     \textbf{Logiciel} : dépôts GitHub \texttt{Ayana-Inria/HypergraphPercol\_K2} et \texttt{Ayana-Inria/Frangi-EUVIP}
 \end{frame}
 
+\frame{\merci}
+
+\begin{frame}{Bibliographie}
+    \scriptsize
+    \begin{itemize}
+        \setlength{\itemsep}{2.5pt}
+        \bibligne{florek51}
+        \bibligne{gowerross69}
+        \bibligne{hartigan81}
+        \bibligne{forina83}
+        \bibligne{sw87}
+        \bibligne{ester96}
+        \bibligne{frangi98}
+        \bibligne{penrose03}
+        \bibligne{ghrist08}
+        \bibligne{chaudhuri10}
+        \bibligne{campello13}
+        \bibligne{boissonnat18}
+        \bibligne{sb18}
+        \bibligne{edelsbrunner23}
+        \bibligne{rolle23}
+        \bibligne{sautier25}
+        \bibligne{oh25}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Bibliographie : travaux de l'auteur}
+    \scriptsize
+    \begin{itemize}
+        \setlength{\itemsep}{3pt}
+        \bibligne{hal17}
+        \bibligne{cn23}
+        \bibligne{eusipco24}
+        \bibligne{cn24}
+        \bibligne{src24}
+        \bibligne{ans26}
+        \bibligne{gretsi25}
+        \bibligne{asilomar25}
+        \bibligne{euvip26}
+        \bibligne{ii26}
+        \bibligne{isprs26}
+    \end{itemize}
+\end{frame}
+
+% ============================================================
+% Slides de secours (suivent la chronologie de la présentation)
+% ============================================================
 \begin{frame}[c]{}
     \begin{center}
-        \includegraphics[width=0.4\textwidth]{imgs/RapportStage2017_Titre.png}
-
-        \vspace{0.8cm}
-        {\large\itshape « Et si de t'agréer je n'emporte le prix,\\
-        J'aurai du moins l'honneur de l'avoir entrepris. »}\\[8pt]
-        {\small Jean de \textsc{La Fontaine}, citation qui clôt le rapport de 2017}
+        {\Huge\bfseries Slides de secours}\\[3ex]
+        {\barrecouleur}
     \end{center}
 \end{frame}
 
-\frame{\merci}
+% --- Prologue -----------------------------------------------
+\begin{frame}{Stylométrie 2017 : le cas à 5 auteurs}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.44\textwidth}
+            \begin{center}
+                \includegraphics[width=0.9\textwidth]{imgs/ACP_5auteurs_2017.png}
+            \end{center}
+        \end{column}
+        \begin{column}{0.52\textwidth}
+            \begin{itemize}
+                \setlength{\itemsep}{9pt}
+                \item 5 auteurs $\times$ 40 textes ($P = 70\,\%$, $k = 5$)
+                \item 4 classes correctement identifiées\ldots
+                \item \ldots\ mais la 4\up{e} (textes 120--159) est manquée
+                \item Ronds noirs : non classés ; étoiles : multi-classes
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% --- Partie III (résultats HGP) ------------------------------
+\begin{frame}{Benchmark SIPU : toutes choses égales par ailleurs}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.52\textwidth}
+            \begin{center}
+                \includegraphics[height=0.72\textheight]{imgs/SIPU_s1s3.png}
+            \end{center}
+        \end{column}
+        \begin{column}{0.44\textwidth}
+            \small
+            Même \texttt{min\_cluster\_size} $= \sqrt n$, même excès de masse :\\
+            la seule différence est la \textbf{connexité triangulaire}
+
+            \vspace{0.3cm}
+            \renewcommand{\arraystretch}{1.25}
+            \begin{tabular}{lcc}
+                \toprule
+                Jeu & HDBSCAN & $2$-polyèdres \\
+                \midrule
+                a2 & 0,762 & \textbf{0,834} \\
+                a3 & 0,696 & \textbf{0,831} \\
+                d31 & 0,660 & \textbf{0,835} \\
+                s2 & 0,780 & \textbf{0,842} \\
+                s3 & 0,251 & \textbf{0,418} \\
+                birch2 & 0,996 & \textbf{0,998} \\
+                \bottomrule
+            \end{tabular}
+
+            \vspace{0.2cm}
+            {\scriptsize ARI ; grille : vérité, HDBSCAN, notre algorithme}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Huiles d'olive : la matrice de confusion}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.54\textwidth}
+            \begin{center}
+                \includegraphics[width=\textwidth]{imgs/OliveOil_confusion.png}
+            \end{center}
+        \end{column}
+        \begin{column}{0.42\textwidth}
+            \begin{itemize}
+                \setlength{\itemsep}{9pt}
+                \item $412/572$ points classés ($72\,\%$), dont $96{,}1\,\%$ correctement
+                \item Persistable \citb{rolle23} : $49\,\%$ classés seulement
+                \item En partition exhaustive : ARI $0{,}890$ contre $0{,}848$
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Vitesses de percolation : le protocole}
+    \begin{itemize}
+        \setlength{\itemsep}{10pt}
+        \item $\mathcal X$ : $n = 100\,000$ points uniformes dans $\left[0, n^{1/p}\right]^p$ ($n = 10\,000$ en dimension $4$)
+        \item $T = 100$ tirages indépendants ; rappel $\varepsilon = 3\,\%$
+        \item Pour chaque algorithme (HGP, Robust SL, DBSCAN) : rayons de fusion et taille de la plus grande composante
+        \item Estimateur $\widehat v = \widehat\lambda_{\varepsilon} / \widehat\lambda_{1-\varepsilon}$
+        \item Repère : seuil critique du modèle booléen ($K=1$, 2D) : $\lambda_c \approx 1{,}44$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Quand $K \to +\infty$ : la fenêtre gaussienne}
+    \begin{itemize}
+        \setlength{\itemsep}{10pt}
+        \item Dans la fenêtre $\mu = K + a\sqrt K$, les niveaux $K$-NN convergent vers les \textbf{excursions} $E_a = \{G_p \ge -a\}$ d'un champ gaussien
+        \item Covariance du champ : le volume d'intersection de deux boules
+        \item Les trois algorithmes ne diffèrent que par l'\textbf{ordre des opérations} : dilater puis connecter (cœurs, DBSCAN) \emph{vs.} connecter puis dilater (polyèdres)
+        \item Seuils de bruit : $a_c^{\mathrm{poly}} \ge a_c^{\mathrm{core}}$, vitesse asymptotiquement meilleure pour les $K$-polyèdres
+    \end{itemize}
+\end{frame}
+
+% --- LiDAR ---------------------------------------------------
+\begin{frame}{L'état de l'art LiDAR}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.48\textwidth}
+            \begin{center}
+                \includegraphics[height=0.6\textheight]{imgs/Alpine.png}
+
+                {\small Alpine \citb{sautier25} : « is clustering enough? »}
+            \end{center}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \begin{center}
+                \includegraphics[height=0.6\textheight]{imgs/Resultat_Geo-4D.png}
+
+                {\small Geo-4D \citb{oh25} : association géométrique 4D}
+            \end{center}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% --- Graphes signés ------------------------------------------
+\begin{frame}{L'assemblage d'haplotypes}
+    \centering
+    \begin{block}{Un graphe signé bruité}
+        Nœuds $=$ lectures ADN ; arêtes $=$ chevauchements (attractions / répulsions)\\
+        \textbf{But} : retrouver l'affectation cachée {\large $\boldsymbol{\Sigma}$}
+    \end{block}
+    \drawHaplotypePresentation{3}
+\end{frame}
+
+\begin{frame}{Le cadre bayésien et l'hypothèse de Gibbs}
+    \begin{center}
+        \begin{tikzpicture}[node distance=0.7cm and 0.9cm, scale=0.85, every node/.style={scale=0.85}]
+            \node[chapbox] (prior) {A priori\\$\mu_{0}$};
+            \node[chapbox,right=of prior] (truth) {Vérité cachée\\$\Sigma$};
+            \node[chapbox,right=of truth] (chan) {Canal bruité\\$Q$};
+            \node[chapboxdark,right=of chan] (obs) {Observation\\$(X,W)$};
+            \node[chapbox,right=of obs] (post) {A posteriori\\$\mu_{X,W}$};
+            \draw[chaparr] (prior) -- (truth);
+            \draw[chaparr] (truth) -- (chan);
+            \draw[chaparr] (chan) -- (obs);
+            \draw[chaparr] (obs) -- (post);
+        \end{tikzpicture}
+    \end{center}
+
+    \vspace{0.3cm}
+    \begin{center}
+        \formulebox{$U(\sigma) = \displaystyle\sum_{e \in F} W_e \ind{\sigma_i \neq \sigma_j} + \sum_{e \in \tilde F} |W_e| \ind{\sigma_i = \sigma_j}
+        \qquad
+        \mu_{X,W}(\sigma) = \frac{e^{-U(\sigma)}}{Z}$}
+    \end{center}
+
+    \vspace{0.25cm}
+    \begin{itemize}
+        \item $F$ : arêtes attractives ($W_e > 0$) ; $\tilde F$ : répulsives ($W_e < 0$) ; $U$ pénalise les arêtes insatisfaites
+        \item \textbf{Hypothèse de Gibbs} : la loi \emph{a posteriori} est la mesure de Gibbs signée
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Un pas de Swendsen--Wang signé, en détail}
+    \begin{itemize}
+        \setlength{\itemsep}{10pt}
+        \item \textbf{Gel} : chaque arête \emph{satisfaite} est gelée avec probabilité $1 - e^{-|W_e|}$ ; les insatisfaites jamais
+        \item \textbf{Recoloriage} : chaque amas gelé est recolorié uniformément au hasard
+        \item La dynamique laisse la loi \emph{a posteriori} invariante
+        \item Un pas depuis la vérité $\Sigma$ produit une \textbf{réplique} $\Sigma^{(1)} \sim \mu_{X,W}$ (identité de Nishimori) : un couplage entre vérité et observation
+        \item Les petits amas sont recoloriés aveuglément : l'information globale ne survit que dans les \textbf{composantes géantes}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Le modèle de Sankararaman--Baccelli, en détail}
+    \begin{itemize}
+        \setlength{\itemsep}{9pt}
+        \item Nœuds : processus de Poisson dans $\mathbb R^p$ ; communautés $\Sigma_i \in \{\pm 1\}$ uniformes
+        \item Arête $e = \{i,j\}$ présente avec probabilité $f_{\mathrm{in}}(r_e)$ (même communauté) ou $f_{\mathrm{out}}(r_e)$ (communautés différentes), $r_e = \|X_i - X_j\|$
+        \item Poids signés reconstruits : $W_e = \log\frac{f_{\mathrm{in}}(r_e)}{f_{\mathrm{out}}(r_e)} \ge 0$ si $e$ observée, $W_e = -\log\frac{1-f_{\mathrm{out}}(r_e)}{1-f_{\mathrm{in}}(r_e)} \le 0$ sinon
+    \end{itemize}
+
+    \vspace{0.3cm}
+    \begin{center}
+        \formulebox{$\mathbb P(\text{arête gelée}) = f_{\mathrm{in}}(r_e) \left(1 - e^{-|W_e|}\right) = f_{\mathrm{in}}(r_e) - f_{\mathrm{out}}(r_e)$}
+    \end{center}
+
+    \vspace{0.25cm}
+    \begin{itemize}
+        \item Le graphe gelé d'un pas de SW-arêtes est \textbf{exactement} la percolation indépendante de \citb{sb18}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{La hiérarchie d'horloges, en détail}
+    \begin{itemize}
+        \setlength{\itemsep}{8pt}
+        \item Conditionnellement à $\sigma$ : $\xi_e \sim \mathrm{Exp}(|W_e|)$ sur les arêtes satisfaites, $\xi_e = +\infty$ sinon ;\\
+        $\Pi_\beta$ = composantes de $\{\xi_e \le \beta\}$ ; le dendrogramme s'obtient par \textsc{Kruskal}
+        \item $\mathbb P(\xi_e \le 1) = 1 - e^{-|W_e|}$ : $\Pi_1$ est \textbf{exactement} la partition gelée de Swendsen--Wang
+        \item Mesure jointe de type \textsc{Edwards}--\textsc{Sokal} $\nu(\sigma, D)$ ; à chaque nœud, un \textbf{heat bath exact} sur les quatre orientations relatives des deux fils (balance détaillée, invariance)
+        \item Le dendrogramme est \textbf{non marqué} : l'identité de l'arête gagnante est marginalisée --- une fusion dépend de toute la coupe $\Lambda_u(\sigma) = \sum_{e \in E_u} |W_e| \ind{e \text{ satisfaite}}$
+        \item Sur le tore triangulaire : $\Pi_t$ suit une percolation indépendante $q_p(t) = p\,(1 - e^{-u_p t})$, $u_p = \log\frac{p}{1-p}$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{L'échelle des seuils du GSBM triangulaire}
+    \begin{center}
+        \includegraphics[width=0.9\textwidth]{imgs/GSBM_echelle_seuils.png}
+    \end{center}
+
+    \vspace{0.2cm}
+    \begin{itemize}
+        \item Gel SW $0{,}6736$ $<$ triangles $0{,}7192$ $<$ info-percolation $0{,}7947$ $<$ \textbf{record rigoureux $0{,}8094$}
+        \item Point multicritique de Nishimori $0{,}8358$ : conjecture
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Calibration exacte sur le SBM}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.5\textwidth}
+            \begin{center}
+                \includegraphics[width=\textwidth]{imgs/Deux_dendrogrammes.png}
+            \end{center}
+        \end{column}
+        \begin{column}{0.46\textwidth}
+            \begin{itemize}
+                \setlength{\itemsep}{9pt}
+                \item Deux répliques, deux dendrogrammes \textbf{indépendants}, coupés au même $\beta_c$
+                \item Chaque arête transmet exactement $\theta^2$ : calibration $\beta_\chi = \beta_c \iff d\theta^2 = 1$\\
+                {\small (le seuil de \textsc{Kesten}--\textsc{Stigum})}
+                \item Quand le signal diverge, $\beta_{c,n} \to 0$ : la coupe s'écrase d'elle-même sur Glauber
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Validation à $10^6$ nœuds : les trois régimes}
+    \begin{center}
+        \only<1>{\includegraphics[width=0.62\textwidth]{imgs/LargestComp0.7.png}}%
+        \only<2>{\includegraphics[width=0.62\textwidth]{imgs/LargestComp0.72.png}}%
+        \only<3>{\includegraphics[width=0.62\textwidth]{imgs/LargestComp0.80.png}}
+
+        \vspace{0.3cm}
+        \only<1>{\small $p = 0{,}70$ : seules les arêtes standard percolent ; l'\emph{overlap} reste au bruit}%
+        \only<2>{\small $p = 0{,}72$ : toutes les dynamiques percolent\ldots\ mais l'\emph{overlap} reste au bruit (nécessaire $\neq$ suffisant)}%
+        \only<3>{\small $p = 0{,}80$ : composantes géantes stables et \textbf{recouvrement effectif}}
+    \end{center}
+\end{frame}
+
+% --- Fissures ------------------------------------------------
+\begin{frame}{VT-GraF : la connexité $K = 2$ sur le terrain}
+    \begin{center}
+        \includegraphics[width=0.94\textwidth]{imgs/Raphael_algo_1.png}
+    \end{center}
+
+    \vspace{0.2cm}
+    \begin{itemize}
+        \item Visible granulaire $+$ thermique : la réponse de Frangi seule est noyée dans les cailloux
+        \item Les composantes triangles-connexes éliminent les artefacts granulaires
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Sans entraînement\ldots\ et robuste}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.40\textwidth}
+            \begin{center}
+                \includegraphics[height=0.52\textheight]{imgs/Test1_512_512_result.png}
+
+                {\scriptsize Vaches Noires : vérité (vert), nous (rouge), U-Net (bleu)}
+            \end{center}
+        \end{column}
+        \begin{column}{0.58\textwidth}
+            \begin{center}
+                \includegraphics[width=\textwidth]{imgs/Resultats_SpeckleIntesity.png}
+
+                {\scriptsize Sous bruit croissant, notre méthode (rouge) reste stable}
+            \end{center}
+        \end{column}
+    \end{columns}
+
+    \vspace{0.2cm}
+    \begin{itemize}
+        \setlength{\itemsep}{4pt}
+        \item Compétitif avec un U-Net ayant coûté deux jours d'annotation experte
+        \item CrackSegDiff : $87\,\%$ \emph{vs.} $63\,\%$ de Jaccard sur données propres\ldots\ mais s'effondre hors distribution
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Transferts sans réentraînement}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.48\textwidth}
+            \begin{center}
+                \includegraphics[height=0.55\textheight]{imgs/PalaisDesPapes_Result.png}
+
+                {\small Palais des Papes : la fracture principale}
+            \end{center}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \begin{center}
+                \includegraphics[width=\textwidth]{imgs/CrackForest_algo_001.png}
+
+                {\small CrackForest : Jaccard $78\,\%$, Wasserstein $5$ px}
+            \end{center}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Sensibilité aux paramètres}
+    \begin{center}
+        \includegraphics[width=0.7\textwidth]{imgs/sensitivity_tau.png}
+
+        \vspace{0.3cm}
+        \small Seuil relatif $\tau$ : optimum net vers $\tau \approx 0{,}2$ (graphe fragmenté \emph{vs.} ponts parasites)
+    \end{center}
+\end{frame}
+
+\begin{frame}{CrackSAM-GeoLoRA : le protocole causal}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.46\textwidth}
+            \begin{center}
+                \includegraphics[width=\textwidth]{imgs/CrackSAM_ablation.png}
+
+                {\scriptsize Six variantes, IoU stricte sur $1\,695$ images de test (corpus Khánh Hà)}
+            \end{center}
+        \end{column}
+        \begin{column}{0.50\textwidth}
+            \begin{center}
+                \includegraphics[width=\textwidth]{imgs/CrackSAM_controle_permute.png}
+
+                {\scriptsize Évidence alignée \emph{vs.} permutée : sur la diagonale}
+            \end{center}
+        \end{column}
+    \end{columns}
+
+    \vspace{0.25cm}
+    \begin{itemize}
+        \setlength{\itemsep}{4pt}
+        \item Baseline $0{,}6241$ ; perte tolérante $0{,}6276$ ; géométrie $+$ tolérance $0{,}6270$ $\approx$ évidence permutée $0{,}6265$
+        \item $|\Delta| < 0{,}001$ à toutes les tolérances : en monomodal, la géométrie n'apporte pas d'information nouvelle
+    \end{itemize}
+\end{frame}
 
 \end{document}

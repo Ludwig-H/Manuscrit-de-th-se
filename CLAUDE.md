@@ -142,6 +142,15 @@ Contenu des principaux dossiers :
   Les blocs TikZ de `figs/` sont extraits/francisés des autres présentations ; système de citations
   maison (`\citb`/`\reffoot`, publications de Louis en rouge) — voir son `README.md`.
 
+## `ISPRS/CrackSAM-GeoLoRA/` — guidage géométrique de SAM 2 (import)
+
+Import sélectif depuis GitHub `Ludwig-H/Generalized-Frangi-…-FIND-dataset/ISPRS/CrackSAM-GeoLoRA`
+(rapport, figures, tableau JSON, présentation du 9 août 2026). Résultat **négatif prouvé
+causalement** : sur corpus visible monomodal (Khánh Hà), l'évidence géométrique injectée dans
+SAM 2 (LoRA + adaptateur init-zéro) n'apporte rien (contrôle par évidence permutée,
+|Δ IoU| < 0,001) ; seule la perte tolérante 3 px gagne. Perspective réelle : le multimodal (FIND).
+Ne pas présenter ce travail comme un succès du guidage géométrique.
+
 ## `EUVIP/` — papier EUVIP 2026 (détection de fissures)
 
 Dossier figé post-acceptation : camera-ready IEEE et author-version HAL (wrappers

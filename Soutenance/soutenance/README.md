@@ -42,6 +42,17 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    (graphe de Frangi multimodal ; GRETSI 2025 → EUVIP 2026 → ISPRS en cours).
 7. **Conclusion, perspectives, publications** — épilogue : retour au rapport
    de 2017 et citation de La Fontaine.
+8. **Slides de secours** (après le « Merci »), suivant la chronologie de la
+   présentation : stylométrie 5 auteurs, benchmark SIPU, confusion huiles
+   d'olive, protocole des vitesses, fenêtre gaussienne K→∞, état de l'art
+   LiDAR, haplotypes, cadre bayésien/Gibbs, Swendsen–Wang détaillé, modèle
+   Sankararaman–Baccelli, hiérarchie d'horloges, échelle des seuils GSBM,
+   calibration SBM, validation 10⁶ nœuds, VT-GraF, robustesse, transferts,
+   sensibilité, CrackSAM-GeoLoRA.
+
+Les figures de la dynamique hiérarchique proviennent de GitHub
+`Ludwig-H/Presentation-MathNet-2026-06-15/research` (SVG convertis) ; celles
+de CrackSAM-GeoLoRA de l'import `ISPRS/CrackSAM-GeoLoRA/` de ce dépôt.
 
 ## Système de citations
 
