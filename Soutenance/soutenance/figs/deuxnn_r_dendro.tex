@@ -1,0 +1,25 @@
+                \begin{tikzpicture}[scale=0.6, >=latex, font=\scriptsize]
+                    \def\hr{1.0}
+                    % Dendrogram branches for A, B, C, D, E, F
+                    \foreach \L/\R [count=\i] in {A/B, B/C, A/C, C/D, D/E, E/F, D/F} {
+                        \pgfmathsetmacro{\x}{(\i-1)*1.1}
+                        \coordinate (L\i) at (\x, 0.3);
+                        \coordinate (R\i) at (\x+0.5, 0.3);
+                        \coordinate (M\i) at (\x+0.25, \hr);
+                        
+                        \node[below] at (L\i) {\L};
+                        \node[below] at (R\i) {\R};
+                        
+                        \draw[very thick, inria-rouge] (L\i) -- (\x, \hr);
+                        \draw[very thick, inria-rouge] (R\i) -- (\x+0.5, \hr);
+                        \draw[very thick, inria-rouge] (\x, \hr) -- (\x+0.5, \hr);
+                        
+                        % Dashed trunks going up
+                        \draw[very thick, inria-rouge, dashed] (M\i) -- (\x+0.25, \hr+1.2);
+                    }
+                    
+                    % Height axis
+                    \draw[->, thick] (-0.5, 0.2) -- (-0.5, 2.5) node[above] {Seuil $\epsilon$};
+                    \draw[dashed, inria-rouge] (-0.6, \hr) -- (0, \hr);
+                    \node[left, inria-rouge] at (-0.6, \hr) {$r$};
+                \end{tikzpicture}

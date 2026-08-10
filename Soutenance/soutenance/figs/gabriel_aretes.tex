@@ -1,0 +1,25 @@
+                \begin{tikzpicture}[scale=0.8, >=latex]
+                    % Left: Gabriel edge
+                    \begin{scope}[shift={(0,1.4)}]
+                        \coordinate (A) at (-1.1,0);
+                        \coordinate (B) at (1.1,0);
+                        \draw[fill=inria-bleu!10, draw=inria-bleu, thick] (0,0) circle (1.1);
+                        \draw[line width=1.5pt, inria-rouge] (A) -- (B);
+                        \fill[black] (A) circle (2pt) node[left] {$A$};
+                        \fill[black] (B) circle (2pt) node[right] {$B$};
+                        \node[below, font=\scriptsize] at (0,-1.2) {\textbf{Arête de \textsc{Gabriel}} (disque vide)};
+                    \end{scope}
+                    
+                    % Right: Non-Gabriel edge
+                    \begin{scope}[shift={(0,-1.9)}]
+                        \coordinate (A2) at (-1.1,0);
+                        \coordinate (B2) at (1.1,0);
+                        \coordinate (C2) at (0.3,0.4);
+                        \draw[fill=inria-rouge!10, draw=inria-rouge, thick, dashed] (0,0) circle (1.1);
+                        \draw[line width=1.5pt, gray!60, dashed] (A2) -- (B2);
+                        \fill[black] (A2) circle (2pt) node[left] {$A$};
+                        \fill[black] (B2) circle (2pt) node[right] {$B$};
+                        \fill[inria-rouge] (C2) circle (2.5pt) node[above] {$C$ (intrus)};
+                        \node[below, font=\scriptsize] at (0,-1.2) {\textbf{Non-\textsc{Gabriel}} (disque non vide)};
+                    \end{scope}
+                \end{tikzpicture}

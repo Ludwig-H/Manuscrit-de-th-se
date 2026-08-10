@@ -1,0 +1,36 @@
+                \begin{tikzpicture}[scale=0.52]
+                    \def\r{1.2}
+                    \pgfmathsetmacro{\h}{\r*sqrt(3)}
+                    \def\rprime{1.25}
+                    
+                    \coordinate (C) at (-\r, 0);
+                    \coordinate (D) at (\r, 0);
+                    \coordinate (A) at (-\r-\h, \r);
+                    \coordinate (B) at (-\r-\h, -\r);
+                    \coordinate (E) at (\r+\h, \r);
+                    \coordinate (F) at (\r+\h, -\r);
+ 
+                    % 2-intersections fill (light blue)
+                    \begin{scope}
+                        \foreach \p/\q in {A/B, B/C, C/A, C/D, D/E, E/F, F/D} {
+                            \begin{scope}
+                                \clip (\p) circle (\rprime);
+                                \fill[inria-bleu, opacity=0.3] (\q) circle (\rprime);
+                            \end{scope}
+                        }
+                    \end{scope}
+ 
+                    % Circles of radius r (transparent, dashed)
+                    \foreach \P in {A,B,C,D,E,F} {
+                        \draw[dashed, gray!60, thick] (\P) circle (\rprime);
+                    }
+                    
+                    % Points
+                    \foreach \P/\pos in {A/left, B/left, C/above left, D/above right, E/right, F/right} {
+                        \fill (\P) circle (2.5pt);
+                        \node[\pos] at (\P) {\small \P};
+                    }
+                    
+                    % Radius arrow
+                    \draw[->, >=latex] (A) -- ++(120:\rprime) node[midway, sloped, above] {$r$};
+                \end{tikzpicture}
