@@ -1,0 +1,11 @@
+PDFNAME = PresentationNIM_2026-06-25_LouisHauseux_ABayesianFrameworkForCommunityDetectionOnSignedGraphs.pdf
+
+all: $(PDFNAME)
+
+$(PDFNAME): main.tex
+	latexmk -jobname=PresentationNIM_2026-06-25_LouisHauseux_ABayesianFrameworkForCommunityDetectionOnSignedGraphs main.tex
+
+clean:
+	latexmk -jobname=PresentationNIM_2026-06-25_LouisHauseux_ABayesianFrameworkForCommunityDetectionOnSignedGraphs -C
+	@rm -f PresentationNIM_2026-06-25_LouisHauseux_ABayesianFrameworkForCommunityDetectionOnSignedGraphs.nav PresentationNIM_2026-06-25_LouisHauseux_ABayesianFrameworkForCommunityDetectionOnSignedGraphs.snm
+
