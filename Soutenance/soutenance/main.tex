@@ -781,14 +781,12 @@
 
 \begin{frame}{Pourquoi le Single-Linkage échoue en dimension $\ge 2$}
     \begin{center}
-        \only<1>{\includegraphics[width=0.72\textwidth]{imgs/PercoZ2_avant.png}}%
-        \only<2>{\includegraphics[width=0.72\textwidth]{imgs/PercoZ2_interne.png}}%
-        \only<3>{\includegraphics[width=0.72\textwidth]{imgs/PercoZ2_fusion.png}}
+        \resizebox{0.60\textwidth}{!}{\input{figs/perco_carres}}
 
-        \vspace{0.4cm}
-        \only<1>{\small Deux amas denses $A$ et $B$, un fond de faible densité (croix rouges).}%
-        \only<2>{\small La percolation opère \emph{à l'intérieur} de $A$ et de $B$ : les amas se remplissent.}%
-        \only<3>{\small \textbf{Mais le fond percole aussi} : $A$ et $B$ fusionnent \emph{avant} d'avoir été entièrement récupérés}
+        \vspace{0.3cm}
+        \only<1>{\small Deux amas denses, $A$ et $B$ (les carrés), sur un fond de faible densité}%
+        \only<2>{\small Arbre couvrant élagué au rayon $r_1$ : la percolation a lieu dans chaque carré, pas sur le fond}%
+        \only<3>{\small Au rayon $r_2 > r_1$, \textbf{le fond percole aussi} : $A$ et $B$ fusionnent \emph{avant} d'avoir été entièrement récupérés}
     \end{center}
 \end{frame}
 
