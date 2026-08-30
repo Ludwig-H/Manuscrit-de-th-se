@@ -1120,20 +1120,25 @@
 % ------------------------------------------------------------
 \begin{frame}{La chaîne continue : du recouvrement aux polyèdres}
     \begin{center}
-        \resizebox{0.82\textwidth}{!}{\input{figs/chaine_objets_cibles}}
+        \resizebox{0.76\textwidth}{!}{\input{figs/chaine_objets_cibles}}
     \end{center}
 
-    \vspace{0.05cm}
+    \vspace{-0.10cm}
     \begin{center}
         \resizebox{0.50\textwidth}{!}{\input{figs/polyedre_facettes}}
     \end{center}
 
-    \vspace{0.1cm}
+    \vspace{0.0cm}
     \begin{itemize}
         \setlength{\itemsep}{5pt}
         \item \citb{culbertson18} pousse la même logique un cran plus loin : remplacer la partition par un \textbf{recouvrement}. Pour $K \ge 2$, c'est exactement ce que rend HGP-Clusterer \citb{ans26}
         \item Un nœud n'est plus un sac de points : c'est un recollement de facettes, \emph{i.e.} une \textbf{surface}. L'arbre partitionne les $(K-1)$-simplexes ; les points, eux, se partagent
     \end{itemize}
+
+    \vspace{0.10cm}
+    \begin{center}
+        \small Deux acquis exportables : des \textbf{polyèdres}, et surtout une \textbf{hiérarchie}
+    \end{center}
     \reffoot{culbertson18}
 \end{frame}
 
@@ -1182,7 +1187,7 @@
     \vspace{0.15cm}
     \begin{itemize}
         \setlength{\itemsep}{5pt}
-        \item \textbf{Chaque} nœud porte une surface \emph{observée}, et pas seulement les feuilles --- contrairement aux hiérarchies de régions \citb{robert23} ou aux polyèdres de \textsc{cao} \citb{yu25}
+        \item \textbf{Chaque} nœud porte une surface \emph{observée}, et pas seulement les feuilles --- contrairement aux hiérarchies de régions \citb{robert23} ou aux polyèdres de CAO \citb{yu25}
         \item Le niveau de la filtration est une grandeur \textbf{physique} --- un rayon, donc une densité : les branches deviennent des trajectoires, les fusions des événements
         \item La \emph{forme} se normalise ; taille, pose et qualité d'acquisition restent des canaux séparés
     \end{itemize}
