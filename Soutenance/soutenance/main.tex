@@ -1748,6 +1748,48 @@
     \end{itemize}
 \end{frame}
 
+\begin{frame}{Voie hiérarchique : comment saurais-je que c'est l'arbre qui aide ?}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.50\textwidth}
+            \centering
+            \scriptsize
+            \renewcommand{\arraystretch}{1.15}
+            \begin{tabular}{@{} l l @{}}
+                \toprule
+                Bras & Structure \\
+                \midrule
+                H0 & polyèdres indépendants \\
+                H1 & graphe latéral seulement \\
+                H2 & arbre aléatoire apparié \\
+                   & (profondeur, degrés, masses) \\
+                H3 & octree / arbre de voxels \\
+                H4 & HDBSCAN / Robust SL \\
+                H5 & niveaux HGP permutés \\
+                H6 & topologie HGP sans les niveaux \\
+                \textbf{H7} & \textbf{trajectoires HGP complètes} \\
+                H8 & H7 $+$ événements $+$ latéral \\
+                \bottomrule
+            \end{tabular}
+        \end{column}
+        \begin{column}{0.46\textwidth}
+            \small
+            À tokenizer, paramètres et budget \textbf{appariés}, trois lectures suffisent à
+            réfuter le pari :
+
+            \vspace{0.35cm}
+            \begin{itemize}
+                \setlength{\itemsep}{7pt}
+                \item $\mathrm{H6} \approx \mathrm{H7}$ : les \textbf{niveaux} de densité n'apportent rien
+                \item $\mathrm{H4} \approx \mathrm{H7}$ : une hiérarchie \textbf{générique} suffit
+                \item $\mathrm{H1} \approx \mathrm{H8}$ : le \textbf{graphe spatial} explique tout
+            \end{itemize}
+
+            \vspace{0.35cm}
+            {\footnotesize Ces résultats resteraient publiables comme \textbf{réfutation} --- mais pas sous le \emph{claim} prévu.}
+        \end{column}
+    \end{columns}
+\end{frame}
+
 \begin{frame}{Voie hiérarchique : efficacité \emph{contre} continuité, en chiffres}
     \begin{center}
         \footnotesize
