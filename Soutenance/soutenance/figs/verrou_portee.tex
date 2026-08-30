@@ -50,18 +50,21 @@
                     \draw[-{Latex[length=2.8mm]}, line width=1.6pt, color=gray!45] (1.90,-0.95) -- (1.90,-1.28);
                     \draw[-{Latex[length=2.8mm]}, line width=1.6pt, color=gray!45] (8.40,-0.95) -- (8.40,-1.28);
 
-                    % ================== Surfaces polyédriques, identiques ==================
+                    % ================== Surfaces reconstruites ==================
+                    % à gauche : fine ; à droite : grossière, mais même cible
                     \begin{scope}[xshift=0.4cm, yshift=-2.40cm]
+                        \draw[gray!45, line width=0.7pt, densely dotted] plot coordinates {\contour};
                         \draw[surf] plot coordinates {\contour};
                     \end{scope}
                     \begin{scope}[xshift=6.9cm, yshift=-2.40cm]
-                        \draw[surf] plot coordinates {\contour};
+                        \draw[gray!45, line width=0.7pt, densely dotted] plot coordinates {\contour};
+                        \draw[surf] plot coordinates {(0.00,0.42) (0.86,0.86) (2.10,0.90) (3.00,0.42)};
                     \end{scope}
 
-                    \node[font=\Large\bfseries, text=inria-rouge] at (6.15,-1.86) {$=$};
+                    \node[font=\Large\bfseries, text=inria-rouge] at (6.15,-1.86) {$\approx$};
 
                     \node[font=\scriptsize, text=inria-2024-bleu-canard, anchor=east, align=right] at (12.45,0.95)
                         {le \textbf{nuage}\\dépend du capteur\\et de la portée};
                     \node[font=\scriptsize, text=inria-rouge, anchor=east, align=right] at (12.45,-1.90)
-                        {la \textbf{surface} observée,\\elle, est la même};
+                        {la \textbf{cible} est la\\même surface ; seule\\sa finesse se dégrade};
                 \end{tikzpicture}
