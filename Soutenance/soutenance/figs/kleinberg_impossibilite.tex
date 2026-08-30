@@ -1,5 +1,5 @@
                 \begin{tikzpicture}[xscale=1.0, yscale=1.0]
-                    \useasboundingbox (-0.3, -1.15) rectangle (13.1, 4.35);
+                    \useasboundingbox (-0.3, -1.15) rectangle (13.2, 4.35);
 
                     \tikzset{axiome/.style={draw=gris_fonce_inria, line width=0.9pt, rounded corners=3pt,
                                             fill=gray!6, inner sep=4pt, align=center, font=\scriptsize}}
@@ -48,11 +48,12 @@
                         \draw[coupe] (-0.25, 1.88) -- (5.75, 1.88);
                         \draw[coupe] (-0.25, 2.85) -- (5.75, 2.85);
 
-                        \node[etiq, anchor=west, align=left] at (5.80, 0.62) {\textsf{(ii)}\,+\,\textsf{(iii)}};
-                        \node[etiq, anchor=west, align=left] at (5.80, 1.88) {\textsf{(i)}\,+\,\textsf{(iii)}};
-                        \node[etiq, anchor=west, align=left] at (5.80, 2.85) {\textsf{(i)}\,+\,\textsf{(ii)}};
+                        \draw[decorate, decoration={brace, amplitude=4pt}, inria-rouge, line width=0.8pt]
+                            (5.95, 3.05) -- (5.95, 0.42);
+                        \node[etiq, anchor=west, align=left] at (6.15, 1.74)
+                            {\textsf{(i)}\,+\,\textsf{(ii)}\\ \textsf{(i)}\,+\,\textsf{(iii)}\\ \textsf{(ii)}\,+\,\textsf{(iii)}};
 
-                        \node[font=\scriptsize, text=gris_fonce_inria, anchor=north] at (2.6, -0.10)
-                            {chaque \textbf{coupe} du dendrogramme satisfait deux axiomes sur trois};
+                        \node[font=\scriptsize, text=gris_fonce_inria, anchor=north] at (2.9, -0.10)
+                            {selon la \textbf{règle de coupe}, on retrouve chacune des trois paires d'axiomes};
                     \end{scope}
                 \end{tikzpicture}

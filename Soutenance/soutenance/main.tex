@@ -1105,15 +1105,15 @@
 % ------------------------------------------------------------
 \begin{frame}{Une parabole : le théorème d'impossibilité de \textsc{Kleinberg}}
     \begin{center}
-        \resizebox{0.52\textwidth}{!}{\input{figs/kleinberg_impossibilite}}
+        \resizebox{0.50\textwidth}{!}{\input{figs/kleinberg_impossibilite}}
     \end{center}
 
     \vspace{0.15cm}
     \begin{itemize}
         \setlength{\itemsep}{6pt}
         \item \textbf{Théorème} \citb{kleinberg02} : aucune fonction de clustering rendant une \textbf{partition} ne satisfait à la fois \textsf{(i)} l'invariance d'échelle, \textsf{(ii)} la richesse et \textsf{(iii)} la cohérence
-        \item L'obstruction n'est pas levée, elle est \textbf{contournée} : on ne relâche aucun axiome, on change l'\emph{objet rendu} --- la perte n'a lieu qu'au moment où l'on \emph{coupe} l'arbre
-        \item \citb{carlsson10} : à valeurs \textbf{ultramétriques}, un seul algorithme survit à la même axiomatique
+        \item L'obstruction n'est pas levée, elle est \textbf{contournée} : on ne relâche aucun axiome, on change l'\emph{objet rendu} --- l'arbre, et non la coupe
+        \item \citb{carlsson10} : sur les \textbf{ultramétriques}, une axiomatique \emph{analogue} ne laisse survivre qu'un seul algorithme
     \end{itemize}
     \reffoot{kleinberg02,carlsson10}
 \end{frame}
@@ -1182,13 +1182,13 @@
 % ------------------------------------------------------------
 \begin{frame}{La piste : le polyèdre comme alphabet, l'arbre comme grammaire}
     \begin{center}
-        \resizebox{0.50\textwidth}{!}{\input{figs/hierarchie_surfaces}}
+        \resizebox{0.51\textwidth}{!}{\input{figs/hierarchie_surfaces}}
     \end{center}
 
     \vspace{0.15cm}
     \begin{itemize}
         \setlength{\itemsep}{5pt}
-        \item \textbf{Chaque} nœud porte une surface \emph{observée}, et pas seulement les feuilles --- contrairement aux hiérarchies de régions \citb{robert23} ou aux polyèdres de CAO \citb{yu25}
+        \item \textbf{Chaque} nœud porte une surface \emph{observée}, et pas seulement les feuilles --- ce que ne font ni les hiérarchies de régions \citb{robert23}, ni l'apprentissage sur polyèdres complets \citb{yu25}
         \item Le niveau de la filtration est une grandeur \textbf{physique} --- un rayon, donc une densité : les branches deviennent des trajectoires, les fusions des événements
         \item La \emph{forme} se normalise ; taille, pose et qualité d'acquisition restent des canaux séparés
     \end{itemize}
@@ -1262,7 +1262,7 @@
 \begin{frame}{Perspectives, dans le fil de la thèse}
     \begin{itemize}
         \setlength{\itemsep}{10pt}
-        \item \textbf{Réduction de dimension d'ordre supérieur} : la mosaïque de \textsc{Delaunay} d'ordre $K$ est bien plus riche que les graphes de voisinage (UMAP) : la piste privilégiée
+        \item \textbf{Réduction de dimension d'ordre supérieur} : la mosaïque de \textsc{Delaunay} d'ordre $K$ est bien plus riche que les graphes de voisinage (UMAP) : la piste privilégiée à court terme
         \item \textbf{Question ouverte assumée} : HGP-Clusterer n'est que \emph{fractionnellement} consistant ; un algorithme consistant en dimension $p \ge 2$ reste à inventer
         \item \textbf{Graphes signés} : couplage à deux répliques pour des seuils exacts de recouvrement ; vers un algorithme pratique de détection de communautés
         \item \textbf{Fissures} : un logiciel d'aide à l'annotation experte fondé sur les graphes ; réconcilier modèles géométriques et apprentissage profond
