@@ -1107,15 +1107,15 @@
 % ------------------------------------------------------------
 \begin{frame}{Une parabole : le théorème d'impossibilité de \textsc{Kleinberg}}
     \begin{center}
-        \resizebox{0.54\textwidth}{!}{\input{figs/kleinberg_impossibilite}}
+        \resizebox{0.48\textwidth}{!}{\input{figs/kleinberg_impossibilite}}
     \end{center}
 
     \vspace{0.15cm}
     \begin{itemize}
         \setlength{\itemsep}{6pt}
         \item \textbf{Théorème} \citb{kleinberg02} : aucune fonction de clustering rendant une \textbf{partition} ne satisfait ces trois axiomes à la fois
-        \item L'obstruction n'est pas levée, elle est \textbf{contournée} : on ne relâche aucun axiome, on change l'\emph{objet rendu} --- l'arbre, et non la coupe
-        \item \citb{carlsson10} : sur les \textbf{ultramétriques}, une axiomatique \emph{analogue} ne laisse survivre qu'un seul algorithme
+        \item L'obstruction n'est pas levée, elle est \textbf{contournée} : on change l'\emph{objet rendu} --- l'arbre, et non la coupe --- ce qui oblige à réécrire les axiomes pour ce nouvel objet
+        \item \citb{carlsson10} : à valeurs \textbf{ultramétriques}, trois \emph{autres} axiomes --- normalisation, fonctorialité, séparation --- ne laissent survivre que le Single-Linkage
     \end{itemize}
     \reffoot{kleinberg02,carlsson10}
 \end{frame}
@@ -1123,19 +1123,19 @@
 % ------------------------------------------------------------
 \begin{frame}{La chaîne continue : du recouvrement aux polyèdres}
     \begin{center}
-        \resizebox{0.76\textwidth}{!}{\input{figs/chaine_objets_cibles}}
+        \resizebox{0.66\textwidth}{!}{\input{figs/chaine_objets_cibles}}
     \end{center}
 
     \vspace{-0.10cm}
     \begin{center}
-        \resizebox{0.50\textwidth}{!}{\input{figs/polyedre_facettes}}
+        \resizebox{0.42\textwidth}{!}{\input{figs/polyedre_facettes}}
     \end{center}
 
     \vspace{0.0cm}
     \begin{itemize}
         \setlength{\itemsep}{5pt}
-        \item \citb{culbertson18} pousse la même logique un cran plus loin : remplacer la partition par un \textbf{recouvrement}. Pour $K \ge 2$, c'est exactement ce que rend HGP-Clusterer \citb{ans26}
-        \item Un nœud n'est plus un sac de points : c'est un recollement de facettes, \emph{i.e.} une \textbf{surface}. Le manuscrit écrit : \emph{un recouvrement de $\mathcal X$, ou bien une partition des $(K-1)$-simplexes}
+        \item \citb{culbertson18} pousse la même logique un cran plus loin : remplacer la partition par un \textbf{recouvrement}. Pour $K \ge 2$, HGP-Clusterer \citb{ans26} en rend un lui aussi --- la parenté est d'idée, non de théorème
+        \item Un nœud ne porte pas qu'un sac de points : il porte un recollement de \textbf{facettes} --- \emph{une partition des $(K-1)$-simplexes}, écrit le manuscrit
     \end{itemize}
 
     \vspace{0.10cm}
@@ -1190,8 +1190,8 @@
     \vspace{0.15cm}
     \begin{itemize}
         \setlength{\itemsep}{5pt}
-        \item \textbf{Chaque} nœud porte une surface \emph{observée}, et pas seulement les feuilles --- ce que ne font ni les hiérarchies de régions \citb{robert23}, ni l'apprentissage sur polyèdres complets \citb{yu25}
-        \item Le niveau de la filtration est une grandeur \textbf{physique} --- un rayon, donc une densité : les branches deviennent des trajectoires, les fusions des événements
+        \item \textbf{Chaque} nœud porte une surface \emph{explicite} et un niveau physique : les hiérarchies de régions \citb{robert23} n'agrègent que des points, et \citb{yu25} a la surface mais pas la hiérarchie
+        \item Le niveau de la filtration est une grandeur \textbf{physique} --- un rayon, qui se convertit en densité $\widehat f_{K\text{-NN}} = K / (n\,\omega_p\,r^p)$ : les branches deviennent des trajectoires, les fusions des événements
         \item La \emph{forme} se normalise --- par \textbf{similitude} : ce n'est pas encore une robustesse à la portée --- et taille, pose et acquisition restent des canaux séparés
     \end{itemize}
     \reffoot{robert23,yu25}

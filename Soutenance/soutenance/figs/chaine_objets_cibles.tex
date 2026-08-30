@@ -1,5 +1,5 @@
                 \begin{tikzpicture}[xscale=1.0, yscale=1.0]
-                    \useasboundingbox (-0.25, -0.72) rectangle (13.05, 0.72);
+                    \useasboundingbox (-0.25, -0.95) rectangle (13.05, 0.72);
 
                     \tikzset{obj/.style={draw=gris_fonce_inria, line width=0.9pt, rounded corners=3pt,
                                          fill=gray!7, inner sep=3pt, align=center, font=\scriptsize,
@@ -18,7 +18,7 @@
                     \draw[fl] (o3) -- (o4);
 
                     \node[sous] at (1.45, -0.36) {impossible};
-                    \node[sous] at (4.75, -0.36) {unique : le Single-Linkage};
+                    \node[sous] at (4.75, -0.36) {le Single-Linkage y est unique\\sous les axiomes de \textsc{Carlsson}--\textsc{Mémoli}};
                     \node[sous] at (8.05, -0.36) {les clusters se recouvrent};
                     \node[sous, text=inria-rouge] at (11.45, -0.36) {notre objet};
                 \end{tikzpicture}
