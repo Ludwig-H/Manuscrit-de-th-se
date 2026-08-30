@@ -1086,13 +1086,14 @@
         \begin{column}{0.52\textwidth}
             \begin{itemize}
                 \setlength{\itemsep}{9pt}
-                \item SAM~2 $+$ LoRA $+$ \textbf{11 canaux d'évidence géométrique}, injectés à initialisation nulle
+                \item SAM~2 \citb{ravi24} $+$ LoRA $+$ \textbf{11 canaux d'évidence géométrique}, injectés à initialisation nulle
                 \item Acquis : la \textbf{perte tolérante} (3 px), issue de l'incertitude d'annotation, bat la baseline
                 \item Contrôle causal (évidence permutée) :\\ en monomodal, la géométrie n'ajoute rien\ldots
                 \item \ldots\ la perspective : le \textbf{multimodal}, où SAM n'a pas accès à cette information \citb{isprs26}
             \end{itemize}
         \end{column}
     \end{columns}
+    \reffoot{ravi24}
 \end{frame}
 
 % ============================================================
@@ -1154,7 +1155,7 @@
         \item Le langage \citb{brown20} et l'image \citb{ravi24} ont chacun une \textbf{unité de calcul stable}
         \item En 3D l'effort est réel --- Utonia \citb{utonia26} --- mais il porte sur des \textbf{points} ou des voxels, et rien, à ma connaissance, ne fait encore \textbf{consensus}
     \end{itemize}
-    \reffoot{brown20,ravi24,utonia26}
+    \reffoot{brown20,utonia26}
 \end{frame}
 
 % ------------------------------------------------------------
@@ -1740,6 +1741,34 @@
         \item \textbf{Forme de l'arbre} : $72\,\%$ des nœuds internes n'ont qu'un seul enfant ; l'arité $b = (N-1)/(N-L)$ est \emph{fixée} par la fraction de feuilles, ce n'est pas un réglage
         \item Ce défaut-là se répare (décomposition en centroïdes : profondeur $12$, arité $2{,}82$) ; ce qui ne se répare pas, c'est qu'une contrainte de blocs \emph{comprime} au lieu d'informer
         \item \textbf{Limite assumée} : mesures sur fissures \emph{synthétiques} calibrées sur le corpus Khánh Hà ($448$ px, largeur $19$ px, couverture $5{,}7\,\%$)
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Voie hiérarchique : efficacité \emph{contre} continuité, en chiffres}
+    \begin{center}
+        \footnotesize
+        \renewcommand{\arraystretch}{1.25}
+        \begin{tabular}{@{} l ccc @{}}
+            \toprule
+            Hiérarchie candidate & Profondeur & Arité & Dilution à longue portée \\
+            \midrule
+            \textbf{sémantique} \{fissure, fond\} & $10{,}3$ & $3{,}17$ & \textbf{181} \\
+            \emph{son contrôle permuté}           & $10{,}0$ & $3{,}23$ & $808$ \\
+            \midrule
+            coupe spatiale \emph{min-cut}          & $9{,}3$  & $2{,}75$ & $768$ \\
+            \textsc{Frangi} $+$ centroïdes         & $12{,}0$ & $2{,}82$ & $1\,013$ \\
+            \emph{quadtree}                        & $7{,}0$  & $4{,}00$ & $1\,024$ \\
+            aléatoire                              & $7{,}0$  & $4{,}00$ & $1\,024$ \\
+            \bottomrule
+        \end{tabular}
+    \end{center}
+
+    \vspace{0.3cm}
+    \begin{itemize}
+        \setlength{\itemsep}{5pt}
+        \item \textbf{Dilution} : combien de jetons sont moyennés avec $j$ quand $i$ l'attend. Sous attention plate, elle vaut $1$ --- $181$ reste donc \emph{énorme}
+        \item L'écart $181$ contre $808$ mesure la \textbf{causalité} (bon masque \emph{vs.} masque d'une autre image), pas une performance : aucun IoU n'a été mesuré
+        \item Toutes les hiérarchies \textbf{équilibrées} plafonnent entre $768$ et $1\,024$, y compris celle qui cherche explicitement à éviter la fissure
     \end{itemize}
 \end{frame}
 

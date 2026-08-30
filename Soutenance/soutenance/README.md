@@ -58,9 +58,9 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    LiDAR, haplotypes, cadre bayésien/Gibbs, Swendsen–Wang détaillé, modèle
    Sankararaman–Baccelli, hiérarchie d'horloges, échelle des seuils GSBM,
    calibration SBM, validation 10⁶ nœuds, VT-GraF, robustesse, transferts,
-   sensibilité, CrackSAM-GeoLoRA, puis les deux slides de la voie hiérarchique
+   sensibilité, CrackSAM-GeoLoRA, puis les trois slides de la voie hiérarchique
    (ce que la thèse fournit déjà au *tokenizer* ; pourquoi le *no-go* HSA est un
-   no-go de conception).
+   no-go de conception ; efficacité contre continuité, en chiffres).
 
 Les figures de la dynamique hiérarchique proviennent de GitHub
 `Ludwig-H/Presentation-MathNet-2026-06-15/research` (SVG convertis) ; celles
