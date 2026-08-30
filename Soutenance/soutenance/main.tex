@@ -1128,13 +1128,13 @@
 
     \vspace{-0.10cm}
     \begin{center}
-        \resizebox{0.42\textwidth}{!}{\input{figs/polyedre_facettes}}
+        \resizebox{0.46\textwidth}{!}{\input{figs/polyedre_facettes}}
     \end{center}
 
     \vspace{0.0cm}
     \begin{itemize}
         \setlength{\itemsep}{5pt}
-        \item \citb{culbertson18} pousse la même logique un cran plus loin : remplacer la partition par un \textbf{recouvrement}. Pour $K \ge 2$, HGP-Clusterer \citb{ans26} en rend un lui aussi --- la parenté est d'idée, non de théorème
+        \item \citb{culbertson18} va plus loin : remplacer la partition par un \textbf{recouvrement}. Pour $K \ge 2$, les $K$-polyèdres se \textbf{chevauchent} eux aussi \citb{ans26} --- la parenté est d'idée, non de théorème
         \item Un nœud ne porte pas qu'un sac de points : il porte un recollement de \textbf{facettes} --- \emph{une partition des $(K-1)$-simplexes}, écrit le manuscrit
     \end{itemize}
 
@@ -1146,7 +1146,7 @@
 \end{frame}
 
 % ------------------------------------------------------------
-\begin{frame}{Un manque : pas encore de modèle de fondation pour la 3D}
+\begin{frame}{Un manque : aucun modèle de fondation ne fait consensus en 3D}
     \begin{center}
         \resizebox{0.56\textwidth}{!}{\input{figs/alphabet_fondation}}
     \end{center}
@@ -1221,13 +1221,13 @@
 % ------------------------------------------------------------
 \begin{frame}{Rester honnête : ce qui reste entièrement à démontrer}
     \begin{center}
-        \resizebox{0.82\textwidth}{!}{\input{figs/programme_falsification}}
+        \resizebox{0.76\textwidth}{!}{\input{figs/programme_falsification}}
     \end{center}
 
     \vspace{0.15cm}
     \begin{itemize}
         \setlength{\itemsep}{5pt}
-        \item Le \textbf{tokenizer} existe --- c'est la thèse ; le \textbf{modèle}, lui, n'est pas écrit, et aucune expérience n'a été menée
+        \item L'\textbf{alphabet} existe --- les polyèdres et leur hiérarchie, c'est la thèse ; le \emph{code} qui en ferait des jetons reste à choisir, le \textbf{modèle} n'est pas écrit, et aucune expérience d'apprentissage n'a été menée
         \item La porte n\up{o}~4 est la plus dangereuse : si l'arbre réel ne bat ni le modèle plat, ni un arbre aléatoire, ni un octree, le pari hiérarchique tombe
         \item Difficulté connue d'avance : la marge est sur les objets \textbf{filiformes} (poteaux, panneaux), or la connexité d'ordre $K$ les fait naître \emph{tard} dans la filtration
     \end{itemize}
@@ -1721,14 +1721,14 @@
 % --- Perspectives : la voie hiérarchique ---------------------
 \begin{frame}{Voie hiérarchique : ce que la thèse fournit déjà}
     \begin{center}
-        \resizebox{0.86\textwidth}{!}{\input{figs/pipeline_polyfm}}
+        \resizebox{0.80\textwidth}{!}{\input{figs/pipeline_polyfm}}
     \end{center}
 
     \vspace{0.2cm}
     \begin{itemize}
         \setlength{\itemsep}{5pt}
         \item Ce que la hiérarchie sérialise pour chaque nœud : la surface (facettes, aires, normales, bords), le niveau de naissance, le parent, les enfants de fusion, les voisins latéraux et la confiance d'acquisition
-        \item L'interface vers les points existe déjà : le vote pondéré $w_{x\tau} = S_\tau / T_x$ du § 9.1, qui est une partition de l'unité
+        \item L'interface vers les points existe déjà : le vote pondéré $w_{x\tau} = S_\tau / T_x$ du § 9.1, partition de l'unité sur les points couverts ($T_x > 0$)
         \item Ce qui manque est en aval : encodeur de surface, encodeur de branche, encodeur de fusion, décodeur par facette --- et les campagnes qui les jugeraient
     \end{itemize}
 \end{frame}
