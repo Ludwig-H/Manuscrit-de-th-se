@@ -40,15 +40,27 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    bayésien, dynamiques Swendsen–Wang d'ordre supérieur, bornes de
    percolation ; Asilomar 2025 → journal en cours) et détection de fissures
    (graphe de Frangi multimodal ; GRETSI 2025 → EUVIP 2026 → ISPRS en cours).
-7. **Conclusion, perspectives, publications** — épilogue : retour au rapport
+7. **Perspectives : la voie hiérarchique** — le théorème d'impossibilité de
+   Kleinberg et son contournement hiérarchique (Carlsson–Mémoli, puis
+   Culbertson–Guralnik–Stiller et les recouvrements) ; le manque d'un modèle de
+   fondation pour la 3D ; le nuage de points comme artefact du capteur ; les
+   $K$-polyèdres et leur espace d'échelle comme alphabet candidat ; la
+   contre-épreuve du *no-go* CrackSAM–HSA ; le programme de réfutation en cinq
+   portes. **Rien n'y est présenté comme acquis** : les sources sont
+   `E-HGP/tests/SemanticKITTI/Zoltan/HierarchicalSelfAttention` (statut
+   `foundation_claim = not_yet_earned`) et
+   `ISPRS/CrackSAM-HierarchicalSelfAttention` (no-go de conception).
+8. **Conclusion, publications** — épilogue : retour au rapport
    de 2017 et citation de La Fontaine.
-8. **Slides de secours** (après le « Merci »), suivant la chronologie de la
+9. **Slides de secours** (après le « Merci »), suivant la chronologie de la
    présentation : stylométrie 5 auteurs, benchmark SIPU, confusion huiles
    d'olive, protocole des vitesses, fenêtre gaussienne K→∞, état de l'art
    LiDAR, haplotypes, cadre bayésien/Gibbs, Swendsen–Wang détaillé, modèle
    Sankararaman–Baccelli, hiérarchie d'horloges, échelle des seuils GSBM,
    calibration SBM, validation 10⁶ nœuds, VT-GraF, robustesse, transferts,
-   sensibilité, CrackSAM-GeoLoRA.
+   sensibilité, CrackSAM-GeoLoRA, puis les deux slides de la voie hiérarchique
+   (ce que la thèse fournit déjà au *tokenizer* ; pourquoi le *no-go* HSA est un
+   no-go de conception).
 
 Les figures de la dynamique hiérarchique proviennent de GitHub
 `Ludwig-H/Presentation-MathNet-2026-06-15/research` (SVG convertis) ; celles
@@ -74,6 +86,11 @@ en bas du slide de première citation.
 
 - `figs/*.tex` — blocs TikZ extraits (et francisés) de
   `../NEO-AMELEAS_Workshop/main.tex` et `../beamer-presentation-neo/main.tex`.
+  Les dix figures de la section « Perspectives » (`kleinberg_impossibilite`,
+  `chaine_objets_cibles`, `polyedre_facettes`, `alphabet_fondation`,
+  `verrou_portee`, `hierarchie_surfaces`, `equilibre_continuite`,
+  `programme_falsification`, `hsa_chenille`, `pipeline_polyfm`) sont dessinées
+  pour cette présentation, sans image importée.
 - `imgs/` — images rassemblées depuis les présentations existantes, le
   manuscrit (`img/`), le dossier `EUVIP/LaTeX/`, et extraites des PDF
   (présentation Mathnet-Dyogene 2025, rapport de stage 2017, NEO-AMELEAS)

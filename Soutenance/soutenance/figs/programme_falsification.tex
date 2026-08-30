@@ -1,0 +1,41 @@
+                \begin{tikzpicture}[xscale=1.0, yscale=1.0]
+                    \useasboundingbox (-0.35, -1.45) rectangle (12.55, 2.05);
+
+                    \tikzset{porte/.style={draw=gris_fonce_inria, line width=1.0pt, rounded corners=3pt,
+                                           fill=gray!7, inner sep=4pt, align=center, font=\scriptsize,
+                                           text width=1.72cm, minimum height=1.12cm}}
+                    \tikzset{but/.style={draw=inria-rouge, line width=1.2pt, rounded corners=3pt,
+                                         fill=inria-rouge!6, inner sep=4pt, align=center,
+                                         font=\scriptsize\bfseries, text=inria-rouge,
+                                         text width=1.72cm, minimum height=1.12cm}}
+                    \tikzset{fl/.style={-{Latex[length=2.4mm]}, line width=1.1pt, color=gray!55}}
+                    \tikzset{num/.style={circle, draw=gris_fonce_inria, line width=0.7pt, fill=white,
+                                         inner sep=0pt, minimum size=4.2mm, font=\tiny\bfseries,
+                                         text=gris_fonce_inria}}
+
+                    \node[porte] (g1) at (0.95, 0.95) {\textbf{fidélité}\\[1pt]{\tiny la surface se reconstruit à budget fixe}};
+                    \node[porte] (g2) at (3.15, 0.95) {\textbf{stabilité}\\[1pt]{\tiny le code résiste au capteur et à la portée}};
+                    \node[porte] (g3) at (5.35, 0.95) {\textbf{sémantique}\\[1pt]{\tiny frontières et petites classes préservées}};
+                    \node[porte] (g4) at (7.55, 0.95) {\textbf{hiérarchie}\\[1pt]{\tiny l'arbre bat les contrôles plats}};
+                    \node[porte] (g5) at (9.75, 0.95) {\textbf{transfert}\\[1pt]{\tiny plusieurs capteurs, plusieurs tâches}};
+                    \node[but]   (bt) at (11.95, 0.95) {modèle de fondation};
+
+                    \foreach \a/\b in {g1/g2, g2/g3, g3/g4, g4/g5} { \draw[fl] (\a) -- (\b); }
+                    \draw[fl, color=inria-rouge!45, densely dashed] (g5) -- (bt);
+
+                    \node[num] at (0.95, 1.80) {1};
+                    \node[num] at (3.15, 1.80) {2};
+                    \node[num] at (5.35, 1.80) {3};
+                    \node[num] at (7.55, 1.80) {4};
+                    \node[num] at (9.75, 1.80) {5};
+
+                    % --- bandeau de statut ---
+                    \draw[gris_fonce_inria, line width=0.6pt, densely dotted, rounded corners=3pt]
+                        (0.02, -0.05) rectangle (10.68, 0.28);
+                    \node[font=\scriptsize, text=gris_fonce_inria] at (5.35, 0.12)
+                        {aucune de ces cinq portes n'est franchie à ce jour};
+
+                    \node[font=\scriptsize, align=center, text=inria-rouge, anchor=north] at (6.1, -0.42)
+                        {Le mot « \textbf{modèle de fondation} » n'est pas revendiqué :\\
+                         il désigne ici le point d'arrivée d'un programme de \textbf{réfutation}, pas un résultat};
+                \end{tikzpicture}

@@ -124,6 +124,15 @@
 \DeclareRef{sw87}{Swendsen-Wang 87}{R.~H. Swendsen, J.-S. Wang, « Nonuniversal critical dynamics in Monte Carlo simulations », \textit{Physical Review Letters}, 1987.}
 \DeclareRef{sb18}{Sankararaman-Baccelli 18}{A.~Sankararaman, F.~Baccelli, « Community detection on Euclidean random graphs », \textit{ACM--SIAM SODA}, 2018.}
 \DeclareRef{frangi98}{Frangi 98}{A.~F. Frangi, W.~J. Niessen, K.~L. Vincken, M.~A. Viergever, « Multiscale vessel enhancement filtering », MICCAI, 1998.}
+\DeclareRef{kleinberg02}{Kleinberg 02}{J.~Kleinberg, « An impossibility theorem for clustering », \textit{NeurIPS}, 2002.}
+\DeclareRef{carlsson10}{Carlsson-Mémoli 10}{G.~Carlsson, F.~Mémoli, « Characterization, stability and convergence of hierarchical clustering methods », JMLR, 2010.}
+\DeclareRef{culbertson18}{Culbertson 18}{J.~Culbertson, D.~P. Guralnik, P.~F. Stiller, « Functorial hierarchical clustering with overlaps », \textit{Discrete Applied Mathematics}, 2018.}
+\DeclareRef{brown20}{GPT-3 20}{T.~Brown \& al., « Language models are few-shot learners », \textit{NeurIPS}, 2020.}
+\DeclareRef{robert23}{SPT 23}{D.~Robert, H.~Raguet, L.~Landrieu, « Efficient 3D semantic segmentation with Superpoint Transformer », \textit{ICCV}, 2023.}
+\DeclareRef{ravi24}{SAM 2 24}{N.~Ravi \& al., « SAM 2: segment anything in images and videos », 2024.}
+\DeclareRef{yu25}{PolyhedronNet 25}{D.~Yu, G.~Zhang, L.~Zhao, « PolyhedronNet: representation learning for polyhedra with surface-attributed graph », \textit{ICLR}, 2025.}
+\DeclareRef{hsa25}{HSA 25}{S.~Amizadeh, S.~Abdali, Y.~Li, K.~Koishida, « Hierarchical self-attention: generalizing neural attention mechanics to multi-scale problems », \textit{NeurIPS}, 2025.}
+\DeclareRef{utonia26}{Utonia 26}{Y.~Zhang \& al., « Utonia: toward one encoder for all point clouds », 2026.}
 
 % ---- Mes travaux (en rouge) --------------------------------
 \DeclareMyRef{hal17}{HAL 17}{L.~Hauseux (encadré par B.~Błaszczyszyn), « Un classificateur non-supervisé utilisant les complexes simpliciaux », Inria Paris, 2017. HAL : hal-01597846.}
@@ -1087,9 +1096,144 @@
 \end{frame}
 
 % ============================================================
-% VII. Conclusion
+% VII. Perspectives : la voie hiérarchique
 % ============================================================
-\section{Conclusion \& perspectives}
+\section{\texorpdfstring{Perspectives : la voie \textcolor{inria-rouge}{hiérarchique}}{Perspectives : la voie hiérarchique}}
+\frame{\sectionpage}
+
+% ------------------------------------------------------------
+\begin{frame}{Une parabole : le théorème d'impossibilité de \textsc{Kleinberg}}
+    \begin{center}
+        \resizebox{0.52\textwidth}{!}{\input{figs/kleinberg_impossibilite}}
+    \end{center}
+
+    \vspace{0.15cm}
+    \begin{itemize}
+        \setlength{\itemsep}{6pt}
+        \item \textbf{Théorème} \citb{kleinberg02} : aucune fonction de clustering rendant une \textbf{partition} ne satisfait à la fois \textsf{(i)} l'invariance d'échelle, \textsf{(ii)} la richesse et \textsf{(iii)} la cohérence
+        \item L'obstruction n'est pas levée, elle est \textbf{contournée} : on ne relâche aucun axiome, on change l'\emph{objet rendu} --- la perte n'a lieu qu'au moment où l'on \emph{coupe} l'arbre
+        \item \citb{carlsson10} : à valeurs \textbf{ultramétriques}, un seul algorithme survit à la même axiomatique
+    \end{itemize}
+    \reffoot{kleinberg02,carlsson10}
+\end{frame}
+
+% ------------------------------------------------------------
+\begin{frame}{La chaîne continue : du recouvrement aux polyèdres}
+    \begin{center}
+        \resizebox{0.82\textwidth}{!}{\input{figs/chaine_objets_cibles}}
+    \end{center}
+
+    \vspace{0.05cm}
+    \begin{center}
+        \resizebox{0.50\textwidth}{!}{\input{figs/polyedre_facettes}}
+    \end{center}
+
+    \vspace{0.1cm}
+    \begin{itemize}
+        \setlength{\itemsep}{5pt}
+        \item \citb{culbertson18} pousse la même logique un cran plus loin : remplacer la partition par un \textbf{recouvrement}. Pour $K \ge 2$, c'est exactement ce que rend HGP-Clusterer \citb{ans26}
+        \item Un nœud n'est plus un sac de points : c'est un recollement de facettes, \emph{i.e.} une \textbf{surface}. L'arbre partitionne les $(K-1)$-simplexes ; les points, eux, se partagent
+    \end{itemize}
+    \reffoot{culbertson18}
+\end{frame}
+
+% ------------------------------------------------------------
+\begin{frame}{Un manque : pas encore de modèle de fondation pour la 3D}
+    \begin{center}
+        \resizebox{0.66\textwidth}{!}{\input{figs/alphabet_fondation}}
+    \end{center}
+
+    \vspace{0.15cm}
+    \begin{itemize}
+        \setlength{\itemsep}{6pt}
+        \item Le langage \citb{brown20} et l'image \citb{ravi24} ont chacun une \textbf{unité de calcul stable}
+        \item En 3D l'effort est réel --- Utonia \citb{utonia26} --- mais il porte sur des \textbf{points} ou des voxels, et rien, à ma connaissance, ne fait encore \textbf{consensus}
+    \end{itemize}
+    \reffoot{brown20,ravi24,utonia26}
+\end{frame}
+
+% ------------------------------------------------------------
+\begin{frame}{Un verrou : le nuage de points est un artefact du capteur}
+    \begin{center}
+        \resizebox{0.74\textwidth}{!}{\input{figs/verrou_portee}}
+    \end{center}
+
+    \vspace{0.15cm}
+    \begin{itemize}
+        \setlength{\itemsep}{4pt}
+        \item \textbf{Discrétisation} dictée par le capteur : nappes de balayage, résolution angulaire, rémission
+        \item \textbf{Densité} qui décroît avec la portée : le même objet donne deux nuages incomparables
+        \item \textbf{Occultations} : ce qui manque n'est pas vide, il est \emph{non observé}
+        \item Un modèle \emph{point-wise} apprend donc \emph{en même temps} la géométrie, le capteur, la densité, l'occultation \emph{et} la sémantique
+    \end{itemize}
+
+    \vspace{0.2cm}
+    \begin{center}
+        \small Hypothèse assumée : c'est \emph{une} raison centrale de la difficulté --- pas la seule
+    \end{center}
+\end{frame}
+
+% ------------------------------------------------------------
+\begin{frame}{La piste : le polyèdre comme alphabet, l'arbre comme grammaire}
+    \begin{center}
+        \resizebox{0.50\textwidth}{!}{\input{figs/hierarchie_surfaces}}
+    \end{center}
+
+    \vspace{0.15cm}
+    \begin{itemize}
+        \setlength{\itemsep}{5pt}
+        \item \textbf{Chaque} nœud porte une surface \emph{observée}, et pas seulement les feuilles --- contrairement aux hiérarchies de régions \citb{robert23} ou aux polyèdres de \textsc{cao} \citb{yu25}
+        \item Le niveau de la filtration est une grandeur \textbf{physique} --- un rayon, donc une densité : les branches deviennent des trajectoires, les fusions des événements
+        \item La \emph{forme} se normalise ; taille, pose et qualité d'acquisition restent des canaux séparés
+    \end{itemize}
+    \reffoot{robert23,yu25}
+\end{frame}
+
+% ------------------------------------------------------------
+\begin{frame}{Une contre-épreuve : la hiérarchie ne s'impose pas de l'extérieur}
+    \begin{center}
+        \resizebox{0.46\textwidth}{!}{\input{figs/equilibre_continuite}}
+    \end{center}
+
+    \vspace{0.15cm}
+    \begin{itemize}
+        \setlength{\itemsep}{5pt}
+        \item Idée testée : une fissure est définie par sa \textbf{connexité}, or l'attention n'a aucun \emph{a priori} de chemin --- contraignons-la par la hiérarchie du graphe de \textsc{Frangi} \citb{hsa25}
+        \item \textbf{Non} --- et sans une seconde de GPU : ce mécanisme \emph{comprime} une attention sous contrainte de blocs, quand il fallait y \emph{injecter} un \emph{a priori}
+        \item L'endroit reste le bon ; c'est l'outil qui ne l'est pas
+    \end{itemize}
+
+    \vspace{0.15cm}
+    \begin{center}
+        \small La hiérarchie doit être \textbf{l'alphabet} du modèle, non une contrainte ajoutée après coup
+    \end{center}
+    \reffoot{hsa25}
+\end{frame}
+
+% ------------------------------------------------------------
+\begin{frame}{Rester honnête : ce qui reste entièrement à démontrer}
+    \begin{center}
+        \resizebox{0.82\textwidth}{!}{\input{figs/programme_falsification}}
+    \end{center}
+
+    \vspace{0.15cm}
+    \begin{itemize}
+        \setlength{\itemsep}{5pt}
+        \item Le \textbf{tokenizer} existe --- c'est la thèse ; le \textbf{modèle}, lui, n'est pas écrit, et aucune expérience n'a été menée
+        \item La porte n\up{o}~4 est la plus dangereuse : si l'arbre réel ne bat ni le modèle plat, ni un arbre aléatoire, ni un octree, le pari hiérarchique tombe
+        \item Difficulté connue d'avance : la marge est sur les objets \textbf{filiformes} (poteaux, panneaux), or la connexité d'ordre $K$ les fait naître \emph{tard} dans la filtration
+    \end{itemize}
+
+    \vspace{0.2cm}
+    \begin{center}
+        \small \emph{Si} un modèle de fondation doit émerger pour la 3D, sur quelle représentation ? C'est la question que j'ouvre
+    \end{center}
+\end{frame}
+
+% ============================================================
+% VIII. Conclusion
+% ============================================================
+\section{Conclusion}
 \frame{\sectionpage}
 
 \begin{frame}{Deux piliers, quatre contributions}
@@ -1109,13 +1253,14 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Perspectives}
+\begin{frame}{Perspectives, dans le fil de la thèse}
     \begin{itemize}
-        \setlength{\itemsep}{12pt}
+        \setlength{\itemsep}{10pt}
         \item \textbf{Réduction de dimension d'ordre supérieur} : la mosaïque de \textsc{Delaunay} d'ordre $K$ est bien plus riche que les graphes de voisinage (UMAP) : la piste privilégiée
         \item \textbf{Question ouverte assumée} : HGP-Clusterer n'est que \emph{fractionnellement} consistant ; un algorithme consistant en dimension $p \ge 2$ reste à inventer
         \item \textbf{Graphes signés} : couplage à deux répliques pour des seuils exacts de recouvrement ; vers un algorithme pratique de détection de communautés
         \item \textbf{Fissures} : un logiciel d'aide à l'annotation experte fondé sur les graphes ; réconcilier modèles géométriques et apprentissage profond
+        \item \textbf{Et, plus loin} : la \emph{voie hiérarchique} qui précède --- faire du polyèdre et de son espace d'échelle l'unité de calcul d'un modèle appris pour la 3D
     \end{itemize}
 \end{frame}
 
@@ -1163,7 +1308,7 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Bibliographie}
+\begin{frame}{Bibliographie (1/2)}
     \scriptsize
     \begin{itemize}
         \setlength{\itemsep}{2.5pt}
@@ -1174,16 +1319,32 @@
         \bibligne{sw87}
         \bibligne{ester96}
         \bibligne{frangi98}
+        \bibligne{kleinberg02}
         \bibligne{penrose03}
         \bibligne{ghrist08}
         \bibligne{chaudhuri10}
+        \bibligne{carlsson10}
         \bibligne{campello13}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Bibliographie (2/2)}
+    \scriptsize
+    \begin{itemize}
+        \setlength{\itemsep}{2.5pt}
         \bibligne{boissonnat18}
+        \bibligne{culbertson18}
         \bibligne{sb18}
+        \bibligne{brown20}
         \bibligne{edelsbrunner23}
+        \bibligne{robert23}
         \bibligne{rolle23}
+        \bibligne{ravi24}
         \bibligne{sautier25}
         \bibligne{oh25}
+        \bibligne{hsa25}
+        \bibligne{yu25}
+        \bibligne{utonia26}
     \end{itemize}
 \end{frame}
 
@@ -1544,6 +1705,36 @@
         \setlength{\itemsep}{4pt}
         \item Baseline $0{,}6241$ ; perte tolérante $0{,}6276$ ; géométrie $+$ tolérance $0{,}6270$ $\approx$ évidence permutée $0{,}6265$
         \item $|\Delta| < 0{,}001$ à toutes les tolérances : en monomodal, la géométrie n'apporte pas d'information nouvelle
+    \end{itemize}
+\end{frame}
+
+% --- Perspectives : la voie hiérarchique ---------------------
+\begin{frame}{Voie hiérarchique : ce que la thèse fournit déjà}
+    \begin{center}
+        \resizebox{0.86\textwidth}{!}{\input{figs/pipeline_polyfm}}
+    \end{center}
+
+    \vspace{0.2cm}
+    \begin{itemize}
+        \setlength{\itemsep}{5pt}
+        \item Ce que la hiérarchie sérialise pour chaque nœud : la surface (facettes, aires, normales, bords), le niveau de naissance, le parent, les enfants de fusion, les voisins latéraux et la confiance d'acquisition
+        \item L'interface vers les points existe déjà : le vote pondéré $w_{x\tau} = S_\tau / T_x$ du § 9.1, qui est une partition de l'unité
+        \item Ce qui manque est en aval : encodeur de surface, encodeur de branche, encodeur de fusion, décodeur par facette --- et les campagnes qui les jugeraient
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Voie hiérarchique : pourquoi le \emph{no-go} est un \emph{no-go} de conception}
+    \begin{center}
+        \resizebox{0.55\textwidth}{!}{\input{figs/hsa_chenille}}
+    \end{center}
+
+    \vspace{0.15cm}
+    \begin{itemize}
+        \setlength{\itemsep}{4pt}
+        \item \textbf{Surface d'attaque} : $3$ blocs d'attention globale sur $48$ dans Hiera-L, soit $6{,}56\,\%$ des opérations du tronc
+        \item \textbf{Forme de l'arbre} : $72\,\%$ des nœuds internes n'ont qu'un seul enfant ; l'arité $b = (N-1)/(N-L)$ est \emph{fixée} par la fraction de feuilles, ce n'est pas un réglage
+        \item Ce défaut-là se répare (décomposition en centroïdes : profondeur $12$, arité $2{,}82$) ; ce qui ne se répare pas, c'est qu'une contrainte de blocs \emph{comprime} au lieu d'informer
+        \item \textbf{Limite assumée} : mesures sur fissures \emph{synthétiques} calibrées sur le corpus Khánh Hà ($448$ px, largeur $19$ px, couverture $5{,}7\,\%$)
     \end{itemize}
 \end{frame}
 

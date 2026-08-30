@@ -1,0 +1,58 @@
+                \begin{tikzpicture}[xscale=1.0, yscale=1.0]
+                    \useasboundingbox (-0.3, -1.15) rectangle (13.1, 4.35);
+
+                    \tikzset{axiome/.style={draw=gris_fonce_inria, line width=0.9pt, rounded corners=3pt,
+                                            fill=gray!6, inner sep=4pt, align=center, font=\scriptsize}}
+                    \tikzset{coupe/.style={inria-rouge, densely dashed, line width=0.8pt}}
+                    \tikzset{etiq/.style={font=\scriptsize, text=inria-rouge, inner sep=1.5pt}}
+
+                    % ---------- Panneau gauche : les trois axiomes ----------
+                    \node[axiome] (ax1) at (1.15, 3.55) {invariance\\d'échelle};
+                    \node[axiome] (ax2) at (0.05, 1.75) {richesse};
+                    \node[axiome] (ax3) at (2.30, 1.75) {cohérence};
+
+                    \draw[gris_fonce_inria, line width=0.7pt] (ax1) -- (ax2);
+                    \draw[gris_fonce_inria, line width=0.7pt] (ax2) -- (ax3);
+                    \draw[gris_fonce_inria, line width=0.7pt] (ax3) -- (ax1);
+
+                    \node[font=\Large\bfseries, text=inria-rouge] at (1.17, 2.62) {$\nexists$};
+
+                    \node[font=\scriptsize, align=center, text=gris_fonce_inria] at (1.17, 0.75)
+                        {aucune \emph{partition}\\ne satisfait les trois};
+
+                    % ---------- Flèche de passage ----------
+                    \draw[-{Latex[length=3.2mm]}, line width=3pt, color=gray!40] (3.35, 2.2) -- (4.85, 2.2);
+                    \node[font=\scriptsize, align=center, text=gris_fonce_inria] at (4.10, 2.72) {couper\\l'arbre};
+
+                    % ---------- Panneau droit : le dendrogramme du Single-Linkage ----------
+                    \begin{scope}[xshift=5.4cm, yshift=0cm]
+                        \tikzset{branche/.style={inria-rouge, line width=1.4pt, rounded corners=3pt}}
+                        % feuilles
+                        \foreach \x in {0.35, 0.95, 1.55, 2.35, 2.95, 3.95, 4.55, 5.15} {
+                            \fill[inria-2024-bleu-canard] (\x, 0.30) circle (2.0pt);
+                        }
+                        % fusions basses
+                        \draw[branche] (0.35,0.30) -- (0.35,0.95) -- (0.95,0.95) -- (0.95,0.30);
+                        \draw[branche] (0.65,0.95) -- (0.65,1.45) -- (1.55,1.45) -- (1.55,0.30);
+                        \draw[branche] (2.35,0.30) -- (2.35,1.15) -- (2.95,1.15) -- (2.95,0.30);
+                        \draw[branche] (3.95,0.30) -- (3.95,0.80) -- (4.55,0.80) -- (4.55,0.30);
+                        \draw[branche] (4.25,0.80) -- (4.25,1.60) -- (5.15,1.60) -- (5.15,0.30);
+                        % fusions hautes
+                        \draw[branche] (1.10,1.45) -- (1.10,2.30) -- (2.65,2.30) -- (2.65,1.15);
+                        \draw[branche] (1.87,2.30) -- (1.87,3.35) -- (4.70,3.35) -- (4.70,1.60);
+                        \draw[branche] (3.28,3.35) -- (3.28,3.95);
+
+                        % coupes
+                        \draw[coupe] (-0.25, 0.62) -- (5.75, 0.62);
+                        \node[etiq, anchor=west] at (5.30, 0.62) {};
+                        \draw[coupe] (-0.25, 1.88) -- (5.75, 1.88);
+                        \draw[coupe] (-0.25, 2.85) -- (5.75, 2.85);
+
+                        \node[etiq, anchor=west, align=left] at (5.80, 0.62) {\textsf{(ii)}\,+\,\textsf{(iii)}};
+                        \node[etiq, anchor=west, align=left] at (5.80, 1.88) {\textsf{(i)}\,+\,\textsf{(iii)}};
+                        \node[etiq, anchor=west, align=left] at (5.80, 2.85) {\textsf{(i)}\,+\,\textsf{(ii)}};
+
+                        \node[font=\scriptsize, text=gris_fonce_inria, anchor=north] at (2.6, -0.10)
+                            {chaque \textbf{coupe} du dendrogramme satisfait deux axiomes sur trois};
+                    \end{scope}
+                \end{tikzpicture}

@@ -1,0 +1,48 @@
+                \begin{tikzpicture}[xscale=1.0, yscale=1.0]
+                    \useasboundingbox (-0.35, -1.55) rectangle (11.85, 3.35);
+
+                    \tikzset{br/.style={gris_fonce_inria, line width=1.0pt}}
+                    \tikzset{brr/.style={inria-rouge, line width=1.1pt}}
+                    \tikzset{nd/.style={circle, fill=gris_fonce_inria, inner sep=0pt, minimum size=3.2pt}}
+                    \tikzset{ndr/.style={circle, fill=inria-rouge, inner sep=0pt, minimum size=3.2pt}}
+                    \tikzset{cadre/.style={draw=gray!30, line width=0.9pt, rounded corners=3pt}}
+
+                    % ================ Gauche : l'arbre qu'exige HSA ================
+                    \node[cadre, minimum width=5.05cm, minimum height=3.05cm] at (2.55,1.55) {};
+                    \begin{scope}[xshift=0.55cm, yshift=0.35cm]
+                        \node[nd] (r) at (2.0, 2.05) {};
+                        \foreach \i/\x in {1/0.7, 2/2.0, 3/3.3} {
+                            \node[nd] (n\i) at (\x, 1.30) {};
+                            \draw[br] (r) -- (n\i);
+                        }
+                        \foreach \i/\x in {1/0.20, 2/0.70, 3/1.20} { \node[nd] (a\i) at (\x, 0.55) {}; \draw[br] (n1) -- (a\i); }
+                        \foreach \i/\x in {1/1.55, 2/2.00, 3/2.45} { \node[nd] (b\i) at (\x, 0.55) {}; \draw[br] (n2) -- (b\i); }
+                        \foreach \i/\x in {1/2.85, 2/3.30, 3/3.80} { \node[nd] (c\i) at (\x, 0.55) {}; \draw[br] (n3) -- (c\i); }
+                    \end{scope}
+                    \node[font=\scriptsize, align=center, text=gris_fonce_inria, anchor=north] at (2.55,-0.10)
+                        {\textbf{ce que HSA exige}\\ arité $b \simeq 8$, profondeur $\log_b N \simeq 4{,}5$};
+
+                    % ================ Droite : l'arbre du graphe de Frangi ================
+                    \node[cadre, minimum width=5.05cm, minimum height=3.05cm] at (8.55,1.55) {};
+                    \begin{scope}[xshift=6.35cm, yshift=0.30cm]
+                        \foreach \i in {0,...,9} {
+                            \pgfmathsetmacro{\xx}{0.30 + 0.42*\i}
+                            \pgfmathsetmacro{\yy}{2.20 - 0.185*\i}
+                            \node[ndr] (p\i) at (\xx, \yy) {};
+                        }
+                        \foreach \i [evaluate=\i as \j using int(\i+1)] in {0,...,8} { \draw[brr] (p\i) -- (p\j); }
+                        \foreach \i in {2, 5, 8} {
+                            \pgfmathsetmacro{\xx}{0.30 + 0.42*\i}
+                            \pgfmathsetmacro{\yy}{2.20 - 0.185*\i}
+                            \node[ndr] (q\i) at (\xx-0.10, \yy-0.52) {};
+                            \draw[brr] (p\i) -- (q\i);
+                        }
+                        \node[font=\scriptsize, text=inria-rouge, anchor=west] at (3.95, 0.42) {$\ldots$};
+                    \end{scope}
+                    \node[font=\scriptsize, align=center, text=gris_fonce_inria, anchor=north] at (8.55,-0.10)
+                        {\textbf{ce que donne le graphe de \textsc{Frangi}}\\ arité $b \simeq 1{,}3$, profondeur $358$};
+
+                    % ================ Verdict ================
+                    \node[font=\scriptsize, align=center, text=inria-rouge, anchor=north] at (5.65,-0.90)
+                        {une fissure est une \textbf{chenille} : $72\,\%$ des nœuds n'ont qu'un seul enfant};
+                \end{tikzpicture}

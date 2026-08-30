@@ -1,0 +1,65 @@
+                \begin{tikzpicture}[xscale=1.0, yscale=1.0]
+                    \useasboundingbox (-0.35, -1.05) rectangle (11.85, 3.15);
+
+                    \tikzset{dot/.style={circle, fill=inria-2024-bleu-canard, inner sep=1.15pt}}
+                    \tikzset{fac/.style={fill=inria-2024-bleu-canard!30, draw=inria-2024-bleu-canard,
+                                         line width=0.5pt, opacity=0.85}}
+                    \tikzset{contour/.style={inria-rouge, line width=2.6pt, line join=round, line cap=round}}
+                    \tikzset{cadre/.style={draw=gray!30, line width=0.9pt, rounded corners=3pt}}
+                    \tikzset{fl/.style={-{Latex[length=2.6mm]}, line width=1.6pt, color=gray!45}}
+
+                    % --- jeu de points commun ---
+                    \def\pts{0.35/0.35, 1.05/0.20, 1.70/0.50, 2.25/0.20, 0.60/1.05, 1.30/0.95,
+                             1.95/1.15, 2.55/0.85, 0.95/1.70, 1.65/1.80, 2.30/1.55, 0.35/1.55}
+
+                    % ================= panneau 1 : les points =================
+                    \node[cadre, minimum width=3.35cm, minimum height=2.55cm] at (1.42,1.00) {};
+                    \foreach \x/\y in \pts { \node[dot] at (\x,\y) {}; }
+                    \node[font=\scriptsize, text=inria-2024-bleu-canard, anchor=north] at (1.42,-0.42)
+                        {les \textbf{points}};
+
+                    \draw[fl] (3.30,1.00) -- (3.95,1.00);
+
+                    % ================= panneau 2 : les facettes =================
+                    \begin{scope}[xshift=4.25cm]
+                        \node[cadre, minimum width=3.35cm, minimum height=2.55cm] at (1.42,1.00) {};
+                        \fill[fac] (0.35,0.35) -- (1.05,0.20) -- (0.60,1.05) -- cycle;
+                        \fill[fac] (1.05,0.20) -- (1.70,0.50) -- (1.30,0.95) -- cycle;
+                        \fill[fac] (1.05,0.20) -- (1.30,0.95) -- (0.60,1.05) -- cycle;
+                        \fill[fac] (1.70,0.50) -- (2.25,0.20) -- (2.55,0.85) -- cycle;
+                        \fill[fac] (1.70,0.50) -- (2.55,0.85) -- (1.95,1.15) -- cycle;
+                        \fill[fac] (1.70,0.50) -- (1.95,1.15) -- (1.30,0.95) -- cycle;
+                        \fill[fac] (0.60,1.05) -- (1.30,0.95) -- (0.95,1.70) -- cycle;
+                        \fill[fac] (1.30,0.95) -- (1.65,1.80) -- (0.95,1.70) -- cycle;
+                        \fill[fac] (1.30,0.95) -- (1.95,1.15) -- (1.65,1.80) -- cycle;
+                        \fill[fac] (1.95,1.15) -- (2.30,1.55) -- (1.65,1.80) -- cycle;
+                        \fill[fac] (0.35,1.55) -- (0.60,1.05) -- (0.95,1.70) -- cycle;
+                        \foreach \x/\y in \pts { \node[dot] at (\x,\y) {}; }
+                        \node[font=\scriptsize, text=inria-2024-bleu-canard, anchor=north] at (1.42,-0.42)
+                            {les \textbf{facettes} et leurs recollements};
+                    \end{scope}
+
+                    \draw[fl] (7.55,1.00) -- (8.20,1.00);
+
+                    % ================= panneau 3 : le polyèdre =================
+                    \begin{scope}[xshift=8.50cm]
+                        \node[cadre, minimum width=3.35cm, minimum height=2.55cm] at (1.42,1.00) {};
+                        \fill[fac] (0.35,0.35) -- (1.05,0.20) -- (0.60,1.05) -- cycle;
+                        \fill[fac] (1.05,0.20) -- (1.70,0.50) -- (1.30,0.95) -- cycle;
+                        \fill[fac] (1.05,0.20) -- (1.30,0.95) -- (0.60,1.05) -- cycle;
+                        \fill[fac] (1.70,0.50) -- (2.25,0.20) -- (2.55,0.85) -- cycle;
+                        \fill[fac] (1.70,0.50) -- (2.55,0.85) -- (1.95,1.15) -- cycle;
+                        \fill[fac] (1.70,0.50) -- (1.95,1.15) -- (1.30,0.95) -- cycle;
+                        \fill[fac] (0.60,1.05) -- (1.30,0.95) -- (0.95,1.70) -- cycle;
+                        \fill[fac] (1.30,0.95) -- (1.65,1.80) -- (0.95,1.70) -- cycle;
+                        \fill[fac] (1.30,0.95) -- (1.95,1.15) -- (1.65,1.80) -- cycle;
+                        \fill[fac] (1.95,1.15) -- (2.30,1.55) -- (1.65,1.80) -- cycle;
+                        \fill[fac] (0.35,1.55) -- (0.60,1.05) -- (0.95,1.70) -- cycle;
+                        \draw[contour] (0.35,0.35) -- (1.05,0.20) -- (1.70,0.50) -- (2.25,0.20)
+                                       -- (2.55,0.85) -- (2.30,1.55) -- (1.65,1.80) -- (0.95,1.70)
+                                       -- (0.35,1.55) -- (0.60,1.05) -- cycle;
+                        \foreach \x/\y in \pts { \node[dot] at (\x,\y) {}; }
+                        \node[font=\scriptsize, text=inria-rouge, anchor=north] at (1.42,-0.42)
+                            {le \textbf{$K$-polyèdre} : une surface};
+                    \end{scope}
+                \end{tikzpicture}

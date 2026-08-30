@@ -1,0 +1,40 @@
+                \begin{tikzpicture}[xscale=1.0, yscale=1.0]
+                    \useasboundingbox (-0.35, -1.75) rectangle (12.55, 2.15);
+
+                    \tikzset{acquis/.style={draw=inria-rouge, line width=1.1pt, rounded corners=3pt,
+                                            fill=inria-rouge!5, inner sep=4pt, align=center, font=\scriptsize,
+                                            text width=2.05cm, minimum height=1.15cm}}
+                    \tikzset{aconstruire/.style={draw=gris_fonce_inria, line width=1.0pt, densely dashed,
+                                            rounded corners=3pt, fill=gray!5, inner sep=4pt, align=center,
+                                            font=\scriptsize, text width=2.05cm, minimum height=1.15cm}}
+                    \tikzset{donnee/.style={draw=inria-2024-bleu-canard, line width=1.0pt, rounded corners=3pt,
+                                            fill=inria-2024-bleu-canard!10, inner sep=4pt, align=center,
+                                            font=\scriptsize, text width=1.65cm, minimum height=1.15cm}}
+                    \tikzset{fl/.style={-{Latex[length=2.4mm]}, line width=1.2pt, color=gray!55}}
+                    \tikzset{fld/.style={-{Latex[length=2.4mm]}, line width=1.2pt, color=gris_fonce_inria!45, densely dashed}}
+
+                    \node[donnee]      (nuage) at (0.95, 1.05) {nuage\\LiDAR};
+                    \node[acquis]      (hgp)   at (3.55, 1.05) {\textbf{HGP-Clusterer}\\[1pt]{\tiny hiérarchie exacte de $K$-polyèdres}};
+                    \node[acquis]      (poly)  at (6.35, 1.05) {\textbf{polyèdres}\\[1pt]{\tiny surface $\Sigma_v$, niveau $\lambda_v$, fusions}};
+                    \node[aconstruire] (enc)   at (9.15, 1.05) {\textbf{encodeur}\\[1pt]{\tiny surface, branche, fusion, contexte}};
+                    \node[aconstruire] (tache) at (11.75, 1.05) {\textbf{tâches}\\[1pt]{\tiny sémantique, instances, transfert}};
+
+                    \draw[fl]  (nuage) -- (hgp);
+                    \draw[fl]  (hgp)   -- (poly);
+                    \draw[fld] (poly)  -- (enc);
+                    \draw[fld] (enc)   -- (tache);
+
+                    % --- accolades de statut ---
+                    \draw[decorate, decoration={brace, amplitude=4pt, mirror}, inria-rouge, line width=0.8pt]
+                        (2.42, 0.34) -- (7.48, 0.34);
+                    \node[font=\scriptsize, text=inria-rouge, anchor=north] at (4.95, 0.10)
+                        {\textbf{acquis} : établi et implémenté dans la thèse};
+
+                    \draw[decorate, decoration={brace, amplitude=4pt, mirror}, gris_fonce_inria, line width=0.8pt]
+                        (8.02, 0.34) -- (12.88, 0.34);
+                    \node[font=\scriptsize, text=gris_fonce_inria, anchor=north, align=center] at (10.45, 0.10)
+                        {\textbf{à construire} : rien\\ n'en est démontré};
+
+                    \node[font=\scriptsize, text=gris_fonce_inria, anchor=north, align=center] at (6.20, -1.10)
+                        {Le pari : le \textbf{tokenizer} est déjà là ; c'est le modèle qui reste à écrire};
+                \end{tikzpicture}

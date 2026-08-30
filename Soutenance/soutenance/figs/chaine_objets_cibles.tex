@@ -1,0 +1,24 @@
+                \begin{tikzpicture}[xscale=1.0, yscale=1.0]
+                    \useasboundingbox (-0.25, -0.72) rectangle (13.05, 0.72);
+
+                    \tikzset{obj/.style={draw=gris_fonce_inria, line width=0.9pt, rounded corners=3pt,
+                                         fill=gray!7, inner sep=3pt, align=center, font=\scriptsize,
+                                         text width=2.35cm, minimum height=0.78cm}}
+                    \tikzset{objnous/.style={obj, draw=inria-rouge, fill=inria-rouge!6, text=inria-rouge}}
+                    \tikzset{fl/.style={-{Latex[length=2.2mm]}, line width=1.0pt, color=gray!55}}
+                    \tikzset{sous/.style={font=\tiny, text=gris_fonce_inria, align=center, anchor=north}}
+
+                    \node[obj]      (o1) at (1.45, 0.10) {une \textbf{partition}};
+                    \node[obj]      (o2) at (4.75, 0.10) {un \textbf{dendrogramme}\\{\tiny$\equiv$ une ultramétrique}};
+                    \node[obj]      (o3) at (8.05, 0.10) {un \textbf{recouvrement}\\hiérarchique};
+                    \node[objnous]  (o4) at (11.45, 0.10) {une hiérarchie de\\\textbf{$K$-polyèdres}};
+
+                    \draw[fl] (o1) -- (o2);
+                    \draw[fl] (o2) -- (o3);
+                    \draw[fl] (o3) -- (o4);
+
+                    \node[sous] at (1.45, -0.36) {impossible};
+                    \node[sous] at (4.75, -0.36) {unique : le Single-Linkage};
+                    \node[sous] at (8.05, -0.36) {les clusters se recouvrent};
+                    \node[sous, text=inria-rouge] at (11.45, -0.36) {notre objet};
+                \end{tikzpicture}

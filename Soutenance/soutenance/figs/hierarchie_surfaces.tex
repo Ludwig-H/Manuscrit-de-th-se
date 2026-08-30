@@ -1,0 +1,64 @@
+                \begin{tikzpicture}[xscale=1.0, yscale=1.0]
+                    \useasboundingbox (-1.35, -0.85) rectangle (11.75, 4.95);
+
+                    \tikzset{arbre/.style={inria-rouge, line width=1.3pt, rounded corners=3pt}}
+                    \tikzset{surfglyphe/.style={draw=inria-2024-bleu-canard, line width=0.75pt,
+                                                fill=inria-2024-bleu-canard!14, line join=round}}
+                    \tikzset{niveau/.style={gray!28, line width=0.5pt, densely dotted}}
+
+                    % --- axe d'échelle ---
+                    \draw[-{Latex[length=2.2mm]}, gris_fonce_inria, line width=0.8pt] (-0.95,0.05) -- (-0.95,4.45);
+                    \node[rotate=90, font=\scriptsize, text=gris_fonce_inria, anchor=south] at (-1.22,2.25)
+                        {échelle $r$};
+
+                    \foreach \y in {1.62, 3.02} { \draw[niveau] (-0.80,\y) -- (10.55,\y); }
+
+                    \newcommand{\glyPetit}[2]{\draw[surfglyphe] (#1,#2) -- ++(0.30,0.09) -- ++(0.11,0.25) -- ++(-0.27,0.11) -- ++(-0.18,-0.21) -- cycle;}
+                    \newcommand{\glyMoyen}[2]{\draw[surfglyphe] (#1,#2) -- ++(0.42,0.14) -- ++(0.34,-0.02) -- ++(0.08,0.34) -- ++(-0.46,0.18) -- ++(-0.32,-0.24) -- cycle;}
+
+                    % feuilles : abscisses et niveaux de NAISSANCE distincts
+                    \def\fA{0.55} \def\yA{0.35}
+                    \def\fB{2.05} \def\yB{0.90}
+                    \def\fC{3.55} \def\yC{0.55}
+                    \def\fD{5.55} \def\yD{1.20}
+                    \def\fE{7.35} \def\yE{0.70}
+                    \def\fF{9.45} \def\yF{1.05}
+                    \def\gA{1.30} \def\gB{4.55} \def\gC{8.40}
+                    \def\rA{4.85}
+
+                    % =============== arêtes de l'arbre ===============
+                    \draw[arbre] (\fA,\yA) -- (\fA,1.62) -- (\gA,1.62) -- (\gA,2.05);
+                    \draw[arbre] (\fB,\yB) -- (\fB,1.62) -- (\gA,1.62);
+                    \draw[arbre] (\fC,\yC) -- (\fC,1.62) -- (\gB,1.62) -- (\gB,2.05);
+                    \draw[arbre] (\fD,\yD) -- (\fD,1.62) -- (\gB,1.62);
+                    \draw[arbre] (\fE,\yE) -- (\fE,1.62) -- (\gC,1.62) -- (\gC,2.05);
+                    \draw[arbre] (\fF,\yF) -- (\fF,1.62) -- (\gC,1.62);
+                    \draw[arbre] (\gA,2.05) -- (\gA,3.02) -- (\rA,3.02) -- (\rA,3.45);
+                    \draw[arbre] (\gB,2.05) -- (\gB,3.02) -- (\rA,3.02);
+                    \draw[arbre] (\gC,2.05) -- (\gC,3.02) -- (\rA,3.02);
+
+                    % =============== nœuds ===============
+                    \foreach \x/\y in {\fA/\yA, \fB/\yB, \fC/\yC, \fD/\yD, \fE/\yE, \fF/\yF} {
+                        \fill[inria-rouge] (\x, \y) circle (1.9pt);
+                    }
+                    \foreach \x in {\gA, \gB, \gC} { \fill[inria-rouge] (\x, 2.05) circle (2.3pt); }
+                    \fill[inria-rouge] (\rA, 3.45) circle (2.7pt);
+
+                    % =============== surfaces portées par les nœuds ===============
+                    \glyPetit{\fA-0.44}{\yA-0.22} \glyPetit{\fB-0.44}{\yB-0.22} \glyPetit{\fC-0.44}{\yC-0.22}
+                    \glyPetit{\fD-0.44}{\yD-0.22} \glyPetit{\fE-0.44}{\yE-0.22} \glyPetit{\fF-0.44}{\yF-0.22}
+                    \glyMoyen{\gA+0.22}{2.16} \glyMoyen{\gB+0.22}{2.16} \glyMoyen{\gC+0.22}{2.16}
+                    \draw[surfglyphe] (\rA-0.74,3.70) -- ++(0.60,0.22) -- ++(0.52,-0.06) -- ++(0.24,0.46)
+                                      -- ++(-0.62,0.28) -- ++(-0.58,-0.12) -- ++(-0.16,-0.38) -- cycle;
+
+                    % =============== annotations ===============
+                    \node[font=\scriptsize, text=inria-2024-bleu-canard, anchor=west, align=left] at (10.20,0.70)
+                        {surfaces\\élémentaires,\\nées à des\\échelles différentes};
+                    \node[font=\scriptsize, text=inria-rouge, anchor=west, align=left] at (10.20,2.35)
+                        {fusions\\(événements)};
+                    \node[font=\scriptsize, text=inria-2024-bleu-canard, anchor=west, align=left] at (10.20,3.95)
+                        {surface\\recollée};
+
+                    \node[font=\scriptsize, text=gris_fonce_inria, anchor=north, align=center] at (4.85,-0.20)
+                        {\textbf{chaque} nœud porte une surface observée --- pas seulement les feuilles};
+                \end{tikzpicture}
