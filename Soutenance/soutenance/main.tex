@@ -1115,7 +1115,7 @@
         \setlength{\itemsep}{6pt}
         \item \textbf{Théorème} \citb{kleinberg02} : aucune fonction de clustering rendant une \textbf{partition} ne satisfait ces trois axiomes à la fois
         \item L'obstruction n'est pas levée, elle est \textbf{contournée} : on change l'\emph{objet rendu} --- l'arbre, et non la coupe --- ce qui oblige à réécrire les axiomes pour ce nouvel objet
-        \item \citb{carlsson10} : à valeurs \textbf{ultramétriques}, trois \emph{autres} axiomes --- normalisation, fonctorialité, séparation --- ne laissent survivre que le Single-Linkage
+        \item Sur les \textbf{ultramétriques} \citb{carlsson10}, trois \emph{autres} axiomes --- normalisation, fonctorialité, séparation --- ne laissent survivre que le Single-Linkage
     \end{itemize}
     \reffoot{kleinberg02,carlsson10}
 \end{frame}
@@ -1134,7 +1134,7 @@
     \vspace{0.0cm}
     \begin{itemize}
         \setlength{\itemsep}{5pt}
-        \item \citb{culbertson18} va plus loin : remplacer la partition par un \textbf{recouvrement}. Pour $K \ge 2$, les $K$-polyèdres se \textbf{chevauchent} eux aussi \citb{ans26} --- la parenté est d'idée, non de théorème
+        \item Un cran plus loin \citb{culbertson18} : remplacer la partition par un \textbf{recouvrement}. Pour $K \ge 2$, les $K$-polyèdres se \textbf{chevauchent} eux aussi \citb{ans26} --- la parenté est d'idée, non de théorème
         \item Un nœud ne porte pas qu'un sac de points : il porte un recollement de \textbf{facettes} --- \emph{une partition des $(K-1)$-simplexes}, écrit le manuscrit
     \end{itemize}
 
@@ -1191,7 +1191,7 @@
     \begin{itemize}
         \setlength{\itemsep}{5pt}
         \item \textbf{Chaque} nœud porte une surface \emph{explicite} et un niveau physique : les hiérarchies de régions \citb{robert23} n'agrègent que des points, et \citb{yu25} a la surface mais pas la hiérarchie
-        \item Le niveau de la filtration est une grandeur \textbf{physique} --- un rayon, qui se convertit en densité $\widehat f_{K\text{-NN}} = K / (n\,\omega_p\,r^p)$ : les branches deviennent des trajectoires, les fusions des événements
+        \item Le niveau de la filtration est une grandeur \textbf{physique} --- un rayon, en mètres, et non un indice $0, 1, 2, \ldots$ : les branches deviennent des trajectoires, les fusions des événements
         \item La \emph{forme} se normalise --- par \textbf{similitude} : ce n'est pas encore une robustesse à la portée --- et taille, pose et acquisition restent des canaux séparés
     \end{itemize}
     \reffoot{robert23,yu25}
@@ -1728,7 +1728,7 @@
     \begin{itemize}
         \setlength{\itemsep}{5pt}
         \item Ce que la hiérarchie sérialise pour chaque nœud : la surface (facettes, aires, normales, bords), le niveau de naissance, le parent, les enfants de fusion, les voisins latéraux et la confiance d'acquisition
-        \item L'interface vers les points existe déjà : le vote pondéré $w_{x\tau} = S_\tau / T_x$ du § 9.1, partition de l'unité sur les points couverts ($T_x > 0$)
+        \item L'interface vers les points existe déjà : le vote pondéré $w_{x\tau} = S_\tau / T_x$ du §~9.1, partition de l'unité sur les points couverts ($T_x > 0$)
         \item Ce qui manque est en aval : encodeur de surface, encodeur de branche, encodeur de fusion, décodeur par facette --- et les campagnes qui les jugeraient
     \end{itemize}
 \end{frame}
@@ -1742,7 +1742,7 @@
     \begin{itemize}
         \setlength{\itemsep}{4pt}
         \item \textbf{Surface d'attaque} : $3$ blocs d'attention globale sur $48$ dans Hiera-L, soit $6{,}56\,\%$ des opérations du tronc
-        \item \textbf{Forme de l'arbre} : $72\,\%$ des nœuds internes n'ont qu'un seul enfant ; l'arité $b = (N-1)/(N-L)$ est \emph{fixée} par la fraction de feuilles, ce n'est pas un réglage
+        \item \textbf{Forme de l'arbre} : ce n'est pas un réglage --- l'arité $b = (N-1)/(N-L)$ est \emph{fixée} par la fraction de feuilles, donc par la géométrie de la fissure
         \item Ce défaut-là se répare (décomposition en centroïdes du MST \emph{non élagué}, sur la grille $64 \times 64$ : profondeur $12$, arité $2{,}82$) ; ce qui ne se répare pas, c'est qu'une contrainte de blocs \emph{comprime} au lieu d'informer
         \item \textbf{Limite assumée} : mesures sur fissures \emph{synthétiques} calibrées sur le corpus Khánh Hà ($448$ px, largeur $19$ px, couverture $5{,}7\,\%$)
     \end{itemize}

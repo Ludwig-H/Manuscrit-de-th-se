@@ -50,8 +50,9 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    `E-HGP/tests/SemanticKITTI/Zoltan/HierarchicalSelfAttention` (statut
    `foundation_claim = not_yet_earned`) et
    `ISPRS/CrackSAM-HierarchicalSelfAttention` (no-go de conception).
-8. **Conclusion, publications** — épilogue : retour au rapport
-   de 2017 et citation de La Fontaine.
+8. **Conclusion, publications** — deux piliers et quatre contributions,
+   perspectives dans le fil de la thèse, liste des publications et des dépôts
+   logiciels.
 9. **Slides de secours** (après le « Merci »), suivant la chronologie de la
    présentation : stylométrie 5 auteurs, benchmark SIPU, confusion huiles
    d'olive, protocole des vitesses, fenêtre gaussienne K→∞, état de l'art
