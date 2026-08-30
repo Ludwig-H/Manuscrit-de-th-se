@@ -1105,13 +1105,13 @@
 % ------------------------------------------------------------
 \begin{frame}{Une parabole : le théorème d'impossibilité de \textsc{Kleinberg}}
     \begin{center}
-        \resizebox{0.50\textwidth}{!}{\input{figs/kleinberg_impossibilite}}
+        \resizebox{0.54\textwidth}{!}{\input{figs/kleinberg_impossibilite}}
     \end{center}
 
     \vspace{0.15cm}
     \begin{itemize}
         \setlength{\itemsep}{6pt}
-        \item \textbf{Théorème} \citb{kleinberg02} : aucune fonction de clustering rendant une \textbf{partition} ne satisfait à la fois \textsf{(i)} l'invariance d'échelle, \textsf{(ii)} la richesse et \textsf{(iii)} la cohérence
+        \item \textbf{Théorème} \citb{kleinberg02} : aucune fonction de clustering rendant une \textbf{partition} ne satisfait ces trois axiomes à la fois
         \item L'obstruction n'est pas levée, elle est \textbf{contournée} : on ne relâche aucun axiome, on change l'\emph{objet rendu} --- l'arbre, et non la coupe
         \item \citb{carlsson10} : sur les \textbf{ultramétriques}, une axiomatique \emph{analogue} ne laisse survivre qu'un seul algorithme
     \end{itemize}
@@ -1198,7 +1198,7 @@
 % ------------------------------------------------------------
 \begin{frame}{Une contre-épreuve : la hiérarchie ne s'impose pas de l'extérieur}
     \begin{center}
-        \resizebox{0.46\textwidth}{!}{\input{figs/equilibre_continuite}}
+        \resizebox{0.40\textwidth}{!}{\input{figs/equilibre_continuite}}
     \end{center}
 
     \vspace{0.15cm}
@@ -1206,7 +1206,7 @@
         \setlength{\itemsep}{5pt}
         \item Idée testée : une fissure est définie par sa \textbf{connexité}, or l'attention n'a aucun \emph{a priori} de chemin --- contraignons-la par la hiérarchie du graphe de \textsc{Frangi} \citb{hsa25}
         \item \textbf{Non} --- et sans une seconde de GPU : ce mécanisme \emph{comprime} une attention sous contrainte de blocs, quand il fallait y \emph{injecter} un \emph{a priori}
-        \item L'endroit reste le bon ; c'est l'outil qui ne l'est pas
+        \item L'endroit reste le bon ; c'est l'outil qui ne l'est pas --- et ce qu'il faudrait injecter, ici comme en 3D, c'est la \emph{hiérarchie} du graphe, jamais sa projection en carte
     \end{itemize}
 
     \vspace{0.15cm}

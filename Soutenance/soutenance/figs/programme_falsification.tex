@@ -16,7 +16,8 @@
                     \node[porte] (g1) at (0.95, 0.95) {\textbf{fidélité}\\[1pt]{\tiny la surface se reconstruit à budget fixe}};
                     \node[porte] (g2) at (3.15, 0.95) {\textbf{stabilité}\\[1pt]{\tiny le code résiste au capteur et à la portée}};
                     \node[porte] (g3) at (5.35, 0.95) {\textbf{sémantique}\\[1pt]{\tiny frontières et petites classes préservées}};
-                    \node[porte] (g4) at (7.55, 0.95) {\textbf{hiérarchie}\\[1pt]{\tiny l'arbre bat les contrôles plats}};
+                    \node[porte, draw=inria-rouge, densely dashed, line width=1.2pt, fill=inria-rouge!5]
+                        (g4) at (7.55, 0.95) {\textbf{hiérarchie}\\[1pt]{\tiny l'arbre bat les contrôles plats}};
                     \node[porte] (g5) at (9.75, 0.95) {\textbf{transfert}\\[1pt]{\tiny plusieurs capteurs, plusieurs tâches}};
                     \node[but]   (bt) at (11.95, 0.95) {modèle de fondation};
 
@@ -26,7 +27,7 @@
                     \node[num] at (0.95, 1.80) {1};
                     \node[num] at (3.15, 1.80) {2};
                     \node[num] at (5.35, 1.80) {3};
-                    \node[num] at (7.55, 1.80) {4};
+                    \node[num, draw=inria-rouge, text=inria-rouge] at (7.55, 1.80) {4};
                     \node[num] at (9.75, 1.80) {5};
 
                     % --- bandeau de statut ---
