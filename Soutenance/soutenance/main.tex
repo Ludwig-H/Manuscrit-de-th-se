@@ -1184,7 +1184,7 @@
 % ------------------------------------------------------------
 \begin{frame}{La piste : le polyèdre comme alphabet, l'arbre comme grammaire}
     \begin{center}
-        \resizebox{0.44\textwidth}{!}{\input{figs/hierarchie_surfaces}}
+        \resizebox{0.40\textwidth}{!}{\input{figs/hierarchie_surfaces}}
     \end{center}
 
     \vspace{0.15cm}
@@ -1207,8 +1207,8 @@
     \begin{itemize}
         \setlength{\itemsep}{5pt}
         \item Idée testée : une fissure est définie par sa \textbf{connexité}, or l'attention n'a aucun \emph{a priori} de chemin --- contraignons-la par la hiérarchie du graphe de \textsc{Frangi} \citb{hsa25}
-        \item \textbf{Non} --- et sans une seconde de GPU : ce mécanisme \emph{comprime} une attention sous contrainte de blocs, quand il fallait y \emph{injecter} un \emph{a priori}
-        \item L'endroit reste le bon ; c'est l'outil qui ne l'est pas --- et ce qu'il faudrait injecter, ici comme en 3D, c'est la \emph{hiérarchie} du graphe, jamais sa projection en carte
+        \item \textbf{Non} sous cette forme, et sans une seconde de GPU : ce mécanisme \emph{comprime} une attention sous contrainte de blocs, quand il fallait y \emph{injecter} un \emph{a priori}
+        \item Retournement instructif : la meilleure hiérarchie mesurée n'est qu'une carte binaire \{fissure, fond\} --- ni le graphe, ni sa centralité. L'endroit reste le bon ; c'est l'outil qui ne l'est pas
     \end{itemize}
 
     \vspace{0.15cm}
@@ -1743,7 +1743,7 @@
         \setlength{\itemsep}{4pt}
         \item \textbf{Surface d'attaque} : $3$ blocs d'attention globale sur $48$ dans Hiera-L, soit $6{,}56\,\%$ des opérations du tronc
         \item \textbf{Forme de l'arbre} : $72\,\%$ des nœuds internes n'ont qu'un seul enfant ; l'arité $b = (N-1)/(N-L)$ est \emph{fixée} par la fraction de feuilles, ce n'est pas un réglage
-        \item Ce défaut-là se répare (décomposition en centroïdes : profondeur $12$, arité $2{,}82$) ; ce qui ne se répare pas, c'est qu'une contrainte de blocs \emph{comprime} au lieu d'informer
+        \item Ce défaut-là se répare (décomposition en centroïdes du MST \emph{non élagué}, sur la grille $64 \times 64$ : profondeur $12$, arité $2{,}82$) ; ce qui ne se répare pas, c'est qu'une contrainte de blocs \emph{comprime} au lieu d'informer
         \item \textbf{Limite assumée} : mesures sur fissures \emph{synthétiques} calibrées sur le corpus Khánh Hà ($448$ px, largeur $19$ px, couverture $5{,}7\,\%$)
     \end{itemize}
 \end{frame}
@@ -1802,6 +1802,7 @@
             \emph{son contrôle permuté}           & $10{,}0$ & $3{,}23$ & $808$ \\
             \midrule
             coupe spatiale \emph{min-cut}          & $9{,}3$  & $2{,}75$ & $768$ \\
+            ordonné le long de la fissure          & $10{,}0$ & $2{,}66$ & $1\,024$ \\
             \textsc{Frangi} $+$ centroïdes         & $12{,}0$ & $2{,}82$ & $1\,013$ \\
             \emph{quadtree}                        & $7{,}0$  & $4{,}00$ & $1\,024$ \\
             aléatoire                              & $7{,}0$  & $4{,}00$ & $1\,024$ \\
@@ -1812,7 +1813,7 @@
     \vspace{0.3cm}
     \begin{itemize}
         \setlength{\itemsep}{5pt}
-        \item \textbf{Dilution} : combien de jetons sont moyennés avec $j$ quand $i$ l'attend. Sous attention plate, elle vaut $1$ --- $181$ reste donc \emph{énorme}
+        \item \textbf{Dilution} : combien de jetons sont moyennés avec $j$ quand $i$ l'attend. Sous attention plate, elle vaut $1$ --- $181$ reste donc \emph{énorme}. Médianes sur \textbf{trois fissures synthétiques}
         \item L'écart $181$ contre $808$ mesure la \textbf{causalité} (bon masque \emph{vs.} masque d'une autre image), pas une performance : aucun IoU n'a été mesuré
         \item Toutes les hiérarchies \textbf{équilibrées} plafonnent entre $768$ et $1\,024$, y compris celle qui cherche explicitement à éviter la fissure
     \end{itemize}
