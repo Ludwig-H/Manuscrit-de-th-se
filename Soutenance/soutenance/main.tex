@@ -130,6 +130,8 @@
 \DeclareRef{brown20}{GPT-3 20}{T.~Brown \& al., « Language models are few-shot learners », \textit{NeurIPS}, 2020.}
 \DeclareRef{robert23}{SPT 23}{D.~Robert, H.~Raguet, L.~Landrieu, « Efficient 3D semantic segmentation with Superpoint Transformer », \textit{ICCV}, 2023.}
 \DeclareRef{ravi24}{SAM 2 24}{N.~Ravi \& al., « SAM 2: segment anything in images and videos », 2024.}
+\DeclareRef{sonata25}{Sonata 25}{X.~Wu \& al., « Sonata: self-supervised learning of reliable point representations », \textit{CVPR}, 2025.}
+\DeclareRef{concerto25}{Concerto 25}{Y.~Zhang \& al., « Concerto: joint 2D--3D self-supervised learning emerges spatial representations », \textit{NeurIPS}, 2025.}
 \DeclareRef{yu25}{PolyhedronNet 25}{D.~Yu, G.~Zhang, L.~Zhao, « PolyhedronNet: representation learning for polyhedra with surface-attributed graph », \textit{ICLR}, 2025.}
 \DeclareRef{hsa25}{HSA 25}{S.~Amizadeh, S.~Abdali, Y.~Li, K.~Koishida, « Hierarchical self-attention: generalizing neural attention mechanics to multi-scale problems », \textit{NeurIPS}, 2025.}
 \DeclareRef{utonia26}{Utonia 26}{Y.~Zhang \& al., « Utonia: toward one encoder for all point clouds », 2026.}
@@ -1133,7 +1135,7 @@
     \begin{itemize}
         \setlength{\itemsep}{5pt}
         \item \citb{culbertson18} pousse la même logique un cran plus loin : remplacer la partition par un \textbf{recouvrement}. Pour $K \ge 2$, c'est exactement ce que rend HGP-Clusterer \citb{ans26}
-        \item Un nœud n'est plus un sac de points : c'est un recollement de facettes, \emph{i.e.} une \textbf{surface}. L'arbre partitionne les $(K-1)$-simplexes ; les points, eux, se partagent
+        \item Un nœud n'est plus un sac de points : c'est un recollement de facettes, \emph{i.e.} une \textbf{surface}. Le manuscrit écrit : \emph{un recouvrement de $\mathcal X$, ou bien une partition des $(K-1)$-simplexes}
     \end{itemize}
 
     \vspace{0.10cm}
@@ -1146,16 +1148,16 @@
 % ------------------------------------------------------------
 \begin{frame}{Un manque : pas encore de modèle de fondation pour la 3D}
     \begin{center}
-        \resizebox{0.66\textwidth}{!}{\input{figs/alphabet_fondation}}
+        \resizebox{0.56\textwidth}{!}{\input{figs/alphabet_fondation}}
     \end{center}
 
     \vspace{0.15cm}
     \begin{itemize}
         \setlength{\itemsep}{6pt}
         \item Le langage \citb{brown20} et l'image \citb{ravi24} ont chacun une \textbf{unité de calcul stable}
-        \item En 3D l'effort est réel --- Utonia \citb{utonia26} --- mais il porte sur des \textbf{points} ou des voxels, et rien, à ma connaissance, ne fait encore \textbf{consensus}
+        \item En 3D l'effort est réel --- Sonata \citb{sonata25}, Concerto \citb{concerto25}, Utonia \citb{utonia26} --- mais il porte sur des \textbf{points} ou des voxels, et rien, à ma connaissance, ne fait encore \textbf{consensus}
     \end{itemize}
-    \reffoot{brown20,utonia26}
+    \reffoot{brown20,sonata25,concerto25,utonia26}
 \end{frame}
 
 % ------------------------------------------------------------
@@ -1182,7 +1184,7 @@
 % ------------------------------------------------------------
 \begin{frame}{La piste : le polyèdre comme alphabet, l'arbre comme grammaire}
     \begin{center}
-        \resizebox{0.51\textwidth}{!}{\input{figs/hierarchie_surfaces}}
+        \resizebox{0.44\textwidth}{!}{\input{figs/hierarchie_surfaces}}
     \end{center}
 
     \vspace{0.15cm}
@@ -1190,7 +1192,7 @@
         \setlength{\itemsep}{5pt}
         \item \textbf{Chaque} nœud porte une surface \emph{observée}, et pas seulement les feuilles --- ce que ne font ni les hiérarchies de régions \citb{robert23}, ni l'apprentissage sur polyèdres complets \citb{yu25}
         \item Le niveau de la filtration est une grandeur \textbf{physique} --- un rayon, donc une densité : les branches deviennent des trajectoires, les fusions des événements
-        \item La \emph{forme} se normalise ; taille, pose et qualité d'acquisition restent des canaux séparés
+        \item La \emph{forme} se normalise --- par \textbf{similitude} : ce n'est pas encore une robustesse à la portée --- et taille, pose et acquisition restent des canaux séparés
     \end{itemize}
     \reffoot{robert23,yu25}
 \end{frame}
@@ -1348,8 +1350,10 @@
         \bibligne{ravi24}
         \bibligne{sautier25}
         \bibligne{oh25}
-        \bibligne{hsa25}
+        \bibligne{sonata25}
+        \bibligne{concerto25}
         \bibligne{yu25}
+        \bibligne{hsa25}
         \bibligne{utonia26}
     \end{itemize}
 \end{frame}

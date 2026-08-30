@@ -1,5 +1,5 @@
                 \begin{tikzpicture}[xscale=1.0, yscale=1.0]
-                    \useasboundingbox (-0.35, -1.65) rectangle (12.6, 3.35);
+                    \useasboundingbox (-0.35, -2.05) rectangle (12.6, 3.35);
 
                     \tikzset{jeton/.style={draw=inria-2024-bleu-canard, line width=0.7pt, rounded corners=1.5pt,
                                            fill=inria-2024-bleu-canard!12, inner sep=2pt, font=\scriptsize,
@@ -47,13 +47,15 @@
                     \end{scope}
                     \node[font=\scriptsize, text=inria-2024-bleu-canard, anchor=west] at (4.25, 0.05) {points du capteur};
                     \node[modeleouvert, anchor=west] (m3) at (9.85, 0.05) {?};
+                    \node[font=\scriptsize, text=inria-rouge, anchor=north, align=center] at (10.62, -0.30)
+                        {Sonata, Concerto,\\Utonia\ldots};
                     \draw[fl, color=inria-rouge!55, densely dashed] (8.55, 0.05) -- (m3.west);
 
                     % ---------------- séparateur ----------------
                     \draw[gray!35, line width=0.6pt] (0.55, 0.62) -- (11.9, 0.62);
 
                     % ---------------- accolade et question ----------------
-                    \node[font=\scriptsize, align=center, text=inria-rouge, anchor=north] at (6.2, -0.80)
-                        {l'unité de calcul de la 3D est \textbf{un artefact du capteur},\\
-                         pas une unité du monde};
+                    \node[font=\scriptsize, align=center, text=inria-rouge, anchor=north] at (5.4, -1.05)
+                        {en 3D, l'unité de calcul reste \textbf{celle du capteur} ---\\
+                         c'est le constat dont je pars};
                 \end{tikzpicture}

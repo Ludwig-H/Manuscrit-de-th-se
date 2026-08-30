@@ -1,5 +1,5 @@
                 \begin{tikzpicture}[xscale=1.0, yscale=1.0]
-                    \useasboundingbox (-1.35, -0.85) rectangle (11.75, 4.95);
+                    \useasboundingbox (-1.35, -1.15) rectangle (11.75, 4.95);
 
                     \tikzset{arbre/.style={inria-rouge, line width=1.3pt, rounded corners=3pt}}
                     \tikzset{surfglyphe/.style={draw=inria-2024-bleu-canard, line width=0.75pt,
@@ -60,5 +60,6 @@
                         {surface\\recollée};
 
                     \node[font=\scriptsize, text=gris_fonce_inria, anchor=north, align=center] at (4.85,-0.20)
-                        {\textbf{chaque} nœud porte une surface observée --- pas seulement les feuilles};
+                        {\textbf{chaque} nœud porte une surface observée --- pas seulement les feuilles\\
+                         {\tiny les feuilles naissent à des hauteurs différentes : c'est une \emph{forêt}, pas un dendrogramme issu des singletons}};
                 \end{tikzpicture}
