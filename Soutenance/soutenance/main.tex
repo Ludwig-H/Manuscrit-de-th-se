@@ -1328,19 +1328,19 @@
 
     \vspace{0.25cm}
     \begin{itemize}
-        \setlength{\itemsep}{7pt}
+        \setlength{\itemsep}{9pt}
         \item Comme $\mathbb P(\xi_e \le 1 \mid e \text{ satisfaite}) = 1 - e^{-|W_e|}$, la coupe à $\beta = 1$
         redonne \textbf{exactement} la partition gelée de \textsc{Swendsen}--\textsc{Wang}
         \item Mais un \emph{seul} tirage d'horloges contient désormais \textbf{toutes les échelles} intermédiaires :
         les $\Pi_\beta$ sont emboîtées, elles forment un \textbf{dendrogramme} \citb{ii26}
-        \item $\beta$ est un \textbf{temps de filtration}, pas une température inverse : l'horizon est $\beta = 1$
+        --- $\beta$ est un temps de filtration, pas une température
     \end{itemize}
 \end{frame}
 
 % ------------------------------------------------------------
 \begin{frame}{Les deux bouts de l'arbre : \textsc{Glauber} et \textsc{Swendsen}--\textsc{Wang}}
     \begin{center}
-        \resizebox{0.66\textwidth}{!}{\input{figs/dendro_horloges}}
+        \resizebox{0.72\textwidth}{!}{\input{figs/dendro_horloges}}
     \end{center}
 
     \vspace{0.15cm}
@@ -1358,33 +1358,28 @@
 
 % ------------------------------------------------------------
 \begin{frame}{Quelle coupe choisir ? celle où les amas \textcolor{inria-rouge}{percolent}}
-    \small
-    Sur le modèle à blocs, la densité d'arêtes ouvertes avant l'instant $\beta$ se calcule :
-
-    \vspace{0.20cm}
     \begin{center}
-        \formulebox{\parbox{0.84\textwidth}{\centering
-        $\displaystyle q_p(\beta) = p\left(1 - e^{-u_p \beta}\right), \qquad u_p = \log\tfrac{p}{1-p}$ \\[6pt]
-        \textbf{coupe critique} $\beta_c$ : $\;q_p(\beta_c) = q_c\;$ (seuil de percolation du réseau)}}
+        \resizebox{0.60\textwidth}{!}{\input{figs/coupe_percolation}}
     \end{center}
 
-    \vspace{0.25cm}
-    \begin{itemize}
-        \setlength{\itemsep}{6pt}
-        \item En dessous de $\beta_c$, les amas gelés restent \textbf{microscopiques} : la dynamique est locale.
-        Au-dessus, une composante \textbf{géante} apparaît et tout bascule d'un bloc
-        \item C'est exactement la quantité qui gouverne notre borne de recouvrement :
-        seule une masse macroscopique $\theta^{\max} > 0$ transporte de l'information
-        \item Sur le SBM, la coupe géométrique et le temps informationnel coïncident \textbf{exactement} au
-        seuil de \textsc{Kesten}--\textsc{Stigum} --- le meilleur argument dont je dispose pour dire que
-        \emph{c'est la bonne coupe} \citb{ii26}
-    \end{itemize}
+    \vspace{0.05cm}
+    \begin{center}
+        \formulebox{\parbox{0.76\textwidth}{\centering\small
+        $\displaystyle q_p(\beta) = p\left(1 - e^{-u_p \beta}\right), \quad u_p = \log\tfrac{p}{1-p}$,
+        \quad et $\;q_p(\beta_c) = q_c$}}
+    \end{center}
 
     \vspace{0.10cm}
-    \begin{center}
-        \small \textbf{Statut : un programme.} La borne rigoureuse $p_{\mathrm{WR}} \ge 0{,}809439$ vient du
-        canal triangulaire, \emph{pas} encore de cette dynamique.
-    \end{center}
+    \small
+    \begin{itemize}
+        \setlength{\itemsep}{4pt}
+        \item Seule une masse \textbf{macroscopique} transporte de l'information --- c'est ce que dit la borne
+        de recouvrement de la partie précédente
+        \item Sur le modèle à blocs, cette coupe géométrique rencontre le temps informationnel
+        \textbf{exactement} au seuil de \textsc{Kesten}--\textsc{Stigum} \citb{ii26}
+        \item \textbf{Statut : un programme.} Notre meilleure borne rigoureuse vient du canal triangulaire,
+        \emph{pas} encore de cette dynamique
+    \end{itemize}
 \end{frame}
 
 % ============================================================
@@ -2253,7 +2248,12 @@
 
 \begin{frame}{Voie hiérarchique : efficacité \emph{contre} continuité, en chiffres}
     \begin{center}
-        \footnotesize
+        \resizebox{0.24\textwidth}{!}{\input{figs/equilibre_continuite}}
+    \end{center}
+
+    \vspace{-0.10cm}
+    \begin{center}
+        \scriptsize
         \renewcommand{\arraystretch}{1.18}
         \begin{tabular}{@{} l ccc @{}}
             \toprule
@@ -2275,7 +2275,7 @@
     \small
     \begin{itemize}
         \setlength{\itemsep}{4pt}
-        \item \textbf{Dilution} : combien de jetons sont moyennés avec $j$ quand $i$ l'attend. Sous attention plate, elle vaut $1$ --- $181$ reste donc \emph{énorme}. Médianes sur \textbf{trois fissures synthétiques}
+        \item \textbf{Dilution} : combien de jetons sont moyennés avec $j$ quand $i$ l'attend. Sous attention plate, elle vaut $1$ --- $181$ reste donc \emph{énorme}. Sur \textbf{trois fissures synthétiques}
         \item L'écart $181$ contre $808$ mesure la \textbf{causalité} (bon masque \emph{vs.} masque d'une autre image), pas une performance : aucun IoU n'a été mesuré
         \item Toutes les hiérarchies \textbf{équilibrées} plafonnent entre $768$ et $1\,024$, y compris celle qui cherche explicitement à éviter la fissure
     \end{itemize}
