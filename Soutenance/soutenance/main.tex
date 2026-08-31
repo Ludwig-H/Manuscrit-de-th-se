@@ -1292,7 +1292,7 @@
 % ------------------------------------------------------------
 \begin{frame}{\textsc{Carlsson} \& \textsc{Mémoli} : changer l'objet de sortie}
     \begin{center}
-        \resizebox{0.52\textwidth}{!}{\input{figs/kleinberg_coupes}}
+        \resizebox{0.47\textwidth}{!}{\input{figs/kleinberg_coupes}}
     \end{center}
 
     \vspace{0.05cm}
@@ -1302,13 +1302,15 @@
         \item Pour chacune des trois \emph{paires} d'axiomes, \textsc{Kleinberg} donne un témoin ---
         à chaque fois une \textbf{variante du Single-Linkage}, la variante étant le \textbf{niveau de coupe}
         \item L'obstruction indique donc la sortie : garder l'arbre, ne pas choisir la coupe à la place de l'utilisateur
-        \item \textsc{Carlsson} \& \textsc{Mémoli} rendent alors une \textbf{ultramétrique} ---
-        de façon équivalente, un dendrogramme --- au lieu d'une partition : $T : (\mathcal X, d) \mapsto (\mathcal X, u)$
+        \item \textsc{Carlsson} \& \textsc{Mémoli} changent alors l'objet rendu : une \textbf{ultramétrique}
+        $(\mathcal X, d) \mapsto (\mathcal X, u)$ --- de façon équivalente, un dendrogramme
     \end{itemize}
 
     \vspace{0.10cm}
     \begin{center}
-        \formulebox{\small Sous trois axiomes adaptés, \textbf{le Single-Linkage est la seule solution} \citb{carlsson10}.}
+        \formulebox{\parbox{0.80\textwidth}{\centering\small
+        Sous trois axiomes adaptés (normalisation, fonctorialité, séparation),\\
+        \textbf{le Single-Linkage est la seule solution} \citb{carlsson10}.}}
     \end{center}
     \reffoot{carlsson10}
 \end{frame}
