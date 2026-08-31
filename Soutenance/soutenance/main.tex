@@ -1325,7 +1325,8 @@
     \begin{center}
         \formulebox{\parbox{0.86\textwidth}{\centering
         $\xi_e \sim \mathrm{Exp}\bigl(|W_e|\bigr)$ si $e$ est satisfaite, \quad $\xi_e = +\infty$ sinon ;\\[5pt]
-        $\Pi_\beta \;=\;$ composantes connexes de $\{e : \xi_e \le \beta\}$, \qquad $0 \le \beta \le 1$.}}
+        $\Pi_\beta \;=\;$ composantes connexes du graphe $\bigl(V, \{e : \xi_e \le \beta\}\bigr)$,
+        \qquad $0 \le \beta \le 1$.}}
     \end{center}
 
     \vspace{0.25cm}
@@ -1349,36 +1350,40 @@
     \small
     \begin{itemize}
         \setlength{\itemsep}{6pt}
-        \item À chaque nœud, un \emph{bain thermique} exact : \textbf{toute coupe $\beta$ définit une dynamique
-        qui laisse la loi \emph{a posteriori} invariante} (démontré en volume fini)
-        \item \textbf{Aux racines} ($\beta = 1$), retourner une composante entière se fait à pile ou face :
-        c'est la recoloration de \textsc{Swendsen}--\textsc{Wang}. \textbf{Aux feuilles} ($\beta = 0$),
-        la mise à jour porte sur un spin isolé : c'est le bain de \textsc{Glauber}
-        \item Entre les deux, une famille \textbf{continue} de dynamiques : rapides en haut, fines en bas
+        \item À chaque \textbf{nœud} de l'arbre, un \emph{bain thermique} exact : tirer $D \mid \sigma$,
+        appliquer les bains à $D$ fixé, oublier $D$ --- tout programme de nœuds choisi \emph{indépendamment}
+        de la configuration laisse la loi \emph{a posteriori} invariante (démontré en volume fini)
+        \item \textbf{À une racine} (une composante de $\Pi_1$), retourner l'amas entier se fait à pile ou
+        face : c'est \textsc{Swendsen}--\textsc{Wang}. \textbf{À une feuille}, la mise à jour porte sur un
+        spin isolé : c'est un bain de \textsc{Glauber}
+        \item Entre les deux, un bain à \textbf{quatre états} sur l'orientation \emph{relative} des deux fils :
+        la famille \textbf{interpole} entre \textsc{Swendsen}--\textsc{Wang} et les dynamiques locales
     \end{itemize}
 \end{frame}
 
 % ------------------------------------------------------------
 \begin{frame}{Quelle coupe choisir ? celle où les amas \textcolor{inria-rouge}{percolent}}
     \begin{center}
-        \resizebox{0.60\textwidth}{!}{\input{figs/coupe_percolation}}
+        \resizebox{0.54\textwidth}{!}{\input{figs/coupe_percolation}}
     \end{center}
 
     \vspace{0.05cm}
     \begin{center}
-        \formulebox{\parbox{0.76\textwidth}{\centering\small
-        $\displaystyle q_p(\beta) = p\left(1 - e^{-u_p \beta}\right), \quad u_p = \log\tfrac{p}{1-p}$,
-        \quad et $\;q_p(\beta_c) = q_c$}}
+        \formulebox{\parbox{0.80\textwidth}{\centering\small
+        densité d'arêtes ouvertes avant $\beta$ :
+        $\;q_p(\beta) = p\left(1 - e^{-u_p \beta}\right)$, \; $u_p = \log\tfrac{p}{1-p}$ ;\\[3pt]
+        \textbf{coupe critique} $\beta_c$ : $\;q_p(\beta_c) = q_c$, le seuil de percolation du réseau}}
     \end{center}
 
     \vspace{0.10cm}
     \small
     \begin{itemize}
         \setlength{\itemsep}{4pt}
-        \item Seule une masse \textbf{macroscopique} transporte de l'information --- c'est ce que dit la borne
-        de recouvrement de la partie précédente
-        \item Sur le modèle à blocs, cette coupe géométrique rencontre le temps informationnel
-        \textbf{exactement} au seuil de \textsc{Kesten}--\textsc{Stigum} \citb{ii26}
+        \item Seule une masse \textbf{macroscopique} transporte de l'information --- c'est ce que dit
+        la borne de recouvrement de la partie précédente, évaluée à l'horizon $\beta = 1$
+        \item Sur la grille triangulaire, au seuil de percolation de l'\emph{information}, le temps
+        informationnel et $\beta_c$ \textbf{coïncident} \citb{ii26} : mon meilleur argument pour dire
+        que c'est la bonne coupe
         \item \textbf{Statut : un programme.} Notre meilleure borne rigoureuse vient du canal triangulaire,
         \emph{pas} encore de cette dynamique
     \end{itemize}
@@ -1964,7 +1969,8 @@
         jamais atteinte avant la censure
         \item \textbf{Ce que la hiérarchie ajoute à la borne de percolation.} Celle-ci ne retient que la
         \emph{taille} des racines ; la borne par plus petit ancêtre commun pondère chaque fusion par sa
-        fiabilité exacte
+        fiabilité exacte --- algèbre finie établie, \emph{conditionnellement} à la formalisation complète
+        de la mesure jointe augmentée
         \[
             Q_n \;\le\; \frac{1}{n^2}\,\mathbb E\Bigl[\,n + 2\!\!\sum_{u \in D}\! |C_{u,1}|\,|C_{u,2}|\,\eta_u\Bigr],
             \qquad \eta_u = \tanh^2\tfrac{L_u}{2}
@@ -1998,8 +2004,11 @@
             \begin{itemize}
                 \setlength{\itemsep}{9pt}
                 \item Deux répliques, deux dendrogrammes \textbf{indépendants}, coupés au même $\beta_c$
-                \item Chaque arête transmet exactement $\theta^2$ : calibration $\beta_\chi = \beta_c \iff d\theta^2 = 1$\\
-                {\small (le seuil de \textsc{Kesten}--\textsc{Stigum})}
+                \item Chaque branche transmet exactement $\theta^2$ : la densité d'évolution répliquée
+                redonne $d\theta^2 = 1$\\
+                {\small (le seuil de \textsc{Kesten}--\textsc{Stigum} --- identité valable pour
+                \textbf{toute} coupe exactement marginalisée : elle calibre le décompte, elle ne
+                désigne pas $\beta_c$)}
                 \item Quand le signal diverge, $\beta_{c,n} \to 0$ : la coupe s'écrase d'elle-même sur Glauber
             \end{itemize}
         \end{column}
