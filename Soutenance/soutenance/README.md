@@ -43,9 +43,15 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    nécessaire au recouvrement faible et $\theta$ borne la fraction recouvrable —,
    un argument de couplage la retrouve exactement dans le cadre bayésien, et la
    dynamique triangulaire donne une borne strictement meilleure) et
-   détection de fissures (résultats multimodaux, puis construction du graphe de
-   Frangi par paires et extension triangulaire d'ordre 2 ; GRETSI 2025 → EUVIP
-   2026 → ISPRS en cours).
+   détection de fissures, en trois diapositives suivant le papier EUVIP 2026 :
+   le contexte et un exemple FIND, puis la méthode (la décision passe du pixel à
+   l'**arête** — courbure aux deux extrémités, élongation, alignement des
+   directions — et la fusion multimodale se fait **au niveau de l'opérateur**,
+   sur les hessiennes et non sur les réponses), puis la chaîne d'extraction
+   illustrée par les cartes intermédiaires du papier (seuillage → composantes →
+   arbre couvrant minimal → centralité pondérée en $\mathcal O(|V|)$ → squelette)
+   et le résultat FIND, avec l'extension triangulaire d'ordre 2 en perspective ;
+   GRETSI 2025 → EUVIP 2026 → ISPRS en cours.
 7. **Perspectives : la voie hiérarchique** — quatre blocs, une illustration par
    diapositive, le détail renvoyé en secours.
    *(a)* Retour au début de l'exposé : le théorème d'impossibilité de Kleinberg
@@ -120,14 +126,19 @@ de CrackSAM-GeoLoRA de l'import `ISPRS/CrackSAM-GeoLoRA/` de ce dépôt.
 Citations entre crochets définies dans le préambule (`\DeclareRef` /
 `\DeclareMyRef`) : `\citb{cle}` affiche `[Label]` (en **rouge** pour les
 publications de Louis), `\reffoot{cle1,cle2}` affiche les références complètes
-en bas de la diapositive de première citation.
+en bas de la diapositive.
+
+**Règle** : toute diapositive qui affiche un crochet `[…]` porte le `\reffoot`
+correspondant. Seule exception, la diapositive « Publications », où chaque
+crochet est déjà suivi du titre, du lieu et de l'année sur la diapositive
+elle-même.
 
 ## Provenance des figures
 
 - `figs/*.tex` — blocs TikZ extraits (et francisés) de
   `../NEO-AMELEAS_Workshop/main.tex` et `../beamer-presentation-neo/main.tex`.
   Les figures propres à cette présentation (`graphe_signe`, `sw_motifs`,
-  `frangi_ordre2`, `chaine_objets_cibles`, `polyedre_facettes`,
+  `frangi_termes`, `frangi_ordre2`, `chaine_objets_cibles`, `polyedre_facettes`,
   `alphabet_fondation`, `verrou_portee`, `hierarchie_surfaces`,
   `equilibre_continuite`, `programme_falsification`, `hsa_chenille`,
   `pipeline_polyfm`) sont dessinées pour cette présentation, sans image importée.
@@ -138,6 +149,12 @@ en bas de la diapositive de première citation.
   `Presentation-MathNet-2026-06-15/beamer-presentation-reunion-2026-07-16/hierarchical_sw_frames.tex`.
   `kleinberg_impossibilite.tex` est l'ancienne planche unique, remplacée par le
   diptyque `kleinberg_axiomes` / `kleinberg_coupes` : elle n'est plus appelée.
+  `frangi_ordre2.tex` n'est plus appelée non plus depuis la refonte du bloc
+  Frangi, l'ordre 2 y étant désormais une ligne de perspective.
+- **Cartes intermédiaires FIND** (`Int_1FIND`, `Cluster_1FIND`,
+  `Betweenness_1FIND`, à côté de `FrangiSim_1FIND` et `Resultat_1FIND`) —
+  recopiées telles quelles de `EUVIP/LaTeX/` : ce sont les figures du papier
+  EUVIP 2026, donc la chaîne montrée en soutenance est exactement celle publiée.
 - **Convention des graphes signés** (`graphe_signe`, `sw_pas`, `sw_motifs`) —
   celle du manuscrit (`PartIII/ChapII.tex`, figure « Interprétation d'un poids
   $w$ réel ») et de `../beamer-presentation-neo/` : trait plein pour une

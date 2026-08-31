@@ -1143,8 +1143,8 @@
     \reffoot{asilomar25,ii26}
 \end{frame}
 
-\begin{frame}{La percolation borne le recouvrement des communautés}
-    \vspace{0.20cm}
+\begin{frame}[t]{La percolation borne le recouvrement des communautés}
+    \vspace{0.10cm}
     \begin{center}
         \begin{tikzpicture}[x=1cm,y=1cm, every node/.style={font=\small}]
             \node[chapbox, text width=10.8cm] (sb)
@@ -1152,12 +1152,12 @@
                 la \textbf{percolation} est une condition \textbf{nécessaire} au recouvrement faible,\\
                 et la masse $\theta$ de la composante géante \textbf{borne} la fraction recouvrable};
 
-            \node[chapbox, draw=inria-rouge, text width=10.8cm, below=1.05cm of sb] (nous)
+            \node[chapbox, draw=inria-rouge, text width=10.8cm, below=0.82cm of sb] (nous)
                 {\textbf{Notre cadre bayésien} \citb{ii26}\\[3pt]
                 le graphe gelé d'un pas de \textsc{Swendsen}--\textsc{Wang} \emph{est} leur graphe\\
                 de percolation --- leur théorème est \textbf{retrouvé exactement}};
 
-            \node[chapbox, draw=inria-rouge, text width=10.8cm, below=1.05cm of nous] (tri)
+            \node[chapbox, draw=inria-rouge, text width=10.8cm, below=0.82cm of nous] (tri)
                 {\textbf{Dynamique triangulaire} \citb{ii26}\\[3pt]
                 le gel corrélé par triangles percole \textbf{plus tard} ---\\
                 des bornes de recouvrement \textbf{strictement meilleures}};
@@ -1194,60 +1194,61 @@
     \reffoot{frangi98,gretsi25,euvip26}
 \end{frame}
 
-\begin{frame}[t]{Le graphe de \textsc{Frangi} : des pixels aux interactions d'ordre 2}
+\begin{frame}[t]{Le graphe de \textsc{Frangi} : la \emph{paire} de pixels devient l'objet}
     \begin{center}
-        \footnotesize Modalités recalées
-        $\longrightarrow$ hessiennes multiéchelles normalisées et fusionnées
-        $\longrightarrow (\lambda_1,\lambda_2,\theta)$
+        {\small Le filtre de \textsc{Frangi} \citb{frangi98} juge chaque pixel \textbf{seul} --- et se fragmente.\\
+        Nous portons la décision sur l'\textbf{arête} qui joint deux pixels voisins \citb{euvip26}.}
     \end{center}
 
-    \vspace{0.05cm}
-    \begin{columns}[T,onlytextwidth]
-        \begin{column}{0.54\textwidth}
-            \footnotesize\textbf{Cœur publié : le graphe par paires ($K=1$)} \citb{euvip26}
+    \vspace{0.22cm}
+    \begin{center}
+        \input{figs/frangi_termes}
+    \end{center}
 
-            \vspace{0.10cm}
-            \begin{center}
-                {\setlength{\fboxsep}{4pt}\setlength{\fboxrule}{0.8pt}%
-                \fcolorbox{inria-rouge}{gray!4}{$\displaystyle
-                S_{ij}^{(0)}=\max_{\sigma\in\Sigma}
-                \underbrace{S_{\mathrm{int}}^\sigma}_{\text{courbure}}
-                \underbrace{S_{\mathrm{shape}}^\sigma}_{\text{élongation}}
-                \underbrace{S_{\mathrm{align}}^\sigma}_{\text{orientation}}$}}
-            \end{center}
+    \vspace{0.38cm}
+    \begin{center}
+        \formulebox{\parbox{0.88\textwidth}{\centering\footnotesize
+        \textbf{Multimodal, au niveau de l'opérateur} : on normalise puis on \textbf{somme les hessiennes},\\
+        et l'on rediagonalise --- on ne moyenne \emph{jamais} les réponses\\[2pt]
+        {\scriptsize la géométrie de la fissure est commune aux modalités, le bruit de capteur ne l'est pas}}}
+    \end{center}
+    \reffoot{frangi98,euvip26}
+\end{frame}
 
-            \footnotesize
-            \begin{itemize}
-                \setlength{\itemsep}{4pt}
-                \item Un sommet est un pixel candidat ; une arête relie deux voisins
-                dont les réponses tubulaires sont \textbf{compatibles}.
-                \item La distance pénalise aussi les sauts :
-                $d_{ij}=\operatorname{clip}_{[0\,;1]}\!\left[\rho_{ij}(1-S_{ij}^{(0)})\right]$.
-            \end{itemize}
+\begin{frame}[t]{De la similarité au squelette : la chaîne d'extraction}
+    \begin{center}
+        \begin{tabular}{@{}c@{\;}c@{\;}c@{\;}c@{\;}c@{\;}c@{\;}c@{\;}c@{\;}c@{}}
+            \includegraphics[width=0.126\textwidth]{imgs/Int_1FIND.png} & $\rightarrow$ &
+            \includegraphics[width=0.126\textwidth]{imgs/FrangiSim_1FIND.png} & $\rightarrow$ &
+            \includegraphics[width=0.126\textwidth]{imgs/Cluster_1FIND.png} & $\rightarrow$ &
+            \includegraphics[width=0.126\textwidth]{imgs/Betweenness_1FIND.png} & $\rightarrow$ &
+            \includegraphics[width=0.126\textwidth]{imgs/Resultat_1FIND.png} \\[1pt]
+            {\scriptsize \textsc{Frangi} au pixel} & &
+            {\scriptsize similarité d'arête} & &
+            {\scriptsize composante} & &
+            {\scriptsize centralité} & &
+            {\scriptsize squelette} \\
+        \end{tabular}
+    \end{center}
 
-            \begin{center}
-                \scriptsize seuillage $\to$ composantes $\to$ arbre couvrant minimal\\[-1pt]
-                $\to$ centralité pondérée $\to$ squelette
-            \end{center}
-        \end{column}
+    \vspace{0.12cm}
+    \footnotesize
+    \begin{itemize}
+        \setlength{\itemsep}{3pt}
+        \item \textbf{Seuiller} les arêtes puis les sommets (une seule fraction $\tau$), garder les
+        \textbf{composantes} assez grandes --- une seule sur FIND, toutes ailleurs
+        \item \textbf{Arbre couvrant minimal} par composante : la réponse épaisse devient une structure
+        d'axe unique \citb{euvip26}
+        \item \textbf{Centralité pondérée sur l'arbre}, en $\mathcal O(|V|)$ : masses des sous-arbres
+        accumulées, réenracinement au maximum, élagage descendant --- l'axe principal reste
+        \item \textbf{La suite, à l'ordre 2} : deux arêtes ne se recollent que par un \textbf{triangle} \citb{ans26} \citb{isprs26}
+    \end{itemize}
 
-        \begin{column}{0.42\textwidth}
-            \footnotesize\textbf{Extension triangulaire en cours ($K=2$)} \citb{ans26} \citb{isprs26}
-
-            \vspace{-0.02cm}
-            \begin{center}
-                \resizebox{0.64\linewidth}{!}{\input{figs/frangi_ordre2}}
-            \end{center}
-
-            \vspace{-0.12cm}
-            \scriptsize
-            \begin{itemize}
-                \item Les \textbf{arêtes deviennent les objets} : deux arêtes se recollent
-                par un triangle. Une chaîne d'arêtes sans triangle ne suffit plus à propager la connexité :
-                $K=2$ freine les ponts parasites.
-            \end{itemize}
-        \end{column}
-    \end{columns}
+    \vspace{0.06cm}
+    \begin{center}
+        {\footnotesize Sur FIND, \textbf{sans apprentissage} : $63\,\%$ de \textsc{Jaccard} --- CrackSegDiff,
+        supervisé, fait $87\,\%$ sur données propres mais s'effondre sous le bruit.}
+    \end{center}
     \reffoot{euvip26,ans26,isprs26}
 \end{frame}
 
