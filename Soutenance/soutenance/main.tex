@@ -1289,7 +1289,7 @@
 % ------------------------------------------------------------
 \begin{frame}{\textsc{Carlsson} \& \textsc{Mémoli} : changer l'objet de sortie}
     \begin{center}
-        \resizebox{0.57\textwidth}{!}{\input{figs/kleinberg_coupes}}
+        \resizebox{0.52\textwidth}{!}{\input{figs/kleinberg_coupes}}
     \end{center}
 
     \vspace{0.05cm}
@@ -1297,8 +1297,8 @@
     \begin{itemize}
         \setlength{\itemsep}{5pt}
         \item Pour chacune des trois \emph{paires} d'axiomes, \textsc{Kleinberg} donne un témoin ---
-        à chaque fois une \textbf{variante du Single-Linkage}, la variante étant la \textbf{règle d'arrêt} :
-        $k$ amas, distance $r$, ou fraction $\alpha$ du diamètre
+        à chaque fois une \textbf{variante du Single-Linkage}, ce qui change d'une variante à l'autre
+        étant la \textbf{règle d'arrêt} : $k$ amas, distance $r$, ou fraction $\alpha$ du diamètre
         \item L'obstruction indique donc la sortie : garder l'arbre, et laisser la règle de coupe à l'utilisateur
         \item \textsc{Carlsson} \& \textsc{Mémoli} changent alors l'objet rendu : une \textbf{ultramétrique},
         $T : (\mathcal X, d) \mapsto (\mathcal X, u)$ --- de façon équivalente, un dendrogramme
@@ -1350,19 +1350,20 @@
     \small
     \begin{itemize}
         \setlength{\itemsep}{6pt}
-        \item À chaque \textbf{nœud} de l'arbre, un \emph{bain thermique} exact : tirer $D \mid \sigma$,
-        appliquer les bains à $D$ fixé, oublier $D$ --- tout programme de nœuds choisi \emph{indépendamment}
-        de la configuration laisse la loi \emph{a posteriori} invariante (démontré en volume fini)
+        \item À chaque \textbf{nœud} de l'arbre, un \emph{bain thermique} exact : tirer le dendrogramme
+        d'horloges $D$ sachant $\sigma$, appliquer les bains à $D$ fixé, oublier $D$ --- tout ordonnancement
+        des nœuds choisi \emph{indépendamment} de la configuration laisse la loi \emph{a posteriori}
+        invariante (démontré en volume fini)
         \item \textbf{À une racine} (une composante de $\Pi_1$), retourner l'amas entier se fait à pile ou
         face : c'est \textsc{Swendsen}--\textsc{Wang}. \textbf{À une feuille}, la mise à jour porte sur un
         spin isolé : c'est un bain de \textsc{Glauber}
-        \item Entre les deux, un bain à \textbf{quatre états} sur l'orientation \emph{relative} des deux fils :
+        \item Entre les deux, un bain à \textbf{quatre états} --- retourner ou non chacun des deux fils :
         la famille \textbf{interpole} entre \textsc{Swendsen}--\textsc{Wang} et les dynamiques locales
     \end{itemize}
 \end{frame}
 
 % ------------------------------------------------------------
-\begin{frame}{Quelle coupe choisir ? celle où les amas \textcolor{inria-rouge}{percolent}}
+\begin{frame}{Quelle coupe choisir ? Celle où les amas \textcolor{inria-rouge}{percolent}}
     \begin{center}
         \resizebox{0.54\textwidth}{!}{\input{figs/coupe_percolation}}
     \end{center}
@@ -1382,10 +1383,10 @@
         \item Seule une masse \textbf{macroscopique} transporte de l'information --- c'est ce que dit
         la borne de recouvrement de la partie précédente, évaluée à l'horizon $\beta = 1$
         \item Sur la grille triangulaire, au seuil de percolation de l'\emph{information}, le temps
-        informationnel et $\beta_c$ \textbf{coïncident} \citb{ii26} : mon meilleur argument pour dire
-        que c'est la bonne coupe
-        \item \textbf{Statut : un programme.} Notre meilleure borne rigoureuse vient d'ailleurs
-        --- d'un canal d'information à plusieurs états sur les triangles --- \emph{pas} de cette dynamique
+        informationnel et $\beta_c$ \textbf{coïncident} \citb{ii26} : le meilleur argument dont nous
+        disposons pour dire que c'est la bonne coupe
+        \item \textbf{Statut : un programme.} Notre meilleure borne rigoureuse vient d'une \emph{autre}
+        source --- un canal d'information à plusieurs états sur les triangles --- et \emph{pas} de cette dynamique
     \end{itemize}
 \end{frame}
 
@@ -1406,8 +1407,8 @@
         l'exemple fondateur
         \item Trois piliers : l'\textbf{échelle} (des données et des paramètres),
         l'\textbf{auto-supervision} (pas d'annotation), l'\textbf{adaptabilité} (on ne réapprend qu'une mince couche)
-        \item Une condition préalable, rarement dite : il faut une \textbf{unité de calcul stable} ---
-        le sous-mot pour le texte, l'imagette $16 \times 16$ pour l'image
+        \item Une condition préalable, rarement dite : il faut une \textbf{unité de calcul stable},
+        un \textbf{jeton} --- le sous-mot pour le texte, l'imagette $16 \times 16$ pour l'image
     \end{itemize}
     \reffoot{bommasani21,brown20}
 \end{frame}
@@ -1446,7 +1447,7 @@
         $W = W_0 + BA$, sur les matrices de requête et de valeur \citb{hu22}
         \item \textbf{CrackSAM} \citb{ge24} : cette recette, \emph{plus} un réapprentissage du décodeur
         de masque --- $4{,}4$~M de poids appris sur $637$~M, soit $0{,}7\,\%$
-        \item Il domine les réseaux spécialisés sur deux des trois jeux \emph{zéro-shot} et sous le bruit,
+        \item Il domine les réseaux spécialisés sur deux des trois jeux \emph{zero-shot} et sous le bruit,
         mais SegFormer reste devant sur le test propre
         \item Le difficile n'est pas la sémantique, c'est le \textbf{changement de domaine} : ombres,
         textures, et une fissure qui n'occupe qu'une fraction infime des pixels
@@ -1518,7 +1519,7 @@
 \end{frame}
 
 % ------------------------------------------------------------
-\begin{frame}{Pourquoi ? il manque l'\textcolor{inria-rouge}{unité de calcul}}
+\begin{frame}{Pourquoi ? Il manque l'\textcolor{inria-rouge}{unité de calcul}}
     \begin{center}
         \resizebox{0.56\textwidth}{!}{\input{figs/alphabet_fondation}}
     \end{center}
@@ -1547,9 +1548,8 @@
     \begin{itemize}
         \setlength{\itemsep}{5pt}
         \item La \textbf{densité} décroît avec la portée : le même objet donne deux nuages sans
-        correspondance point à point.
-        S'y ajoutent les nappes de balayage et les \textbf{occultations} --- ce qui manque n'est pas vide,
-        il est \emph{non observé}
+        correspondance point à point ; s'y ajoutent les nappes de balayage et les \textbf{occultations}
+        --- ce qui manque n'est pas du vide : c'est du \emph{non-observé}
         \item Un modèle point par point apprend donc \emph{en même temps} la géométrie, le capteur,
         la densité, l'occultation \textbf{et} la sémantique
         \item Hypothèse assumée : c'est \emph{une} raison centrale de la difficulté --- pas la seule
@@ -1559,23 +1559,23 @@
 % ------------------------------------------------------------
 \begin{frame}{Mon idée : le \textcolor{inria-rouge}{polyèdre} comme alphabet, l'\textcolor{inria-rouge}{arbre} comme grammaire}
     \small
-    \textsc{Kleinberg} disait : \emph{gardez l'arbre}. En 3D, cet arbre, nous l'avons déjà --- c'est la
-    hiérarchie de $K$-polyèdres de la partie II.
+    L'obstruction de \textsc{Kleinberg} disait : \emph{gardez l'arbre} --- c'est la sortie prise par
+    \textsc{Carlsson} \& \textsc{Mémoli}. En 3D, cet arbre, nous l'avons déjà : c'est la hiérarchie de
+    $K$-polyèdres de la partie II.
 
     \vspace{0.10cm}
     \begin{center}
-        \resizebox{0.32\textwidth}{!}{\input{figs/hierarchie_surfaces}}
+        \resizebox{0.38\textwidth}{!}{\input{figs/hierarchie_surfaces}}
     \end{center}
 
     \vspace{0.05cm}
     \begin{itemize}
         \setlength{\itemsep}{3pt}
         \item \textbf{Chaque} nœud porte un \textbf{recollement de facettes} --- des triangles dès $K = 3$,
-        donc une \emph{surface}. \citb{robert23} n'agrège que des points, \citb{yu25} a la surface sans
-        la hiérarchie
+        donc une \emph{surface} : les hiérarchies de superpoints \citb{robert23} n'agrègent que des points ;
+        PolyhedronNet \citb{yu25} a la surface, mais pas la hiérarchie
         \item Le paramètre de la filtration est une grandeur \textbf{physique} --- un rayon, en mètres,
         et non un indice $0, 1, 2, \ldots$ : les branches deviennent des trajectoires, les fusions des événements
-        \item L'interface vers les points existe déjà : les poids $S_\tau / T_x$ du vote pondéré du \S~9.1
         \item \textbf{Un pari, et il est réfutable} : si l'arbre réel ne bat ni un modèle plat, ni un arbre
         aléatoire, ni une hiérarchie \emph{générique}, il tombe
     \end{itemize}
@@ -1901,7 +1901,7 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Un pas de Swendsen--Wang signé, en détail}
+\begin{frame}{Un pas de \textsc{Swendsen}--\textsc{Wang} signé, en détail}
     \begin{itemize}
         \setlength{\itemsep}{10pt}
         \item \textbf{Gel} : chaque arête \emph{satisfaite} est gelée avec probabilité $1 - e^{-|W_e|}$ ; les non satisfaites jamais
@@ -1936,7 +1936,7 @@
         \setlength{\itemsep}{8pt}
         \item Conditionnellement à $\sigma$ : $\xi_e \sim \mathrm{Exp}(|W_e|)$ sur les arêtes satisfaites, $\xi_e = +\infty$ sinon ;\\
         $\Pi_\beta$ = composantes de $\{\xi_e \le \beta\}$ ; le dendrogramme s'obtient par \textsc{Kruskal}
-        \item $\mathbb P(\xi_e \le 1) = 1 - e^{-|W_e|}$ : $\Pi_1$ est \textbf{exactement} la partition gelée de Swendsen--Wang
+        \item $\mathbb P(\xi_e \le 1) = 1 - e^{-|W_e|}$ : $\Pi_1$ est \textbf{exactement} la partition gelée de \textsc{Swendsen}--\textsc{Wang}
         \item Mesure jointe de type \textsc{Edwards}--\textsc{Sokal} $\nu(\sigma, D)$ ; à chaque nœud, un \textbf{bain thermique exact} sur les quatre orientations relatives des deux fils (balance détaillée, invariance)
         \item Le dendrogramme est \textbf{non marqué} : l'identité de l'arête gagnante est marginalisée --- une fusion dépend de toute la coupe $\Lambda_u(\sigma) = \sum_{e \in E_u} |W_e| \ind{e \text{ satisfaite}}$
         \item Sur le tore triangulaire : $\Pi_t$ suit une percolation indépendante $q_p(t) = p\,(1 - e^{-u_p t})$, $u_p = \log\frac{p}{1-p}$
@@ -1960,7 +1960,8 @@
         \setlength{\itemsep}{7pt}
         \item La forêt couvrante minimale \textbf{calcule} la hiérarchie ; mais la \emph{loi} des retournements
         utilise toujours \textbf{toutes} les arêtes du graphe, pas seulement celles retenues par \textsc{Kruskal}
-        \item L'arête à $1{,}26$ n'a jamais sonné avant l'horizon : $e$ reste seul, et $\Pi_1$ a deux composantes
+        \item L'arête $\{d,e\}$ n'a jamais sonné avant l'horizon ($\xi = 1{,}26 > 1$) : le sommet $e$ reste
+        \textbf{isolé}, et $\Pi_1$ a deux composantes
     \end{itemize}
 \end{frame}
 
@@ -2017,7 +2018,7 @@
                 {\small (le seuil de \textsc{Kesten}--\textsc{Stigum} --- identité valable pour
                 \textbf{toute} coupe exactement marginalisée : elle calibre le décompte, elle ne
                 désigne pas $\beta_c$)}
-                \item Quand le signal diverge, $\beta_{c,n} \to 0$ : la coupe s'écrase d'elle-même sur Glauber
+                \item Quand le signal diverge, $\beta_{c,n} \to 0$ : la coupe s'écrase d'elle-même sur \textsc{Glauber}
             \end{itemize}
         \end{column}
     \end{columns}
@@ -2161,8 +2162,8 @@
     \small
     \begin{itemize}
         \setlength{\itemsep}{4pt}
-        \item \textbf{Surface d'attaque} : $3$ blocs d'attention globale sur $48$ dans \emph{Hiera}-L,
-        soit $6{,}6\,\%$ du budget arithmétique du tronc (comptage analytique)
+        \item \textbf{Surface d'attaque} : $3$ blocs d'attention globale sur $48$ dans \emph{Hiera}-L
+        ($6{,}25\,\%$ des blocs), soit $6{,}6\,\%$ du budget arithmétique du tronc (comptage analytique)
         \item \textbf{Forme de l'arbre} : ce n'est pas un réglage --- l'arité $b = (N-1)/(N-L)$ est \emph{fixée}
         par la fraction de feuilles, donc par la géométrie de la fissure ; $b \approx 1{,}3$ contre $8$ attendu
         \item Ce défaut-là se répare (décomposition en centroïdes sur la grille $64 \times 64$ : profondeur $12$,
@@ -2170,7 +2171,8 @@
         \item Et la meilleure hiérarchie possible --- construite depuis la vérité terrain --- ne demande
         qu'une \textbf{carte binaire} fissure/fond : ni arbre couvrant, ni composantes, ni centralité
         \item \textbf{Limite assumée} : mesures sur fissures \emph{synthétiques} calibrées sur le corpus
-        Khánh Hà ($448$~px, largeur $19{,}1$~px, couverture $5{,}7\,\%$) ; \textbf{aucun GPU} n'a été dépensé
+        Khánh Hà ($448$~px, largeur $19{,}1$~px, couverture $5{,}7\,\%$) ; \textbf{aucune heure de GPU}
+        n'a été dépensée
     \end{itemize}
 \end{frame}
 
@@ -2264,7 +2266,7 @@
             \end{itemize}
 
             \vspace{0.35cm}
-            {\footnotesize Ces résultats resteraient publiables comme \textbf{réfutation} --- mais pas sous le \emph{claim} prévu.}
+            {\footnotesize Ces résultats resteraient publiables comme \textbf{réfutation} --- mais pas sous la thèse annoncée.}
         \end{column}
     \end{columns}
 \end{frame}
@@ -2298,8 +2300,8 @@
     \small
     \begin{itemize}
         \setlength{\itemsep}{4pt}
-        \item \textbf{Dilution} : combien de jetons sont moyennés avec $j$ quand $i$ l'attend. Sous attention plate, elle vaut $1$ --- $181$ reste donc \emph{énorme}. Sur \textbf{trois fissures synthétiques}
-        \item L'écart $181$ contre $808$ mesure la \textbf{causalité} (bon masque \emph{vs.} masque d'une autre image), pas une performance : aucun IoU n'a été mesuré
+        \item \textbf{Dilution} : combien de jetons sont moyennés avec $j$ lorsque $i$ porte son attention sur $j$. Sous attention plate, elle vaut $1$ --- $181$ reste donc \emph{énorme}. Sur \textbf{trois fissures synthétiques}
+        \item L'écart $181$ contre $808$ mesure la \textbf{causalité} (bon masque \emph{vs.} masque d'une autre image), pas une performance : aucune IoU n'a été mesurée
         \item Toutes les hiérarchies \textbf{équilibrées} plafonnent entre $768$ et $1\,024$, y compris celle qui cherche explicitement à éviter la fissure
     \end{itemize}
 \end{frame}
