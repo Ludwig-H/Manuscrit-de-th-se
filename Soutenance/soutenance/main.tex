@@ -281,6 +281,7 @@
             \end{itemize}
         \end{column}
     \end{columns}
+    \reffoot{hal17}
 \end{frame}
 
 \begin{frame}{Et\ldots\ cela marche bien}
@@ -549,7 +550,7 @@
 
         \end{column}
     \end{columns}
-    \reffoot{ester96}
+    \reffoot{ester96,campello13}
 \end{frame}
 
 % ============================================================
@@ -739,6 +740,7 @@
             \end{center}
         \end{column}
     \end{columns}
+    \reffoot{ans26}
 \end{frame}
 
 \begin{frame}{$K$-arbre couvrant et mosaïque de \textsc{Delaunay} d'ordre $K$}
@@ -777,7 +779,7 @@
             \end{center}
         \end{column}
     \end{columns}
-    \reffoot{edelsbrunner23}
+    \reffoot{edelsbrunner23,ans26}
 \end{frame}
 
 \begin{frame}{En pratique ($K=2$) : les huiles d'olive italiennes \citb{forina83}}
@@ -804,7 +806,7 @@
     \begin{center}
         \small Au-delà de l'état de l'art \citb{rolle23} \citb{ans26}
     \end{center}
-    \reffoot{forina83,rolle23}
+    \reffoot{forina83,rolle23,ans26}
 \end{frame}
 
 % ============================================================
@@ -856,6 +858,7 @@
             \end{itemize}
         \end{column}
     \end{columns}
+    \reffoot{ans26}
 \end{frame}
 
 \begin{frame}{Quantifier : la \emph{vitesse de percolation}}
@@ -904,7 +907,7 @@
             \end{itemize}
         \end{column}
     \end{columns}
-    \reffoot{src24,cn24}
+    \reffoot{src24,cn24,ans26}
 \end{frame}
 
 \begin{frame}{Vitesses de percolation mesurées}
@@ -937,6 +940,7 @@
         \item Robust SL : augmenter $K$ \textbf{dégrade} (jeter la frontière est rédhibitoire)
         \item DBSCAN : la connectivité des cœurs percole trop tôt
     \end{itemize}
+    \reffoot{ans26}
 \end{frame}
 
 % ============================================================
@@ -1166,7 +1170,7 @@
                 {on change de motif : les triangles au lieu des arêtes};
         \end{tikzpicture}
     \end{center}
-    \reffoot{sb18}
+    \reffoot{sb18,ii26}
 \end{frame}
 
 \begin{frame}[t]{Extraction de réseaux de fissures sur images}
@@ -1338,6 +1342,7 @@
         les $\Pi_\beta$ sont emboîtées, elles forment un \textbf{dendrogramme} \citb{ii26}
         --- $\beta$ est un temps de filtration, pas une température
     \end{itemize}
+    \reffoot{ii26}
 \end{frame}
 
 % ------------------------------------------------------------
@@ -1362,12 +1367,12 @@
 \end{frame}
 
 % ------------------------------------------------------------
-\begin{frame}{Quelle coupe choisir ? celle où les amas \textcolor{inria-rouge}{percolent}}
+\begin{frame}[t]{Quelle coupe choisir ? celle où les amas \textcolor{inria-rouge}{percolent}}
     \begin{center}
-        \resizebox{0.54\textwidth}{!}{\input{figs/coupe_percolation}}
+        \resizebox{0.46\textwidth}{!}{\input{figs/coupe_percolation}}
     \end{center}
 
-    \vspace{0.05cm}
+    \vspace{0.02cm}
     \begin{center}
         \formulebox{\parbox{0.80\textwidth}{\centering\small
         densité d'arêtes ouvertes avant $\beta$ :
@@ -1375,18 +1380,18 @@
         \textbf{coupe critique} $\beta_c$ : $\;q_p(\beta_c) = q_c$, le seuil de percolation du réseau}}
     \end{center}
 
-    \vspace{0.10cm}
-    \small
+    \vspace{0.06cm}
+    \footnotesize
     \begin{itemize}
-        \setlength{\itemsep}{4pt}
+        \setlength{\itemsep}{3pt}
         \item Seule une masse \textbf{macroscopique} transporte de l'information --- c'est ce que dit
         la borne de recouvrement de la partie précédente, évaluée à l'horizon $\beta = 1$
-        \item Sur la grille triangulaire, au seuil de percolation de l'\emph{information}, le temps
-        informationnel et $\beta_c$ \textbf{coïncident} \citb{ii26} : mon meilleur argument pour dire
-        que c'est la bonne coupe
+        \item Sur la grille triangulaire, temps informationnel et $\beta_c$ \textbf{coïncident} \citb{ii26} :
+        mon meilleur argument pour cette coupe
         \item \textbf{Statut : un programme.} Notre meilleure borne rigoureuse vient d'ailleurs
         --- d'un canal d'information à plusieurs états sur les triangles --- \emph{pas} de cette dynamique
     \end{itemize}
+    \reffoot{ii26}
 \end{frame}
 
 % ============================================================
@@ -1589,22 +1594,23 @@
 \section{Conclusion}
 \frame{\sectionpage}
 
-\begin{frame}{Deux piliers, quatre contributions}
+\begin{frame}[t]{Deux piliers, quatre contributions}
     \begin{beamercolorbox}[rounded=true,sep=8pt]{block body}
         \centering
         \textbf{1)} Quand les relations binaires sont insuffisantes ou instables,\\ les \textbf{interactions d'ordre supérieur} apportent une cohérence robuste.\\[6pt]
         \textbf{2)} La \textbf{percolation} est la clef de voûte théorique\\ pour quantifier les performances de ces algorithmes.
     \end{beamercolorbox}
 
-    \vspace{0.20cm}
-    \small
+    \vspace{0.06cm}
+    \footnotesize
     \begin{itemize}
-        \setlength{\itemsep}{5pt}
-        \item Une \textbf{vue unifiée} du \emph{Single-Linkage} : heuristique (arbre couvrant), géométrique (percolation), statistique (\textsc{Hartigan}) ; applications LiDAR 3D et 4D sans apprentissage
-        \item \textbf{HGP-Clusterer} : la hiérarchie $K$-NN \emph{exacte}, \emph{via} \v{C}ech, \textsc{Gabriel} et la mosaïque de \textsc{Delaunay} d'ordre $K$ \citb{eusipco24} \citb{cn24} \citb{ans26}
-        \item La \textbf{vitesse de percolation} : une mesure quantitative qui explique l'échec de Robust SL et (H)DBSCAN et les gains observés des $K$-polyèdres dans ce protocole \citb{src24}
-        \item L'\textbf{export du paradigme} : graphes signés (dynamiques d'ordre supérieur et bornes de recouvrement) \citb{asilomar25} \citb{ii26} ; imagerie (graphe de \textsc{Frangi} multimodal) \citb{gretsi25} \citb{euvip26}
+        \setlength{\itemsep}{2pt}
+        \item Une \textbf{vue unifiée} du \emph{Single-Linkage} : heuristique, géométrique, statistique ; LiDAR 3D et 4D sans apprentissage
+        \item \textbf{HGP-Clusterer} : la hiérarchie $K$-NN \emph{exacte}, \emph{via} \v{C}ech, \textsc{Gabriel} et \textsc{Delaunay} d'ordre $K$ \citb{eusipco24} \citb{cn24} \citb{ans26}
+        \item La \textbf{vitesse de percolation} : elle explique l'échec de Robust SL et (H)DBSCAN, et les gains des $K$-polyèdres \citb{src24}
+        \item L'\textbf{export du paradigme} : graphes signés \citb{asilomar25} \citb{ii26} ; imagerie, graphe de \textsc{Frangi} multimodal \citb{gretsi25} \citb{euvip26}
     \end{itemize}
+    \reffoot{eusipco24,cn24,ans26,src24,asilomar25,ii26,gretsi25,euvip26}
 \end{frame}
 
 \begin{frame}{Perspectives, dans le fil de la thèse}
@@ -1799,6 +1805,7 @@
             \end{itemize}
         \end{column}
     \end{columns}
+    \reffoot{rolle23}
 \end{frame}
 
 \begin{frame}{Vitesses de percolation : le protocole}
@@ -1859,6 +1866,7 @@
             \end{center}
         \end{column}
     \end{columns}
+    \reffoot{sautier25,oh25}
 \end{frame}
 
 % --- Graphes signés ------------------------------------------
@@ -1929,6 +1937,7 @@
     \begin{itemize}
         \item Le graphe gelé d'un pas de SW sur les arêtes est \textbf{exactement} la percolation indépendante de \citb{sb18}
     \end{itemize}
+    \reffoot{sb18}
 \end{frame}
 
 \begin{frame}{La hiérarchie d'horloges, en détail}
@@ -2192,7 +2201,7 @@
         \item Un nœud ne porte pas qu'un sac de points : il porte un recollement de \textbf{facettes},
         c'est-à-dire un bloc de la partition des $(K-1)$-simplexes de \textsc{Gabriel} effectivement construits
     \end{itemize}
-    \reffoot{culbertson18}
+    \reffoot{culbertson18,ans26}
 \end{frame}
 
 \begin{frame}{Rester honnête : ce qui reste entièrement à démontrer}
