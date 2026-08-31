@@ -9,7 +9,7 @@
 
                     % ================= gauche : contraindre =================
                     \begin{scope}[shift={(0,0)}]
-                        \node[titre, text=gris_fonce_inria] at (1.40,3.05) {\textsc{contraindre} (HSA)};
+                        \node[titre, text=gris_fonce_inria] at (1.40,3.05) {\textbf{contraindre} (HSA)};
                         % blocs diagonaux : le détail survit
                         \foreach \i in {0,...,3} {
                             \foreach \j in {0,...,3} {
@@ -32,7 +32,7 @@
 
                     % ================= droite : informer =================
                     \begin{scope}[shift={(6.30,0)}]
-                        \node[titre, text=inria-rouge] at (1.40,3.05) {\textsc{informer} (biais additif)};
+                        \node[titre, text=inria-rouge] at (1.40,3.05) {\textbf{informer} (biais additif)};
                         \foreach \i in {0,...,7} {
                             \foreach \j in {0,...,7} {
                                 \pgfmathsetmacro{\dd}{abs(\i-\j)}
