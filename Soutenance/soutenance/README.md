@@ -25,7 +25,7 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    Dyogene), homologie persistante, stylométrie (matrice de Gram, 5 auteurs),
    heuristique des composantes « simplexe-connexes » ; la question fondatrice
    « pourquoi cela marche-t-il si bien ? ».
-2. **Du Single-Linkage à ses fondements** (Partie I du manuscrit) — modèle de
+2. **Du *Single-Linkage* à ses fondements** (Partie I du manuscrit) — modèle de
    Hartigan, estimateur K-NN, graphe géométrique ≡ MST élagué, Robust SL,
    (H)DBSCAN.
 3. **Monter en ordre : la hiérarchie K-NN exacte** (Partie II) — contre-exemple
@@ -34,35 +34,41 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
 4. **La percolation comme mesure de performance** (Partie II, chap. III) —
    percolation continue, inconsistance en dimension ≥ 2, vitesse de
    percolation et tableau comparatif HGP / Robust SL / DBSCAN.
-5. **Applications LiDAR 3D/4D** — anomalies (Naval Group), segmentation
+5. **Applications LiDAR 3D et 4D** — anomalies (Naval Group), segmentation
    panoptique 4D (SemanticKITTI), sans apprentissage.
 6. **Données davantage structurées** (Partie III) — graphes signés (cadre
-   bayésien, dynamiques Swendsen–Wang d'ordre supérieur, bornes de
-   percolation ; Asilomar 2025 → journal en cours) et détection de fissures
-   (graphe de Frangi multimodal ; GRETSI 2025 → EUVIP 2026 → ISPRS en cours).
+   bayésien, Swendsen–Wang signé, généralisation aux interactions d'ordre
+   supérieur, puis borne générale de recouvrement par la masse percolée ; le
+   résultat de Sankararaman–Baccelli est retrouvé comme cas particulier) et
+   détection de fissures (résultats multimodaux, puis construction du graphe de
+   Frangi par paires et extension triangulaire d'ordre 2 ; GRETSI 2025 → EUVIP
+   2026 → ISPRS en cours).
 7. **Perspectives : la voie hiérarchique** — le théorème d'impossibilité de
-   Kleinberg et son contournement hiérarchique (Carlsson–Mémoli, puis
-   Culbertson–Guralnik–Stiller et les recouvrements) ; le manque d'un modèle de
-   fondation pour la 3D ; le nuage de points comme artefact du capteur ; les
-   $K$-polyèdres et leur espace d'échelle comme alphabet candidat ; la
-   contre-épreuve du *no-go* CrackSAM–HSA ; le programme de réfutation en cinq
-   portes. **Rien n'y est présenté comme acquis** : les sources sont
+   Kleinberg, énoncé par ses trois axiomes, puis une diapositive distincte sur le
+   changement de sortie vers la hiérarchie (Carlsson–Mémoli, puis
+   Culbertson–Guralnik–Stiller et les recouvrements) ; la hiérarchie d'horloges
+   des dynamiques de clusters ; le manque d'un modèle de fondation pour la 3D ;
+   le nuage de points comme artefact du capteur ; les $K$-polyèdres et leur espace d'échelle
+   comme alphabet candidat ; deux diapositives simples sur la contre-épreuve
+   CrackSAM–HSA et un programme progressif de guidage de SAM. **Rien n'y est
+   présenté comme acquis** : les sources sont
    `E-HGP/tests/SemanticKITTI/Zoltan/HierarchicalSelfAttention` (statut
    `foundation_claim = not_yet_earned`) et
-   `ISPRS/CrackSAM-HierarchicalSelfAttention` (no-go de conception).
+   `ISPRS/CrackSAM-HierarchicalSelfAttention` (résultat négatif de conception).
 8. **Conclusion, publications** — deux piliers et quatre contributions,
    perspectives dans le fil de la thèse, liste des publications et des dépôts
    logiciels.
-9. **Slides de secours** (après le « Merci »), suivant la chronologie de la
-   présentation : stylométrie 5 auteurs, benchmark SIPU, confusion huiles
+9. **Diapositives de secours** (après le « Merci »), suivant la chronologie de la
+   présentation : stylométrie 5 auteurs, banc d'essai SIPU, confusion huiles
    d'olive, protocole des vitesses, fenêtre gaussienne K→∞, état de l'art
    LiDAR, haplotypes, cadre bayésien/Gibbs, Swendsen–Wang détaillé, modèle
    Sankararaman–Baccelli, hiérarchie d'horloges, échelle des seuils GSBM,
    calibration SBM, validation 10⁶ nœuds, VT-GraF, robustesse, transferts,
-   sensibilité, CrackSAM-GeoLoRA, puis les quatre slides de la voie hiérarchique
-   (ce que la thèse fournit déjà au *tokenizer* ; pourquoi le *no-go* HSA est un
-   no-go de conception ; les bras de contrôle H0–H8 qui réfuteraient le pari
-   hiérarchique ; efficacité contre continuité, en chiffres).
+   sensibilité, CrackSAM-GeoLoRA, puis les cinq diapositives de la voie hiérarchique
+   (ce qui reste à démontrer ; ce que la thèse fournit déjà à la segmentation
+   en jetons ; pourquoi le résultat négatif HSA est un problème de conception ; les bras de contrôle
+   H0–H8 qui réfuteraient le pari hiérarchique ; efficacité contre continuité,
+   en chiffres).
 
 Les figures de la dynamique hiérarchique proviennent de GitHub
 `Ludwig-H/Presentation-MathNet-2026-06-15/research` (SVG convertis) ; celles
@@ -82,13 +88,13 @@ de CrackSAM-GeoLoRA de l'import `ISPRS/CrackSAM-GeoLoRA/` de ce dépôt.
 Citations entre crochets définies dans le préambule (`\DeclareRef` /
 `\DeclareMyRef`) : `\citb{cle}` affiche `[Label]` (en **rouge** pour les
 publications de Louis), `\reffoot{cle1,cle2}` affiche les références complètes
-en bas du slide de première citation.
+en bas de la diapositive de première citation.
 
 ## Provenance des figures
 
 - `figs/*.tex` — blocs TikZ extraits (et francisés) de
   `../NEO-AMELEAS_Workshop/main.tex` et `../beamer-presentation-neo/main.tex`.
-  Les dix figures de la section « Perspectives » (`kleinberg_impossibilite`,
+  Les figures propres à cette présentation (`frangi_ordre2`,
   `chaine_objets_cibles`, `polyedre_facettes`, `alphabet_fondation`,
   `verrou_portee`, `hierarchie_surfaces`, `equilibre_continuite`,
   `programme_falsification`, `hsa_chenille`, `pipeline_polyfm`) sont dessinées

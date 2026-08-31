@@ -1,0 +1,47 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+    \useasboundingbox (-0.2,-0.45) rectangle (5.35,3.75);
+
+    \tikzset{
+        pixel/.style={circle, fill=gris_fonce_inria, inner sep=0pt, minimum size=4.2pt},
+        pixelr/.style={circle, fill=inria-rouge, inner sep=0pt, minimum size=4.5pt},
+        arete/.style={draw=gris_fonce_inria, line width=1.0pt},
+        areter/.style={draw=inria-rouge, line width=1.2pt}
+    }
+
+    % K = 1 : une chaîne d'arêtes suffit à propager la connexité.
+    \node[font=\scriptsize\bfseries, anchor=west] at (0,3.48) {$K=1$ : connexité par arêtes};
+    \foreach \i/\x/\y in {1/0.25/2.72,2/1.05/2.92,3/1.85/2.66,4/2.65/2.88,5/3.45/2.62,6/4.25/2.82,7/5.00/2.56}
+        \node[pixel] (c\i) at (\x,\y) {};
+    \draw[arete] (c1)--(c2)--(c3);
+    \draw[gray!65, line width=1.0pt, densely dashed] (c3)--(c4)--(c5);
+    \draw[arete] (c5)--(c6)--(c7);
+    \node[font=\tiny, text=gray!75, align=center] at (3.05,3.15) {un pont mince\\ peut suffire};
+
+    % K = 2 : un ruban de triangles se recolle, une chaîne isolée ne suffit plus.
+    \node[font=\scriptsize\bfseries, anchor=west] at (0,2.05) {$K=2$ : soutien par triangles};
+    \coordinate (a1) at (0.25,1.35);
+    \coordinate (a2) at (1.10,1.55);
+    \coordinate (a3) at (1.95,1.30);
+    \coordinate (a4) at (2.80,1.50);
+    \coordinate (b1) at (0.68,0.70);
+    \coordinate (b2) at (1.53,0.88);
+    \coordinate (b3) at (2.38,0.65);
+
+    \fill[inria-rouge!13] (a1)--(a2)--(b1)--cycle;
+    \fill[inria-rouge!13] (a2)--(b1)--(b2)--cycle;
+    \fill[inria-rouge!13] (a2)--(a3)--(b2)--cycle;
+    \fill[inria-rouge!13] (a3)--(b2)--(b3)--cycle;
+    \fill[inria-rouge!13] (a3)--(a4)--(b3)--cycle;
+
+    \draw[areter] (a1)--(a2)--(a3)--(a4);
+    \draw[areter] (b1)--(b2)--(b3);
+    \draw[areter] (a1)--(b1)--(a2)--(b2)--(a3)--(b3)--(a4);
+    \foreach \p in {a1,a2,a3,a4,b1,b2,b3} \node[pixelr] at (\p) {};
+
+    \node[pixel] (n1) at (3.50,1.16) {};
+    \node[pixel] (n2) at (4.20,1.40) {};
+    \node[pixel] (n3) at (4.92,1.12) {};
+    \draw[gray!65, line width=1.0pt, densely dashed] (a4)--(n1)--(n2)--(n3);
+    \node[font=\tiny, text=gray!75, align=center] at (4.25,0.55) {sans triangle :\\ pas de propagation};
+    \node[font=\tiny, text=inria-rouge] at (1.52,0.25) {cohérence collective locale};
+\end{tikzpicture}
