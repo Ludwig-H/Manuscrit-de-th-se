@@ -1,0 +1,26 @@
+% Un petit graphe signé, dessiné avec la convention du manuscrit
+% (PartIII/ChapII, fig. « Interprétation d'un poids w réel ») et de la
+% présentation NIM du 25 juin 2026 :
+%   trait plein    = interaction attractive  (W_e > 0)
+%   pointillés     = interaction répulsive   (W_e < 0)
+%   trait gras     = arête satisfaite par la configuration sigma
+% Configuration : a=+, b=+, c=-, d=+, e=-, f=-.
+    \begin{tikzpicture}[x=1cm,y=1cm,scale=0.92,every node/.style={scale=0.92}]
+      \node[spin] (a) at (0,1.15) {$+$};
+      \node[spin] (b) at (1.30,1.55) {$+$};
+      \node[spin] (c) at (2.55,1.05) {$-$};
+      \node[spin] (d) at (0.30,0.05) {$+$};
+      \node[spin] (e) at (1.60,0.35) {$-$};
+      \node[spin] (f) at (2.70,-0.15) {$-$};
+
+      % --- arêtes satisfaites (en gras) ---
+      \draw[posedge,freeze] (a)--(b);   % attractive, (+,+)
+      \draw[posedge,freeze] (a)--(d);   % attractive, (+,+)
+      \draw[posedge,freeze] (e)--(f);   % attractive, (-,-)
+      \draw[negedge,freeze] (b)--(c);   % répulsive,  (+,-)
+      \draw[negedge,freeze] (d)--(e);   % répulsive,  (+,-)
+
+      % --- arêtes non satisfaites (en trait fin) ---
+      \draw[posedge,line width=0.6pt] (b)--(e);   % attractive, (+,-)
+      \draw[negedge,line width=0.6pt] (c)--(f);   % répulsive,  (-,-)
+    \end{tikzpicture}
