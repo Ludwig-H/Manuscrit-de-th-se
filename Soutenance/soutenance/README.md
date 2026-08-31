@@ -36,10 +36,13 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    percolation et tableau comparatif HGP / Robust SL / DBSCAN.
 5. **Applications LiDAR 3D et 4D** — anomalies (Naval Group), segmentation
    panoptique 4D (SemanticKITTI), sans apprentissage.
-6. **Données davantage structurées** (Partie III) — graphes signés (cadre
-   bayésien, Swendsen–Wang signé, généralisation aux interactions d'ordre
-   supérieur, puis borne générale de recouvrement par la masse percolée ; le
-   résultat de Sankararaman–Baccelli est retrouvé comme cas particulier) et
+6. **Données davantage structurées** (Partie III) — détection de communautés sur
+   graphes signés (cadre bayésien, Swendsen–Wang signé, généralisation aux
+   interactions d'ordre supérieur, puis une diapositive en trois temps sur le
+   théorème principal : on part de Sankararaman–Baccelli — la percolation est
+   nécessaire au recouvrement faible et $\theta$ borne la fraction recouvrable —,
+   un argument de couplage la retrouve exactement dans le cadre bayésien, et la
+   dynamique triangulaire donne une borne strictement meilleure) et
    détection de fissures (résultats multimodaux, puis construction du graphe de
    Frangi par paires et extension triangulaire d'ordre 2 ; GRETSI 2025 → EUVIP
    2026 → ISPRS en cours).
@@ -78,7 +81,9 @@ de CrackSAM-GeoLoRA de l'import `ISPRS/CrackSAM-GeoLoRA/` de ce dépôt.
 
 - **Bleu canard Inria** (`inria-2024-bleu-canard`) : les données (points, nuages, feuilles)
 - **Rouge Inria** (`inria-rouge`) : les structures extraites (arêtes, dendrogrammes,
-  squelettes, racines) et les travaux de l'auteur (citations)
+  squelettes, racines, arêtes gelées de Swendsen–Wang) et les travaux de l'auteur
+  (citations, et le liseré de l'encadré qui porte la contribution propre sur la
+  diapositive « La percolation borne le recouvrement des communautés »)
 - **Gris foncé** (`gris_fonce_inria`) : éléments neutres (coupes, légendes, littérature)
 - **Encadrés de formules** (`\formulebox`) : liseré rouge Inria, fond gris 4 %
 - Courbes matplotlib : palette d'origine, annotations aux couleurs des courbes
@@ -94,11 +99,20 @@ en bas de la diapositive de première citation.
 
 - `figs/*.tex` — blocs TikZ extraits (et francisés) de
   `../NEO-AMELEAS_Workshop/main.tex` et `../beamer-presentation-neo/main.tex`.
-  Les figures propres à cette présentation (`frangi_ordre2`,
-  `chaine_objets_cibles`, `polyedre_facettes`, `alphabet_fondation`,
-  `verrou_portee`, `hierarchie_surfaces`, `equilibre_continuite`,
-  `programme_falsification`, `hsa_chenille`, `pipeline_polyfm`) sont dessinées
-  pour cette présentation, sans image importée.
+  Les figures propres à cette présentation (`graphe_signe`, `sw_motifs`,
+  `frangi_ordre2`, `chaine_objets_cibles`, `polyedre_facettes`,
+  `alphabet_fondation`, `verrou_portee`, `hierarchie_surfaces`,
+  `equilibre_continuite`, `programme_falsification`, `hsa_chenille`,
+  `pipeline_polyfm`) sont dessinées pour cette présentation, sans image importée.
+- **Convention des graphes signés** (`graphe_signe`, `sw_pas`, `sw_motifs`) —
+  celle du manuscrit (`PartIII/ChapII.tex`, figure « Interprétation d'un poids
+  $w$ réel ») et de `../beamer-presentation-neo/` : trait plein pour une
+  interaction attractive, pointillés pour une interaction répulsive, trait gras
+  pour une arête satisfaite, trait gras rouge Inria pour une arête gelée. Les
+  styles TikZ correspondants (`posedge`, `negedge`, `freeze`) sont déclarés dans
+  le préambule de `main.tex` ; l'arête gelée est un `freeze` coloré en
+  `inria-rouge`, et une arête non satisfaite est tracée en `line width=0.6pt`
+  pour rester distinguable d'une arête satisfaite en projection.
 - `imgs/` — images rassemblées depuis les présentations existantes, le
   manuscrit (`img/`), le dossier `EUVIP/LaTeX/`, et extraites des PDF
   (présentation Mathnet-Dyogene 2025, rapport de stage 2017, NEO-AMELEAS)

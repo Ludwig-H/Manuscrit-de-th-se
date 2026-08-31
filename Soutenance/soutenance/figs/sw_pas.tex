@@ -1,18 +1,29 @@
-    \begin{tikzpicture}[x=1cm,y=1cm, scale=0.85, every node/.style={scale=0.85}]
+% Un pas de Swendsen--Wang signé : configuration -> arêtes gelées -> recoloriage.
+% Convention (manuscrit, PartIII/ChapII ; présentation NIM du 25 juin 2026) :
+%   trait plein = interaction attractive, pointillés = interaction répulsive,
+%   trait gras  = arête satisfaite, trait gras rouge = arête gelée.
+% Configuration : a=+, b=+, c=-, d=-, e=-, f=+.
+    \begin{tikzpicture}[x=1cm,y=1cm, scale=0.75, every node/.style={scale=0.75}]
       \node at (1.2,2.4) {Configuration $\sigma$};
       \foreach \n/\x/\y/\s in {a/0/1/+,b/1.2/1/+,c/2.4/1/-,d/0/0/-,e/1.2/0/-,f/2.4/0/+}
         \node[spin] (\n) at (\x,\y) {$\s$};
-      \draw[posedge] (a)--(b);
-      \draw[negedge] (b)--(c);
-      \draw[posedge] (d)--(e);
-      \draw[negedge] (e)--(f);
-      \draw[faint] (a)--(d); \draw[faint] (b)--(e); \draw[negedge] (c)--(f);
+      % arêtes satisfaites (en gras)
+      \draw[posedge,freeze] (a)--(b);
+      \draw[posedge,freeze] (d)--(e);
+      \draw[negedge,freeze] (b)--(c);
+      \draw[negedge,freeze] (e)--(f);
+      \draw[negedge,freeze] (c)--(f);
+      % arêtes non satisfaites (en trait fin)
+      \draw[posedge,line width=0.6pt] (a)--(d);
+      \draw[posedge,line width=0.6pt] (b)--(e);
 
       \draw[chaparr] (3.0,.5)--(4.2,.5);
       \node at (5.8,2.4) {Arêtes gelées};
       \foreach \n/\x/\y in {a2/4.8/1,b2/6/1,c2/7.2/1,d2/4.8/0,e2/6/0,f2/7.2/0}
         \node[tinynode] (\n) at (\x,\y) {};
-      \draw[freeze] (a2)--(b2); \draw[freeze] (d2)--(e2); \draw[freeze] (c2)--(f2);
+      \draw[posedge,freeze,inria-rouge] (a2)--(b2);
+      \draw[posedge,freeze,inria-rouge] (d2)--(e2);
+      \draw[negedge,freeze,inria-rouge] (c2)--(f2);
       \node[draw,rounded corners,fit=(a2)(b2),inner sep=2pt] {};
       \node[draw,rounded corners,fit=(d2)(e2),inner sep=2pt] {};
       \node[draw,rounded corners,fit=(c2)(f2),inner sep=2pt] {};
@@ -21,5 +32,26 @@
       \node at (10.8,2.4) {Recoloriage $\sigma'$};
       \foreach \n/\x/\y/\s in {a3/9.6/1/-,b3/10.8/1/-,c3/12/1/+,d3/9.6/0/-,e3/10.8/0/-,f3/12/0/-}
         \node[spin] (\n) at (\x,\y) {$\s$};
-      \draw[freeze] (a3)--(b3); \draw[freeze] (d3)--(e3); \draw[freeze] (c3)--(f3);
+      % les amas gelés ont été retournés en bloc : les arêtes gelées restent satisfaites
+      \draw[posedge,freeze,inria-rouge] (a3)--(b3);
+      \draw[posedge,freeze,inria-rouge] (d3)--(e3);
+      \draw[negedge,freeze,inria-rouge] (c3)--(f3);
+      % les autres arêtes changent de statut : a-d et b-e deviennent satisfaites,
+      % e-f (répulsive) ne l'est plus
+      \draw[negedge,freeze] (b3)--(c3);
+      \draw[posedge,freeze] (a3)--(d3);
+      \draw[posedge,freeze] (b3)--(e3);
+      \draw[negedge,line width=0.6pt] (e3)--(f3);
+
+      % --- légende de la convention ---
+      \begin{scope}[shift={(0,-0.90)},every node/.style={scale=0.75,font=\scriptsize}]
+        \draw[posedge] (0,0)--(0.7,0);
+        \node[anchor=west] at (0.78,0) {attraction};
+        \draw[negedge] (2.9,0)--(3.6,0);
+        \node[anchor=west] at (3.68,0) {répulsion};
+        \draw[posedge,freeze] (5.8,0)--(6.5,0);
+        \node[anchor=west] at (6.58,0) {arête satisfaite};
+        \draw[freeze,inria-rouge] (9.4,0)--(10.1,0);
+        \node[anchor=west] at (10.18,0) {arête gelée};
+      \end{scope}
     \end{tikzpicture}

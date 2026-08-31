@@ -123,6 +123,7 @@
 \DeclareRef{rolle23}{Rolle--Scoccola 23}{A.~Rolle, L.~Scoccola, « Stable and consistent density-based clustering » (Persistable), JMLR, 2024.}
 \DeclareRef{sautier25}{Sautier 25}{C.~Sautier \emph{et~al.}, « Alpine: is clustering enough for LiDAR instance segmentation? », 2025.}
 \DeclareRef{oh25}{Oh 25}{M.~Oh \emph{et~al.}, « Geo-4D: training-free global geometric association for 4D LiDAR panoptic segmentation », 2025.}
+\DeclareRef{avrachenkov22}{Avrachenkov--Dreveton 22}{K.~Avrachenkov, M.~Dreveton, \textit{Statistical Analysis of Networks}, Now Publishers, 2022.}
 \DeclareRef{sw87}{Swendsen--Wang 87}{R.~H.~Swendsen, J.-S.~Wang, « Nonuniversal critical dynamics in Monte Carlo simulations », \textit{Physical Review Letters}, 1987.}
 \DeclareRef{sb18}{Sankararaman--Baccelli 18}{A.~Sankararaman, F.~Baccelli, « Community detection on Euclidean random graphs », \textit{ACM--SIAM SODA}, 2018.}
 \DeclareRef{frangi98}{Frangi 98}{A.~F.~Frangi, W.~J.~Niessen, K.~L.~Vincken, M.~A.~Viergever, « Multiscale vessel enhancement filtering », MICCAI, 1998.}
@@ -1009,7 +1010,7 @@
 
 \begin{frame}{Quand la structure n'est plus (seulement) la géométrie}
     \begin{center}
-        \large Deux terrains d'exploration, deux mêmes idées :\\[4pt]
+        \large Deux terrains d'exploration où l'on retrouve deux idées de la thèse :\\[4pt]
         \normalsize \textbf{1)} les interactions d'ordre supérieur apportent la robustesse ;\\
         \textbf{2)} la percolation gouverne les performances
     \end{center}
@@ -1018,8 +1019,13 @@
     \begin{columns}[c, onlytextwidth]
         \begin{column}{0.48\textwidth}
             \begin{center}
-                \includegraphics[height=2.55cm]{imgs/GraphesSignes_graphe.png}
+                \input{figs/graphe_signe}
 
+                \vspace{0.05cm}
+                {\scriptsize trait plein : attraction \quad pointillés : répulsion\\
+                trait gras : arête satisfaite (trait fin : non satisfaite)}
+
+                \vspace{0.05cm}
                 \footnotesize \textbf{Graphes signés} : les liens \emph{créent} les communautés \citb{asilomar25}
             \end{center}
         \end{column}
@@ -1035,14 +1041,17 @@
     \reffoot{asilomar25,euvip26}
 \end{frame}
 
-\begin{frame}[t]{Un \emph{framework} bayésien pour les graphes signés}
+\begin{frame}[t]{Détection de communautés sur graphes signés : un cadre bayésien}
     \begin{center}
-        \begin{tikzpicture}[node distance=0.7cm and 0.9cm, scale=0.85, every node/.style={scale=0.85}]
+        {\small \textbf{Détection de communautés} \citb{avrachenkov22} : retrouver les communautés cachées $\Sigma$ d'un graphe dont les liens sont \emph{signés}}
+
+        \vspace{0.06cm}
+        \begin{tikzpicture}[node distance=0.6cm and 0.75cm, scale=0.78, every node/.style={scale=0.78}]
             \node[chapbox] (prior) {\emph{A priori}\\$\mu_{0}$};
-            \node[chapbox,right=of prior] (truth) {Vérité cachée\\$\Sigma$};
+            \node[chapbox,right=of prior] (truth) {Communautés\\cachées $\Sigma$};
             \node[chapbox,right=of truth] (chan) {Canal bruité\\$Q$};
-            \node[chapboxdark,right=of chan] (obs) {Observation\\$O=(X,W)$};
-            \node[chapbox,right=of obs] (post) {\emph{A posteriori}\\$\mu_{O}$};
+            \node[chapboxdark,right=of chan] (obs) {Observation\\$(X,W)$};
+            \node[chapbox,right=of obs] (post) {\emph{A posteriori}\\$\mu$};
             \draw[chaparr] (prior) -- (truth);
             \draw[chaparr] (truth) -- (chan);
             \draw[chaparr] (chan) -- (obs);
@@ -1050,29 +1059,29 @@
         \end{tikzpicture}
     \end{center}
 
-    \vspace{0.15cm}
+    \vspace{0.05cm}
     \begin{center}
         \formulebox{$X\sim\nu,\qquad \Sigma\mid X\sim\mu_0,\qquad
-        W\mid(X,\Sigma)\sim Q,\qquad \mu_O=\mathcal L(\Sigma\mid O)$}
+        W\mid(X,\Sigma)\sim Q,\qquad \mu=\mathcal L(\Sigma\mid X,W)$}
     \end{center}
 
-    \vspace{0.20cm}
+    \vspace{0.10cm}
     \small
     \begin{itemize}
-        \setlength{\itemsep}{6pt}
+        \setlength{\itemsep}{4pt}
         \item $W_e>0$ encode une \textbf{attraction} ; $W_e<0$, une \textbf{répulsion} ; $|W_e|$ mesure la force de l'interaction
         \item Dans le cas étudié, le canal calibré donne une loi \emph{a posteriori} de \textsc{Gibbs} signée :
     \end{itemize}
 
-    \vspace{-0.05cm}
+    \vspace{-0.10cm}
     \begin{center}
         \formulebox{$\displaystyle
-        U_O(\sigma)=-\log\mu_0(\sigma\mid X)
+        U(\sigma)=-\log\mu_0(\sigma\mid X)
         +\sum_{\substack{e=\{i,j\}\\ W_e>0}}W_e\ind{\sigma_i\neq\sigma_j}
         +\sum_{\substack{e=\{i,j\}\\ W_e<0}}|W_e|\ind{\sigma_i=\sigma_j},
-        \qquad \mu_O(\sigma)=\frac{e^{-U_O(\sigma)}}{Z_O}$}
+        \qquad \mu(\sigma)=\frac{e^{-U(\sigma)}}{Z}$}
     \end{center}
-    \reffoot{ii26}
+    \reffoot{avrachenkov22}
 \end{frame}
 
 \begin{frame}[t]{Un pas de \textsc{Swendsen}--\textsc{Wang} signé}
@@ -1080,7 +1089,7 @@
         \input{figs/sw_pas}
     \end{center}
 
-    \vspace{0.15cm}
+    \vspace{0.02cm}
     \begin{center}
         \formulebox{$\displaystyle
         \mathbb P(e\text{ gelée}\mid\sigma)=
@@ -1095,9 +1104,9 @@
     \begin{itemize}
         \setlength{\itemsep}{2pt}
         \item Pour deux classes et un \emph{a priori} uniforme, chaque composante gelée est
-        \textbf{retournée en bloc} avec probabilité $1/2$ : la transition est réversible et préserve $\mu_O$ \citb{sw87}.
+        \textbf{retournée en bloc} avec probabilité $1/2$ : la transition est réversible et préserve $\mu$ \citb{sw87}.
         \item Dans la preuve, un pas depuis $\Sigma$ produit une
-        \textbf{réplique couplée de la loi postérieure} $\Sigma^{(1)}$ --- non indépendante.
+        \textbf{réplique couplée de la loi \emph{a posteriori}} $\Sigma^{(1)}$ --- non indépendante.
     \end{itemize}
     \reffoot{sw87}
 \end{frame}
@@ -1105,70 +1114,57 @@
 \begin{frame}{Généraliser \textsc{Swendsen}--\textsc{Wang} aux interactions d'ordre supérieur}
     \begin{center}
         \formulebox{$\displaystyle
-        U_O(\sigma)=U_0(\sigma)+\sum_{b\in\mathcal B}U_b(\sigma),
+        U(\sigma)=U_0(\sigma)+\sum_{b\in\mathcal B}U_b(\sigma),
         \qquad b=\text{arête, triangle, clique\ldots}$}
     \end{center}
 
-    \vspace{0.20cm}
-    \begin{columns}[c,onlytextwidth]
-        \begin{column}{0.56\textwidth}
-            \begin{itemize}
-                \setlength{\itemsep}{7pt}
-                \item Introduire un gel auxiliaire $\kappa$ : pour chaque motif $b$, tirer conjointement un sous-lien $\omega_b\subseteq b$
-                \item Alterner les deux lois conditionnelles exactes
-                \[
-                    \kappa\mid(\sigma,O)
-                    \qquad\text{puis}\qquad
-                    \sigma'\mid(\kappa,O)
-                \]
-                \item C'est un échantillonneur de \textsc{Gibbs} augmenté : la même loi postérieure $\mu_O$ reste \textbf{invariante}
-            \end{itemize}
-        \end{column}
-        \begin{column}{0.40\textwidth}
-            \begin{center}
-                \begin{tikzpicture}[x=1cm,y=1cm,scale=0.9,every node/.style={scale=0.9}]
-                    \node[spin] (a) at (0,0) {$+$};
-                    \node[spin] (b) at (2,0) {$+$};
-                    \node[spin] (c) at (1,1.55) {$-$};
-                    \draw[negedge] (a)--(b);
-                    \draw[negedge,freeze,inria-rouge] (a)--(c);
-                    \draw[negedge] (b)--(c);
-                    \node[align=center] at (1,-0.65) {un seul tirage corrélé\\sur le triangle frustré};
-                \end{tikzpicture}
-            \end{center}
-        \end{column}
-    \end{columns}
-
-    \vspace{0.10cm}
+    \vspace{0.02cm}
     \begin{center}
-        \small Le choix des motifs change la \textbf{géométrie des amas gelés} --- donc leur percolation --- sans changer la loi ciblée \citb{asilomar25} \citb{ii26}
+        \input{figs/sw_motifs}
     \end{center}
-    \reffoot{asilomar25}
+
+    \vspace{0.02cm}
+    \footnotesize
+    \begin{itemize}
+        \setlength{\itemsep}{4pt}
+        \item Sur chaque motif $b$, \textbf{un seul} tirage corrélé choisit le sous-lien gelé $\omega_b\subseteq b$ \citb{asilomar25}
+        \item Deux lois conditionnelles exactes alternées, $\kappa=(\omega_b)_b$ puis $\sigma'$ : un échantillonneur de \textsc{Gibbs} augmenté
+        \item La loi \emph{a posteriori} $\mu$ reste \textbf{invariante} ; seule change la \textbf{géométrie des amas gelés} --- donc leur percolation \citb{ii26}
+    \end{itemize}
+    \reffoot{asilomar25,ii26}
 \end{frame}
 
-\begin{frame}{Le recouvrement reformulé en percolation}
-    \begin{itemize}
-        \item Sous un \emph{a priori} i.i.d. uniforme, $\mathrm{ov}_n$ est la fraction correctement étiquetée après permutation optimale des étiquettes ; $\theta^{\max}$ est la masse totale des \textbf{amas gelés macroscopiques}
-    \end{itemize}
-
-    \vspace{0.15cm}
+\begin{frame}{La percolation borne le recouvrement des communautés}
+    \vspace{-0.05cm}
     \begin{center}
-        \formulebox{\parbox{0.80\textwidth}{\centering
-        \textbf{Borne généralisée} \citb{ii26} : pour tout estimateur $\tau_n$,\\[3pt]
-        $\displaystyle
-        \mathrm{ov}_n(\Sigma,\tau_n)
-        \le \frac1K+\frac{K-1}{K}\,\theta^{\max}+o_{\mathbb P}(1)$\\[5pt]
-        $\displaystyle \textbf{recouvrement faible}\quad\Longrightarrow\quad\theta^{\max}>0$
-        \quad (la réciproque est fausse en général)}}
-    \end{center}
+        \begin{tikzpicture}[x=1cm,y=1cm, every node/.style={font=\footnotesize}]
+            \node[chapbox, text width=11.2cm] (sb)
+                {\citb{sb18} : la \textbf{percolation} est une condition \textbf{nécessaire} au recouvrement faible\\[1pt]
+                et la masse $\theta$ de la composante géante \textbf{borne} la fraction recouvrable des nœuds};
 
-    \vspace{0.20cm}
-    \begin{itemize}
-        \setlength{\itemsep}{8pt}
-        \item Les petits amas sont recoloriés au hasard : seule une composante macroscopique peut transporter une information globale
-        \item Dans le couplage de preuve du modèle de \textsc{Sankararaman}--\textsc{Baccelli}, le pas de \textsc{Swendsen}--\textsc{Wang} initialisé à la vérité $\Sigma$ donne exactement\\
-        $\mathbb P(e\text{ gelée}\mid X,\Sigma)=f_{\mathrm{in}}(r_e)-f_{\mathrm{out}}(r_e)$ : leur obstruction est retrouvée \citb{sb18}
-    \end{itemize}
+            \node[chapbox, draw=inria-rouge, text width=11.2cm, below=0.72cm of sb] (nous)
+                {\citb{ii26} : pour \emph{tout} estimateur $\tau_n$ et \emph{toute} dynamique d'amas
+                à recoloriage indépendant et uniforme\\[2pt]
+                $\displaystyle \mathrm{ov}_n(\Sigma,\tau_n)\ \le\ \frac1K+\frac{K-1}{K}\,\theta^{\max}+o_{\mathbb P}(1)$\\[1pt]
+                {\scriptsize \emph{a priori} uniforme sur $K$ communautés ; $\theta^{\max}$ : masse totale des amas gelés macroscopiques}\\[2pt]
+                arête par arête, le graphe gelé a exactement la loi d'une percolation sur le graphe potentiel $G$,\\
+                de paramètre $f_{\mathrm{in}}(r_e)-f_{\mathrm{out}}(r_e)$ : leur résultat est \textbf{retrouvé}};
+
+            \node[chapbox, text width=11.2cm, below=0.72cm of nous] (tri)
+                {\citb{ii26} : le gel corrélé par triangles percole \textbf{plus tard}\\[1pt]
+                $\displaystyle p_c^{\mathrm{edge}}=\tfrac12+\sin\tfrac{\pi}{18}\simeq0{,}6736
+                \ <\ p_c^{\triangle}=\tfrac{7-\sqrt{17}}{4}\simeq0{,}7192$
+                {\scriptsize (grille triangulaire, modèle homogène)}\\[2pt]
+                entre les deux, seul le triangle conclut : \textbf{borne strictement meilleure}};
+
+            \draw[chaparr] ($(sb.south)+(-3.6,0)$) -- ($(nous.north)+(-3.6,0)$)
+                node[midway, right=5pt, font=\scriptsize, align=left]
+                {\textbf{couplage} : \emph{un} pas de \textsc{Swendsen}--\textsc{Wang} depuis la vérité $\Sigma$};
+            \draw[chaparr] ($(nous.south)+(-3.6,0)$) -- ($(tri.north)+(-3.6,0)$)
+                node[midway, right=5pt, font=\scriptsize, align=left]
+                {\textbf{on change de motif} : les triangles au lieu des arêtes};
+        \end{tikzpicture}
+    \end{center}
     \reffoot{sb18}
 \end{frame}
 
@@ -1557,6 +1553,7 @@
         \bibligne{culbertson18}
         \bibligne{sb18}
         \bibligne{brown20}
+        \bibligne{avrachenkov22}
         \bibligne{edelsbrunner23}
         \bibligne{robert23}
         \bibligne{rolle23}
@@ -1727,10 +1724,10 @@
     \begin{center}
         \begin{tikzpicture}[node distance=0.7cm and 0.9cm, scale=0.85, every node/.style={scale=0.85}]
             \node[chapbox] (prior) {\emph{A priori}\\$\mu_{0}$};
-            \node[chapbox,right=of prior] (truth) {Vérité cachée\\$\Sigma$};
+            \node[chapbox,right=of prior] (truth) {Communautés\\cachées $\Sigma$};
             \node[chapbox,right=of truth] (chan) {Canal bruité\\$Q$};
             \node[chapboxdark,right=of chan] (obs) {Observation\\$(X,W)$};
-            \node[chapbox,right=of obs] (post) {\emph{A posteriori}\\$\mu_{X,W}$};
+            \node[chapbox,right=of obs] (post) {\emph{A posteriori}\\$\mu$};
             \draw[chaparr] (prior) -- (truth);
             \draw[chaparr] (truth) -- (chan);
             \draw[chaparr] (chan) -- (obs);
@@ -1742,12 +1739,13 @@
     \begin{center}
         \formulebox{$U(\sigma) = \displaystyle\sum_{e \in F} W_e \ind{\sigma_i \neq \sigma_j} + \sum_{e \in \tilde F} |W_e| \ind{\sigma_i = \sigma_j}
         \qquad
-        \mu_{X,W}(\sigma) = \frac{e^{-U(\sigma)}}{Z}$}
+        \mu(\sigma) = \frac{e^{-U(\sigma)}}{Z}$}
     \end{center}
 
     \vspace{0.25cm}
     \begin{itemize}
-        \item $F$ : arêtes attractives ($W_e > 0$) ; $\tilde F$ : répulsives ($W_e < 0$) ; $U$ pénalise les arêtes insatisfaites
+        \item $F$ : arêtes attractives ($W_e > 0$) ; $\tilde F$ : répulsives ($W_e < 0$) ; $U$ pénalise les arêtes non satisfaites
+        \item Ici l'\emph{a priori} est uniforme : le terme $-\log\mu_0(\sigma \mid X)$ est constant et absorbé dans $Z$
         \item \textbf{Hypothèse de Gibbs} : la loi \emph{a posteriori} est la mesure de Gibbs signée
     \end{itemize}
 \end{frame}
@@ -1755,10 +1753,10 @@
 \begin{frame}{Un pas de Swendsen--Wang signé, en détail}
     \begin{itemize}
         \setlength{\itemsep}{10pt}
-        \item \textbf{Gel} : chaque arête \emph{satisfaite} est gelée avec probabilité $1 - e^{-|W_e|}$ ; les insatisfaites jamais
+        \item \textbf{Gel} : chaque arête \emph{satisfaite} est gelée avec probabilité $1 - e^{-|W_e|}$ ; les non satisfaites jamais
         \item \textbf{Recoloriage} : chaque amas gelé est recolorié uniformément au hasard
         \item La dynamique laisse la loi \emph{a posteriori} invariante
-        \item Un pas depuis la vérité $\Sigma$ produit une \textbf{réplique} $\Sigma^{(1)} \sim \mu_{X,W}$ (identité de Nishimori) : un couplage entre vérité et observation
+        \item Un pas depuis la vérité $\Sigma$ produit une \textbf{réplique} $\Sigma^{(1)} \sim \mu$ (identité de Nishimori) : un couplage entre vérité et observation
         \item Les petits amas sont recoloriés aveuglément : l'information globale ne survit que dans les \textbf{composantes géantes}
     \end{itemize}
 \end{frame}
