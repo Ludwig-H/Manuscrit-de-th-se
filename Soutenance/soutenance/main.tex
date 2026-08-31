@@ -859,14 +859,20 @@
                 \begin{tikzpicture}
                     \node[anchor=south west, inner sep=0] (img) at (0,0) {\includegraphics[width=0.96\textwidth]{imgs/vitesse_percolation_HGP_d2.png}};
                     \begin{scope}[x={(img.south east)}, y={(img.north west)}]
-                        % décollage des courbes : seuils critiques (ronds au genou des courbes)
-                        \foreach \xc/\couleur/\k in {0.178/mplC0/1, 0.293/mplC1/2, 0.407/mplC2/3, 0.525/mplC3/4} {
-                            \fill[\couleur] (\xc, 0.234) circle (2.1pt);
-                            \node[\couleur, font=\scriptsize, anchor=north] at (\xc, 0.100) {$\lambda_c^{\k}$};
+                        % Niveau supérieur : 1-epsilon = 97 % dans le protocole expérimental.
+                        \draw[gris_fonce_inria, densely dashed, line width=0.65pt]
+                            (0.050, 0.916) -- (0.979, 0.916);
+                        \node[gris_fonce_inria, font=\scriptsize\bfseries, anchor=south west,
+                              fill=white, fill opacity=0.90, text opacity=1, inner sep=1pt]
+                            at (0.055, 0.918) {$1-\varepsilon$};
+                        % Décollage des courbes : intersections avec le niveau 1 %.
+                        \foreach \xc/\couleur/\k in {0.160/mplC0/1, 0.260/mplC1/2, 0.360/mplC2/3, 0.461/mplC3/4, 0.564/mplC4/5} {
+                            \fill[white] (\xc, 0.116) circle (2.4pt);
+                            \fill[\couleur] (\xc, 0.116) circle (1.7pt);
+                            \node[\couleur, font=\scriptsize, anchor=south east, inner sep=1pt]
+                                at (\xc, 0.128) {$\lambda_c^{\k}$};
                         }
-                        \fill[mplC4] (0.637, 0.234) circle (2.1pt);
-                        \node[mplC4, font=\scriptsize, anchor=north] at (0.645, 0.100) {$\lambda_c^{5}$};
-                        % quantiles 1-epsilon : ronds à l'épaule de saturation
+                        % Quantiles 1-epsilon : ronds à l'épaule de saturation.
                         \foreach \xs/\couleur/\k in {0.213/mplC0/1, 0.344/mplC1/2, 0.471/mplC2/3, 0.596/mplC3/4, 0.722/mplC4/5} {
                             \fill[\couleur] (\xs, 0.916) circle (2.1pt);
                             \node[\couleur, font=\scriptsize, anchor=south] at (\xs, 0.960) {$\lambda_{1-\varepsilon}^{\k}$};
@@ -886,7 +892,7 @@
             \vspace{0.25cm}
             \begin{itemize}
                 \setlength{\itemsep}{10pt}
-                \item $\lambda_{c}$ : le fond \textbf{commence} à percoler
+                \item $\lambda_{c}$ : \textbf{décollage} repéré à $1\,\%$
                 \item $\lambda_{1-\varepsilon}$ : l'amas est presque \textbf{entier}
                 \item Plus $v$ est \textbf{proche de $1$},\\ meilleur est l'algorithme \citb{src24} \citb{cn24}
             \end{itemize}
