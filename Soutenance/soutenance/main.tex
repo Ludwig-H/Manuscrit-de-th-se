@@ -1135,34 +1135,30 @@
 \end{frame}
 
 \begin{frame}{La percolation borne le recouvrement des communautés}
-    \vspace{-0.05cm}
+    \vspace{0.20cm}
     \begin{center}
-        \begin{tikzpicture}[x=1cm,y=1cm, every node/.style={font=\footnotesize}]
-            \node[chapbox, text width=11.2cm] (sb)
-                {\citb{sb18} : la \textbf{percolation} est une condition \textbf{nécessaire} au recouvrement faible\\[1pt]
-                et la masse $\theta$ de la composante géante \textbf{borne} la fraction recouvrable des nœuds};
+        \begin{tikzpicture}[x=1cm,y=1cm, every node/.style={font=\small}]
+            \node[chapbox, text width=10.8cm] (sb)
+                {\textbf{Le point de départ} \citb{sb18}\\[3pt]
+                la \textbf{percolation} est une condition \textbf{nécessaire} au recouvrement faible,\\
+                et la masse $\theta$ de la composante géante \textbf{borne} la fraction recouvrable};
 
-            \node[chapbox, draw=inria-rouge, text width=11.2cm, below=0.72cm of sb] (nous)
-                {\citb{ii26} : pour \emph{tout} estimateur $\tau_n$ et \emph{toute} dynamique d'amas
-                à recoloriage indépendant et uniforme\\[2pt]
-                $\displaystyle \mathrm{ov}_n(\Sigma,\tau_n)\ \le\ \frac1K+\frac{K-1}{K}\,\theta^{\max}+o_{\mathbb P}(1)$\\[1pt]
-                {\scriptsize \emph{a priori} uniforme sur $K$ communautés ; $\theta^{\max}$ : masse totale des amas gelés macroscopiques}\\[2pt]
-                arête par arête, le graphe gelé a exactement la loi d'une percolation sur le graphe potentiel $G$,\\
-                de paramètre $f_{\mathrm{in}}(r_e)-f_{\mathrm{out}}(r_e)$ : leur résultat est \textbf{retrouvé}};
+            \node[chapbox, draw=inria-rouge, text width=10.8cm, below=1.05cm of sb] (nous)
+                {\textbf{Notre cadre bayésien} \citb{ii26}\\[3pt]
+                le graphe gelé d'un pas de \textsc{Swendsen}--\textsc{Wang} \emph{est} leur graphe\\
+                de percolation --- leur théorème est \textbf{retrouvé exactement}};
 
-            \node[chapbox, text width=11.2cm, below=0.72cm of nous] (tri)
-                {\citb{ii26} : le gel corrélé par triangles percole \textbf{plus tard}\\[1pt]
-                $\displaystyle p_c^{\mathrm{edge}}=\tfrac12+\sin\tfrac{\pi}{18}\simeq0{,}6736
-                \ <\ p_c^{\triangle}=\tfrac{7-\sqrt{17}}{4}\simeq0{,}7192$
-                {\scriptsize (grille triangulaire, modèle homogène)}\\[2pt]
-                entre les deux, seul le triangle conclut : \textbf{borne strictement meilleure}};
+            \node[chapbox, draw=inria-rouge, text width=10.8cm, below=1.05cm of nous] (tri)
+                {\textbf{Dynamique triangulaire} \citb{ii26}\\[3pt]
+                le gel corrélé par triangles percole \textbf{plus tard} ---\\
+                des bornes de recouvrement \textbf{strictement meilleures}};
 
-            \draw[chaparr] ($(sb.south)+(-3.6,0)$) -- ($(nous.north)+(-3.6,0)$)
-                node[midway, right=5pt, font=\scriptsize, align=left]
-                {\textbf{couplage} : \emph{un} pas de \textsc{Swendsen}--\textsc{Wang} depuis la vérité $\Sigma$};
-            \draw[chaparr] ($(nous.south)+(-3.6,0)$) -- ($(tri.north)+(-3.6,0)$)
-                node[midway, right=5pt, font=\scriptsize, align=left]
-                {\textbf{on change de motif} : les triangles au lieu des arêtes};
+            \draw[chaparr] ($(sb.south)+(-3.4,0)$) -- ($(nous.north)+(-3.4,0)$)
+                node[midway, right=6pt, font=\footnotesize]
+                {couplage : \emph{un} pas de \textsc{Swendsen}--\textsc{Wang} depuis la vérité $\Sigma$};
+            \draw[chaparr] ($(nous.south)+(-3.4,0)$) -- ($(tri.north)+(-3.4,0)$)
+                node[midway, right=6pt, font=\footnotesize]
+                {on change de motif : les triangles au lieu des arêtes};
         \end{tikzpicture}
     \end{center}
     \reffoot{sb18}
