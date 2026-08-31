@@ -1,0 +1,66 @@
+% Ce qu'un modèle de fondation 3D changerait : un encodeur partagé au lieu
+% d'un modèle par capteur et par tâche, et donc peu d'annotations.
+                \begin{tikzpicture}[xscale=1.0, yscale=1.0]
+                    \useasboundingbox (-0.45, -3.55) rectangle (12.75, 2.55);
+
+                    \tikzset{capteur/.style={draw=inria-2024-bleu-canard, line width=0.8pt, rounded corners=2pt,
+                                             fill=inria-2024-bleu-canard!12, inner sep=2.5pt, align=center,
+                                             font=\scriptsize, text width=1.85cm, minimum height=0.60cm}}
+                    \tikzset{modele/.style={draw=gris_fonce_inria, line width=0.9pt, rounded corners=3pt,
+                                            fill=gray!10, inner sep=2.5pt, align=center, font=\scriptsize,
+                                            text width=1.55cm, minimum height=0.60cm}}
+                    \tikzset{socle/.style={draw=inria-rouge, line width=1.2pt, rounded corners=4pt,
+                                           fill=inria-rouge!8, inner sep=4pt, align=center,
+                                           font=\small\bfseries, text=inria-rouge,
+                                           text width=2.40cm, minimum height=1.55cm}}
+                    \tikzset{tache/.style={draw=inria-rouge, line width=0.8pt, rounded corners=2pt,
+                                           fill=inria-rouge!5, inner sep=2.5pt, align=center,
+                                           font=\scriptsize, text=inria-rouge, text width=1.95cm,
+                                           minimum height=0.56cm}}
+                    \tikzset{fl/.style={-{Latex[length=2.0mm]}, line width=0.85pt, color=gray!55}}
+                    \tikzset{flr/.style={-{Latex[length=2.0mm]}, line width=0.85pt, color=inria-rouge!60}}
+
+                    % ================= aujourd'hui =================
+                    \node[font=\small\bfseries, text=gris_fonce_inria, anchor=west] at (-0.30, 2.15) {aujourd'hui};
+
+                    \node[capteur] (ca) at (1.65, 1.45) {LiDAR 64 nappes};
+                    \node[capteur] (cb) at (1.65, 0.60) {LiDAR 128 nappes};
+                    \node[capteur] (cc) at (1.65,-0.25) {caméra de profondeur};
+                    \node[modele]  (ma) at (4.65, 1.45) {réseau A};
+                    \node[modele]  (mb) at (4.65, 0.60) {réseau B};
+                    \node[modele]  (mc) at (4.65,-0.25) {réseau C};
+                    \draw[fl] (ca) -- (ma);
+                    \draw[fl] (cb) -- (mb);
+                    \draw[fl] (cc) -- (mc);
+
+                    \node[font=\scriptsize, text=gris_fonce_inria, anchor=west, align=left] at (5.85, 0.60)
+                        {un réseau \textbf{par capteur} et \textbf{par tâche},\\
+                         réentraîné de zéro, sur des dizaines\\
+                         de milliers d'annotations};
+
+                    \draw[gray!35, line width=0.6pt] (-0.20,-0.90) -- (12.55,-0.90);
+
+                    % ================= avec un modèle de fondation =================
+                    \node[font=\small\bfseries, text=inria-rouge, anchor=west] at (-0.30, -1.25)
+                        {avec un modèle de fondation};
+
+                    \node[capteur] (da) at (1.65,-1.80) {LiDAR 64 nappes};
+                    \node[capteur] (db) at (1.65,-2.45) {LiDAR 128 nappes};
+                    \node[capteur] (dc) at (1.65,-3.10) {caméra de profondeur};
+                    \node[socle]   (soc) at (5.15,-2.45) {un encodeur\\partagé};
+                    \draw[flr] (da.east) -- (soc.west);
+                    \draw[flr] (db.east) -- (soc.west);
+                    \draw[flr] (dc.east) -- (soc.west);
+
+                    \node[tache] (t1) at (8.35,-1.62) {segmenter};
+                    \node[tache] (t2) at (8.35,-2.17) {détecter};
+                    \node[tache] (t3) at (8.35,-2.72) {saisir un objet};
+                    \node[tache] (t4) at (8.35,-3.27) {naviguer};
+                    \draw[flr] (soc.east) -- (t1.west);
+                    \draw[flr] (soc.east) -- (t2.west);
+                    \draw[flr] (soc.east) -- (t3.west);
+                    \draw[flr] (soc.east) -- (t4.west);
+
+                    \node[font=\scriptsize, text=inria-rouge, anchor=west, align=left] at (9.60,-2.45)
+                        {\textbf{peu} d'annotations,\\transfert entre\\capteurs et tâches};
+                \end{tikzpicture}

@@ -135,9 +135,14 @@
 \DeclareRef{sonata25}{Sonata 25}{X.~Wu \emph{et~al.}, « Sonata: self-supervised learning of reliable point representations », \textit{CVPR}, 2025.}
 \DeclareRef{concerto25}{Concerto 25}{Y.~Zhang \emph{et~al.}, « Concerto: joint 2D--3D self-supervised learning emerges spatial representations », \textit{NeurIPS}, 2025.}
 \DeclareRef{yu25}{PolyhedronNet 25}{D.~Yu, G.~Zhang, L.~Zhao, « PolyhedronNet: representation learning for polyhedra with surface-attributed graph », \textit{ICLR}, 2025.}
-\DeclareRef{hsa25}{HSA 25}{S.~Amizadeh, S.~Abdali, Y.~Li, K.~Koishida, « Hierarchical self-attention: generalizing neural attention mechanics to multi-scale problems », \textit{NeurIPS}, 2025.}
+\DeclareRef{hsa25}{HSA 25}{S.~Amizadeh \emph{et~al.}, « Hierarchical self-attention: generalizing neural attention mechanics to multi-scale problems », \textit{NeurIPS}, 2025.}
 \DeclareRef{utonia26}{Utonia 26}{Y.~Zhang \emph{et~al.}, « Utonia: toward one encoder for all point clouds », 2026.}
 \DeclareRef{ayana25}{AYANA RA 25}{Équipe-projet \textsc{Ayana}, « 3D LiDAR Instance Segmentation with Geometric Priors: The HGP-Clusterer », \href{https://radar.inria.fr/report/2025/ayana/index.html\#AYANA-RA-2025_label_NavalResult}{\textit{Rapport annuel d'activité Inria 2025}}, \S~7.7, fig.~8, publié en 2026.}
+\DeclareRef{bommasani21}{Bommasani 21}{R.~Bommasani \emph{et~al.}, « On the opportunities and risks of foundation models », 2021.}
+\DeclareRef{kirillov23}{SAM 23}{A.~Kirillov \emph{et~al.}, « Segment Anything », \textit{ICCV}, 2023.}
+\DeclareRef{hu22}{LoRA 22}{E.~J.~Hu \emph{et~al.}, « LoRA: low-rank adaptation of large language models », \textit{ICLR}, 2022.}
+\DeclareRef{ge24}{CrackSAM 24}{K.~Ge \emph{et~al.}, « Fine-tuning vision foundation model for crack segmentation in civil infrastructures », \textit{Construction and Building Materials}, 2024.}
+\DeclareRef{ying21}{Graphormer 21}{C.~Ying \emph{et~al.}, « Do Transformers really perform badly for graph representation? », \textit{NeurIPS}, 2021.}
 
 % ---- Mes travaux (en rouge) --------------------------------
 \DeclareMyRef{hal17}{HAL 17}{L.~Hauseux (encadré par B.~Błaszczyszyn), « Un classificateur non supervisé utilisant les complexes simpliciaux », Inria Paris, 2017. HAL : hal-01597846.}
@@ -1256,195 +1261,321 @@
 \section{\texorpdfstring{Perspectives : la voie \textcolor{inria-rouge}{hiérarchique}}{Perspectives : la voie hiérarchique}}
 \frame{\sectionpage}
 
-% ------------------------------------------------------------
-\begin{frame}{Le théorème d'impossibilité de \textsc{Kleinberg}}
-    \small
-    Soit $F$ une règle qui associe à toute dissimilarité $d$ sur un ensemble fini $X$, $|X|\ge2$,
-    une \textbf{partition} $F(d)$ de $X$.
+% ============================================================
+% 7.a — Retour au point de départ : Kleinberg, puis Carlsson--Mémoli
+% ============================================================
+\begin{frame}{Retour au début : le théorème d'impossibilité de \textsc{Kleinberg}}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.60\textwidth}
+            \small
+            Une fonction de clustering $\mathcal C$ associe à un espace métrique fini
+            $(\mathcal X, d)$ une \textbf{partition} de $\mathcal X$.
 
-    \vspace{0.20cm}
-    \begin{enumerate}
-        \setlength{\itemsep}{9pt}
-        \item \textbf{Richesse.} Toute partition $P$ de $X$ peut être obtenue :
-        $\forall P,\ \exists d,\ F(d)=P$.
-        \item \textbf{Invariance d'échelle.} Changer d'unité ne change pas la partition :
-        $\forall \alpha>0,\ F(\alpha d)=F(d)$.
-        \item \textbf{Cohérence.} Si $F(d)=P$, rapprocher les points d'un même bloc de $P$
-        et éloigner ceux de blocs distincts doit laisser $P$ inchangée.
-    \end{enumerate}
+            \vspace{0.25cm}
+            \begin{enumerate}[(i)]
+                \setlength{\itemsep}{7pt}
+                \item \textbf{Invariance d'échelle} : $\mathcal C(\mathcal X, \lambda d) = \mathcal C(\mathcal X, d)$
+                pour tout $\lambda > 0$ --- changer d'unité ne change rien.
+                \item \textbf{Richesse} : toute partition de $\mathcal X$ est atteinte par une distance bien choisie.
+                \item \textbf{Cohérence} : resserrer un amas ou écarter deux amas laisse le résultat inchangé.
+            \end{enumerate}
+        \end{column}
+        \begin{column}{0.38\textwidth}
+            \centering
+            \resizebox{0.86\textwidth}{!}{\input{figs/kleinberg_axiomes}}
+        \end{column}
+    \end{columns}
 
-    \vfill
+    \vspace{0.30cm}
     \begin{center}
-        \formulebox{\textbf{Impossibilité} \citb{kleinberg02} : aucune règle $F$ ne satisfait simultanément ces trois axiomes.}
+        \formulebox{\textbf{Impossibilité} \citb{kleinberg02} : \emph{aucune} fonction de clustering ne satisfait ces trois axiomes.}
     \end{center}
     \reffoot{kleinberg02}
 \end{frame}
 
 % ------------------------------------------------------------
-\begin{frame}{Pourquoi la hiérarchie était la bonne solution}
+\begin{frame}{\textsc{Carlsson} \& \textsc{Mémoli} : changer l'objet de sortie}
     \begin{center}
-        \formulebox{\parbox{0.82\textwidth}{\centering
-        Une partition force une \textbf{échelle unique}.\\[3pt]
-        Une hiérarchie rend \textbf{toutes les partitions emboîtées} :
-        $\displaystyle T(d)=\{\theta_d(r)\}_{r\ge0}$,
-        avec $r\le r'\Rightarrow\theta_d(r)\preceq\theta_d(r')$.}}
+        \resizebox{0.52\textwidth}{!}{\input{figs/kleinberg_coupes}}
+    \end{center}
+
+    \vspace{0.05cm}
+    \small
+    \begin{itemize}
+        \setlength{\itemsep}{5pt}
+        \item Pour chacune des trois \emph{paires} d'axiomes, \textsc{Kleinberg} donne un témoin ---
+        à chaque fois une \textbf{variante du Single-Linkage}, la variante étant le \textbf{niveau de coupe}
+        \item L'obstruction indique donc la sortie : garder l'arbre, ne pas choisir la coupe à la place de l'utilisateur
+        \item \textsc{Carlsson} \& \textsc{Mémoli} rendent alors une \textbf{ultramétrique} ---
+        de façon équivalente, un dendrogramme --- au lieu d'une partition : $T : (\mathcal X, d) \mapsto (\mathcal X, u)$
+    \end{itemize}
+
+    \vspace{0.10cm}
+    \begin{center}
+        \formulebox{\small Sous trois axiomes adaptés, \textbf{le Single-Linkage est la seule solution} \citb{carlsson10}.}
+    \end{center}
+    \reffoot{carlsson10}
+\end{frame}
+
+% ============================================================
+% 7.b — La dynamique hiérarchique : une horloge par arête
+% ============================================================
+\begin{frame}{Après \textsc{Swendsen}--\textsc{Wang} : une \emph{horloge} par arête}
+    \small
+    Un pas de \textsc{Swendsen}--\textsc{Wang} gèle chaque arête satisfaite avec probabilité
+    $1 - e^{-|W_e|}$, puis recolorie les amas gelés. Remplaçons ce tirage \emph{binaire} par un \textbf{temps}.
+
+    \vspace{0.25cm}
+    \begin{center}
+        \formulebox{\parbox{0.86\textwidth}{\centering
+        $\xi_e \sim \mathrm{Exp}\bigl(|W_e|\bigr)$ si $e$ est satisfaite, \quad $\xi_e = +\infty$ sinon ;\\[5pt]
+        $\Pi_\beta \;=\;$ composantes connexes de $\{e : \xi_e \le \beta\}$, \qquad $0 \le \beta \le 1$.}}
     \end{center}
 
     \vspace{0.25cm}
     \begin{itemize}
         \setlength{\itemsep}{7pt}
-        \item On ne demande plus à l'algorithme de choisir arbitrairement une coupe :
-        la résolution $r$ reste visible dans la sortie.
-        \item Un changement d'unité \textbf{reparamètre} l'arbre au lieu de l'effacer :
-        $\theta_{\alpha d}(r)=\theta_d(r/\alpha)$ ; sa structure emboîtée est préservée.
-        \item Le théorème n'est pas contredit : on \textbf{change l'objet cible}.
-        Pour les méthodes hiérarchiques à sortie ultramétrique, des axiomes adaptés caractérisent alors le
-        \textbf{\emph{Single-Linkage}} \citb{carlsson10}.
+        \item Comme $\mathbb P(\xi_e \le 1 \mid e \text{ satisfaite}) = 1 - e^{-|W_e|}$, la coupe à $\beta = 1$
+        redonne \textbf{exactement} la partition gelée de \textsc{Swendsen}--\textsc{Wang}
+        \item Mais un \emph{seul} tirage d'horloges contient désormais \textbf{toutes les échelles} intermédiaires :
+        les $\Pi_\beta$ sont emboîtées, elles forment un \textbf{dendrogramme} \citb{ii26}
+        \item $\beta$ est un \textbf{temps de filtration}, pas une température inverse : l'horizon est $\beta = 1$
     \end{itemize}
-    \reffoot{kleinberg02,carlsson10}
 \end{frame}
 
 % ------------------------------------------------------------
-\begin{frame}{La chaîne continue : du recouvrement aux polyèdres}
+\begin{frame}{Les deux bouts de l'arbre : \textsc{Glauber} et \textsc{Swendsen}--\textsc{Wang}}
     \begin{center}
-        \resizebox{0.66\textwidth}{!}{\input{figs/chaine_objets_cibles}}
+        \resizebox{0.66\textwidth}{!}{\input{figs/dendro_horloges}}
     \end{center}
 
-    \vspace{-0.10cm}
-    \begin{center}
-        \resizebox{0.46\textwidth}{!}{\input{figs/polyedre_facettes}}
-    \end{center}
-
-    \vspace{0.0cm}
+    \vspace{0.15cm}
+    \small
     \begin{itemize}
-        \setlength{\itemsep}{5pt}
-        \item Un cran plus loin \citb{culbertson18} : remplacer la partition par un \textbf{recouvrement}. Pour $K \ge 2$, les $K$-polyèdres peuvent partager des sommets : leurs réalisations géométriques se \textbf{chevauchent} \citb{ans26} --- la parenté est d'idée, non de théorème
-        \item Un nœud ne porte pas qu'un sac de points : il porte un recollement de \textbf{facettes}, c'est-à-dire une partition des $(K-1)$-simplexes
+        \setlength{\itemsep}{6pt}
+        \item À chaque nœud, un \emph{bain thermique} exact : \textbf{toute coupe $\beta$ définit une dynamique
+        qui laisse la loi \emph{a posteriori} invariante} (démontré en volume fini)
+        \item \textbf{Aux racines} ($\beta = 1$), retourner une composante entière se fait à pile ou face :
+        c'est la recoloration de \textsc{Swendsen}--\textsc{Wang}. \textbf{Aux feuilles} ($\beta = 0$),
+        la mise à jour porte sur un spin isolé : c'est le bain de \textsc{Glauber}
+        \item Entre les deux, une famille \textbf{continue} de dynamiques : rapides en haut, fines en bas
+    \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------
+\begin{frame}{Quelle coupe choisir ? celle où les amas \textcolor{inria-rouge}{percolent}}
+    \small
+    Sur le modèle à blocs, la densité d'arêtes ouvertes avant l'instant $\beta$ se calcule :
+
+    \vspace{0.20cm}
+    \begin{center}
+        \formulebox{\parbox{0.84\textwidth}{\centering
+        $\displaystyle q_p(\beta) = p\left(1 - e^{-u_p \beta}\right), \qquad u_p = \log\tfrac{p}{1-p}$ \\[6pt]
+        \textbf{coupe critique} $\beta_c$ : $\;q_p(\beta_c) = q_c\;$ (seuil de percolation du réseau)}}
+    \end{center}
+
+    \vspace{0.25cm}
+    \begin{itemize}
+        \setlength{\itemsep}{6pt}
+        \item En dessous de $\beta_c$, les amas gelés restent \textbf{microscopiques} : la dynamique est locale.
+        Au-dessus, une composante \textbf{géante} apparaît et tout bascule d'un bloc
+        \item C'est exactement la quantité qui gouverne notre borne de recouvrement :
+        seule une masse macroscopique $\theta^{\max} > 0$ transporte de l'information
+        \item Sur le SBM, la coupe géométrique et le temps informationnel coïncident \textbf{exactement} au
+        seuil de \textsc{Kesten}--\textsc{Stigum} --- le meilleur argument dont je dispose pour dire que
+        \emph{c'est la bonne coupe} \citb{ii26}
     \end{itemize}
 
     \vspace{0.10cm}
     \begin{center}
-        \small Deux acquis exportables : des \textbf{polyèdres}, et surtout une \textbf{hiérarchie}
+        \small \textbf{Statut : un programme.} La borne rigoureuse $p_{\mathrm{WR}} \ge 0{,}809439$ vient du
+        canal triangulaire, \emph{pas} encore de cette dynamique.
     \end{center}
-    \reffoot{culbertson18}
+\end{frame}
+
+% ============================================================
+% 7.c — Modèles de fondation, SAM, LoRA, et le guidage
+% ============================================================
+\begin{frame}{Un \emph{modèle de fondation}, c'est quoi ?}
+    \begin{center}
+        \resizebox{0.72\textwidth}{!}{\input{figs/fondation_jetons}}
+    \end{center}
+
+    \vspace{0.25cm}
+    \small
+    \begin{itemize}
+        \setlength{\itemsep}{6pt}
+        \item \textbf{Un seul} modèle, pré-entraîné une fois à très grande échelle,
+        puis réutilisé pour de nombreuses tâches \citb{bommasani21}
+        \item Trois piliers : l'\textbf{échelle} (des données et des paramètres),
+        l'\textbf{auto-supervision} (pas d'annotation), l'\textbf{adaptabilité} (on ne réapprend qu'une mince couche)
+        \item Une condition préalable, rarement dite : il faut une \textbf{unité de calcul stable} ---
+        le sous-mot pour le texte, l'imagette $16 \times 16$ pour l'image
+    \end{itemize}
+    \reffoot{bommasani21}
 \end{frame}
 
 % ------------------------------------------------------------
-\begin{frame}{Au-delà de \textsc{Swendsen}--\textsc{Wang} : triangles et hiérarchie}
+\begin{frame}{SAM : segmenter n'importe quoi, à la demande}
     \begin{center}
-        \resizebox{0.68\textwidth}{!}{\input{figs/dendro_horloges}}
+        \resizebox{0.68\textwidth}{!}{\input{figs/sam_architecture}}
     \end{center}
 
     \vspace{0.05cm}
     \small
     \begin{itemize}
-        \setlength{\itemsep}{4pt}
-        \item Numériquement, le gel corrélé par triangles retarde la percolation sur la grille triangulaire :
-        $p_c^{\mathrm{edge}}\simeq0{,}674\to p_c^{\triangle}\simeq0{,}719$ \citb{ii26} ;
-        les \textbf{horloges} ajoutent ensuite une échelle continue aux amas gelés
-        \item Chaque arête satisfaite reçoit $\xi_e\sim\mathrm{Exp}(|W_e|)$ ; les composantes de $\{e:\xi_e\le\beta\}$ sont emboîtées et chaque coupe $\beta$ définit une dynamique invariante \citb{ii26}
+        \setlength{\itemsep}{5pt}
+        \item Pré-entraîné sur $11$~millions d'images et $1{,}1$~milliard de masques \citb{kirillov23} ;
+        SAM~2 étend le modèle à la vidéo \citb{ravi24}
+        \item Architecture \textbf{asymétrique} : un encodeur d'image lourd, calculé \emph{une fois} ;
+        puis une boucle légère, où l'on pose des \textbf{invites}
+        \item Pour nous, la bonne nouvelle : cette interface d'invites est un \textbf{point d'entrée gratuit}
     \end{itemize}
+    \reffoot{kirillov23,ravi24}
 \end{frame}
 
 % ------------------------------------------------------------
-\begin{frame}{Un manque : aucun modèle de fondation ne fait consensus en 3D}
+\begin{frame}{L'adapter aux fissures sans le réentraîner : \emph{LoRA}}
     \begin{center}
-        \resizebox{0.56\textwidth}{!}{\input{figs/alphabet_fondation}}
+        \resizebox{0.44\textwidth}{!}{\input{figs/lora_adaptation}}
     \end{center}
 
     \vspace{0.15cm}
+    \small
+    \begin{itemize}
+        \setlength{\itemsep}{5pt}
+        \item On \textbf{gèle} les poids pré-entraînés et on n'apprend qu'une correction de \textbf{petit rang}
+        $W = W_0 + BA$, sur les seules matrices de requête et de valeur \citb{hu22}
+        \item \textbf{CrackSAM} \citb{ge24} : exactement cette recette pour les fissures ---
+        $4{,}4$~M de poids appris sur $637$~M, soit $0{,}7\,\%$, et il bat les réseaux spécialisés
+        en \emph{zéro-shot}, surtout sous flou et bruit
+        \item Le difficile n'est pas la sémantique, c'est le \textbf{changement de domaine} : ombres,
+        textures, et une fissure qui n'occupe qu'une fraction infime des pixels
+    \end{itemize}
+    \reffoot{hu22,ge24}
+\end{frame}
+
+% ------------------------------------------------------------
+\begin{frame}{Guider SAM : lui parler dans sa propre langue}
+    \begin{center}
+        \resizebox{0.80\textwidth}{!}{\input{figs/invites_centralite}}
+    \end{center}
+
+    \vspace{0.20cm}
+    \small
     \begin{itemize}
         \setlength{\itemsep}{6pt}
-        \item Le langage \citb{brown20} et l'image \citb{ravi24} ont chacun une \textbf{unité de calcul stable}
-        \item En 3D, l'effort est réel --- Sonata \citb{sonata25}, Concerto \citb{concerto25}, Utonia \citb{utonia26} --- mais il porte sur des \textbf{points} ou des voxels, et rien, à ma connaissance, ne fait encore \textbf{consensus}
+        \item Notre graphe de \textsc{Frangi} fournit un arbre couvrant et une centralité :
+        donc un \textbf{ordre d'importance} sur les pixels, du tronc de la fissure vers ses ramifications
+        \item Le convertir en \textbf{invites ponctuelles} n'exige \emph{aucune} modification du modèle :
+        c'est l'interface native de SAM
+        \item Ce serait la \textbf{première utilisation réelle} de l'arbre --- jusqu'ici,
+        nous n'avons injecté que la carte de similarité, jamais la structure
     \end{itemize}
-    \reffoot{brown20,sonata25,concerto25,utonia26}
 \end{frame}
 
 % ------------------------------------------------------------
-\begin{frame}{Un verrou : le nuage de points est un artefact du capteur}
-    \begin{center}
-        \resizebox{0.74\textwidth}{!}{\input{figs/verrou_portee}}
-    \end{center}
+\begin{frame}{Guider SAM : \emph{informer} l'attention, pas la contraindre}
+    \small
+    Une fissure se reconnaît à sa \textbf{connexité} ; or l'attention compare des vecteurs deux à deux :
+    elle n'a \textbf{aucun \emph{a priori} de chemin}.
+    {\color{inria-rouge}\emph{Rien n'est acquis ici : aucune IoU n'a encore été mesurée sur SAM.}}
 
-    \vspace{0.15cm}
-    \begin{itemize}
-        \setlength{\itemsep}{4pt}
-        \item \textbf{Discrétisation} dictée par le capteur : nappes de balayage, résolution angulaire, rémission
-        \item \textbf{Densité} qui décroît avec la portée : le même objet donne deux nuages incomparables
-        \item \textbf{Occultations} : ce qui manque n'est pas vide, il est \emph{non observé}
-        \item Un modèle point par point apprend donc \emph{en même temps} la géométrie, le capteur, la densité, l'occultation \emph{et} la sémantique
-    \end{itemize}
-
-    \vspace{0.2cm}
+    \vspace{0.10cm}
     \begin{center}
-        \small Hypothèse assumée : c'est \emph{une} raison centrale de la difficulté --- pas la seule
-    \end{center}
-\end{frame}
-
-% ------------------------------------------------------------
-\begin{frame}{La piste : le polyèdre comme alphabet, l'arbre comme grammaire}
-    \begin{center}
-        \resizebox{0.40\textwidth}{!}{\input{figs/hierarchie_surfaces}}
+        \resizebox{0.44\textwidth}{!}{\input{figs/informer_pas_contraindre}}
     \end{center}
 
     \vspace{0.15cm}
     \begin{itemize}
         \setlength{\itemsep}{5pt}
-        \item \textbf{Chaque} nœud porte une surface \emph{explicite} et un niveau physique : les hiérarchies de régions \citb{robert23} n'agrègent que des points, et \citb{yu25} a la surface mais pas la hiérarchie
-        \item Le niveau de la filtration est une grandeur \textbf{physique} --- un rayon, en mètres, et non un indice $0, 1, 2, \ldots$ : les branches deviennent des trajectoires, les fusions des événements
-        \item La \emph{forme} se normalise --- par \textbf{similitude} : ce n'est pas encore une robustesse à la portée --- et taille, pose et acquisition restent des canaux séparés
+        \item La transposition directe de l'attention hiérarchique \citb{hsa25} est écartée :
+        sa contrainte de blocs \textbf{comprime} l'attention --- sans aucun paramètre appris
+        \item Reste un \textbf{biais additif} indexé par la distance dans l'arbre, initialisé à zéro \citb{ying21} ---
+        et d'abord mesurer le \textbf{plafond} avec la vérité terrain
     \end{itemize}
-    \reffoot{robert23,yu25}
+    \reffoot{hsa25,ying21}
 \end{frame}
 
-% ------------------------------------------------------------
-\begin{frame}{Guider SAM par la hiérarchie : ce que la contre-épreuve apprend}
+% ============================================================
+% 7.d — Le modèle de fondation 3D qui manque
+% ============================================================
+\begin{frame}{En 3D, ce modèle de fondation n'existe pas --- et c'est un verrou}
     \begin{center}
-        \resizebox{0.36\textwidth}{!}{\input{figs/equilibre_continuite}}
+        \resizebox{0.74\textwidth}{!}{\input{figs/revolution_3d}}
     \end{center}
 
-    \vspace{0.05cm}
+    \vspace{0.10cm}
     \small
     \begin{itemize}
-        \setlength{\itemsep}{3pt}
-        \item Une fissure se reconnaît d'abord par sa \textbf{connexité} : introduire un
-        \emph{a priori} de chemin dans SAM reste une hypothèse naturelle.
-        \item Notre transposition directe de HSA est écartée : sa contrainte de blocs
-        égalise des coefficients --- elle \textbf{comprime} l'attention au lieu de l'informer \citb{hsa25}.
-        \item La hiérarchie doit donc \textbf{guider} le modèle --- par des invites ou un biais résiduel --- sans imposer l'égalité de ses coefficients d'attention.
+        \setlength{\itemsep}{5pt}
+        \item Un socle 3D partagé, c'est la \textbf{révolution robotique} : un robot qui comprend l'espace
+        sans qu'on réannote une scène par capteur, par site et par tâche
+        \item Le texte et l'image ont franchi ce pas ; la 3D, non --- et c'est \emph{elle} qui donne
+        aux machines une prise sur le monde physique
     \end{itemize}
-
-    \vspace{0cm}
-    \begin{center}
-        \formulebox{\small \textbf{Résultat structurel, non-gain de segmentation :}
-        aucune IoU sur SAM n'a encore été mesurée.}
-    \end{center}
-    \reffoot{hsa25}
 \end{frame}
 
 % ------------------------------------------------------------
-\begin{frame}{Une suite simple, progressive et réfutable}
-    \begin{enumerate}
-        \setlength{\itemsep}{12pt}
-        \item \textbf{Test idéalisé sur SAM~2 gelé.} Injecter d'abord la vérité terrain dans
-        l'interface choisie pour vérifier si la hiérarchie offre seulement une marge.
-        La vérité terrain à l'inférence en fait un \textbf{diagnostic}, jamais un résultat publiable.
-        \item \textbf{Utiliser d'abord l'interface native.} Transformer la hiérarchie en
-        invites ponctuelles, sélectionnées par centralité de l'arbre couvrant minimal,
-        du grossier au fin.
-        \item \textbf{Seulement si le signal est causal.} Apprendre un biais additif résiduel
-        selon la distance dans le graphe ou l'arbre, initialisé à zéro :
-        \textbf{informer} l'attention sans lier ses coefficients.
-    \end{enumerate}
-
-    \vfill
+\begin{frame}{Pourquoi ? il manque l'\textcolor{inria-rouge}{unité de calcul}}
     \begin{center}
-        \formulebox{\parbox{0.82\textwidth}{\centering\small
-        À chaque étape : \textbf{aligné contre permuté et aléatoire},
-        à capacité et budget identiques. Sans séparation, on arrête.}}
+        \resizebox{0.56\textwidth}{!}{\input{figs/alphabet_fondation}}
     \end{center}
-    \reffoot{ravi24,hsa25}
+
+    \vspace{0.20cm}
+    \small
+    \begin{itemize}
+        \setlength{\itemsep}{6pt}
+        \item L'effort est réel --- Sonata \citb{sonata25}, Concerto \citb{concerto25}, Utonia \citb{utonia26} ---
+        mais il porte sur des \textbf{points} ou des \textbf{voxels}
+        \item Or ni le point ni le voxel ne sont un \emph{objet} : l'un est un tir de laser,
+        l'autre une case de grille. Rien, à ma connaissance, ne fait encore \textbf{consensus}
+    \end{itemize}
+    \reffoot{sonata25,concerto25,utonia26}
+\end{frame}
+
+% ------------------------------------------------------------
+\begin{frame}{La raison de fond : le nuage est un \emph{artefact du capteur}}
+    \begin{center}
+        \resizebox{0.72\textwidth}{!}{\input{figs/verrou_portee}}
+    \end{center}
+
+    \vspace{0.15cm}
+    \small
+    \begin{itemize}
+        \setlength{\itemsep}{5pt}
+        \item La \textbf{densité} décroît avec la portée : le même objet donne deux nuages incomparables.
+        S'y ajoutent les nappes de balayage et les \textbf{occultations} --- ce qui manque n'est pas vide,
+        il est \emph{non observé}
+        \item Un modèle point par point apprend donc \emph{en même temps} la géométrie, le capteur,
+        la densité, l'occultation \textbf{et} la sémantique
+        \item Hypothèse assumée : c'est \emph{une} raison centrale de la difficulté --- pas la seule
+    \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------
+\begin{frame}{Mon idée : le \textcolor{inria-rouge}{polyèdre} comme alphabet, l'\textcolor{inria-rouge}{arbre} comme grammaire}
+    \begin{center}
+        \resizebox{0.42\textwidth}{!}{\input{figs/hierarchie_surfaces}}
+    \end{center}
+
+    \vspace{0.15cm}
+    \small
+    \begin{itemize}
+        \setlength{\itemsep}{5pt}
+        \item \textbf{Chaque} nœud de la hiérarchie porte une \textbf{surface explicite} :
+        un recollement de facettes, et non un sac de points
+        \item Le niveau de la filtration est une grandeur \textbf{physique} --- un rayon, en mètres,
+        et non un indice $0, 1, 2, \ldots$ : les branches deviennent des trajectoires, les fusions des événements
+        \item L'interface vers les points existe déjà : le vote pondéré $w_{x\tau} = S_\tau / T_x$ du \S~9.1
+        du manuscrit, une partition de l'unité sur les points couverts
+    \end{itemize}
+
+    \vspace{0.10cm}
+    \begin{center}
+        \formulebox{\small \textbf{Un pari, et il est réfutable :} si l'arbre réel ne bat ni un modèle plat,
+        ni un arbre aléatoire, il tombe.}
+    \end{center}
 \end{frame}
 
 % ------------------------------------------------------------
@@ -1527,7 +1658,7 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Bibliographie (1/2)}
+\begin{frame}{Bibliographie (1/3)}
     \scriptsize
     \begin{itemize}
         \setlength{\itemsep}{2.5pt}
@@ -1543,23 +1674,35 @@
         \bibligne{penrose03}
         \bibligne{meesterroy96}
         \bibligne{ghrist08}
-        \bibligne{chaudhuri10}
-        \bibligne{carlsson10}
-        \bibligne{campello13}
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Bibliographie (2/2)}
+\begin{frame}{Bibliographie (2/3)}
     \scriptsize
     \begin{itemize}
         \setlength{\itemsep}{2.5pt}
+        \bibligne{chaudhuri10}
+        \bibligne{carlsson10}
+        \bibligne{campello13}
         \bibligne{boissonnat18}
         \bibligne{culbertson18}
         \bibligne{sb18}
         \bibligne{brown20}
+        \bibligne{bommasani21}
+        \bibligne{ying21}
+        \bibligne{hu22}
         \bibligne{edelsbrunner23}
+        \bibligne{kirillov23}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Bibliographie (3/3)}
+    \scriptsize
+    \begin{itemize}
+        \setlength{\itemsep}{2.5pt}
         \bibligne{robert23}
         \bibligne{rolle23}
+        \bibligne{ge24}
         \bibligne{ravi24}
         \bibligne{sautier25}
         \bibligne{oh25}
@@ -1794,6 +1937,51 @@
     \end{itemize}
 \end{frame}
 
+\begin{frame}{Des horloges au dendrogramme : \textsc{Kruskal}}
+    \begin{center}
+        \resizebox{0.94\textwidth}{!}{\input{figs/horloges_kruskal}}
+    \end{center}
+
+    \vspace{0.30cm}
+    \begin{center}
+        \formulebox{$\displaystyle
+        \mathrm{cc}\{e : \xi_e \le \beta\} \;=\; \mathrm{cc}\{e \in \mathrm{FCM} : \xi_e \le \beta\},
+        \qquad 0 \le \beta \le 1$}
+    \end{center}
+
+    \vspace{0.25cm}
+    \begin{itemize}
+        \setlength{\itemsep}{7pt}
+        \item La forêt couvrante minimale \textbf{calcule} la hiérarchie ; mais la \emph{loi} des retournements
+        utilise toujours \textbf{toutes} les arêtes du graphe, pas seulement celles retenues par \textsc{Kruskal}
+        \item L'arête à $1{,}26$ n'a jamais sonné avant l'horizon : $e$ reste seul, et $\Pi_1$ a deux composantes
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{La coupe critique $\beta_c$, en détail}
+    \begin{itemize}
+        \setlength{\itemsep}{9pt}
+        \item Le niveau critique s'inverse explicitement :
+        \[
+            \beta_c(p) \;=\; q_p^{-1}(q_c) \;=\; -\,\frac{\log\bigl(1 - q_c/p\bigr)}{\log\frac{p}{1-p}},
+            \qquad q_c = 2\sin\tfrac{\pi}{18} = 0{,}34730\ldots
+        \]
+        \item Il n'existe dans l'horizon $[0,1]$ que si $p \ge \tfrac{1 + q_c}{2} = 0{,}67365\ldots$ ---
+        c'est exactement le seuil de gel de \textsc{Swendsen}--\textsc{Wang} ; en dessous, la criticité n'est
+        jamais atteinte avant la censure
+        \item \textbf{Ce que la hiérarchie ajoute à la borne de percolation.} Celle-ci ne retient que la
+        \emph{taille} des racines ; la borne par plus petit ancêtre commun pondère chaque fusion par sa
+        fiabilité exacte
+        \[
+            Q_n \;\le\; \frac{1}{n^2}\,\mathbb E\Bigl[\,n + 2\!\!\sum_{u \in D}\! |C_{u,1}|\,|C_{u,2}|\,\eta_u\Bigr],
+            \qquad \eta_u = \tanh^2\tfrac{L_u}{2}
+        \]
+        \item \textbf{Réserve.} La coupe critique n'est \emph{pas} sélectionnée par l'information --- après
+        marginalisation exacte, le jacobien répliqué vaut $\theta^2$ à tout niveau. Elle se distingue
+        \emph{géométriquement}, comme ordre d'élimination du \textsc{Gibbs}
+    \end{itemize}
+\end{frame}
+
 \begin{frame}{L'échelle des seuils du GSBM triangulaire}
     \begin{center}
         \includegraphics[width=0.9\textwidth]{imgs/GSBM_echelle_seuils.png}
@@ -1931,7 +2119,71 @@
     \end{itemize}
 \end{frame}
 
+% --- Perspectives : guider SAM -------------------------------
+\begin{frame}{Guider SAM : une suite progressive et réfutable}
+    \begin{enumerate}
+        \setlength{\itemsep}{12pt}
+        \item \textbf{Mesurer le plafond, sur SAM~2 gelé.} Injecter la \emph{vérité terrain} dans l'interface
+        choisie et regarder ce qu'elle rapporte au mieux. La vérité terrain à l'inférence en fait un
+        \textbf{diagnostic}, jamais un résultat publiable --- mais deux heures de GPU suffisent, et
+        sans plafond on arrête là.
+        \item \textbf{Utiliser d'abord l'interface native.} Transformer la hiérarchie en invites ponctuelles,
+        sélectionnées par centralité décroissante de l'arbre couvrant minimal, du grossier au fin.
+        Ce serait la première utilisation réelle de l'arbre et des composantes.
+        \item \textbf{Seulement si le signal est causal.} Apprendre un biais additif selon la distance dans
+        le graphe ou dans l'arbre, initialisé à zéro : \textbf{informer} l'attention sans lier ses coefficients.
+    \end{enumerate}
+
+    \vfill
+    \begin{center}
+        \formulebox{\parbox{0.82\textwidth}{\centering\small
+        À chaque étape : \textbf{aligné contre permuté et aléatoire},
+        à capacité et budget identiques. Sans séparation, on arrête.}}
+    \end{center}
+\end{frame}
+
+\begin{frame}{Ce que HSA exige, et ce que le graphe de \textsc{Frangi} donne}
+    \begin{center}
+        \resizebox{0.44\textwidth}{!}{\input{figs/hsa_chenille}}
+    \end{center}
+
+    \vspace{0.15cm}
+    \small
+    \begin{itemize}
+        \setlength{\itemsep}{4pt}
+        \item \textbf{Surface d'attaque} : $3$ blocs d'attention globale sur $48$ dans \emph{Hiera}-L,
+        soit $6{,}6\,\%$ du budget arithmétique du tronc (comptage analytique)
+        \item \textbf{Forme de l'arbre} : ce n'est pas un réglage --- l'arité $b = (N-1)/(N-L)$ est \emph{fixée}
+        par la fraction de feuilles, donc par la géométrie de la fissure ; $b \approx 1{,}3$ contre $8$ attendu
+        \item Ce défaut-là se répare (décomposition en centroïdes sur la grille $64 \times 64$ : profondeur $12$,
+        arité $2{,}82$) ; ce qui ne se répare pas, c'est qu'une contrainte de blocs \emph{comprime} au lieu d'informer
+        \item Et la meilleure hiérarchie possible --- construite depuis la vérité terrain --- ne demande
+        qu'une \textbf{carte binaire} fissure/fond : ni arbre couvrant, ni composantes, ni centralité
+        \item \textbf{Limite assumée} : mesures sur fissures \emph{synthétiques} calibrées sur le corpus
+        Khánh Hà ($448$~px, largeur $19$~px, couverture $5{,}7\,\%$) ; \textbf{aucun GPU} n'a été dépensé
+    \end{itemize}
+\end{frame}
+
 % --- Perspectives : la voie hiérarchique ---------------------
+\begin{frame}{De la partition au $K$-polyèdre : la chaîne complète}
+    \begin{center}
+        \resizebox{0.66\textwidth}{!}{\input{figs/chaine_objets_cibles}}
+    \end{center}
+
+    \vspace{-0.10cm}
+    \begin{center}
+        \resizebox{0.46\textwidth}{!}{\input{figs/polyedre_facettes}}
+    \end{center}
+
+    \vspace{0.0cm}
+    \begin{itemize}
+        \setlength{\itemsep}{5pt}
+        \item Un cran plus loin \citb{culbertson18} : remplacer la partition par un \textbf{recouvrement}. Pour $K \ge 2$, les $K$-polyèdres peuvent partager des sommets : leurs réalisations géométriques se \textbf{chevauchent} \citb{ans26} --- la parenté est d'idée, non de théorème
+        \item Un nœud ne porte pas qu'un sac de points : il porte un recollement de \textbf{facettes}, c'est-à-dire une partition des $(K-1)$-simplexes
+    \end{itemize}
+    \reffoot{culbertson18}
+\end{frame}
+
 \begin{frame}{Rester honnête : ce qui reste entièrement à démontrer}
     \begin{center}
         \resizebox{0.68\textwidth}{!}{\input{figs/programme_falsification}}
@@ -1958,21 +2210,6 @@
         \item Ce que la hiérarchie sérialise pour chaque nœud : la surface (facettes, aires, normales, bords), le niveau de naissance, le parent, les enfants de fusion, les voisins latéraux et la confiance d'acquisition
         \item L'interface vers les points existe déjà : le vote pondéré $w_{x\tau} = S_\tau / T_x$ du §~9.1, partition de l'unité sur les points couverts ($T_x > 0$)
         \item Ce qui manque est en aval : encodeur de surface, encodeur de branche, encodeur de fusion, décodeur par facette --- et les campagnes qui les jugeraient
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{Voie hiérarchique : pourquoi le résultat négatif est structurel}
-    \begin{center}
-        \resizebox{0.48\textwidth}{!}{\input{figs/hsa_chenille}}
-    \end{center}
-
-    \vspace{0.15cm}
-    \begin{itemize}
-        \setlength{\itemsep}{4pt}
-        \item \textbf{Surface d'attaque} : $3$ blocs d'attention globale sur $48$ dans Hiera-L, soit $6{,}56\,\%$ des opérations du tronc
-        \item \textbf{Forme de l'arbre} : ce n'est pas un réglage --- l'arité $b = (N-1)/(N-L)$ est \emph{fixée} par la fraction de feuilles, donc par la géométrie de la fissure
-        \item Ce défaut-là se répare (décomposition en centroïdes de l'arbre couvrant minimal \emph{non élagué}, sur la grille $64 \times 64$ : profondeur $12$, arité $2{,}82$) ; ce qui ne se répare pas, c'est qu'une contrainte de blocs \emph{comprime} au lieu d'informer
-        \item \textbf{Limite assumée} : mesures sur fissures \emph{synthétiques} calibrées sur le corpus Khánh Hà ($448$~px, largeur $19$~px, couverture $5{,}7\,\%$)
     \end{itemize}
 \end{frame}
 

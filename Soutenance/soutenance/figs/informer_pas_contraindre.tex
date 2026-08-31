@@ -1,0 +1,57 @@
+% Contraindre l'attention (HSA : block constraint) contre l'informer
+% (biais additif indexé par la distance dans l'arbre).
+                \begin{tikzpicture}[xscale=1.0, yscale=1.0]
+                    \useasboundingbox (-0.45, -2.25) rectangle (10.55, 3.75);
+
+                    \tikzset{cadre/.style={draw=gray!45, line width=0.9pt}}
+                    \tikzset{titre/.style={font=\scriptsize\bfseries, anchor=south, align=center}}
+                    \tikzset{sous/.style={font=\scriptsize, anchor=north, align=center, text=gris_fonce_inria}}
+
+                    % ================= gauche : contraindre =================
+                    \begin{scope}[shift={(0,0)}]
+                        \node[titre, text=gris_fonce_inria] at (1.40,3.05) {\textsc{contraindre} (HSA)};
+                        % blocs diagonaux : le détail survit
+                        \foreach \i in {0,...,3} {
+                            \foreach \j in {0,...,3} {
+                                \pgfmathsetmacro{\gg}{max(10, 82 - 20*abs(\i-\j))}
+                                \fill[inria-2024-bleu-canard!\gg] (\i*0.35, \j*0.35) rectangle ++(0.33,0.33);
+                                \fill[inria-2024-bleu-canard!\gg] (1.40+\i*0.35, 1.40+\j*0.35) rectangle ++(0.33,0.33);
+                            }
+                        }
+                        % blocs hors-diagonale : une seule valeur, tout s'aplatit
+                        \fill[inria-2024-bleu-canard!22] (1.40,0) rectangle ++(1.38,1.38);
+                        \fill[inria-2024-bleu-canard!22] (0,1.40) rectangle ++(1.38,1.38);
+                        \node[font=\tiny, text=gris_fonce_inria] at (2.10,0.70) {$\theta_{A,B}$};
+                        \node[font=\tiny, text=gris_fonce_inria] at (0.70,2.10) {$\theta_{A,B}$};
+                        \draw[cadre] (0,0) rectangle (2.80,2.80);
+                        \draw[inria-rouge, line width=1.0pt] (1.40,0) -- (1.40,2.80);
+                        \draw[inria-rouge, line width=1.0pt] (0,1.40) -- (2.80,1.40);
+                        \node[sous] at (1.40,-0.22)
+                            {toutes les paires entre deux\\sous-arbres frères partagent\\\textbf{une seule} valeur};
+                    \end{scope}
+
+                    % ================= droite : informer =================
+                    \begin{scope}[shift={(6.30,0)}]
+                        \node[titre, text=inria-rouge] at (1.40,3.05) {\textsc{informer} (biais additif)};
+                        \foreach \i in {0,...,7} {
+                            \foreach \j in {0,...,7} {
+                                \pgfmathsetmacro{\dd}{abs(\i-\j)}
+                                \pgfmathsetmacro{\gg}{max(8, 82 - 12*\dd)}
+                                \fill[inria-2024-bleu-canard!\gg] (\i*0.35, \j*0.35) rectangle ++(0.33,0.33);
+                            }
+                        }
+                        \draw[cadre] (0,0) rectangle (2.80,2.80);
+                        \node[sous] at (1.40,-0.22)
+                            {chaque coefficient reste \textbf{libre} ;\\on ajoute un terme appris\\indexé par $d_T(i,j)$};
+                    \end{scope}
+
+                    % ================= formules et verdict =================
+                    \node[font=\scriptsize, text=gris_fonce_inria, anchor=north, align=center] at (1.40,-1.42)
+                        {$\theta_{ij}=\theta_{A,B}$\\[3pt]
+                         $\Rightarrow$ \textbf{comprime} l'attention\\{\tiny aucun paramètre appris}};
+                    \node[font=\scriptsize, text=inria-rouge, anchor=north, align=center] at (7.70,-1.42)
+                        {$q_i^{\top}k_j/\sqrt d \;+\; b\bigl(d_T(i,j)\bigr)$\\[3pt]
+                         $\Rightarrow$ \textbf{renseigne} l'attention\\{\tiny $\sim\!200$ paramètres, initialisés à zéro}};
+
+                    \node[font=\Large\bfseries, text=gris_fonce_inria] at (4.55,1.40) {\emph{vs.}};
+                \end{tikzpicture}

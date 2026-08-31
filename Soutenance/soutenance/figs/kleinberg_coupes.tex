@@ -1,0 +1,45 @@
+% La sortie hiérarchique : un dendrogramme theta, et la règle de coupe.
+% Kleinberg lui-même réalise chacune des trois paires d'axiomes par une
+% variante du Single-Linkage — c'est-à-dire par un choix de coupe.
+                \begin{tikzpicture}[xscale=1.0, yscale=1.0]
+                    \useasboundingbox (-1.15, -0.95) rectangle (9.35, 4.35);
+
+                    \tikzset{branche/.style={inria-rouge, line width=1.4pt, rounded corners=3pt}}
+                    \tikzset{coupe/.style={gris_fonce_inria, densely dashed, line width=0.8pt}}
+                    \tikzset{etiq/.style={font=\scriptsize, text=gris_fonce_inria, inner sep=1.5pt}}
+
+                    % --- axe des échelles ---
+                    \draw[-{Latex[length=2.2mm]}, gris_fonce_inria, line width=0.8pt] (-0.75,0.10) -- (-0.75,4.05);
+                    \node[font=\scriptsize, text=gris_fonce_inria, anchor=south east] at (-0.60,3.95) {$r$};
+
+                    % --- feuilles ---
+                    \foreach \x in {0.35, 0.95, 1.55, 2.35, 2.95, 3.95, 4.55, 5.15} {
+                        \fill[inria-2024-bleu-canard] (\x, 0.30) circle (2.2pt);
+                    }
+
+                    % --- dendrogramme ---
+                    \draw[branche] (0.35,0.30) -- (0.35,0.95) -- (0.95,0.95) -- (0.95,0.30);
+                    \draw[branche] (0.65,0.95) -- (0.65,1.45) -- (1.55,1.45) -- (1.55,0.30);
+                    \draw[branche] (2.35,0.30) -- (2.35,1.15) -- (2.95,1.15) -- (2.95,0.30);
+                    \draw[branche] (3.95,0.30) -- (3.95,0.80) -- (4.55,0.80) -- (4.55,0.30);
+                    \draw[branche] (4.25,0.80) -- (4.25,1.60) -- (5.15,1.60) -- (5.15,0.30);
+                    \draw[branche] (1.10,1.45) -- (1.10,2.30) -- (2.65,2.30) -- (2.65,1.15);
+                    \draw[branche] (1.87,2.30) -- (1.87,3.35) -- (4.70,3.35) -- (4.70,1.60);
+                    \draw[branche] (3.28,3.35) -- (3.28,3.90);
+
+                    % --- trois coupes ---
+                    \draw[coupe] (-0.35, 0.58) -- (5.80, 0.58);
+                    \draw[coupe] (-0.35, 1.88) -- (5.80, 1.88);
+                    \draw[coupe] (-0.35, 2.85) -- (5.80, 2.85);
+                    \node[etiq, anchor=west] at (5.85, 0.58) {$\theta(r_1)$};
+                    \node[etiq, anchor=west] at (5.85, 1.88) {$\theta(r_2)$};
+                    \node[etiq, anchor=west] at (5.85, 2.85) {$\theta(r_3)$};
+
+                    \draw[decorate, decoration={brace, amplitude=4pt, mirror}, inria-rouge, line width=0.8pt]
+                        (7.05, 0.42) -- (7.05, 3.02);
+                    \node[font=\scriptsize, text=inria-rouge, anchor=west, align=left] at (7.30, 1.72)
+                        {selon la \textbf{coupe},\\ \textsf{(i)}\,+\,\textsf{(ii)},\\ \textsf{(i)}\,+\,\textsf{(iii)}\\ ou \textsf{(ii)}\,+\,\textsf{(iii)}};
+
+                    \node[font=\scriptsize, text=gris_fonce_inria, anchor=north, align=center] at (2.75, -0.05)
+                        {la résolution $r$ reste \textbf{dans la sortie} : on ne la choisit plus à la place de l'utilisateur};
+                \end{tikzpicture}

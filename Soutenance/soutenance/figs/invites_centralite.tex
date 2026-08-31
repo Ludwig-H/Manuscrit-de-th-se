@@ -1,0 +1,52 @@
+% Idée 1 — l'interface native de SAM : transformer la hiérarchie du
+% Frangi-graphe en invites ponctuelles, ordonnées par centralité décroissante.
+                \begin{tikzpicture}[xscale=1.0, yscale=1.0]
+                    \useasboundingbox (-0.35, -1.15) rectangle (11.15, 3.35);
+
+                    \tikzset{cadre/.style={draw=gray!35, line width=0.9pt, rounded corners=3pt}}
+                    \tikzset{fissure/.style={inria-2024-bleu-canard, line width=2.6pt, line cap=round}}
+                    \tikzset{squelette/.style={inria-rouge, line width=1.1pt, line cap=round}}
+                    \tikzset{fl/.style={-{Latex[length=2.4mm]}, line width=1.1pt, color=gray!55}}
+
+                    % ---------------- panneau 1 : l'image ----------------
+                    \node[cadre, minimum width=3.10cm, minimum height=3.10cm] at (1.55,1.55) {};
+                    \draw[fissure] (0.35,0.55) .. controls (1.05,1.35) and (1.50,1.00) .. (2.05,1.85)
+                                              .. controls (2.35,2.30) and (2.50,2.45) .. (2.75,2.75);
+                    \draw[fissure] (1.55,1.35) .. controls (1.95,1.05) and (2.25,0.90) .. (2.70,0.75);
+                    \node[font=\scriptsize, text=gris_fonce_inria, anchor=north] at (1.55,-0.15) {image};
+
+                    \draw[fl] (3.30,1.55) -- (3.95,1.55);
+
+                    % ---------------- panneau 2 : le graphe et son arbre ----------------
+                    \node[cadre, minimum width=3.10cm, minimum height=3.10cm] at (5.65,1.55) {};
+                    \draw[squelette] (4.45,0.55) .. controls (5.15,1.35) and (5.60,1.00) .. (6.15,1.85)
+                                                .. controls (6.45,2.30) and (6.60,2.45) .. (6.85,2.75);
+                    \draw[squelette] (5.65,1.35) .. controls (6.05,1.05) and (6.35,0.90) .. (6.80,0.75);
+                    \foreach \x/\y in {4.45/0.55, 4.85/1.05, 5.25/1.20, 5.65/1.35, 6.00/1.68, 6.30/2.10,
+                                       6.58/2.42, 6.85/2.75, 6.05/1.05, 6.45/0.86, 6.80/0.75} {
+                        \fill[inria-rouge] (\x,\y) circle (1.5pt);
+                    }
+                    \node[font=\scriptsize, text=gris_fonce_inria, anchor=north, align=center] at (5.65,-0.15)
+                        {graphe de \textsc{Frangi}\\{\tiny arbre couvrant $+$ centralité}};
+
+                    \draw[fl] (7.40,1.55) -- (8.05,1.55);
+
+                    % ---------------- panneau 3 : les invites ----------------
+                    \node[cadre, minimum width=3.10cm, minimum height=3.10cm] at (9.75,1.55) {};
+                    \draw[gray!40, line width=1.9pt, line cap=round]
+                        (8.55,0.55) .. controls (9.25,1.35) and (9.70,1.00) .. (10.25,1.85)
+                                    .. controls (10.55,2.30) and (10.70,2.45) .. (10.95,2.75);
+                    \draw[gray!40, line width=1.9pt, line cap=round]
+                        (9.75,1.35) .. controls (10.15,1.05) and (10.45,0.90) .. (10.90,0.75);
+                    % invites : taille décroissante avec la centralité
+                    \fill[inria-rouge] (9.75,1.35) circle (3.6pt);
+                    \fill[inria-rouge] (10.15,1.99) circle (2.8pt);
+                    \fill[inria-rouge] (9.10,0.94) circle (2.8pt);
+                    \fill[inria-rouge] (10.45,0.86) circle (2.1pt);
+                    \fill[inria-rouge] (10.80,2.58) circle (2.1pt);
+                    \node[font=\scriptsize, text=gris_fonce_inria, anchor=north, align=center] at (9.75,-0.15)
+                        {invites ponctuelles\\{\tiny du plus central au plus fin}};
+
+                    \node[font=\scriptsize, text=inria-rouge, anchor=south, align=center] at (5.65,3.05)
+                        {aucune modification de SAM : on lui parle dans sa propre langue};
+                \end{tikzpicture}
