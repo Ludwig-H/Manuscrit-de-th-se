@@ -42,7 +42,7 @@
                         }
                         \draw[cadre] (0,0) rectangle (2.80,2.80);
                         \node[sous] at (1.40,-0.22)
-                            {chaque coefficient reste \textbf{libre} ;\\on ajoute un terme appris\\indexé par $d_T(i,j)$};
+                            {chaque coefficient reste \textbf{libre} ;\\on ajoute un terme appris\\indexé par la distance dans le graphe};
                     \end{scope}
 
                     % ================= formules et verdict =================
@@ -50,8 +50,8 @@
                         {$\theta_{ij}=\theta_{A,B}$\\[3pt]
                          $\Rightarrow$ \textbf{comprime} l'attention\\{\tiny aucun paramètre appris}};
                     \node[font=\scriptsize, text=inria-rouge, anchor=north, align=center] at (7.70,-1.42)
-                        {$q_i^{\top}k_j/\sqrt d \;+\; b\bigl(d_T(i,j)\bigr)$\\[3pt]
-                         $\Rightarrow$ \textbf{renseigne} l'attention\\{\tiny $\sim\!200$ paramètres, initialisés à zéro}};
+                        {$q_i^{\top}k_j/\sqrt d \;+\; b\bigl(d_G(i,j)\bigr)$\\[3pt]
+                         $\Rightarrow$ \textbf{renseigne} l'attention\\{\tiny $192$ paramètres, initialisés à zéro}};
 
                     \node[font=\Large\bfseries, text=gris_fonce_inria] at (4.55,1.40) {\emph{vs.}};
                 \end{tikzpicture}

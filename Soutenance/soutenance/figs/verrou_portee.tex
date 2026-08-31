@@ -58,7 +58,11 @@
                     \end{scope}
                     \begin{scope}[xshift=6.9cm, yshift=-2.40cm]
                         \draw[gray!45, line width=0.7pt, densely dotted] plot coordinates {\contour};
-                        \draw[surf] plot coordinates {(0.00,0.42) (0.86,0.86) (2.10,0.90) (3.00,0.42)};
+                        % la surface ne va pas au-delà des retours effectivement observés,
+                        % et le trou central reste un trou : « non observé », pas « vide ».
+                        \draw[surf] plot coordinates {(0.20,0.44) (0.86,0.86) (1.46,0.98)};
+                        \draw[surf] plot coordinates {(2.10,0.90) (2.72,0.44)};
+                        \node[font=\tiny, text=gris_fonce_inria] at (1.80,0.60) {non observé};
                     \end{scope}
 
                     \node[font=\Large\bfseries, text=inria-rouge] at (6.15,-1.86) {$\approx$};

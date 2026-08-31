@@ -1422,8 +1422,9 @@
     \small
     \begin{itemize}
         \setlength{\itemsep}{5pt}
-        \item Pré-entraîné sur $11$~millions d'images et $1{,}1$~milliard de masques \citb{kirillov23} ;
-        SAM~2 étend le modèle à la vidéo \citb{ravi24}
+        \item Pré-entraîné sur SA-1B, le jeu de \emph{SAM~1} : $11$~millions d'images et
+        $1{,}1$~milliard de masques \citb{kirillov23} ; SAM~2 garde l'interface, change de tronc
+        (\emph{Hiera}) et l'étend à la vidéo \citb{ravi24}
         \item Architecture \textbf{asymétrique} : un encodeur d'image lourd, calculé \emph{une fois} ;
         puis une boucle légère, où l'on pose des \textbf{invites}
         \item Pour nous, la bonne nouvelle : cette interface d'invites est un \textbf{point d'entrée gratuit}
@@ -1441,11 +1442,12 @@
     \small
     \begin{itemize}
         \setlength{\itemsep}{5pt}
-        \item On \textbf{gèle} les poids pré-entraînés et on n'apprend qu'une correction de \textbf{petit rang}
-        $W = W_0 + BA$, sur les seules matrices de requête et de valeur \citb{hu22}
-        \item \textbf{CrackSAM} \citb{ge24} : exactement cette recette pour les fissures ---
-        $4{,}4$~M de poids appris sur $637$~M, soit $0{,}7\,\%$, et il bat les réseaux spécialisés
-        en \emph{zéro-shot}, surtout sous flou et bruit
+        \item On \textbf{gèle} le tronc pré-entraîné et on n'apprend qu'une correction de \textbf{petit rang}
+        $W = W_0 + BA$, sur les matrices de requête et de valeur \citb{hu22}
+        \item \textbf{CrackSAM} \citb{ge24} : cette recette, \emph{plus} un réapprentissage du décodeur
+        de masque --- $4{,}4$~M de poids appris sur $637$~M, soit $0{,}7\,\%$
+        \item Il domine les réseaux spécialisés sur deux des trois jeux \emph{zéro-shot} et sous le bruit,
+        mais SegFormer reste devant sur le test propre
         \item Le difficile n'est pas la sémantique, c'est le \textbf{changement de domaine} : ombres,
         textures, et une fissure qui n'occupe qu'une fraction infime des pixels
     \end{itemize}
@@ -1466,8 +1468,8 @@
         donc un \textbf{ordre d'importance} sur les pixels, du tronc de la fissure vers ses ramifications
         \item Le convertir en \textbf{invites ponctuelles} n'exige \emph{aucune} modification du modèle :
         c'est l'interface native de SAM
-        \item Ce serait la \textbf{première utilisation réelle} de l'arbre --- jusqu'ici,
-        nous n'avons injecté que la carte de similarité, jamais la structure
+        \item Ce serait la \textbf{première utilisation réelle} de l'arbre : jusqu'ici nous n'avons injecté
+        que des \emph{cartes} --- la similarité, puis onze canaux d'évidence --- jamais l'arbre ni la centralité
     \end{itemize}
 \end{frame}
 
@@ -1476,20 +1478,21 @@
     \small
     Une fissure se reconnaît à sa \textbf{connexité} ; or l'attention compare des vecteurs deux à deux :
     elle n'a \textbf{aucun \emph{a priori} de chemin}.
-    {\color{inria-rouge}\emph{Rien n'est acquis ici : aucune IoU n'a encore été mesurée sur SAM.}}
+    {\color{inria-rouge}\emph{Aucune IoU n'a encore été mesurée pour ce guidage.}}
 
     \vspace{0.10cm}
     \begin{center}
-        \resizebox{0.44\textwidth}{!}{\input{figs/informer_pas_contraindre}}
+        \resizebox{0.38\textwidth}{!}{\input{figs/informer_pas_contraindre}}
     \end{center}
 
     \vspace{0.15cm}
     \begin{itemize}
         \setlength{\itemsep}{5pt}
-        \item La transposition directe de l'attention hiérarchique \citb{hsa25} est écartée :
-        sa contrainte de blocs \textbf{comprime} l'attention --- sans aucun paramètre appris
-        \item Reste un \textbf{biais additif} indexé par la distance dans l'arbre, initialisé à zéro \citb{ying21} ---
-        et d'abord mesurer le \textbf{plafond} avec la vérité terrain
+        \item La transposition directe de l'attention hiérarchique \citb{hsa25} est écartée : elle gagne
+        à l'entraînement \emph{de zéro}, mais perd dans un modèle \emph{pré-entraîné} --- sa contrainte de
+        blocs \textbf{comprime} l'attention, sans aucun paramètre appris
+        \item Reste un \textbf{biais additif} indexé par la distance dans le \emph{graphe}, initialisé à zéro
+        \citb{ying21} --- et d'abord mesurer le \textbf{plafond} avec la vérité terrain
     \end{itemize}
     \reffoot{hsa25,ying21}
 \end{frame}
@@ -1506,9 +1509,10 @@
     \small
     \begin{itemize}
         \setlength{\itemsep}{5pt}
-        \item Un socle 3D partagé, c'est la \textbf{révolution robotique} : un robot qui comprend l'espace
-        sans qu'on réannote une scène par capteur, par site et par tâche
-        \item Le texte et l'image ont franchi ce pas ; la 3D, non --- et c'est \emph{elle} qui donne
+        \item Ce qu'un socle 3D partagé \emph{promet} : un même encodeur d'un capteur, d'un site et d'une
+        tâche à l'autre, avec \textbf{peu} d'annotations nouvelles --- c'est la \textbf{révolution robotique}
+        que le domaine attend, et je n'en apporte ici aucune preuve
+        \item Le texte et l'image ont franchi ce pas ; la 3D, pas encore --- et c'est \emph{elle} qui donne
         aux machines une prise sur le monde physique
     \end{itemize}
 \end{frame}
@@ -1525,8 +1529,9 @@
         \setlength{\itemsep}{6pt}
         \item L'effort est réel --- Sonata \citb{sonata25}, Concerto \citb{concerto25}, Utonia \citb{utonia26} ---
         mais il porte sur des \textbf{points} ou des \textbf{voxels}
-        \item Or ni le point ni le voxel ne sont un \emph{objet} : l'un est un tir de laser,
-        l'autre une case de grille. Rien, à ma connaissance, ne fait encore \textbf{consensus}
+        \item Or ni le point ni le voxel ne sont un \emph{objet} : l'un est un échantillon d'acquisition
+        --- un tir de laser, un pixel de profondeur ---, l'autre une case de grille. Rien, à ma
+        connaissance, ne fait encore \textbf{consensus}
     \end{itemize}
     \reffoot{sonata25,concerto25,utonia26}
 \end{frame}
@@ -1541,7 +1546,8 @@
     \small
     \begin{itemize}
         \setlength{\itemsep}{5pt}
-        \item La \textbf{densité} décroît avec la portée : le même objet donne deux nuages incomparables.
+        \item La \textbf{densité} décroît avec la portée : le même objet donne deux nuages sans
+        correspondance point à point.
         S'y ajoutent les nappes de balayage et les \textbf{occultations} --- ce qui manque n'est pas vide,
         il est \emph{non observé}
         \item Un modèle point par point apprend donc \emph{en même temps} la géométrie, le capteur,
@@ -1558,20 +1564,20 @@
 
     \vspace{0.10cm}
     \begin{center}
-        \resizebox{0.36\textwidth}{!}{\input{figs/hierarchie_surfaces}}
+        \resizebox{0.32\textwidth}{!}{\input{figs/hierarchie_surfaces}}
     \end{center}
 
     \vspace{0.05cm}
     \begin{itemize}
         \setlength{\itemsep}{3pt}
-        \item \textbf{Chaque} nœud porte une \textbf{surface explicite}, non un sac de points : les
-        hiérarchies de régions \citb{robert23} n'agrègent que des points, et \citb{yu25} a la surface
-        sans la hiérarchie
+        \item \textbf{Chaque} nœud porte un \textbf{recollement de facettes} --- des triangles dès $K = 3$,
+        donc une \emph{surface}. \citb{robert23} n'agrège que des points, \citb{yu25} a la surface sans
+        la hiérarchie
         \item Le paramètre de la filtration est une grandeur \textbf{physique} --- un rayon, en mètres,
         et non un indice $0, 1, 2, \ldots$ : les branches deviennent des trajectoires, les fusions des événements
-        \item L'interface vers les points existe déjà : le vote pondéré $S_\tau / T_x$ du \S~9.1 du manuscrit
-        \item \textbf{Un pari, et il est réfutable} : si l'arbre réel ne bat ni un modèle plat,
-        ni un arbre aléatoire, il tombe
+        \item L'interface vers les points existe déjà : les poids $S_\tau / T_x$ du vote pondéré du \S~9.1
+        \item \textbf{Un pari, et il est réfutable} : si l'arbre réel ne bat ni un modèle plat, ni un arbre
+        aléatoire, ni une hiérarchie \emph{générique}, il tombe
     \end{itemize}
     \reffoot{robert23,yu25}
 \end{frame}
@@ -2164,7 +2170,7 @@
         \item Et la meilleure hiérarchie possible --- construite depuis la vérité terrain --- ne demande
         qu'une \textbf{carte binaire} fissure/fond : ni arbre couvrant, ni composantes, ni centralité
         \item \textbf{Limite assumée} : mesures sur fissures \emph{synthétiques} calibrées sur le corpus
-        Khánh Hà ($448$~px, largeur $19$~px, couverture $5{,}7\,\%$) ; \textbf{aucun GPU} n'a été dépensé
+        Khánh Hà ($448$~px, largeur $19{,}1$~px, couverture $5{,}7\,\%$) ; \textbf{aucun GPU} n'a été dépensé
     \end{itemize}
 \end{frame}
 
@@ -2183,7 +2189,8 @@
     \begin{itemize}
         \setlength{\itemsep}{5pt}
         \item Un cran plus loin \citb{culbertson18} : remplacer la partition par un \textbf{recouvrement}. Pour $K \ge 2$, les $K$-polyèdres peuvent partager des sommets : leurs réalisations géométriques se \textbf{chevauchent} \citb{ans26} --- la parenté est d'idée, non de théorème
-        \item Un nœud ne porte pas qu'un sac de points : il porte un recollement de \textbf{facettes}, c'est-à-dire une partition des $(K-1)$-simplexes
+        \item Un nœud ne porte pas qu'un sac de points : il porte un recollement de \textbf{facettes},
+        c'est-à-dire un bloc de la partition des $(K-1)$-simplexes de \textsc{Gabriel} effectivement construits
     \end{itemize}
     \reffoot{culbertson18}
 \end{frame}
@@ -2211,7 +2218,10 @@
     \vspace{0.2cm}
     \begin{itemize}
         \setlength{\itemsep}{5pt}
-        \item Ce que la hiérarchie sérialise pour chaque nœud : la surface (facettes, aires, normales, bords), le niveau de naissance, le parent, les enfants de fusion, les voisins latéraux et la confiance d'acquisition
+        \item Ce que la hiérarchie \emph{fournit} déjà par nœud : le recollement de facettes, le niveau de
+        naissance, le parent et les enfants de fusion. Ce qui reste à \textbf{construire} : la sérialisation,
+        les attributs surfaciques (aires, normales, bords --- donc $K \ge 3$), les voisins latéraux et la
+        confiance d'acquisition
         \item L'interface vers les points existe déjà : le vote pondéré $w_{x\tau} = S_\tau / T_x$ du §~9.1, partition de l'unité sur les points couverts ($T_x > 0$)
         \item Ce qui manque est en aval : encodeur de surface, encodeur de branche, encodeur de fusion, décodeur par facette --- et les campagnes qui les jugeraient
     \end{itemize}
