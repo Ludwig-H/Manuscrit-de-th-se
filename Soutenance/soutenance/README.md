@@ -102,7 +102,7 @@ de CrackSAM-GeoLoRA de l'import `ISPRS/CrackSAM-GeoLoRA/` de ce dépôt.
 - **Bleu canard Inria** (`inria-2024-bleu-canard`) : les données (points, nuages, feuilles)
 - **Rouge Inria** (`inria-rouge`) : les structures extraites (arêtes, dendrogrammes,
   squelettes, racines, arêtes gelées de Swendsen–Wang) et les travaux de l'auteur
-  (citations, et le liseré de l'encadré qui porte la contribution propre sur la
+  (citations, et le liseré des encadrés qui portent la contribution propre sur la
   diapositive « La percolation borne le recouvrement des communautés »)
 - **Gris foncé** (`gris_fonce_inria`) : éléments neutres (coupes, légendes, littérature)
 - **Encadrés de formules** (`\formulebox`) : liseré rouge Inria, fond gris 4 %
