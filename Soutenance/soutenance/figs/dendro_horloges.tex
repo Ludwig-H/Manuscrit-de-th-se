@@ -1,5 +1,6 @@
 % Dendrogramme des horloges exponentielles (charte : feuilles bleu canard,
-% branches rouge Inria, coupe en gris) — feuilles = Glauber, racines = SW.
+% branches rouge Inria, coupes en gris) — beta = 0 : Glauber ;
+% beta = 1 : Swendsen--Wang ; beta_c : la coupe critique de percolation.
 \begin{tikzpicture}[scale=0.82, >=latex, font=\scriptsize]
     % Axe du temps d'horloge
     \draw[->, thick] (-1.1, 0) -- (-1.1, 4.7) node[above] {$\beta$};
@@ -25,11 +26,12 @@
     \fill[inria-rouge] (1.425,4.0) circle (2.4pt);
     \fill[inria-rouge] (5.225,4.0) circle (2.4pt);
 
-    % Coupe à l'instant beta
-    \draw[dashed, thick, gris_fonce_inria] (-0.6, 1.9) -- (7.1, 1.9);
-    \node[gris_fonce_inria, right] at (7.1, 1.9) {coupe à l'instant $\beta$};
+    % Coupe critique
+    \draw[dashed, thick, inria-rouge] (-0.6, 2.55) -- (7.1, 2.55);
+    \node[inria-rouge, right, align=left] at (7.1, 2.55)
+        {coupe \textbf{critique} $\beta_c$\\{\scriptsize les amas gelés percolent}};
 
     % Étiquettes des deux extrémités
-    \node[right, align=left] at (7.1, 0) {feuilles : \textbf{Glauber}};
-    \node[right, align=left] at (7.1, 4.0) {racines : \textbf{Swendsen--Wang}};
+    \node[right, align=left] at (7.1, 0) {$\beta=0$ : les \textbf{feuilles}\\{\scriptsize un spin à la fois $\Rightarrow$ \textsc{Glauber}}};
+    \node[right, align=left] at (7.1, 4.0) {$\beta=1$ : les \textbf{racines}\\{\scriptsize l'amas entier $\Rightarrow$ \textsc{Swendsen}--\textsc{Wang}}};
 \end{tikzpicture}

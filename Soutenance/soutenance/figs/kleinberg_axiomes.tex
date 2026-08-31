@@ -1,0 +1,26 @@
+% Les trois axiomes de Kleinberg et leur incompatibilité.
+% Notations du manuscrit (Rés. « Théorème d'impossibilité de Kleinberg ») :
+% une fonction de clustering C : (X,d) -> ~ dans Part(X).
+                \begin{tikzpicture}[xscale=1.0, yscale=1.0]
+                    \useasboundingbox (-2.35, -1.05) rectangle (2.35, 3.05);
+
+                    \tikzset{axiome/.style={draw=gris_fonce_inria, line width=0.9pt, rounded corners=3pt,
+                                            fill=gray!6, inner sep=4pt, align=center, font=\scriptsize,
+                                            text width=2.15cm}}
+
+                    \node[axiome] (ax1) at (0.00, 2.35)
+                        {\textsf{(i)} invariance d'échelle\\[1pt]{\tiny$\mathcal C(\mathcal X,\lambda d)=\mathcal C(\mathcal X,d)$}};
+                    \node[axiome] (ax2) at (-1.55, 0.45)
+                        {\textsf{(ii)} richesse\\[1pt]{\tiny toute partition\\est atteinte}};
+                    \node[axiome] (ax3) at (1.55, 0.45)
+                        {\textsf{(iii)} cohérence\\[1pt]{\tiny resserrer / écarter\\ne change rien}};
+
+                    \draw[gris_fonce_inria, line width=0.7pt] (ax1) -- (ax2);
+                    \draw[gris_fonce_inria, line width=0.7pt] (ax2) -- (ax3);
+                    \draw[gris_fonce_inria, line width=0.7pt] (ax3) -- (ax1);
+
+                    \node[font=\LARGE\bfseries, text=inria-rouge] at (0.00, 1.28) {$\nexists$};
+
+                    \node[font=\scriptsize, align=center, text=inria-rouge] at (0.00, -0.65)
+                        {aucune \textbf{partition} ne satisfait les trois};
+                \end{tikzpicture}

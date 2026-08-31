@@ -1,0 +1,63 @@
+% Des horloges au dendrogramme : Kruskal sur les temps xi_e donne la forêt
+% couvrante minimale, dont la filtration est exactement (Pi_t).
+% Adapté (et francisé) de beamer-presentation-reunion-2026-07-16/hierarchical_sw_frames.tex
+                \begin{tikzpicture}[
+                    x=.52cm, y=.66cm,
+                    v/.style={circle, draw=gris_fonce_inria, fill=white, minimum size=4.2mm,
+                              inner sep=0pt, font=\tiny},
+                    w/.style={fill=white, inner sep=1pt, font=\tiny},
+                    ge/.style={line width=1pt, draw=gray!55},
+                    fe/.style={line width=1.6pt, draw=inria-rouge},
+                    arr/.style={-{Latex[length=2.3mm]}, line width=1pt, draw=inria-rouge}]
+
+                    % ---------- graphe d'horloges ----------
+                    \node[v] (a) at (0,0)       {$a$};
+                    \node[v] (b) at (1.35,1.15) {$b$};
+                    \node[v] (c) at (2.7,0)     {$c$};
+                    \node[v] (d) at (4.05,1.15) {$d$};
+                    \node[v] (e) at (5.4,0)     {$e$};
+                    \draw[ge] (a)--node[w,sloped] {,18} (b);
+                    \draw[ge] (b)--node[w,sloped] {,42} (c);
+                    \draw[ge] (a)--node[w,sloped,below] {,74} (c);
+                    \draw[ge] (c)--node[w,sloped] {,67} (d);
+                    \draw[ge] (b)--node[w,sloped] {,88} (d);
+                    \draw[ge, draw=gray!30] (d)--node[w,sloped] {$1{,}26$} (e);
+                    \node[font=\scriptsize, text=gris_fonce_inria] at (2.7,-.85) {graphe des horloges $\xi_e$};
+
+                    \draw[arr] (5.95,.55)--(6.85,.55)
+                        node[midway, above, font=\scriptsize, text=inria-rouge] {\textsc{Kruskal}};
+
+                    % ---------- forêt couvrante minimale ----------
+                    \node[v] (aa) at (7.35,0)     {$a$};
+                    \node[v] (bb) at (8.70,1.15)  {$b$};
+                    \node[v] (cc) at (10.05,0)    {$c$};
+                    \node[v] (dd) at (11.40,1.15) {$d$};
+                    \node[v] (ee) at (12.75,0)    {$e$};
+                    \draw[fe] (aa)--node[w,sloped] {,18} (bb);
+                    \draw[fe] (bb)--node[w,sloped] {,42} (cc);
+                    \draw[fe] (cc)--node[w,sloped] {,67} (dd);
+                    \node[font=\scriptsize, text=inria-rouge] at (10.05,-.85) {forêt couvrante minimale};
+
+                    \draw[arr] (13.30,.55)--(14.20,.55);
+
+                    % ---------- dendrogramme ----------
+                    \begin{scope}[shift={(15.15,-0.55)}, x=.72cm, y=2.05cm]
+                        \node[v] (f1) at (0,0)   {$a$};
+                        \node[v] (f2) at (1,0)   {$b$};
+                        \node[v] (f3) at (2,0)   {$c$};
+                        \node[v] (f4) at (3,0)   {$d$};
+                        \node[v] (f5) at (4.2,0) {$e$};
+                        \coordinate (m1) at (.5,.18);
+                        \coordinate (m2) at (1.25,.42);
+                        \coordinate (m3) at (2.125,.67);
+                        \draw[line width=.9pt, draw=inria-rouge] (f1)|-(m1); \draw[line width=.9pt, draw=inria-rouge] (f2)|-(m1);
+                        \draw[line width=.9pt, draw=inria-rouge] (m1)|-(m2); \draw[line width=.9pt, draw=inria-rouge] (f3)|-(m2);
+                        \draw[line width=.9pt, draw=inria-rouge] (m2)|-(m3); \draw[line width=.9pt, draw=inria-rouge] (f4)|-(m3);
+                        \draw[densely dashed, line width=.7pt, draw=gray!60] (-.35,1)--(4.6,1)
+                            node[right, font=\tiny, text=gris_fonce_inria] {$\beta=1$};
+                        \node[font=\tiny, anchor=east] at (-.10,.18) {,18};
+                        \node[font=\tiny, anchor=east] at (.64,.42)  {,42};
+                        \node[font=\tiny, anchor=east] at (1.52,.67) {,67};
+                        \node[font=\scriptsize, text=inria-rouge] at (2.0,-.27) {dendrogramme $(\Pi_\beta)_{\beta\le1}$};
+                    \end{scope}
+                \end{tikzpicture}

@@ -1,0 +1,39 @@
+% Un modèle de fondation suppose une unité de calcul stable :
+% le sous-mot pour le langage, l'imagette pour l'image.
+                \begin{tikzpicture}[xscale=1.0, yscale=1.0]
+                    \useasboundingbox (-0.35, -0.35) rectangle (12.6, 2.15);
+
+                    \tikzset{jeton/.style={draw=inria-2024-bleu-canard, line width=0.7pt, rounded corners=1.5pt,
+                                           fill=inria-2024-bleu-canard!12, inner sep=2pt, font=\scriptsize,
+                                           minimum height=4.2mm}}
+                    \tikzset{modele/.style={draw=gris_fonce_inria, line width=1.0pt, rounded corners=3pt,
+                                            fill=gray!8, inner sep=4pt, font=\small\bfseries, minimum width=1.55cm,
+                                            minimum height=6.5mm}}
+                    \tikzset{fl/.style={-{Latex[length=2.2mm]}, line width=0.9pt, color=gray!55}}
+                    \tikzset{dom/.style={font=\small, anchor=east, text=gris_fonce_inria}}
+
+                    % ---------------- ligne 1 : le langage ----------------
+                    \node[dom] at (1.35, 1.65) {\textbf{langage}};
+                    \node[jeton, anchor=west] (t1) at (1.75, 1.65) {Les};
+                    \node[jeton, anchor=west] (t2) at ($(t1.east)+(0.09,0)$) {graph};
+                    \node[jeton, anchor=west] (t3) at ($(t2.east)+(0.09,0)$) {es};
+                    \node[jeton, anchor=west] (t4) at ($(t3.east)+(0.09,0)$) {sont};
+                    \node[jeton, anchor=west] (t5) at ($(t4.east)+(0.09,0)$) {partout};
+                    \node[font=\scriptsize, text=inria-2024-bleu-canard, anchor=west] at ($(t5.east)+(0.25,0)$) {sous-mots};
+                    \node[modele, anchor=west] (m1) at (9.85, 1.65) {GPT};
+                    \draw[fl] (8.55, 1.65) -- (m1.west);
+
+                    % ---------------- ligne 2 : l'image ----------------
+                    \node[dom] at (1.35, 0.35) {\textbf{image}};
+                    \begin{scope}[shift={(1.80,-0.30)}]
+                        \foreach \i in {0,...,4} {
+                            \foreach \j in {0,...,2} {
+                                \draw[inria-2024-bleu-canard, line width=0.6pt, fill=inria-2024-bleu-canard!12]
+                                    (\i*0.44, \j*0.44) rectangle ++(0.40,0.40);
+                            }
+                        }
+                    \end{scope}
+                    \node[font=\scriptsize, text=inria-2024-bleu-canard, anchor=west] at (4.25, 0.35) {imagettes $16\times16$};
+                    \node[modele, anchor=west] (m2) at (9.85, 0.35) {SAM~2};
+                    \draw[fl] (8.55, 0.35) -- (m2.west);
+                \end{tikzpicture}

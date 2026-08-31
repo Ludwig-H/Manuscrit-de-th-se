@@ -46,18 +46,38 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    détection de fissures (résultats multimodaux, puis construction du graphe de
    Frangi par paires et extension triangulaire d'ordre 2 ; GRETSI 2025 → EUVIP
    2026 → ISPRS en cours).
-7. **Perspectives : la voie hiérarchique** — le théorème d'impossibilité de
-   Kleinberg, énoncé par ses trois axiomes, puis une diapositive distincte sur le
-   changement de sortie vers la hiérarchie (Carlsson–Mémoli, puis
-   Culbertson–Guralnik–Stiller et les recouvrements) ; la hiérarchie d'horloges
-   des dynamiques de clusters ; le manque d'un modèle de fondation pour la 3D ;
-   le nuage de points comme artefact du capteur ; les $K$-polyèdres et leur espace d'échelle
-   comme alphabet candidat ; deux diapositives simples sur la contre-épreuve
-   CrackSAM–HSA et un programme progressif de guidage de SAM. **Rien n'y est
-   présenté comme acquis** : les sources sont
+7. **Perspectives : la voie hiérarchique** — quatre blocs, une illustration par
+   diapositive, le détail renvoyé en secours.
+   *(a)* Retour au début de l'exposé : le théorème d'impossibilité de Kleinberg
+   dans les notations du manuscrit (`PartI/ChapII.tex` : $\mathcal C : (\mathcal X, d)$
+   vers une partition ; axiomes (i) invariance d'échelle, (ii) richesse,
+   (iii) cohérence), puis la réponse de Carlsson–Mémoli — la sortie devient une
+   **ultramétrique** $T : (\mathcal X, d) \mapsto (\mathcal X, u)$, et chacune des
+   trois paires d'axiomes se réalise par un choix de **coupe** dans l'arbre du
+   Single-Linkage.
+   *(b)* La **dynamique hiérarchique** : horloges $\xi_e \sim \mathrm{Exp}(|W_e|)$,
+   filtration $\Pi_\beta$, avec $\Pi_1$ = partition gelée de Swendsen–Wang ;
+   Glauber aux feuilles, Swendsen–Wang aux racines, toute coupe laissant la loi
+   *a posteriori* invariante ; puis la **coupe critique** $\beta_c$, celle où les
+   amas gelés percolent. Source :
+   `Presentation-MathNet-2026-06-15/research/hierarchical-swendsen-wang`.
+   *(c)* **Modèles de fondation et SAM** : ce qu'est un modèle de fondation et la
+   condition rarement dite d'une unité de calcul stable ; l'architecture
+   asymétrique de SAM et son interface d'invites ; l'adaptation LoRA
+   $W = W_0 + BA$ et CrackSAM (Ge *et al.* 2024) ; puis deux idées de guidage par
+   la hiérarchie du graphe de Frangi — invites ponctuelles par centralité
+   décroissante, et biais additif indexé par la distance dans l'arbre
+   (**informer** l'attention, pas la **contraindre**).
+   *(d)* Le **modèle de fondation 3D** qui manque : ce qu'un socle partagé
+   débloquerait (la révolution robotique), l'unité de calcul absente, le nuage de
+   points comme artefact du capteur, puis le polyèdre comme alphabet et la
+   hiérarchie comme grammaire.
+   **Rien n'y est présenté comme acquis** : les sources sont
    `E-HGP/tests/SemanticKITTI/Zoltan/HierarchicalSelfAttention` (statut
    `foundation_claim = not_yet_earned`) et
-   `ISPRS/CrackSAM-HierarchicalSelfAttention` (résultat négatif de conception).
+   `ISPRS/CrackSAM-HierarchicalSelfAttention` (no-go de conception, sans dépense
+   GPU). Sur la dynamique hiérarchique, la borne rigoureuse $0{,}809439$ vient du
+   canal triangulaire et **non** de cette dynamique : c'est un programme.
 8. **Conclusion, publications** — deux piliers et quatre contributions,
    perspectives dans le fil de la thèse, liste des publications et des dépôts
    logiciels.
@@ -104,6 +124,13 @@ en bas de la diapositive de première citation.
   `alphabet_fondation`, `verrou_portee`, `hierarchie_surfaces`,
   `equilibre_continuite`, `programme_falsification`, `hsa_chenille`,
   `pipeline_polyfm`) sont dessinées pour cette présentation, sans image importée.
+  Celles de la partie 7 refondue (`kleinberg_axiomes`, `kleinberg_coupes`,
+  `fondation_jetons`, `sam_architecture`, `lora_adaptation`,
+  `invites_centralite`, `informer_pas_contraindre`, `revolution_3d`) le sont
+  également ; `horloges_kruskal` est adaptée et francisée de
+  `Presentation-MathNet-2026-06-15/beamer-presentation-reunion-2026-07-16/hierarchical_sw_frames.tex`.
+  `kleinberg_impossibilite.tex` est l'ancienne planche unique, remplacée par le
+  diptyque `kleinberg_axiomes` / `kleinberg_coupes` : elle n'est plus appelée.
 - **Convention des graphes signés** (`graphe_signe`, `sw_pas`, `sw_motifs`) —
   celle du manuscrit (`PartIII/ChapII.tex`, figure « Interprétation d'un poids
   $w$ réel ») et de `../beamer-presentation-neo/` : trait plein pour une
