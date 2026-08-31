@@ -1384,8 +1384,8 @@
         \item Sur la grille triangulaire, au seuil de percolation de l'\emph{information}, le temps
         informationnel et $\beta_c$ \textbf{coïncident} \citb{ii26} : mon meilleur argument pour dire
         que c'est la bonne coupe
-        \item \textbf{Statut : un programme.} Notre meilleure borne rigoureuse vient du canal triangulaire,
-        \emph{pas} encore de cette dynamique
+        \item \textbf{Statut : un programme.} Notre meilleure borne rigoureuse vient d'ailleurs
+        --- d'un canal d'information à plusieurs états sur les triangles --- \emph{pas} de cette dynamique
     \end{itemize}
 \end{frame}
 
@@ -1402,7 +1402,8 @@
     \begin{itemize}
         \setlength{\itemsep}{6pt}
         \item \textbf{Un seul} modèle, pré-entraîné une fois à très grande échelle,
-        puis réutilisé pour de nombreuses tâches \citb{bommasani21}
+        puis réutilisé pour de nombreuses tâches \citb{bommasani21} --- GPT-3 \citb{brown20} en est
+        l'exemple fondateur
         \item Trois piliers : l'\textbf{échelle} (des données et des paramètres),
         l'\textbf{auto-supervision} (pas d'annotation), l'\textbf{adaptabilité} (on ne réapprend qu'une mince couche)
         \item Une condition préalable, rarement dite : il faut une \textbf{unité de calcul stable} ---
@@ -1551,27 +1552,28 @@
 
 % ------------------------------------------------------------
 \begin{frame}{Mon idée : le \textcolor{inria-rouge}{polyèdre} comme alphabet, l'\textcolor{inria-rouge}{arbre} comme grammaire}
-    \begin{center}
-        \resizebox{0.42\textwidth}{!}{\input{figs/hierarchie_surfaces}}
-    \end{center}
-
-    \vspace{0.15cm}
     \small
-    \begin{itemize}
-        \setlength{\itemsep}{5pt}
-        \item \textbf{Chaque} nœud de la hiérarchie porte une \textbf{surface explicite} :
-        un recollement de facettes, et non un sac de points
-        \item Le paramètre de la filtration est une grandeur \textbf{physique} --- un rayon, en mètres,
-        et non un indice $0, 1, 2, \ldots$ : les branches deviennent des trajectoires, les fusions des événements
-        \item L'interface vers les points existe déjà : le vote pondéré $w_{x\tau} = S_\tau / T_x$ du \S~9.1
-        du manuscrit, une partition de l'unité sur les points couverts
-    \end{itemize}
+    \textsc{Kleinberg} disait : \emph{gardez l'arbre}. En 3D, cet arbre, nous l'avons déjà --- c'est la
+    hiérarchie de $K$-polyèdres de la partie II.
 
     \vspace{0.10cm}
     \begin{center}
-        \formulebox{\small \textbf{Un pari, et il est réfutable :} si l'arbre réel ne bat ni un modèle plat,
-        ni un arbre aléatoire, il tombe.}
+        \resizebox{0.36\textwidth}{!}{\input{figs/hierarchie_surfaces}}
     \end{center}
+
+    \vspace{0.05cm}
+    \begin{itemize}
+        \setlength{\itemsep}{3pt}
+        \item \textbf{Chaque} nœud porte une \textbf{surface explicite}, non un sac de points : les
+        hiérarchies de régions \citb{robert23} n'agrègent que des points, et \citb{yu25} a la surface
+        sans la hiérarchie
+        \item Le paramètre de la filtration est une grandeur \textbf{physique} --- un rayon, en mètres,
+        et non un indice $0, 1, 2, \ldots$ : les branches deviennent des trajectoires, les fusions des événements
+        \item L'interface vers les points existe déjà : le vote pondéré $S_\tau / T_x$ du \S~9.1 du manuscrit
+        \item \textbf{Un pari, et il est réfutable} : si l'arbre réel ne bat ni un modèle plat,
+        ni un arbre aléatoire, il tombe
+    \end{itemize}
+    \reffoot{robert23,yu25}
 \end{frame}
 
 % ------------------------------------------------------------

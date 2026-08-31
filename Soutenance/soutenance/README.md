@@ -85,13 +85,20 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    présentation : stylométrie 5 auteurs, banc d'essai SIPU, confusion huiles
    d'olive, protocole des vitesses, fenêtre gaussienne K→∞, état de l'art
    LiDAR, haplotypes, cadre bayésien/Gibbs, Swendsen–Wang détaillé, modèle
-   Sankararaman–Baccelli, hiérarchie d'horloges, échelle des seuils GSBM,
-   calibration SBM, validation 10⁶ nœuds, VT-GraF, robustesse, transferts,
-   sensibilité, CrackSAM-GeoLoRA, puis les cinq diapositives de la voie hiérarchique
-   (ce qui reste à démontrer ; ce que la thèse fournit déjà à la segmentation
-   en jetons ; pourquoi le résultat négatif HSA est un problème de conception ; les bras de contrôle
-   H0–H8 qui réfuteraient le pari hiérarchique ; efficacité contre continuité,
-   en chiffres).
+   Sankararaman–Baccelli, hiérarchie d'horloges, **Kruskal des horloges vers le
+   dendrogramme**, **la coupe critique $\beta_c$ en détail** (formule explicite,
+   condition d'existence $p \ge (1+q_c)/2$, pondération des fusions par
+   $\eta_u = \tanh^2(L_u/2)$, et la réserve : la coupe critique n'est pas
+   sélectionnée par l'information), échelle des seuils GSBM, calibration SBM,
+   validation 10⁶ nœuds, VT-GraF, robustesse, transferts, sensibilité,
+   CrackSAM-GeoLoRA, **la suite progressive de guidage de SAM** (plafond par
+   oracle, invites natives, biais additif), **ce que HSA exige contre ce que
+   donne le graphe de Frangi**, **la chaîne complète de la partition au
+   $K$-polyèdre** (Culbertson–Guralnik–Stiller et les recouvrements), puis les
+   quatre dernières diapositives de la voie hiérarchique (ce qui reste à
+   démontrer ; ce que la thèse fournit déjà à la segmentation en jetons ; les
+   bras de contrôle H0–H8 qui réfuteraient le pari hiérarchique ; efficacité
+   contre continuité, en chiffres — illustrée par `equilibre_continuite`).
 
 Les figures de la dynamique hiérarchique proviennent de GitHub
 `Ludwig-H/Presentation-MathNet-2026-06-15/research` (SVG convertis) ; celles

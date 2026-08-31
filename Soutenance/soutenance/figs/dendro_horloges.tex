@@ -1,6 +1,6 @@
 % Dendrogramme des horloges exponentielles (charte : feuilles bleu canard,
 % branches rouge Inria, coupes en gris) — beta = 0 : Glauber ;
-% beta = 1 : Swendsen--Wang ; beta_c : la coupe critique de percolation.
+% beta = 1 : Swendsen--Wang ; entre les deux, un bain a quatre etats.
 \begin{tikzpicture}[scale=0.82, >=latex, font=\scriptsize]
     \useasboundingbox (-1.85, -0.75) rectangle (12.45, 5.05);
     % Axe du temps d'horloge
@@ -27,10 +27,10 @@
     \fill[inria-rouge] (1.425,4.0) circle (2.4pt);
     \fill[inria-rouge] (5.225,4.0) circle (2.4pt);
 
-    % Coupe critique
-    \draw[dashed, thick, inria-rouge] (-0.6, 2.55) -- (7.1, 2.55);
-    \node[inria-rouge, right, align=left] at (7.1, 2.55)
-        {coupe \textbf{critique} $\beta_c$\\{\scriptsize les amas gelés percolent}};
+    % Coupe intermédiaire : un nœud interne, ni feuille ni racine
+    \draw[dashed, thick, gris_fonce_inria] (-0.6, 2.55) -- (7.1, 2.55);
+    \node[gris_fonce_inria, right, align=left] at (7.1, 2.55)
+        {une coupe \textbf{intermédiaire}\\{\scriptsize bain à quatre états}};
 
     % Étiquettes des deux extrémités
     \node[right, align=left] at (7.1, 0) {les \textbf{feuilles}\\{\scriptsize un spin à la fois $\Rightarrow$ bain de \textsc{Glauber}}};
