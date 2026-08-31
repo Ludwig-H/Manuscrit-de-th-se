@@ -1,41 +1,58 @@
-                \begin{tikzpicture}[scale=0.75, >=latex, font=\scriptsize]
-                    \coordinate (X) at (0,0);
-                    \coordinate (Y) at (4,1);
-                    
-                    % Neighbors of X (high density)
-                    \coordinate (X1) at (-0.42, 0.56);
-                    \coordinate (X2) at (0.6, -0.3);
-                    \coordinate (X3) at (-0.5, -0.4);
-                    \fill[black!60] (X1) circle (2.2pt);
-                    \fill[black!60] (X2) circle (2.2pt);
-                    \fill[black!60] (X3) circle (2.2pt);
-                    
-                    % Neighbors of Y (low density)
-                    \coordinate (Y1) at (3.5, 2.2);
-                    \coordinate (Y2) at (5.0, 0.2);
-                    \fill[black!60] (Y1) circle (2.2pt);
-                    \fill[black!60] (Y2) circle (2.2pt);
-                    
-                    % Core distance circles (K=3)
-                    % For X: radius 0.7
-                    \draw[dashed, inria-bleu, thick] (X) circle (0.7);
-                    \draw[->, inria-bleu, semithick] (X) -- (X1);
-                    \node[above left, inria-bleu, inner sep=2pt] at (X1) {$r_K(x)$};
-                    
-                    % For Y: radius 1.3
-                    \draw[dashed, inria-rouge, thick] (Y) circle (1.3);
-                    \draw[->, inria-rouge, semithick] (Y) -- (Y1);
-                    \node[above, inria-rouge, inner sep=2pt] at (Y1) {$r_K(y)$};
-                    
-                    % Points X and Y
-                    \fill[black] (X) circle (3.5pt) node[below left] {$x$};
-                    \fill[black] (Y) circle (3.5pt) node[below right] {$y$};
-                    
-                    % Distance d(x,y)
-                    \draw[<->, black!50, dashed, thick] (X) -- (Y) node[midway, fill=white, inner sep=1.5pt] {$d(x,y)$};
-                    
-                    % Mutual reachability label
-                    \node[draw=inria-2024-bleu-canard, rounded corners=3pt, fill=white, inner sep=3pt, thick] at (2,-1.2) {
-                        $d_{\mathrm{mreach}, K}(x,y) = \max \{ r_K(x), r_K(y), d(x,y) \}$
-                    };
-                \end{tikzpicture}
+\begin{tikzpicture}[scale=0.75, >=Latex, font=\scriptsize]
+    \useasboundingbox (-1.05,-1.75) rectangle (5.10,2.20);
+
+    \tikzset{
+        central/.style={circle, fill=gris_fonce_inria, inner sep=0pt, minimum size=5.8pt},
+        neighbour/.style={circle, fill=inria-2024-bleu-canard, inner sep=0pt, minimum size=4.2pt},
+        boundary/.style={circle, fill=inria-rouge, inner sep=0pt, minimum size=4.5pt},
+        coreball/.style={draw=inria-2024-bleu-canard, fill=inria-2024-bleu-canard!4, densely dashed, line width=0.9pt},
+        radius/.style={-{Latex[length=2mm]}, draw=inria-rouge, line width=0.9pt},
+        separation/.style={<->, draw=gris_fonce_inria!60, densely dashed, line width=0.8pt}
+    }
+
+    \def\rx{0.82}
+    \def\ry{1.28}
+
+    \coordinate (X) at (0,0);
+    \coordinate (Y) at (3.70,0.75);
+
+    % Deux voisins strictement intérieurs et un troisième sur la frontière.
+    \coordinate (Xi)  at ($(X)+(15:0.46)$);
+    \coordinate (Xii) at ($(X)+(285:0.60)$);
+    \coordinate (Xs)  at ($(X)+(140:\rx)$);
+
+    \coordinate (Yi)  at ($(Y)+(215:0.74)$);
+    \coordinate (Yii) at ($(Y)+(340:0.92)$);
+    \coordinate (Ys)  at ($(Y)+(105:\ry)$);
+
+    % Cercles et distances derrière les points.
+    \draw[coreball] (X) circle (\rx);
+    \draw[coreball] (Y) circle (\ry);
+    \draw[separation] (X) -- node[midway, above, sloped, fill=white, inner sep=1.5pt] {$d(x,y)$} (Y);
+    \draw[radius] (X) -- (Xs);
+    \draw[radius] (Y) -- (Ys);
+
+    \node[text=inria-rouge, above left, inner sep=1.5pt] at (Xs) {$r_3(x)$};
+    \node[text=inria-rouge, above, inner sep=1.5pt] at (Ys) {$r_3(y)$};
+
+    \foreach \P in {Xi,Xii,Yi,Yii}
+        \node[neighbour] at (\P) {};
+    \foreach \P in {Xs,Ys}
+        \node[boundary] at (\P) {};
+
+    \node[central] at (X) {};
+    \node[central] at (Y) {};
+    \node[below left, inner sep=1.5pt] at (X) {$x$};
+    \node[below right, inner sep=1.5pt] at (Y) {$y$};
+
+    \node[
+        draw=inria-rouge,
+        rounded corners=2pt,
+        fill=gray!4,
+        line width=0.8pt,
+        inner xsep=5pt,
+        inner ysep=4pt
+    ] at (1.85,-1.45) {
+        $d_{\mathrm{mreach},3}(x,y)=\max\{r_3(x),r_3(y),d(x,y)\}$
+    };
+\end{tikzpicture}

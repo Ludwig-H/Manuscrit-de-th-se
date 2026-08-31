@@ -32,11 +32,9 @@
 \date[8 septembre 2026]{mardi 8 septembre 2026}
 \author[L.~Hauseux]{%
    \small Louis \textsc{Hauseux} (Centre Inria d'Université Côte d'Azur ; bourse 3IA--DS4H)\\[2pt]
-   \footnotesize Thèse dirigée par \href{https://www-sop.inria.fr/members/Konstantin.Avratchenkov/me.html}{Konstantin \textsc{Avrachenkov}} (Inria, éq. \textsc{Neo})\\
-   \footnotesize et co-encadrée par \href{https://www-sop.inria.fr/members/Josiane.Zerubia/}{Josiane \textsc{Zerubia}} (Inria, éq. \textsc{Ayana})\\[4pt]
+   \footnotesize Thèse dirigée par \href{https://www-sop.inria.fr/members/Konstantin.Avratchenkov/me.html}{Konstantin \textsc{Avrachenkov}} (Inria, éq. \textsc{Neo}) et co-encadrée par \href{https://www-sop.inria.fr/members/Josiane.Zerubia/}{Josiane \textsc{Zerubia}} (Inria, éq. \textsc{Ayana})\\[4pt]
    \footnotesize Rapporteurs : \href{https://www.mat.uc.cl/personas/perfil/dieter.mitsche}{Dieter \textsc{Mitsche}} (PUC de Chile), \href{https://icb.cnrs.fr/equipe/cherifi-hocine/}{Hocine \textsc{Cherifi}} (Univ. de Bourgogne)\\
-   \footnotesize Examinateurs : \href{https://www-sop.inria.fr/members/Nicolas.Nisse/}{Nicolas \textsc{Nisse}} (Inria, éq. \textsc{Coati}),\\
-   \footnotesize \phantom{Examinateurs : }\href{https://cv.hal.science/pierre-charbonnier?langChosen=fr}{Pierre \textsc{Charbonnier}} (Cerema), \href{https://www.inf.u-szeged.hu/users/kato-zoltan}{Zoltán \textsc{Kató}} (Univ. de Szeged)%
+   \footnotesize Examinateurs : \href{https://www-sop.inria.fr/members/Nicolas.Nisse/}{Nicolas \textsc{Nisse}} (Inria, éq. \textsc{Coati}), \href{https://cv.hal.science/pierre-charbonnier?langChosen=fr}{Pierre \textsc{Charbonnier}} (Cerema), \href{https://www.inf.u-szeged.hu/users/kato-zoltan}{Zoltán \textsc{Kató}} (Univ. de Szeged)%
 }
 \institute{Sophia Antipolis}
 
@@ -51,13 +49,13 @@
   \hspace*{-\fullpageinnerhmargin}%
   \begin{tikzpicture}[%
         title/.style={text=inria-noir,anchor=north west,align=left,
-                 text width={\dimexpr\paperwidth-\fullpageinnerhmargin-0.06\textwidth-2\hmargin},
+                 text width={\dimexpr\paperwidth-\fullpageinnerhmargin-\hmargin},
                  inner sep=0pt,outer sep=0pt},
         mainlogo/.style={anchor=north west,outer sep=0pt, inner sep=0pt},
      ]
    \useasboundingbox (0,0) rectangle (\paperwidth,\paperheight);
    \node [mainlogo] at (\hmargin,\canvastop) {\titlelogo};
-   \node [title] at (\fullpageinnerhmargin+0.06\textwidth,.74\paperheight) {%
+   \node [title] at (\fullpageinnerhmargin,.74\paperheight) {%
           {\LARGE\textbf{\inserttitle}}\\[1.2ex]
           {\barrecouleur}\\[2.2ex]
           {\small\insertsubtitle}\\[2.6ex]
@@ -115,6 +113,7 @@
 \DeclareRef{florek51}{Florek 51}{K.~Florek, J.~Łukaszewicz, J.~Perkal, H.~Steinhaus, S.~Zubrzycki, « Sur la liaison et la division des points d'un ensemble fini », Colloq. Math., 1951.}
 \DeclareRef{gowerross69}{Gower--Ross 69}{J.~C.~Gower, G.~J.~S.~Ross, « Minimum spanning trees and Single-Linkage cluster analysis », JRSS C, 1969.}
 \DeclareRef{penrose03}{Penrose 03}{M.~Penrose, \textit{Random Geometric Graphs}, Oxford University Press, 2003.}
+\DeclareRef{meesterroy96}{Meester--Roy 96}{R.~Meester, R.~Roy, \textit{Continuum Percolation}, Cambridge Tracts in Mathematics 119, Cambridge University Press, 1996.}
 \DeclareRef{boissonnat18}{Boissonnat 18}{J.-D.~Boissonnat, F.~Chazal, M.~Yvinec, \textit{Geometric and Topological Inference}, Cambridge University Press, 2018.}
 \DeclareRef{chaudhuri10}{Chaudhuri--Dasgupta 10}{K.~Chaudhuri, S.~Dasgupta, « Rates of convergence for the cluster tree », \textit{NeurIPS}, 2010.}
 \DeclareRef{ester96}{Ester 96}{M.~Ester, H.-P.~Kriegel, J.~Sander, X.~Xu, « A density-based algorithm for discovering clusters » (DBSCAN), KDD, 1996.}
@@ -326,7 +325,7 @@
         \begin{tikzpicture}[every node/.style={inner sep=0}]
             \node (raw) [draw=gray!30, line width=1.5pt, inner sep=2pt, label={[label distance=8pt]below:{\small Données brutes $\mathcal{X}$}}]
                 {\includegraphics[width=0.22\textwidth]{imgs/Nuage2D.png}};
-            \node (clustered) at (6.8, 0) [draw=inria-rouge, line width=1.5pt, inner sep=2pt, label={[label distance=8pt]below:{\small Amas de forte densité}}]
+            \node (clustered) at (6.8, 0) [draw=inria-rouge, line width=1.5pt, inner sep=2pt, label={[label distance=8pt]below:{\small Résultat obtenu}}]
                 {\includegraphics[width=0.22\textwidth]{imgs/Nuage2D_HDBSCAN.png}};
             \draw[-{Latex[length=10pt, width=10pt]}, line width=5pt, color=gray!40] (2.0, 0) -- (4.8, 0);
             \node (gears) at (3.4, 0.75) {\includegraphics[width=0.07\textwidth]{imgs/roues_dentee.jpeg}};
@@ -337,18 +336,26 @@
 \end{frame}
 
 \begin{frame}{Deux exemples issus de la thèse}
-    \begin{columns}[c, onlytextwidth]
+    \begin{columns}[T, onlytextwidth]
         \begin{column}{0.48\textwidth}
+            \vspace{0pt}
             \begin{center}
-                \includegraphics[height=4.2cm]{imgs/FilamentsGalaxie.png}
+                \begin{minipage}[c][4.2cm][c]{\linewidth}
+                    \centering
+                    \includegraphics[width=\linewidth,height=4.2cm,keepaspectratio]{imgs/FilamentsGalaxie.png}
+                \end{minipage}
 
                 \vspace{0.3cm}
                 \small \textbf{Cosmologie 3D} : filaments de galaxies \citb{cn23}
             \end{center}
         \end{column}
         \begin{column}{0.48\textwidth}
+            \vspace{0pt}
             \begin{center}
-                \includegraphics[height=4.2cm]{imgs/CondenseTree_OliveOil_HGP.png}
+                \begin{minipage}[c][4.2cm][c]{\linewidth}
+                    \centering
+                    \includegraphics[width=\linewidth,height=4.2cm,keepaspectratio]{imgs/CondenseTree_OliveOil_HGP.png}
+                \end{minipage}
 
                 \vspace{0.3cm}
                 \small \textbf{Huiles d'olive} ($\mathbb R^8$) : hiérarchie obtenue \citb{ans26}
@@ -381,7 +388,7 @@
 
 \begin{frame}{En pratique : estimer la densité}
     \begin{center}
-        \Large $\widehat{f} \leftarrow \widehat{f}_{K\text{-NN}}$ \\[4pt]
+        \formulebox{\Large\mathversion{bold} $\widehat{f} \leftarrow \widehat{f}_{K\text{-NN}}$} \\[4pt]
         \normalsize \textbf{Estimateur des $K$ plus proches voisins} \citb{biau15}
     \end{center}
 
@@ -390,11 +397,11 @@
     \begin{columns}[c, onlytextwidth]
         \begin{column}{0.56\textwidth}
             \begin{center}
-                \formulebox{\Large\mathversion{bold} $\forall x \in \mathbb{R}^p, \quad \widehat{f}_{K\text{-NN}}(x) = \dfrac{K}{n \, \omega_p \, r_K(x)^p}$}
+                {\large\mathversion{bold} $\forall x \in \mathbb{R}^p, \quad \widehat{f}_{K\text{-NN}}(x) = \dfrac{K}{n \, \omega_p \, r_K(x)^p}$}
 
                 \vspace{1.0cm}
 
-                \formulebox{\normalsize\mathversion{bold} $r_K(x) = \min \left\{ r \ge 0 \;\middle|\; |B(x,r) \cap (\mathcal{X}\setminus\{x\})| \ge K \right\}$}
+                \formulebox{\small\mathversion{bold} $r_K(x) = \min \left\{ r \ge 0 \;\middle|\; |B(x,r) \cap (\mathcal{X}\setminus\{x\})| \ge K \right\}$}
             \end{center}
         \end{column}
         \begin{column}{0.42\textwidth}
@@ -426,7 +433,7 @@
                     \vspace{0.8cm}
 
                     Ensembles de niveau \\
-                    = \textbf{modèle booléen}
+                    = \textbf{modèle booléen} \citb{meesterroy96}
                 \end{center}
             }
             \only<3>{
@@ -462,7 +469,8 @@
             }
         \end{column}
     \end{columns}
-    \reffoot{penrose03}
+    \only<2>{\reffoot{meesterroy96}}
+    \only<3-4>{\reffoot{penrose03}}
 \end{frame}
 
 \begin{frame}{L'arbre minimum couvrant et la triangulation de \textsc{Delaunay}}
@@ -673,11 +681,11 @@
 
 \begin{frame}{La réparation : le complexe de \v{C}ech et les $K$-polyèdres}
     \begin{columns}[c, onlytextwidth]
-        \begin{column}{0.60\textwidth}
+        \begin{column}{0.63\textwidth}
             \begin{itemize}
                 \setlength{\itemsep}{10pt}
-                \item \textbf{Graphe géométrique} \citb{penrose03} $\longrightarrow$ \textbf{complexe de \v{C}ech} :\\
-                un $K$-simplexe $=$ $K+1$ boules qui s'intersectent
+                \item \textbf{Graphe géométrique} $\longrightarrow$ \textbf{complexe de \v{C}ech} :\\
+                un $K$-simplexe $\Longleftrightarrow$ $K+1$ boules d'intersection non vide
                 \item \textbf{Composantes connexes} $\longrightarrow$ \textbf{$K$-polyèdres} :\\
                 des $(K-1)$-simplexes recollés par des $K$-simplexes
                 \item Pour $K \ge 2$, les amas peuvent \textbf{se recouvrir}
@@ -690,7 +698,7 @@
 
         \end{column}
 
-        \begin{column}{0.38\textwidth}
+        \begin{column}{0.35\textwidth}
             \begin{center}
                 \input{figs/cech_complexe}
             \end{center}
@@ -709,7 +717,7 @@
         \begin{column}{0.54\textwidth}
             \begin{itemize}
                 \setlength{\itemsep}{12pt}
-                \item Le simplexe $K$-séparant : celui qui provoque une \textbf{fusion}
+                \item Le simplexe $K$-séparant provoque une \textbf{fusion}
                 \item \textbf{Cas $K=1$} : les $1$-séparants sont exactement les arêtes de l'arbre minimum couvrant
                 \item \textbf{Théorème} \citb{ans26} : tout simplexe $K$-séparant est un simplexe de \textbf{\textsc{Gabriel}}\\
                 {\small (sa boule minimale est vide d'intrus)}
@@ -816,9 +824,8 @@
         \vspace{0.3cm}
         \only<1>{\small Deux amas denses, $A$ et $B$ (les carrés), sur un fond de faible densité}%
         \only<2>{\small Arbre couvrant élagué au rayon $r_1$ : la percolation a lieu dans chaque carré, pas sur le fond}%
-        \only<3>{\small Au rayon $r_2 > r_1$, \textbf{le fond percole aussi} : $A$ et $B$ fusionnent \emph{avant} d'avoir été entièrement récupérés \citb{penrose03}}
+        \only<3>{\small Au rayon $r_2 > r_1$, \textbf{le fond percole aussi} : $A$ et $B$ fusionnent \emph{avant} d'avoir été entièrement récupérés}
     \end{center}
-    \reffoot{penrose03}
 \end{frame}
 
 \begin{frame}{La fraction récupérable}
@@ -828,7 +835,7 @@
                 \includegraphics[width=\textwidth]{imgs/vitesse_percolation_HGP_d2.png}
 
                 \vspace{0.15cm}
-                {\small Fraction de points dans la composante géante}
+                {\small Fraction de points dans la composante géante \citb{ans26}}
             \end{center}
         \end{column}
         \begin{column}{0.42\textwidth}
@@ -865,7 +872,7 @@
                 \end{tikzpicture}
 
                 \vspace{0.1cm}
-                {\small Probabilité de percolation des $K$-polyèdres}
+                {\small Probabilité de percolation des $K$-polyèdres \citb{ans26}}
             \end{center}
         \end{column}
         \begin{column}{0.40\textwidth}
@@ -903,9 +910,12 @@
             5 & \textbf{0,826} & 0,584 & 0,779 && \textbf{0,732} & 0,399 & 0,625 && \textbf{0,534} & 0,236 & 0,415 \\
             \bottomrule
         \end{tabular}
+
+        \vspace{0.12cm}
+        {\small Mesures des vitesses de percolation \citb{ans26}}
     \end{center}
 
-    \vspace{0.4cm}
+    \vspace{0.2cm}
     \begin{itemize}
         \setlength{\itemsep}{6pt}
         \item Les $K$-polyèdres : la vitesse \textbf{croît} avec $K$, dans toutes les dimensions
@@ -1522,6 +1532,7 @@
         \bibligne{frangi98}
         \bibligne{kleinberg02}
         \bibligne{penrose03}
+        \bibligne{meesterroy96}
         \bibligne{ghrist08}
         \bibligne{chaudhuri10}
         \bibligne{carlsson10}
