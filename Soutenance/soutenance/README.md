@@ -107,7 +107,15 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    *(d)* Le **modèle de fondation 3D** qui manque : l'unité de calcul absente
    (une ligne d'accroche rappelle que le texte et l'image ont leur socle
    partagé, la 3D pas encore), le nuage de points comme artefact du capteur, puis
-   le polyèdre comme alphabet et la hiérarchie comme grammaire.
+   la question « **Remplacer les points par une hiérarchie de polyèdres ?** », en
+   une diapositive presque muette : la figure `hierarchie_surfaces` occupe la place,
+   deux points d'une ligne la commentent (chaque nœud porte une *surface*, contre
+   les superpoints et PolyhedronNet ; le pari est réfutable).
+   Les six pièces des feuilles sont les six secteurs d'un même polygone maître
+   irrégulier, dessinées partout à la même échelle et dans la même orientation :
+   le polyèdre d'un nœud est donc littéralement le recollement de ceux de ses deux
+   enfants, soudé le long de la face tracée en rouge. Les coordonnées sont
+   engendrées par `figs/hierarchie_surfaces.py` : éditer le script, pas le TikZ.
    **Rien n'y est présenté comme acquis** : les sources sont
    `E-HGP/tests/SemanticKITTI/Zoltan/HierarchicalSelfAttention` (statut
    `foundation_claim = not_yet_earned`) et

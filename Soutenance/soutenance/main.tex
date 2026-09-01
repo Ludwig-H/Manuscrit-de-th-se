@@ -1476,26 +1476,19 @@
 
 % ------------------------------------------------------------
 \begin{frame}{Remplacer les points par une hiérarchie de \textcolor{inria-rouge}{polyèdres} ?}
-    \small
-    L'obstruction de \textsc{Kleinberg} disait : \emph{gardez l'arbre}, c'est la sortie prise par
-    \textsc{Carlsson} \& \textsc{Mémoli}. En 3D, cet arbre, nous l'avons déjà : c'est la hiérarchie de
-    $K$-polyèdres de la partie II
-
-    \vspace{0.10cm}
+    \vspace{-0.10cm}
     \begin{center}
-        \resizebox{0.38\textwidth}{!}{\input{figs/hierarchie_surfaces}}
+        \resizebox{0.54\textwidth}{!}{\input{figs/hierarchie_surfaces}}
     \end{center}
 
-    \vspace{0.05cm}
+    \vspace{0.22cm}
+    \small
     \begin{itemize}
-        \setlength{\itemsep}{3pt}
-        \item \textbf{Chaque} nœud porte un \textbf{recollement de facettes} (des triangles dès $K = 3$),
-        donc une \emph{surface} : les hiérarchies de superpoints \citb{robert23} n'agrègent que des points ;
-        PolyhedronNet \citb{yu25} a la surface, mais pas la hiérarchie
-        \item Le paramètre de la filtration est une grandeur \textbf{physique} (un rayon, en mètres,
-        et non un indice $0, 1, 2, \ldots$) : les branches deviennent des trajectoires, les fusions des événements
-        \item \textbf{Un pari réfutable} : si l'arbre réel ne bat ni un modèle plat, ni un arbre aléatoire,
-        ni une hiérarchie \emph{générique}, il tombe
+        \setlength{\itemsep}{6pt}
+        \item Chaque nœud porte une \textbf{surface} : ni un sac de points \citb{robert23},
+        ni un polyèdre isolé \citb{yu25}
+        \item \textbf{Un pari réfutable} : si l'arbre réel ne bat ni un modèle plat,
+        ni un arbre aléatoire, il tombe
     \end{itemize}
     \reffoot{robert23,yu25}
 \end{frame}
