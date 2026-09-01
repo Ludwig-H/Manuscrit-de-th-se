@@ -1433,24 +1433,26 @@
 % ============================================================
 % 7.d — Le modèle de fondation 3D qui manque
 % ============================================================
-\begin{frame}{En 3D, il manque l'\textcolor{inria-rouge}{unité de calcul}}
+\begin{frame}[t]{Vers un modèle de fondation pour la 3D ?}
     \small
-    Le texte et l'image ont leur socle partagé, la 3D pas encore : c'est pourtant \emph{elle}
-    qui donne aux machines une prise sur le monde physique
+    Le sous-mot et l'imagette : un découpage \textbf{fixé une fois pour toutes}, le même pour tous
 
-    \vspace{0.10cm}
+    \vspace{0.06cm}
     \begin{center}
-        \resizebox{0.52\textwidth}{!}{\input{figs/alphabet_fondation}}
+        \resizebox{0.42\textwidth}{!}{\input{figs/alphabet_fondation}}
     \end{center}
 
-    \vspace{0.16cm}
+    \vspace{0.10cm}
     \begin{itemize}
-        \setlength{\itemsep}{6pt}
-        \item L'effort est réel (Sonata \citb{sonata25}, Concerto \citb{concerto25}, Utonia \citb{utonia26}),
-        mais il porte sur des \textbf{points} ou des \textbf{voxels}
-        \item Or ni le point ni le voxel ne sont un \emph{objet} : l'un est un échantillon d'acquisition
-        (un tir de laser, un pixel de profondeur), l'autre une case de grille. Rien, à ma
-        connaissance, ne fait encore \textbf{consensus}
+        \setlength{\itemsep}{5pt}
+        \item Le \textbf{point} n'a ni étendue ni voisinage donné : c'est l'architecture qui les
+        \emph{fabrique}
+        \item Le \textbf{voxel} fixe sa grille avant la scène : décalez-la d'un \emph{demi-pas},
+        le découpage change
+        \item Le \textbf{pixel} de profondeur ? La grille revient, mais deux pixels voisins sont
+        parfois à des mètres
+        \item Sonata \citb{sonata25}, Concerto \citb{concerto25}, Utonia \citb{utonia26} :
+        l'apprentissage change, pas l'\textbf{unité}
     \end{itemize}
     \reffoot{sonata25,concerto25,utonia26}
 \end{frame}
