@@ -38,10 +38,11 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    l'art panoptique, qui *est* un clustering : une bonne segmentation sémantique
    suivie d'un regroupement classique (ALPINE, Sautier *et al.* 2025, premier au
    classement panoptique officiel de SemanticKITTI sans aucune annotation
-   d'instance), et la même recette étendue au temps par une association globale
-   géométrique (Geo-4D, Oh *et al.* 2025) ; enfin nos deux diapositives de
-   résultats — nos *a priori* faibles injectés dans la hiérarchie, et le suivi
-   d'instances sur SemanticKITTI, sans apprentissage.
+   d'instance), la 4D tenant en un point (Geo-4D, Oh *et al.* 2025 : même schéma,
+   plus une association géométrique entre trames — le détail passe en secours) ;
+   enfin nos deux diapositives de résultats — nos *a priori* faibles injectés
+   dans la hiérarchie, et le suivi d'instances sur SemanticKITTI, sans
+   apprentissage.
 6. **Données davantage structurées** (Partie III) — détection de communautés sur
    graphes signés (cadre bayésien, Swendsen–Wang signé, généralisation aux
    interactions d'ordre supérieur, puis une diapositive en trois temps sur le

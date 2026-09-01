@@ -957,76 +957,34 @@
     \begin{columns}[c, onlytextwidth]
         \begin{column}{0.60\textwidth}
             \small
-            La segmentation \textbf{panoptique} demande deux choses : la \emph{classe} de chaque point,
-            et l'\emph{instance} à laquelle il appartient.
+            Panoptique $=$ la \emph{classe} de chaque point $+$ son \emph{instance}
 
-            \vspace{0.30cm}
+            \vspace{0.40cm}
             \begin{itemize}
-                \setlength{\itemsep}{7pt}
-                \item Longtemps, l'instance s'est apprise de bout en bout --- donc avec des annotations
-                d'instances, coûteuses
-                \item ALPINE \citb{sautier25} montre qu'il n'en est rien : une bonne segmentation
-                \textbf{sémantique}, puis, classe par classe, un \textbf{clustering classique} ---
-                projection en vue de dessus, graphe des $k$ plus proches voisins, seuil sur la longueur
-                des arêtes, \textbf{composantes connexes}
+                \setlength{\itemsep}{10pt}
+                \item L'instance s'apprenait de bout en bout, au prix d'annotations coûteuses
+                \item ALPINE \citb{sautier25} : une bonne sémantique, puis, classe par classe,
+                un \textbf{clustering classique} --- graphe des $k$ plus proches voisins, seuil,
+                \textbf{composantes connexes}
+                \item En 4D, Geo-4D \citb{oh25} garde le schéma et y ajoute une \textbf{association
+                géométrique} entre trames, elle aussi sans apprentissage
             \end{itemize}
 
-            \vspace{0.25cm}
+            \vspace{0.40cm}
             \begin{center}
                 \formulebox{\parbox{0.93\textwidth}{\centering\small
-                Sans annotation d'instance, sans apprentissage ni réglage :\\
-                \textbf{premier au classement panoptique officiel de SemanticKITTI},
-                et en temps réel sur un seul cœur.}}
+                Sans annotation d'instance ni apprentissage :\\
+                \textbf{premier au classement panoptique de SemanticKITTI}}}
             \end{center}
         \end{column}
 
         \begin{column}{0.38\textwidth}
             \begin{center}
-                \includegraphics[height=0.66\textheight]{imgs/Alpine.png}
-
-                \vspace{0.15cm}
-                {\scriptsize Le regroupement d'ALPINE \citb{sautier25}}
+                \includegraphics[height=0.62\textheight]{imgs/Alpine.png}
             \end{center}
         \end{column}
     \end{columns}
-    \reffoot{sautier25}
-\end{frame}
-
-\begin{frame}{Et en 4D, la recette ne change pas}
-    \begin{columns}[c, onlytextwidth]
-        \begin{column}{0.56\textwidth}
-            \small
-            La 4D ajoute le \textbf{suivi} : une même instance doit garder son identité d'une trame
-            à l'autre.
-
-            \vspace{0.30cm}
-            \begin{itemize}
-                \setlength{\itemsep}{8pt}
-                \item Geo-4D \citb{oh25} garde le même schéma --- sémantique, puis regroupement ---
-                et y ajoute une \textbf{association globale} entre trames, purement \textbf{géométrique}
-                et là encore \textbf{sans apprentissage}
-                \item Dans les deux cas, une fois la sémantique acquise, ce qui reste est un problème
-                de \textbf{regroupement} : exactement l'objet de cette thèse
-            \end{itemize}
-
-            \vspace{0.30cm}
-            \begin{center}
-                \formulebox{\parbox{0.90\textwidth}{\centering\small
-                C'est là que notre hiérarchie a quelque chose à dire :\\
-                elle offre une \textbf{échelle} au lieu d'un seuil.}}
-            \end{center}
-        \end{column}
-
-        \begin{column}{0.42\textwidth}
-            \begin{center}
-                \includegraphics[height=0.62\textheight]{imgs/Resultat_Geo-4D.png}
-
-                \vspace{0.15cm}
-                {\scriptsize Suivi d'instances dans Geo-4D \citb{oh25}}
-            \end{center}
-        \end{column}
-    \end{columns}
-    \reffoot{oh25}
+    \reffoot{sautier25,oh25}
 \end{frame}
 
 \begin{frame}{Notre apport : des \emph{a priori} plutôt que des annotations}
@@ -1075,8 +1033,8 @@
 
 \begin{frame}{Quand la structure n'est plus (seulement) la géométrie}
     \begin{center}
-        \large Deux terrains d'exploration où l'on retrouve deux idées de la thèse :\\[4pt]
-        \normalsize \textbf{1)} les interactions d'ordre supérieur apportent la robustesse ;\\
+        \large Les deux idées de la thèse appliquées à des données davantage structurées\\[4pt]
+        \normalsize \textbf{1)} les interactions d'ordre supérieur apportent la robustesse\\
         \textbf{2)} la percolation gouverne les performances
     \end{center}
 
@@ -1124,21 +1082,15 @@
         \end{tikzpicture}
     \end{center}
 
-    \vspace{0.05cm}
-    \begin{center}
-        \formulebox{$X\sim\nu,\qquad \Sigma\mid X\sim\mu_0,\qquad
-        W\mid(X,\Sigma)\sim Q,\qquad \mu=\mathcal L(\Sigma\mid X,W)$}
-    \end{center}
-
-    \vspace{0.10cm}
+    \vspace{0.35cm}
     \small
     \begin{itemize}
-        \setlength{\itemsep}{4pt}
+        \setlength{\itemsep}{7pt}
         \item $W_e>0$ encode une \textbf{attraction} ; $W_e<0$, une \textbf{répulsion} ; $|W_e|$ mesure la force de l'interaction
-        \item Dans le cas étudié, le canal calibré donne une loi \emph{a posteriori} de \textsc{Gibbs} signée :
+        \item Dans le cas étudié, le canal calibré donne une loi \emph{a posteriori} de \textsc{Gibbs} signée \citb{ii26} :
     \end{itemize}
 
-    \vspace{-0.10cm}
+    \vspace{0.15cm}
     \begin{center}
         \formulebox{$\displaystyle
         U(\sigma)=-\log\mu_0(\sigma\mid X)
@@ -1146,7 +1098,7 @@
         +\sum_{\substack{e=\{i,j\}\\ W_e<0}}|W_e|\ind{\sigma_i=\sigma_j},
         \qquad \mu(\sigma)=\frac{e^{-U(\sigma)}}{Z}$}
     \end{center}
-    \reffoot{avrachenkov22}
+    \reffoot{avrachenkov22,ii26}
 \end{frame}
 
 \begin{frame}[t]{Un pas de \textsc{Swendsen}--\textsc{Wang} signé}
@@ -1159,8 +1111,8 @@
         \formulebox{$\displaystyle
         \mathbb P(e\text{ gelée}\mid\sigma)=
         \begin{cases}
-            1-e^{-|W_e|}, & e\text{ satisfaite},\\
-            0, & e\text{ non satisfaite}.
+            1-e^{-|W_e|}, & e\text{ satisfaite}\\
+            0, & e\text{ non satisfaite}
         \end{cases}$}
     \end{center}
 
@@ -1169,9 +1121,9 @@
     \begin{itemize}
         \setlength{\itemsep}{2pt}
         \item Pour deux classes et un \emph{a priori} uniforme, chaque composante gelée est
-        \textbf{retournée en bloc} avec probabilité $1/2$ : la transition est réversible et préserve $\mu$ \citb{sw87}.
+        \textbf{retournée en bloc} avec probabilité $1/2$ : la transition est réversible et préserve $\mu$ \citb{sw87}
         \item Dans la preuve, un pas depuis $\Sigma$ produit une
-        \textbf{réplique couplée de la loi \emph{a posteriori}} $\Sigma^{(1)}$ --- non indépendante.
+        \textbf{réplique couplée de la loi \emph{a posteriori}} $\Sigma^{(1)}$
     \end{itemize}
     \reffoot{sw87}
 \end{frame}
@@ -1183,18 +1135,16 @@
         \qquad b=\text{arête, triangle, clique\ldots}$}
     \end{center}
 
-    \vspace{0.02cm}
+    \vspace{0.30cm}
     \begin{center}
         \input{figs/sw_motifs}
     \end{center}
 
-    \vspace{0.02cm}
+    \vspace{0.20cm}
     \footnotesize
     \begin{itemize}
-        \setlength{\itemsep}{4pt}
-        \item Sur chaque motif $b$, \textbf{un seul} tirage corrélé choisit le sous-lien gelé $\omega_b\subseteq b$ \citb{asilomar25}
-        \item Deux lois conditionnelles exactes alternées, $\kappa=(\omega_b)_b$ puis $\sigma'$ : un échantillonneur de \textsc{Gibbs} augmenté
-        \item La loi \emph{a posteriori} $\mu$ reste \textbf{invariante} ; seule change la \textbf{géométrie des amas gelés} --- donc leur percolation \citb{ii26}
+        \item Un \textbf{seul tirage par motif} : on introduit de la \textbf{corrélation}
+        dans le processus de gel \citb{asilomar25} \citb{ii26}
     \end{itemize}
     \reffoot{asilomar25,ii26}
 \end{frame}
@@ -1268,7 +1218,7 @@
             \[
                 \mathcal H_\sigma(x)=\nabla^{2}\!\left(G_\sigma * I\right)\!(x)
                 =\lambda_1\,v_1v_1^{\top}+\lambda_2\,v_2v_2^{\top},
-                \qquad |\lambda_1|\le|\lambda_2| .
+                \qquad |\lambda_1|\le|\lambda_2|
             \]
             \vspace{-0.24cm}
             \scriptsize
@@ -1290,7 +1240,7 @@
     \scriptsize
     Une \textbf{arête} $(i,j)$ --- deux pixels à distance $\le R$ --- porte trois contraintes,
     maximisées sur les échelles :
-    $\;S_{ij}=\max_{\sigma} S^{\sigma}_{\mathrm{int}}\,S^{\sigma}_{\mathrm{shape}}\,S^{\sigma}_{\mathrm{align}}$.
+    $\;S_{ij}=\max_{\sigma} S^{\sigma}_{\mathrm{int}}\,S^{\sigma}_{\mathrm{shape}}\,S^{\sigma}_{\mathrm{align}}$
 
     \vspace{0.02cm}
     \begin{itemize}
@@ -1346,7 +1296,7 @@
     \begin{center}
         {\footnotesize Sur FIND, \textbf{sans apprentissage} : $63\,\%$ de \textsc{Jaccard} en fusionnant
         les trois modalités ($60\,\%$ à deux) --- CrackSegDiff, supervisé, atteint $87\,\%$ sur données
-        propres, mais s'effondre sous le bruit.}
+        propres, mais s'effondre sous le bruit}
     \end{center}
     \reffoot{euvip26,ans26,isprs26}
 \end{frame}
@@ -1365,16 +1315,16 @@
         \begin{column}{0.60\textwidth}
             \small
             Une fonction de clustering $\mathcal C$ associe à un espace métrique fini
-            $(\mathcal X, d)$, avec $|\mathcal X| \ge 2$, une \textbf{partition} de $\mathcal X$.
+            $(\mathcal X, d)$, avec $|\mathcal X| \ge 2$, une \textbf{partition} de $\mathcal X$
 
             \vspace{0.25cm}
             \begin{enumerate}[(i)]
                 \setlength{\itemsep}{7pt}
                 \item \textbf{Invariance d'échelle} : $\mathcal C(\mathcal X, \lambda d) = \mathcal C(\mathcal X, d)$
-                pour tout $\lambda > 0$ --- changer d'unité ne change rien.
-                \item \textbf{Richesse} : toute partition de $\mathcal X$ est atteinte par une distance bien choisie.
+                pour tout $\lambda > 0$ --- changer d'unité ne change rien
+                \item \textbf{Richesse} : toute partition de $\mathcal X$ est atteinte par une distance bien choisie
                 \item \textbf{Cohérence} : resserrer un amas \emph{rendu par $\mathcal C$}, ou écarter deux
-                de ces amas, laisse le résultat inchangé.
+                de ces amas, laisse le résultat inchangé
             \end{enumerate}
         \end{column}
         \begin{column}{0.38\textwidth}
@@ -1385,7 +1335,7 @@
 
     \vspace{0.30cm}
     \begin{center}
-        \formulebox{\textbf{Impossibilité} \citb{kleinberg02} : \emph{aucune} fonction de clustering ne satisfait ces trois axiomes.}
+        \formulebox{\textbf{Impossibilité} \citb{kleinberg02} : \emph{aucune} fonction de clustering ne satisfait ces trois axiomes}
     \end{center}
     \reffoot{kleinberg02}
 \end{frame}
@@ -1412,7 +1362,7 @@
     \begin{center}
         \formulebox{\parbox{0.82\textwidth}{\centering\small
         Sous trois axiomes adaptés (normalisation \emph{à deux points}, fonctorialité, séparation),\\
-        \textbf{le Single-Linkage est la seule solution} \citb{carlsson10}.}}
+        \textbf{le Single-Linkage est la seule solution} \citb{carlsson10}}}
     \end{center}
     \reffoot{carlsson10}
 \end{frame}
@@ -1423,14 +1373,14 @@
 \begin{frame}{Après \textsc{Swendsen}--\textsc{Wang} : une \emph{horloge} par arête}
     \small
     Un pas de \textsc{Swendsen}--\textsc{Wang} gèle chaque arête satisfaite avec probabilité
-    $1 - e^{-|W_e|}$, puis recolorie les amas gelés. Remplaçons ce tirage \emph{binaire} par un \textbf{temps}.
+    $1 - e^{-|W_e|}$, puis recolorie les amas gelés. Remplaçons ce tirage \emph{binaire} par un \textbf{temps}
 
     \vspace{0.25cm}
     \begin{center}
         \formulebox{\parbox{0.86\textwidth}{\centering
         $\xi_e \sim \mathrm{Exp}\bigl(|W_e|\bigr)$ si $e$ est satisfaite, \quad $\xi_e = +\infty$ sinon ;\\[5pt]
         $\Pi_\beta \;=\;$ composantes connexes du graphe $\bigl(V, \{e : \xi_e \le \beta\}\bigr)$,
-        \qquad $0 \le \beta \le 1$.}}
+        \qquad $0 \le \beta \le 1$}}
     \end{center}
 
     \vspace{0.25cm}
@@ -1584,8 +1534,8 @@
 \begin{frame}{Guider SAM : \emph{informer} l'attention, pas la contraindre}
     \small
     Une fissure se reconnaît à sa \textbf{connexité} ; or l'attention compare des vecteurs deux à deux :
-    elle n'a \textbf{aucun \emph{a priori} de chemin}.
-    {\color{inria-rouge}\emph{Aucune IoU n'a encore été mesurée pour ce guidage.}}
+    elle n'a \textbf{aucun \emph{a priori} de chemin}
+    {\color{inria-rouge}\emph{Aucune IoU n'a encore été mesurée pour ce guidage}}
 
     \vspace{0.10cm}
     \begin{center}
@@ -1667,7 +1617,7 @@
     \small
     L'obstruction de \textsc{Kleinberg} disait : \emph{gardez l'arbre} --- c'est la sortie prise par
     \textsc{Carlsson} \& \textsc{Mémoli}. En 3D, cet arbre, nous l'avons déjà : c'est la hiérarchie de
-    $K$-polyèdres de la partie II.
+    $K$-polyèdres de la partie II
 
     \vspace{0.10cm}
     \begin{center}
@@ -1699,7 +1649,7 @@
     \begin{beamercolorbox}[rounded=true,sep=8pt]{block body}
         \centering
         \textbf{1)} Quand les relations binaires sont insuffisantes ou instables,\\ les \textbf{interactions d'ordre supérieur} apportent une cohérence robuste.\\[6pt]
-        \textbf{2)} La \textbf{percolation} est la clef de voûte théorique\\ pour quantifier les performances de ces algorithmes.
+        \textbf{2)} La \textbf{percolation} est la clef de voûte théorique\\ pour quantifier les performances de ces algorithmes
     \end{beamercolorbox}
 
     \vspace{0.06cm}
@@ -1988,6 +1938,43 @@
     \drawHaplotypePresentation{3}
 \end{frame}
 
+\begin{frame}{Et en 4D, la recette ne change pas}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.56\textwidth}
+            \small
+            La 4D ajoute le \textbf{suivi} : une même instance doit garder son identité d'une trame
+            à l'autre
+
+            \vspace{0.30cm}
+            \begin{itemize}
+                \setlength{\itemsep}{8pt}
+                \item Geo-4D \citb{oh25} garde le même schéma --- sémantique, puis regroupement ---
+                et y ajoute une \textbf{association globale} entre trames, purement \textbf{géométrique}
+                et là encore \textbf{sans apprentissage}
+                \item Dans les deux cas, une fois la sémantique acquise, ce qui reste est un problème
+                de \textbf{regroupement} : exactement l'objet de cette thèse
+            \end{itemize}
+
+            \vspace{0.30cm}
+            \begin{center}
+                \formulebox{\parbox{0.90\textwidth}{\centering\small
+                C'est là que notre hiérarchie a quelque chose à dire :\\
+                elle offre une \textbf{échelle} au lieu d'un seuil}}
+            \end{center}
+        \end{column}
+
+        \begin{column}{0.42\textwidth}
+            \begin{center}
+                \includegraphics[height=0.62\textheight]{imgs/Resultat_Geo-4D.png}
+
+                \vspace{0.15cm}
+                {\scriptsize Suivi d'instances dans Geo-4D \citb{oh25}}
+            \end{center}
+        \end{column}
+    \end{columns}
+    \reffoot{oh25}
+\end{frame}
+
 \begin{frame}{Le cadre bayésien et l'hypothèse de Gibbs}
     \begin{center}
         \begin{tikzpicture}[node distance=0.7cm and 0.9cm, scale=0.85, every node/.style={scale=0.85}]
@@ -2255,19 +2242,19 @@
         \item \textbf{Mesurer le plafond, sur SAM~2 gelé.} Injecter la \emph{vérité terrain} dans l'interface
         choisie et regarder ce qu'elle rapporte au mieux. La vérité terrain à l'inférence en fait un
         \textbf{diagnostic}, jamais un résultat publiable --- mais deux heures de GPU suffisent, et
-        sans plafond on arrête là.
+        sans plafond on arrête là
         \item \textbf{Utiliser d'abord l'interface native.} Transformer la hiérarchie en invites ponctuelles,
-        sélectionnées par centralité décroissante de l'arbre couvrant minimal, du grossier au fin.
-        Ce serait la première utilisation réelle de l'arbre et des composantes.
+        sélectionnées par centralité décroissante de l'arbre couvrant minimal, du grossier au fin
+        Ce serait la première utilisation réelle de l'arbre et des composantes
         \item \textbf{Seulement si le signal est causal.} Apprendre un biais additif selon la distance dans
-        le graphe ou dans l'arbre, initialisé à zéro : \textbf{informer} l'attention sans lier ses coefficients.
+        le graphe ou dans l'arbre, initialisé à zéro : \textbf{informer} l'attention sans lier ses coefficients
     \end{enumerate}
 
     \vfill
     \begin{center}
         \formulebox{\parbox{0.82\textwidth}{\centering\small
         À chaque étape : \textbf{aligné contre permuté et aléatoire},
-        à capacité et budget identiques. Sans séparation, on arrête.}}
+        à capacité et budget identiques. Sans séparation, on arrête}}
     \end{center}
 \end{frame}
 
@@ -2384,7 +2371,7 @@
             \end{itemize}
 
             \vspace{0.35cm}
-            {\footnotesize Ces résultats resteraient publiables comme \textbf{réfutation} --- mais pas sous la thèse annoncée.}
+            {\footnotesize Ces résultats resteraient publiables comme \textbf{réfutation} --- mais pas sous la thèse annoncée}
         \end{column}
     \end{columns}
 \end{frame}
