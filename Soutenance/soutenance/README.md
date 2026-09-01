@@ -91,14 +91,19 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    adaptabilité, émergence) avec la figure des jetons, sous-mot pour le texte et
    imagette pour l'image ; l'adaptation LoRA $W = W_0 + BA$ et CrackSAM (Ge
    *et al.* 2024, $0{,}7\,\%$ des poids) ; puis **une seule** diapositive de
-   guidage, les invites ponctuelles par centralité décroissante, avec la mention
-   qu'aucune IoU n'a été mesurée. L'architecture de SAM et le biais additif
-   indexé par la distance dans l'arbre (**informer** l'attention, pas la
-   **contraindre**) sont passés en secours.
-   *(d)* Le **modèle de fondation 3D** qui manque : ce qu'un socle partagé
-   débloquerait (la révolution robotique), l'unité de calcul absente, le nuage de
-   points comme artefact du capteur, puis le polyèdre comme alphabet et la
-   hiérarchie comme grammaire.
+   guidage, « Guider l'attention par la hiérarchie », bâtie sur le diptyque de
+   matrices `attention_hierarchie` (plate à gauche, découpée en blocs à droite).
+   Elle dit les trois choses dans l'ordre : la hiérarchie réduit la matrice à un
+   coefficient par couple de sous-arbres frères (HSA, NeurIPS 2025) ; une
+   contrainte de blocs **comprime** l'attention — au mieux elle retrouve la
+   *softmax* plate, et n'apprend aucun paramètre ; la voie retenue est donc un
+   **biais additif** sur la distance dans le graphe (Graphormer), c'est-à-dire
+   **informer** l'attention plutôt que la contraindre — aucune IoU mesurée.
+   L'architecture de SAM et le détail de ce biais sont en secours.
+   *(d)* Le **modèle de fondation 3D** qui manque : l'unité de calcul absente
+   (une ligne d'accroche rappelle que le texte et l'image ont leur socle
+   partagé, la 3D pas encore), le nuage de points comme artefact du capteur, puis
+   le polyèdre comme alphabet et la hiérarchie comme grammaire.
    **Rien n'y est présenté comme acquis** : les sources sont
    `E-HGP/tests/SemanticKITTI/Zoltan/HierarchicalSelfAttention` (statut
    `foundation_claim = not_yet_earned`) et
@@ -173,8 +178,8 @@ elle-même.
   `pipeline_polyfm`) sont dessinées pour cette présentation, sans image importée.
   Celles de la partie 7 refondue (`kleinberg_axiomes`, `kleinberg_coupes`,
   `fondation_jetons`, `sam_architecture`, `lora_adaptation`,
-  `invites_centralite`, `informer_pas_contraindre`, `revolution_3d`) le sont
-  également ; `horloges_kruskal` est adaptée et francisée de
+  `attention_hierarchie`, `invites_centralite`, `informer_pas_contraindre`,
+  `revolution_3d`) le sont également ; `horloges_kruskal` est adaptée et francisée de
   `Presentation-MathNet-2026-06-15/beamer-presentation-reunion-2026-07-16/hierarchical_sw_frames.tex`.
   `kleinberg_impossibilite.tex` est l'ancienne planche unique, remplacée par le
   diptyque `kleinberg_axiomes` / `kleinberg_coupes` : elle n'est plus appelée.
@@ -182,6 +187,18 @@ elle-même.
   Frangi, l'ordre 2 y étant désormais une ligne de perspective ; `frangi_termes.tex`
   (les trois vignettes courbure / élongation / alignement) a été remplacée par
   `frangi_hessienne.tex` quand la diapositive est devenue mathématique.
+- `attention_hierarchie.tex` — les deux matrices de la diapositive de guidage.
+  Celle de gauche suit une formule explicite ; les **neuf tons de droite sont les
+  moyennes des blocs de gauche**, calculées hors du fichier et écrites en dur. Ce
+  n'est pas un choix esthétique : c'est ce qui rend visible que la contrainte de
+  blocs est une *compression* de la matrice plate et non un apport
+  d'information. Si la formule de gauche change, recalculer les neuf moyennes.
+- `invites_centralite.tex` et `revolution_3d.tex` sont **conservées mais plus
+  appelées** depuis le retrait des diapositives « Guider SAM par la hiérarchie »
+  et « En 3D, ce modèle de fondation n'existe pas ». La première reste la seule
+  planche des invites ponctuelles par centralité, la seconde la seule de la
+  promesse d'un socle 3D : les garder évite de les redessiner si l'une des deux
+  revient en secours.
 - **L'ellipse de `frangi_hessienne`** est définie par ses axes ($e_1,e_2$) et ses
   demi-axes ($1/\sqrt{|\lambda_k|}$), et non comme un ensemble de niveau : sur une
   crête $\lambda_1$ est proche de zéro et de signe quelconque, si bien que

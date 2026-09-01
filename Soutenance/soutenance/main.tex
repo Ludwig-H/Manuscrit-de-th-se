@@ -1401,54 +1401,43 @@
 \end{frame}
 
 % ------------------------------------------------------------
-\begin{frame}{Guider SAM par la hiérarchie}
+\begin{frame}[t]{Guider l'\textcolor{inria-rouge}{attention} par la hiérarchie}
+    \small
+    L'attention compare les jetons \textbf{deux à deux} : aucun \emph{a priori} de chemin,
+    là où un objet se reconnaît à sa \textbf{connexité}
+
+    \vspace{0.06cm}
     \begin{center}
-        \resizebox{0.72\textwidth}{!}{\input{figs/invites_centralite}}
+        \resizebox{0.52\textwidth}{!}{\input{figs/attention_hierarchie}}
     \end{center}
 
-    \vspace{0.14cm}
-    \small
+    \vspace{0.06cm}
     \begin{itemize}
-        \setlength{\itemsep}{8pt}
-        \item L'arbre couvrant et la centralité donnent un \textbf{ordre d'importance} sur les pixels,
-        du tronc de la fissure vers ses ramifications
-        \item Le convertir en \textbf{invites ponctuelles} n'exige \emph{aucune} modification du modèle :
-        c'est l'interface native de SAM \citb{ravi24}
-        \item \textbf{Première utilisation réelle de l'arbre} ; jusqu'ici, seulement des \emph{cartes}.
-        {\color{inria-rouge}Aucune IoU mesurée}
+        \setlength{\itemsep}{5pt}
+        \item Deux sous-arbres frères n'échangent plus qu'\textbf{une} valeur \citb{hsa25}
+        \item Mais un bloc \textbf{comprime} l'attention : au mieux il retrouve la \emph{softmax}
+        plate, et n'apprend rien
+        \item D'où la voie retenue : un \textbf{biais additif} sur la distance dans le graphe
+        \citb{ying21} --- \textbf{informer}, pas contraindre. {\color{inria-rouge}Aucune IoU mesurée}
     \end{itemize}
-    \reffoot{ravi24}
+    \reffoot{hsa25,ying21}
 \end{frame}
 
 % ------------------------------------------------------------
 % ============================================================
 % 7.d — Le modèle de fondation 3D qui manque
 % ============================================================
-\begin{frame}{En 3D, ce modèle de fondation n'existe pas : c'est un verrou}
-    \begin{center}
-        \resizebox{0.74\textwidth}{!}{\input{figs/revolution_3d}}
-    \end{center}
+\begin{frame}{En 3D, il manque l'\textcolor{inria-rouge}{unité de calcul}}
+    \small
+    Le texte et l'image ont leur socle partagé ; la 3D, pas encore --- c'est pourtant \emph{elle}
+    qui donne aux machines une prise sur le monde physique
 
     \vspace{0.10cm}
-    \small
-    \begin{itemize}
-        \setlength{\itemsep}{5pt}
-        \item Ce qu'un socle 3D partagé \emph{promet} : un même encodeur d'un capteur, d'un site et d'une
-        tâche à l'autre, avec \textbf{peu} d'annotations nouvelles ; c'est la \textbf{révolution robotique}
-        que le domaine attend, et je n'en apporte ici aucune preuve
-        \item Le texte et l'image ont franchi ce pas, la 3D pas encore : c'est pourtant \emph{elle} qui donne
-        aux machines une prise sur le monde physique
-    \end{itemize}
-\end{frame}
-
-% ------------------------------------------------------------
-\begin{frame}{Pourquoi ? Il manque l'\textcolor{inria-rouge}{unité de calcul}}
     \begin{center}
-        \resizebox{0.56\textwidth}{!}{\input{figs/alphabet_fondation}}
+        \resizebox{0.52\textwidth}{!}{\input{figs/alphabet_fondation}}
     \end{center}
 
-    \vspace{0.20cm}
-    \small
+    \vspace{0.16cm}
     \begin{itemize}
         \setlength{\itemsep}{6pt}
         \item L'effort est réel (Sonata \citb{sonata25}, Concerto \citb{concerto25}, Utonia \citb{utonia26}),
