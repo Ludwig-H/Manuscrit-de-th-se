@@ -30,7 +30,7 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    (H)DBSCAN.
 3. **Monter en ordre : la hiérarchie K-NN exacte** (Partie II) — contre-exemple
    des six points, complexe de Čech, K-polyèdres, condition de Gabriel,
-   K-MST et mosaïque de Delaunay d'ordre K, huiles d'olive.
+   K-MST et mosaïque de Delaunay d'ordre K.
 4. **La percolation comme mesure de performance** (Partie II, chap. III) —
    percolation continue, inconsistance en dimension ≥ 2, vitesse de
    percolation et tableau comparatif HGP / Robust SL / DBSCAN.
@@ -97,8 +97,8 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    perspectives dans le fil de la thèse, liste des publications et des dépôts
    logiciels.
 9. **Diapositives de secours** (après le « Merci »), suivant la chronologie de la
-   présentation : stylométrie 5 auteurs, banc d'essai SIPU, confusion huiles
-   d'olive, protocole des vitesses, fenêtre gaussienne K→∞,
+   présentation : stylométrie 5 auteurs, banc d'essai SIPU, huiles d'olive et leur
+   matrice de confusion, protocole des vitesses, fenêtre gaussienne K→∞,
    haplotypes, cadre bayésien/Gibbs, Swendsen–Wang détaillé, modèle
    Sankararaman–Baccelli, hiérarchie d'horloges, **Kruskal des horloges vers le
    dendrogramme**, **la coupe critique $\beta_c$ en détail** (formule explicite,
