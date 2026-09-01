@@ -121,8 +121,8 @@
 \DeclareRef{edelsbrunner23}{Edelsbrunner--Osang 23}{H.~Edelsbrunner, G.~Osang, « A simple algorithm for higher-order Delaunay mosaics and alpha shapes », \textit{Algorithmica}, 2023.}
 \DeclareRef{forina83}{Forina 83}{M.~Forina, C.~Armanino, S.~Lanteri, E.~Tiscornia, « Classification of olive oils from their fatty acid composition », 1983 (jeu de données).}
 \DeclareRef{rolle23}{Rolle--Scoccola 23}{A.~Rolle, L.~Scoccola, « Stable and consistent density-based clustering » (Persistable), JMLR, 2024.}
-\DeclareRef{sautier25}{Sautier 25}{C.~Sautier \emph{et~al.}, « Alpine: is clustering enough for LiDAR instance segmentation? », 2025.}
-\DeclareRef{oh25}{Oh 25}{M.~Oh \emph{et~al.}, « Geo-4D: training-free global geometric association for 4D LiDAR panoptic segmentation », 2025.}
+\DeclareRef{sautier25}{ALPINE 25}{C.~Sautier, G.~Puy, A.~Boulch, R.~Marlet, V.~Lepetit, « Is clustering enough for LiDAR instance segmentation? A state-of-the-art training-free baseline » (ALPINE), 2025.}
+\DeclareRef{oh25}{Geo-4D 25}{G.~Oh, Y.~Jang, J.~Choi, S.-J.~Kang, G.~Lin, S.~Kim, « Training-free global geometric association for 4D LiDAR panoptic segmentation » (Geo-4D), 2025.}
 \DeclareRef{avrachenkov22}{Avrachenkov--Dreveton 22}{K.~Avrachenkov, M.~Dreveton, \textit{Statistical Analysis of Networks}, Now Publishers, 2022.}
 \DeclareRef{sw87}{Swendsen--Wang 87}{R.~H.~Swendsen, J.-S.~Wang, « Nonuniversal critical dynamics in Monte Carlo simulations », \textit{Physical Review Letters}, 1987.}
 \DeclareRef{sb18}{Sankararaman--Baccelli 18}{A.~Sankararaman, F.~Baccelli, « Community detection on Euclidean random graphs », \textit{ACM--SIAM SODA}, 2018.}
@@ -714,7 +714,7 @@
             \end{center}
         \end{column}
     \end{columns}
-    \reffoot{penrose03,ans26,eusipco24}
+    \reffoot{ans26,eusipco24}
 \end{frame}
 
 \begin{frame}{Qui provoque les fusions ? La condition de \textsc{Gabriel}}
@@ -973,29 +973,105 @@
     \reffoot{ayana25}
 \end{frame}
 
-\begin{frame}{Panoptique 4D : des \emph{a priori} plutôt que des annotations}
+\begin{frame}{Panoptique 3D : l'état de l'art \emph{est} un clustering}
     \begin{columns}[c, onlytextwidth]
-        \begin{column}{0.48\textwidth}
+        \begin{column}{0.60\textwidth}
+            \small
+            La segmentation \textbf{panoptique} demande deux choses : la \emph{classe} de chaque point,
+            et l'\emph{instance} à laquelle il appartient.
+
+            \vspace{0.30cm}
             \begin{itemize}
-                \setlength{\itemsep}{10pt}
-                \item État de l'art : sémantique profonde\\ $+$ regroupement spatial \citb{sautier25} \citb{oh25}
-                \item Nos \textbf{\emph{a priori} faibles} : volumes attendus des objets (véhicules, piétons) injectés dans la hiérarchie
-                \item Association temporelle par \textbf{transport optimal} déséquilibré $+$ filtre de \textsc{Kalman}, sans apprentissage
+                \setlength{\itemsep}{7pt}
+                \item Longtemps, l'instance s'est apprise de bout en bout --- donc avec des annotations
+                d'instances, coûteuses
+                \item ALPINE \citb{sautier25} montre qu'il n'en est rien : une bonne segmentation
+                \textbf{sémantique}, puis, classe par classe, un \textbf{clustering classique} ---
+                projection en vue de dessus, graphe des $k$ plus proches voisins, seuil sur la longueur
+                des arêtes, \textbf{composantes connexes}
+            \end{itemize}
+
+            \vspace{0.25cm}
+            \begin{center}
+                \formulebox{\parbox{0.93\textwidth}{\centering\small
+                Sans annotation d'instance, sans apprentissage ni réglage :\\
+                \textbf{premier au classement panoptique officiel de SemanticKITTI},
+                et en temps réel sur un seul cœur.}}
+            \end{center}
+        \end{column}
+
+        \begin{column}{0.38\textwidth}
+            \begin{center}
+                \includegraphics[height=0.66\textheight]{imgs/Alpine.png}
+
+                \vspace{0.15cm}
+                {\scriptsize Le regroupement d'ALPINE \citb{sautier25}}
+            \end{center}
+        \end{column}
+    \end{columns}
+    \reffoot{sautier25}
+\end{frame}
+
+\begin{frame}{Et en 4D, la recette ne change pas}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.56\textwidth}
+            \small
+            La 4D ajoute le \textbf{suivi} : une même instance doit garder son identité d'une trame
+            à l'autre.
+
+            \vspace{0.30cm}
+            \begin{itemize}
+                \setlength{\itemsep}{8pt}
+                \item Geo-4D \citb{oh25} garde le même schéma --- sémantique, puis regroupement ---
+                et y ajoute une \textbf{association globale} entre trames, purement \textbf{géométrique}
+                et là encore \textbf{sans apprentissage}
+                \item Dans les deux cas, une fois la sémantique acquise, ce qui reste est un problème
+                de \textbf{regroupement} : exactement l'objet de cette thèse
+            \end{itemize}
+
+            \vspace{0.30cm}
+            \begin{center}
+                \formulebox{\parbox{0.90\textwidth}{\centering\small
+                C'est là que notre hiérarchie a quelque chose à dire :\\
+                elle offre une \textbf{échelle} au lieu d'un seuil.}}
+            \end{center}
+        \end{column}
+
+        \begin{column}{0.42\textwidth}
+            \begin{center}
+                \includegraphics[height=0.62\textheight]{imgs/Resultat_Geo-4D.png}
+
+                \vspace{0.15cm}
+                {\scriptsize Suivi d'instances dans Geo-4D \citb{oh25}}
+            \end{center}
+        \end{column}
+    \end{columns}
+    \reffoot{oh25}
+\end{frame}
+
+\begin{frame}{Notre apport : des \emph{a priori} plutôt que des annotations}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.42\textwidth}
+            \begin{itemize}
+                \setlength{\itemsep}{12pt}
+                \item Nos \textbf{\emph{a priori} faibles} : les volumes attendus des objets
+                (véhicules, piétons), injectés dans la hiérarchie
+                \item Association temporelle par \textbf{transport optimal} déséquilibré $+$ filtre de
+                \textsc{Kalman}, sans apprentissage
             \end{itemize}
         \end{column}
 
-        \begin{column}{0.48\textwidth}
+        \begin{column}{0.55\textwidth}
             \begin{center}
-                \includegraphics[width=0.48\textwidth]{imgs/kitti_3d_prior_1.jpg}
+                \includegraphics[width=0.485\textwidth]{imgs/kitti_3d_prior_1.jpg}
                 \hfill
-                \includegraphics[width=0.48\textwidth]{imgs/kitti_3d_prior_2.jpg}
+                \includegraphics[width=0.485\textwidth]{imgs/kitti_3d_prior_2.jpg}
 
                 \vspace{0.3cm}
                 \scriptsize \emph{A priori} géométriques appliqués aux volumes des instances
             \end{center}
         \end{column}
     \end{columns}
-    \reffoot{sautier25,oh25}
 \end{frame}
 
 \begin{frame}{Résultats sur SemanticKITTI (200 trames)}
@@ -1716,6 +1792,7 @@
         \bibligne{robert23}
         \bibligne{rolle23}
         \bibligne{ge24}
+        \bibligne{ayana25}
         \bibligne{ravi24}
         \bibligne{sautier25}
         \bibligne{oh25}
@@ -1851,26 +1928,6 @@
 \end{frame}
 
 % --- LiDAR ---------------------------------------------------
-\begin{frame}{L'état de l'art LiDAR}
-    \begin{columns}[c, onlytextwidth]
-        \begin{column}{0.48\textwidth}
-            \begin{center}
-                \includegraphics[height=0.6\textheight]{imgs/Alpine.png}
-
-                {\small Alpine \citb{sautier25} : « \emph{Is clustering enough?} »}
-            \end{center}
-        \end{column}
-        \begin{column}{0.48\textwidth}
-            \begin{center}
-                \includegraphics[height=0.6\textheight]{imgs/Resultat_Geo-4D.png}
-
-                {\small Geo-4D \citb{oh25} : association géométrique 4D}
-            \end{center}
-        \end{column}
-    \end{columns}
-    \reffoot{sautier25,oh25}
-\end{frame}
-
 % --- Graphes signés ------------------------------------------
 \begin{frame}{L'assemblage d'haplotypes}
     \centering
