@@ -105,17 +105,27 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    **informer** l'attention plutôt que la contraindre — aucune IoU mesurée.
    L'architecture de SAM et le détail de ce biais sont en secours.
    *(d)* Le **modèle de fondation 3D** qui manque. La première diapositive pose
-   la question — « Vers un modèle de fondation pour la 3D ? » — et répond par
-   l'unité de calcul : le texte a son sous-mot, l'image son imagette, la 3D n'a
-   ni l'un ni l'autre. Les puces résument les deux candidats et leurs défauts
-   (le **point** est un échantillon d'acquisition, pas un objet ; le **voxel**
-   est une grille de résolution et d'orientation arbitraires, presque vide, qui
-   tranche les objets filiformes ; aucun des deux n'est stable d'une vue à
-   l'autre), puis situent Sonata, Concerto et Utonia sur ces deux unités-là.
-   Viennent ensuite le nuage de points comme artefact du capteur — c'est **là**
-   que sont traitées la densité, la portée et les occultations, pas sur la
-   diapositive précédente — puis le polyèdre comme alphabet et la hiérarchie
-   comme grammaire.
+   la question — « Vers un modèle de fondation pour la 3D ? » — et l'accroche
+   donne le cahier des charges d'un jeton : le sous-mot et l'imagette sont un
+   découpage **fixé une fois pour toutes, le même pour tous**. Les trois
+   premières puces le brisent unité par unité : le **point** n'a ni étendue ni
+   voisinage donné, c'est l'architecture qui les fabrique ($k$ voisins ? un
+   rayon ? — à dire à l'oral) ; le **voxel** fixe sa grille avant la scène, et
+   un décalage d'un demi-pas change le découpage ; le **pixel** de profondeur
+   ramène la grille, mais deux pixels voisins sont parfois à des mètres. La
+   quatrième situe Sonata, Concerto et Utonia — l'apprentissage change, pas
+   l'unité — et porte seule les crochets, donc seule le `\reffoot`.
+   Formulations écartées à dessein, elles ne doivent pas revenir : « presque
+   vide » (les convolutions creuses la réfutent en une phrase), « il tranche les
+   objets filiformes » (c'est la connexité d'ordre $K$ qui fait naître les
+   filiformes tard, la diapositive de secours le dit déjà), et « aucun des deux
+   n'est stable, vu de plus loin » (doublon mot pour mot avec la page suivante).
+   Le mot **capteur** n'apparaît nulle part sur cette page : il doit tomber au
+   titre suivant. À assumer si le jury cherche la source : « voxel » n'apparaît
+   dans aucun fichier du manuscrit, cette puce relève de la connaissance du
+   domaine. Viennent ensuite le nuage de points comme artefact du capteur —
+   c'est **là** que sont traitées la densité, la portée et les occultations —
+   puis le polyèdre comme alphabet et la hiérarchie comme grammaire.
    **Rien n'y est présenté comme acquis** : les sources sont
    `E-HGP/tests/SemanticKITTI/Zoltan/HierarchicalSelfAttention` (statut
    `foundation_claim = not_yet_earned`) et

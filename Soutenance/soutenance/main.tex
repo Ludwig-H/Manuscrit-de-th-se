@@ -1435,8 +1435,7 @@
 % ============================================================
 \begin{frame}[t]{Vers un modèle de fondation pour la 3D ?}
     \small
-    Le texte a son sous-mot, l'image son imagette. La 3D n'a pas encore son
-    \textbf{unité de calcul}
+    Le sous-mot et l'imagette : un découpage \textbf{fixé une fois pour toutes}, le même pour tous
 
     \vspace{0.06cm}
     \begin{center}
@@ -1446,13 +1445,14 @@
     \vspace{0.10cm}
     \begin{itemize}
         \setlength{\itemsep}{5pt}
-        \item Le \textbf{point} n'est pas un objet : c'est un échantillon d'acquisition, un tir de laser
-        \item Le \textbf{voxel} non plus : une case de grille, résolution et orientation choisies
-        d'avance ; presque vide, et il tranche les objets filiformes
-        \item Aucun des deux n'est \textbf{stable} : le même objet, vu de plus loin, ne rend pas
-        les mêmes points
-        \item Sonata \citb{sonata25}, Concerto \citb{concerto25}, Utonia \citb{utonia26} portent
-        sur ces deux unités : aucun \textbf{consensus} à ma connaissance
+        \item Le \textbf{point} n'a ni étendue ni voisinage donné : c'est l'architecture qui les
+        \emph{fabrique}
+        \item Le \textbf{voxel} fixe sa grille avant la scène : décalez-la d'un \emph{demi-pas},
+        le découpage change
+        \item Le \textbf{pixel} de profondeur ? La grille revient, mais deux pixels voisins sont
+        parfois à des mètres
+        \item Sonata \citb{sonata25}, Concerto \citb{concerto25}, Utonia \citb{utonia26} :
+        l'apprentissage change, pas l'\textbf{unité}
     \end{itemize}
     \reffoot{sonata25,concerto25,utonia26}
 \end{frame}
