@@ -73,12 +73,15 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    $T : (\mathcal X, d) \mapsto (\mathcal X, u)$, et les trois paires d'axiomes
    réalisées par autant de **règles d'arrêt** dans l'arbre du Single-Linkage — est
    passé en secours.
-   *(b)* La **dynamique hiérarchique** : horloges $\xi_e \sim \mathrm{Exp}(|W_e|)$,
-   filtration $\Pi_\beta$, avec $\Pi_1$ = partition gelée de Swendsen–Wang ;
-   Glauber aux feuilles, Swendsen–Wang aux racines, toute coupe laissant la loi
-   *a posteriori* invariante ; puis la **coupe critique** $\beta_c$, celle où les
-   amas gelés percolent. Source :
-   `Presentation-MathNet-2026-06-15/research/hierarchical-swendsen-wang`.
+   *(b)* La **dynamique de clusters hiérarchique**, en **une** diapositive : la
+   formule générale encadrée en haut (horloges $\xi_e \sim \mathrm{Exp}(|W_e|)$ sur
+   les arêtes satisfaites, filtration $\Pi_\beta$ des composantes connexes), le
+   dendrogramme, puis deux points — Glauber en coupant aux feuilles,
+   Swendsen–Wang en coupant aux racines ; et la coupe la plus prometteuse pour le
+   recouvrement faible, celle de la température de percolation. Le détail (la
+   construction des horloges, l'invariance de la postérieure, la **coupe
+   critique** $\beta_c$ et son statut de programme) est passé en secours.
+   Source : `Presentation-MathNet-2026-06-15/research/hierarchical-swendsen-wang`.
    *(c)* **Modèles de fondation et SAM** : ce qu'est un modèle de fondation et la
    condition rarement dite d'une unité de calcul stable ; l'architecture
    asymétrique de SAM et son interface d'invites ; l'adaptation LoRA
@@ -103,8 +106,10 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    présentation : stylométrie 5 auteurs, banc d'essai SIPU, huiles d'olive et leur
    matrice de confusion, protocole des vitesses, fenêtre gaussienne K→∞,
    haplotypes, cadre bayésien/Gibbs, Swendsen–Wang détaillé, modèle
-   Sankararaman–Baccelli, hiérarchie d'horloges, **Kruskal des horloges vers le
-   dendrogramme**, **la coupe critique $\beta_c$ en détail** (formule explicite,
+   Sankararaman–Baccelli, **les horloges par arête** et **la coupe où les amas
+   percolent** (les deux diapositives retirées du fil principal), hiérarchie
+   d'horloges, **Kruskal des horloges vers le dendrogramme**,
+   **la coupe critique $\beta_c$ en détail** (formule explicite,
    condition d'existence $p \ge (1+q_c)/2$, pondération des fusions par
    $\eta_u = \tanh^2(L_u/2)$, et la réserve : la coupe critique n'est pas
    sélectionnée par l'information), échelle des seuils GSBM, calibration SBM,

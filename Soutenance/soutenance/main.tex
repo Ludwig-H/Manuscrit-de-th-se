@@ -1306,80 +1306,30 @@
 \end{frame}
 
 % ============================================================
-% 7.b — La dynamique hiérarchique : une horloge par arête
+% 7.b — La dynamique de clusters hiérarchique
 % ============================================================
-\begin{frame}{Après \textsc{Swendsen}--\textsc{Wang} : une \emph{horloge} par arête}
-    \small
-    Un pas de \textsc{Swendsen}--\textsc{Wang} gèle chaque arête satisfaite avec probabilité
-    $1 - e^{-|W_e|}$, puis recolorie les amas gelés. Remplaçons ce tirage \emph{binaire} par un \textbf{temps}
-
-    \vspace{0.25cm}
+\begin{frame}{Une dynamique de clusters \textcolor{inria-rouge}{hiérarchique}}
+    \vspace{0.02cm}
     \begin{center}
-        \formulebox{\parbox{0.86\textwidth}{\centering
+        \formulebox{\parbox{0.86\textwidth}{\centering\small
         $\xi_e \sim \mathrm{Exp}\bigl(|W_e|\bigr)$ si $e$ est satisfaite, \quad $\xi_e = +\infty$ sinon ;\\[5pt]
         $\Pi_\beta \;=\;$ composantes connexes du graphe $\bigl(V, \{e : \xi_e \le \beta\}\bigr)$,
         \qquad $0 \le \beta \le 1$}}
     \end{center}
 
-    \vspace{0.25cm}
-    \begin{itemize}
-        \setlength{\itemsep}{9pt}
-        \item Comme $\mathbb P(\xi_e \le 1 \mid e \text{ satisfaite}) = 1 - e^{-|W_e|}$, la coupe à $\beta = 1$
-        redonne \textbf{exactement} la partition gelée de \textsc{Swendsen}--\textsc{Wang}
-        \item Mais un \emph{seul} tirage d'horloges contient désormais \textbf{toutes les échelles} intermédiaires :
-        les $\Pi_\beta$ sont emboîtées, elles forment un \textbf{dendrogramme} \citb{ii26} ;
-        $\beta$ est un temps de filtration, pas une température
-    \end{itemize}
-    \reffoot{ii26}
-\end{frame}
-
-% ------------------------------------------------------------
-\begin{frame}{Les deux bouts de l'arbre : \textsc{Glauber} et \textsc{Swendsen}--\textsc{Wang}}
+    \vspace{0.10cm}
     \begin{center}
-        \resizebox{0.72\textwidth}{!}{\input{figs/dendro_horloges}}
+        \resizebox{0.54\textwidth}{!}{\input{figs/dendro_horloges}}
     \end{center}
 
-    \vspace{0.15cm}
+    \vspace{0.12cm}
     \small
     \begin{itemize}
-        \setlength{\itemsep}{6pt}
-        \item À chaque \textbf{nœud} de l'arbre, un \emph{bain thermique} exact : tirer le dendrogramme
-        d'horloges $D$ sachant $\sigma$, appliquer les bains à $D$ fixé, oublier $D$ ; tout ordonnancement
-        des nœuds choisi \emph{indépendamment} de la configuration laisse la loi \emph{a posteriori}
-        invariante (démontré en volume fini)
-        \item \textbf{À une racine} (une composante de $\Pi_1$), retourner l'amas entier se fait à pile ou
-        face : c'est \textsc{Swendsen}--\textsc{Wang}. \textbf{À une feuille}, la mise à jour porte sur un
-        spin isolé : c'est un bain de \textsc{Glauber}
-        \item Entre les deux, un bain à \textbf{quatre états} (retourner ou non chacun des deux fils) :
-        la famille \textbf{interpole} entre \textsc{Swendsen}--\textsc{Wang} et les dynamiques locales
-    \end{itemize}
-\end{frame}
-
-% ------------------------------------------------------------
-\begin{frame}[t]{Quelle coupe choisir ? Celle où les amas \textcolor{inria-rouge}{percolent}}
-    \begin{center}
-        \resizebox{0.46\textwidth}{!}{\input{figs/coupe_percolation}}
-    \end{center}
-
-    \vspace{0.02cm}
-    \begin{center}
-        \formulebox{\parbox{0.80\textwidth}{\centering\small
-        densité d'arêtes ouvertes avant $\beta$ :
-        $\;q_p(\beta) = p\left(1 - e^{-u_p \beta}\right)$, \; $u_p = \log\tfrac{p}{1-p}$ ;\\[3pt]
-        \textbf{coupe critique} $\beta_c$ : $\;q_p(\beta_c) = q_c$, le seuil de percolation du réseau}}
-    \end{center}
-
-    \vspace{0.06cm}
-    \footnotesize
-    \begin{itemize}
-        \setlength{\itemsep}{3pt}
-        \item Seule une masse \textbf{macroscopique} transporte de l'information : c'est ce que dit
-        la borne de recouvrement de la partie précédente, évaluée à l'horizon $\beta = 1$
-        \item Sur la grille triangulaire, au seuil de percolation de l'\emph{information}, le temps
-        informationnel et $\beta_c$ \textbf{coïncident} \citb{ii26} : le meilleur argument dont nous
-        disposons pour dire que c'est la bonne coupe
-        \item \textbf{Statut : un programme.} Notre meilleure borne rigoureuse vient d'une \emph{autre}
-        source (un canal d'information à plusieurs états sur les triangles) et \emph{pas} de cette dynamique
+        \setlength{\itemsep}{5pt}
+        \item En coupant aux \textbf{feuilles}, on retrouve \textsc{Glauber} ; en coupant aux
+        \textbf{racines}, \textsc{Swendsen}--\textsc{Wang}
+        \item La coupe la plus prometteuse pour le \textbf{recouvrement faible} :
+        la \textbf{température de percolation} \citb{ii26}
     \end{itemize}
     \reffoot{ii26}
 \end{frame}
@@ -1974,6 +1924,31 @@
     \reffoot{sb18}
 \end{frame}
 
+\begin{frame}{Après \textsc{Swendsen}--\textsc{Wang} : une \emph{horloge} par arête}
+    \small
+    Un pas de \textsc{Swendsen}--\textsc{Wang} gèle chaque arête satisfaite avec probabilité
+    $1 - e^{-|W_e|}$, puis recolorie les amas gelés. Remplaçons ce tirage \emph{binaire} par un \textbf{temps}
+
+    \vspace{0.25cm}
+    \begin{center}
+        \formulebox{\parbox{0.86\textwidth}{\centering
+        $\xi_e \sim \mathrm{Exp}\bigl(|W_e|\bigr)$ si $e$ est satisfaite, \quad $\xi_e = +\infty$ sinon ;\\[5pt]
+        $\Pi_\beta \;=\;$ composantes connexes du graphe $\bigl(V, \{e : \xi_e \le \beta\}\bigr)$,
+        \qquad $0 \le \beta \le 1$}}
+    \end{center}
+
+    \vspace{0.25cm}
+    \begin{itemize}
+        \setlength{\itemsep}{9pt}
+        \item Comme $\mathbb P(\xi_e \le 1 \mid e \text{ satisfaite}) = 1 - e^{-|W_e|}$, la coupe à $\beta = 1$
+        redonne \textbf{exactement} la partition gelée de \textsc{Swendsen}--\textsc{Wang}
+        \item Mais un \emph{seul} tirage d'horloges contient désormais \textbf{toutes les échelles} intermédiaires :
+        les $\Pi_\beta$ sont emboîtées, elles forment un \textbf{dendrogramme} \citb{ii26} ;
+        $\beta$ est un temps de filtration, pas une température
+    \end{itemize}
+    \reffoot{ii26}
+\end{frame}
+
 \begin{frame}{La hiérarchie d'horloges, en détail}
     \begin{itemize}
         \setlength{\itemsep}{8pt}
@@ -2006,6 +1981,35 @@
         \item L'arête $\{d,e\}$ n'a jamais sonné avant l'horizon ($\xi = 1{,}26 > 1$) : le sommet $e$ reste
         \textbf{isolé}, et $\Pi_1$ a deux composantes
     \end{itemize}
+\end{frame}
+
+\begin{frame}[t]{Quelle coupe choisir ? Celle où les amas \textcolor{inria-rouge}{percolent}}
+    \vspace{-0.10cm}
+    \begin{center}
+        \resizebox{0.41\textwidth}{!}{\input{figs/coupe_percolation}}
+    \end{center}
+
+    \vspace{0.02cm}
+    \begin{center}
+        \formulebox{\parbox{0.80\textwidth}{\centering\small
+        densité d'arêtes ouvertes avant $\beta$ :
+        $\;q_p(\beta) = p\left(1 - e^{-u_p \beta}\right)$, \; $u_p = \log\tfrac{p}{1-p}$ ;\\[3pt]
+        \textbf{coupe critique} $\beta_c$ : $\;q_p(\beta_c) = q_c$, le seuil de percolation du réseau}}
+    \end{center}
+
+    \vspace{0.06cm}
+    \footnotesize
+    \begin{itemize}
+        \setlength{\itemsep}{3pt}
+        \item Seule une masse \textbf{macroscopique} transporte de l'information : c'est ce que dit
+        la borne de recouvrement de la partie précédente, évaluée à l'horizon $\beta = 1$
+        \item Sur la grille triangulaire, au seuil de percolation de l'\emph{information}, le temps
+        informationnel et $\beta_c$ \textbf{coïncident} \citb{ii26} : le meilleur argument dont nous
+        disposons pour dire que c'est la bonne coupe
+        \item \textbf{Statut : un programme.} Notre meilleure borne rigoureuse vient d'une \emph{autre}
+        source (un canal d'information à plusieurs états sur les triangles) et \emph{pas} de cette dynamique
+    \end{itemize}
+    \reffoot{ii26}
 \end{frame}
 
 \begin{frame}{La coupe critique $\beta_c$, en détail}
