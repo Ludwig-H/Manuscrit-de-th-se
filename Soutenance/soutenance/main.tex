@@ -1204,18 +1204,38 @@
     \vspace{0.10cm}
     \begin{center}
         {\small $\mathcal H_\sigma(x)=\nabla^{2}\!\left(G_\sigma * I\right)\!(x)$, symétrique réelle :
-        axes propres $e_1,e_2$, demi-axes $1/\sqrt{|\lambda_1|}$ et $1/\sqrt{|\lambda_2|}$ \citb{frangi98}}
+        axes propres $e_1,e_2$, demi-axes $1/\sqrt{|\lambda_1|}$ et $1/\sqrt{|\lambda_2|}$}
     \end{center}
 
-    \vspace{0.02cm}
-    \begin{center}
-        \resizebox{0.46\linewidth}{!}{\input{figs/frangi_hessienne}}
-    \end{center}
+    \vspace{0.06cm}
+    \begin{columns}[c,onlytextwidth]
+        \begin{column}{0.42\textwidth}
+            \begin{center}
+                \resizebox{0.80\linewidth}{!}{\input{figs/frangi_hessienne}}
+            \end{center}
+        \end{column}
+        \begin{column}{0.56\textwidth}
+            \small
+            Le filtre de \textsc{Frangi} \citb{frangi98} en tire \textbf{deux} nombres :
+            \vspace{0.14cm}
+            \begin{itemize}
+                \setlength{\itemsep}{7pt}
+                \item $R_B=\dfrac{|\lambda_1|}{|\lambda_2|}$ : la \textbf{forme}\\[1pt]
+                {\footnotesize $0$ pour une crête très allongée, $1$ pour un disque}
+                \item $S=\sqrt{\lambda_1^{2}+\lambda_2^{2}}$ : le \textbf{contraste}\\[1pt]
+                {\footnotesize la force des courbures}
+            \end{itemize}
+        \end{column}
+    \end{columns}
 
-    \vspace{0.10cm}
+    \vspace{0.04cm}
     \begin{center}
-        {\small \textbf{Crête sombre} : $\lambda_2>0$ \textbf{grand} en travers, $|\lambda_1|$
-        \textbf{petit} le long ; l'angle $\theta$ de $e_1$ oriente la fissure}
+        \formulebox{\parbox{0.84\textwidth}{\centering\small
+        $\displaystyle \mathcal V_\sigma(x)=
+        \exp\!\left(-\frac{R_B^{2}}{2\beta^{2}}\right)
+        \left(1-\exp\!\left(-\frac{S^{2}}{2c^{2}}\right)\right)$
+        \quad si $\lambda_2>0$, \; $0$ sinon\\[2pt]
+        {\footnotesize la \emph{vesselness} : une crête sombre, contrastée --- mais un pixel à la fois}}}
     \end{center}
     \reffoot{frangi98}
 \end{frame}
@@ -1239,44 +1259,6 @@
         {\footnotesize le sinus, car $\theta$ et $\theta+\pi$ décrivent le même axe} \citb{gretsi25} \citb{euvip26}}}
     \end{center}
     \reffoot{gretsi25,euvip26}
-\end{frame}
-
-\begin{frame}[t]{De la similarité au squelette : la chaîne d'extraction}
-    \begin{center}
-        \begin{tabular}{@{}c@{\;}c@{\;}c@{\;}c@{\;}c@{\;}c@{\;}c@{\;}c@{\;}c@{}}
-            \includegraphics[width=0.126\textwidth]{imgs/Int_1FIND.png} & $\rightarrow$ &
-            \includegraphics[width=0.126\textwidth]{imgs/FrangiSim_1FIND.png} & $\rightarrow$ &
-            \includegraphics[width=0.126\textwidth]{imgs/Cluster_1FIND.png} & $\rightarrow$ &
-            \includegraphics[width=0.126\textwidth]{imgs/Betweenness_1FIND.png} & $\rightarrow$ &
-            \includegraphics[width=0.126\textwidth]{imgs/Resultat_1FIND.png} \\[1pt]
-            {\scriptsize \textsc{Frangi} au pixel} & &
-            {\scriptsize similarité d'arête} & &
-            {\scriptsize composante} & &
-            {\scriptsize centralité} & &
-            {\scriptsize squelette} \\
-        \end{tabular}
-    \end{center}
-
-    \vspace{0.12cm}
-    \footnotesize
-    \begin{itemize}
-        \setlength{\itemsep}{3pt}
-        \item \textbf{Seuiller} les arêtes puis les sommets (une seule fraction $\tau$), garder les
-        \textbf{composantes} assez grandes --- une seule sur FIND, toutes ailleurs
-        \item \textbf{Arbre couvrant minimal} par composante : la réponse épaisse devient une structure
-        d'axe unique \citb{euvip26}
-        \item \textbf{Centralité pondérée sur l'arbre}, en $\mathcal O(|V|)$ : masses des sous-arbres
-        accumulées, réenracinement au maximum, élagage descendant --- l'axe principal reste
-        \item \textbf{La suite, à l'ordre 2} : deux arêtes ne se recollent que par un \textbf{triangle} \citb{ans26} \citb{isprs26}
-    \end{itemize}
-
-    \vspace{0.06cm}
-    \begin{center}
-        {\footnotesize Sur FIND, \textbf{sans apprentissage} : $63\,\%$ de \textsc{Jaccard} en fusionnant
-        les trois modalités ($60\,\%$ à deux) --- CrackSegDiff, supervisé, atteint $87\,\%$ sur données
-        propres, mais s'effondre sous le bruit}
-    \end{center}
-    \reffoot{euvip26,ans26,isprs26}
 \end{frame}
 
 % ============================================================
@@ -2121,6 +2103,44 @@
 \end{frame}
 
 % --- Fissures ------------------------------------------------
+\begin{frame}[t]{De la similarité au squelette : la chaîne d'extraction}
+    \begin{center}
+        \begin{tabular}{@{}c@{\;}c@{\;}c@{\;}c@{\;}c@{\;}c@{\;}c@{\;}c@{\;}c@{}}
+            \includegraphics[width=0.126\textwidth]{imgs/Int_1FIND.png} & $\rightarrow$ &
+            \includegraphics[width=0.126\textwidth]{imgs/FrangiSim_1FIND.png} & $\rightarrow$ &
+            \includegraphics[width=0.126\textwidth]{imgs/Cluster_1FIND.png} & $\rightarrow$ &
+            \includegraphics[width=0.126\textwidth]{imgs/Betweenness_1FIND.png} & $\rightarrow$ &
+            \includegraphics[width=0.126\textwidth]{imgs/Resultat_1FIND.png} \\[1pt]
+            {\scriptsize \textsc{Frangi} au pixel} & &
+            {\scriptsize similarité d'arête} & &
+            {\scriptsize composante} & &
+            {\scriptsize centralité} & &
+            {\scriptsize squelette} \\
+        \end{tabular}
+    \end{center}
+
+    \vspace{0.12cm}
+    \footnotesize
+    \begin{itemize}
+        \setlength{\itemsep}{3pt}
+        \item \textbf{Seuiller} les arêtes puis les sommets (une seule fraction $\tau$), garder les
+        \textbf{composantes} assez grandes --- une seule sur FIND, toutes ailleurs
+        \item \textbf{Arbre couvrant minimal} par composante : la réponse épaisse devient une structure
+        d'axe unique \citb{euvip26}
+        \item \textbf{Centralité pondérée sur l'arbre}, en $\mathcal O(|V|)$ : masses des sous-arbres
+        accumulées, réenracinement au maximum, élagage descendant --- l'axe principal reste
+        \item \textbf{La suite, à l'ordre 2} : deux arêtes ne se recollent que par un \textbf{triangle} \citb{ans26} \citb{isprs26}
+    \end{itemize}
+
+    \vspace{0.06cm}
+    \begin{center}
+        {\footnotesize Sur FIND, \textbf{sans apprentissage} : $63\,\%$ de \textsc{Jaccard} en fusionnant
+        les trois modalités ($60\,\%$ à deux) --- CrackSegDiff, supervisé, atteint $87\,\%$ sur données
+        propres, mais s'effondre sous le bruit}
+    \end{center}
+    \reffoot{euvip26,ans26,isprs26}
+\end{frame}
+
 \begin{frame}{VT-GraF : la connexité $K = 2$ sur le terrain}
     \begin{center}
         \includegraphics[width=0.94\textwidth]{imgs/Raphael_algo_1.png}
