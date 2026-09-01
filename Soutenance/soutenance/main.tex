@@ -782,33 +782,6 @@
     \reffoot{edelsbrunner23,ans26}
 \end{frame}
 
-\begin{frame}{En pratique ($K=2$) : les huiles d'olive italiennes \citb{forina83}}
-    \begin{columns}[c, onlytextwidth]
-        \begin{column}{0.40\textwidth}
-            \begin{center}
-                \includegraphics[width=0.74\textwidth]{imgs/OliveOil_HDBSCAN.png}
-
-                \vspace{0.2cm}
-                {\small HDBSCAN : 3 macrorégions}
-            \end{center}
-        \end{column}
-        \begin{column}{0.58\textwidth}
-            \begin{center}
-                \includegraphics[width=0.84\textwidth]{imgs/OliveOil_KPoly_dendro.png}
-
-                \vspace{0.2cm}
-                {\small $2$-polyèdres : \textbf{8 provinces identifiées}\\[-1pt]
-                parmi les $72\,\%$ de points classés}
-            \end{center}
-        \end{column}
-    \end{columns}
-    \vspace{0.25cm}
-    \begin{center}
-        \small Au-delà de l'état de l'art \citb{rolle23} \citb{ans26}
-    \end{center}
-    \reffoot{forina83,rolle23,ans26}
-\end{frame}
-
 % ============================================================
 % IV. La percolation, mesure de performance
 % ============================================================
@@ -1910,6 +1883,33 @@
             {\scriptsize ARI ; grille : vérité, HDBSCAN, notre algorithme}
         \end{column}
     \end{columns}
+\end{frame}
+
+\begin{frame}{En pratique ($K=2$) : les huiles d'olive italiennes \citb{forina83}}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.40\textwidth}
+            \begin{center}
+                \includegraphics[width=0.74\textwidth]{imgs/OliveOil_HDBSCAN.png}
+
+                \vspace{0.2cm}
+                {\small HDBSCAN : 3 macrorégions}
+            \end{center}
+        \end{column}
+        \begin{column}{0.58\textwidth}
+            \begin{center}
+                \includegraphics[width=0.84\textwidth]{imgs/OliveOil_KPoly_dendro.png}
+
+                \vspace{0.2cm}
+                {\small $2$-polyèdres : \textbf{8 provinces identifiées}\\[-1pt]
+                parmi les $72\,\%$ de points classés}
+            \end{center}
+        \end{column}
+    \end{columns}
+    \vspace{0.25cm}
+    \begin{center}
+        \small Au-delà de l'état de l'art \citb{rolle23} \citb{ans26}
+    \end{center}
+    \reffoot{forina83,rolle23,ans26}
 \end{frame}
 
 \begin{frame}{Huiles d'olive : la matrice de confusion}
