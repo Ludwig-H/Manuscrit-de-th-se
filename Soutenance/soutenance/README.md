@@ -53,10 +53,11 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    détection de fissures, en trois diapositives suivant le papier EUVIP 2026 :
    le contexte et un exemple FIND (où l'on dit que la fusion multimodale se fait
    **au niveau de l'opérateur**, sur les hessiennes et non sur les réponses) ;
-   la **hessienne lue sur une ellipse** — axes propres $e_1,e_2$, demi-axes
-   $1/\sqrt{|\lambda_1|}$ et $1/\sqrt{|\lambda_2|}$, angle $\theta$ — d'où le
-   filtre de Frangi tire ses **deux** nombres, la forme $R_B=|\lambda_1|/|\lambda_2|$
-   et le contraste $S=\lVert\mathcal H_\sigma\rVert_F$, et sa *vesselness* ;
+   la **hessienne** comme information sur les structures tubulaires, lue sur une
+   ellipse (axes propres $e_1,e_2$, demi-axes $1/\sqrt{|\lambda_1|}$ et
+   $1/\sqrt{|\lambda_2|}$, angle $\theta$) : le filtre de Frangi en tire ses
+   **deux** nombres, la forme $R_B=|\lambda_1|/|\lambda_2|$ et le contraste
+   $S=\lVert\mathcal H_\sigma\rVert_F$, puis sa réponse ;
    puis l'**alignement**, le troisième terme, celui que le graphe ajoute au filtre
    classique, avec ses deux cas (directions concordantes / croisées) et sa formule
    encadrée ; enfin le **fond granulaire** (VT-GraF, visible + thermique), où chaque
@@ -76,12 +77,15 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    $T : (\mathcal X, d) \mapsto (\mathcal X, u)$, et les trois paires d'axiomes
    réalisées par autant de **règles d'arrêt** dans l'arbre du Single-Linkage — est
    passé en secours.
-   *(b)* La **dynamique hiérarchique** : horloges $\xi_e \sim \mathrm{Exp}(|W_e|)$,
-   filtration $\Pi_\beta$, avec $\Pi_1$ = partition gelée de Swendsen–Wang ;
-   Glauber aux feuilles, Swendsen–Wang aux racines, toute coupe laissant la loi
-   *a posteriori* invariante ; puis la **coupe critique** $\beta_c$, celle où les
-   amas gelés percolent. Source :
-   `Presentation-MathNet-2026-06-15/research/hierarchical-swendsen-wang`.
+   *(b)* La **dynamique de clusters hiérarchique**, en **une** diapositive : la
+   formule générale encadrée en haut (horloges $\xi_e \sim \mathrm{Exp}(|W_e|)$ sur
+   les arêtes satisfaites, filtration $\Pi_\beta$ des composantes connexes), le
+   dendrogramme, puis deux points — Glauber en coupant aux feuilles,
+   Swendsen–Wang en coupant aux racines ; et la coupe la plus prometteuse pour le
+   recouvrement faible, celle de la température de percolation. Le détail (la
+   construction des horloges, l'invariance de la postérieure, la **coupe
+   critique** $\beta_c$ et son statut de programme) est passé en secours.
+   Source : `Presentation-MathNet-2026-06-15/research/hierarchical-swendsen-wang`.
    *(c)* **Modèles de fondation et SAM**, en trois diapositives courtes : les
    quatre conditions communément demandées (échelle, auto-supervision,
    adaptabilité, émergence) avec la figure des jetons, sous-mot pour le texte et
@@ -108,8 +112,10 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    présentation : stylométrie 5 auteurs, banc d'essai SIPU, huiles d'olive et leur
    matrice de confusion, protocole des vitesses, fenêtre gaussienne K→∞,
    haplotypes, cadre bayésien/Gibbs, Swendsen–Wang détaillé, modèle
-   Sankararaman–Baccelli, hiérarchie d'horloges, **Kruskal des horloges vers le
-   dendrogramme**, **la coupe critique $\beta_c$ en détail** (formule explicite,
+   Sankararaman–Baccelli, **les horloges par arête** et **la coupe où les amas
+   percolent** (les deux diapositives retirées du fil principal), hiérarchie
+   d'horloges, **Kruskal des horloges vers le dendrogramme**,
+   **la coupe critique $\beta_c$ en détail** (formule explicite,
    condition d'existence $p \ge (1+q_c)/2$, pondération des fusions par
    $\eta_u = \tanh^2(L_u/2)$, et la réserve : la coupe critique n'est pas
    sélectionnée par l'information), échelle des seuils GSBM, calibration SBM,
