@@ -50,14 +50,14 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    nécessaire au recouvrement faible et $\theta$ borne la fraction recouvrable —,
    un argument de couplage la retrouve exactement dans le cadre bayésien, et la
    dynamique triangulaire donne une borne strictement meilleure) et
-   détection de fissures, en trois diapositives suivant le papier EUVIP 2026 :
+   détection de fissures, en quatre diapositives suivant le papier EUVIP 2026 :
    le contexte et un exemple FIND (où l'on dit que la fusion multimodale se fait
-   **au niveau de l'opérateur**, sur les hessiennes et non sur les réponses),
-   puis la méthode — la hessienne lissée, sa décomposition spectrale, l'ellipse
-   de $|\mathcal H_\sigma|$ où se lisent $\lambda_1,\lambda_2$, $v_1,v_2$ et
-   l'angle $\theta$, puis les trois contraintes portées par une **arête**, le
-   terme d'**alignement** étant encadré parce que c'est ce que le graphe ajoute
-   au filtre de Frangi classique —, puis la chaîne d'extraction
+   **au niveau de l'opérateur**, sur les hessiennes et non sur les réponses) ;
+   la **hessienne lue sur une ellipse** — axes propres $e_1,e_2$, demi-axes
+   $1/\sqrt{|\lambda_1|}$ et $1/\sqrt{|\lambda_2|}$, angle $\theta$ ;
+   l'**alignement**, ce que le graphe ajoute au filtre classique, avec les deux
+   cas (directions concordantes / croisées) et sa formule encadrée ;
+   puis la chaîne d'extraction
    illustrée par les cartes intermédiaires du papier (seuillage → composantes →
    arbre couvrant minimal → centralité pondérée en $\mathcal O(|V|)$ → squelette)
    et le résultat FIND, avec l'extension triangulaire d'ordre 2 en perspective ;
@@ -148,7 +148,7 @@ elle-même.
 - `figs/*.tex` — blocs TikZ extraits (et francisés) de
   `../NEO-AMELEAS_Workshop/main.tex` et `../beamer-presentation-neo/main.tex`.
   Les figures propres à cette présentation (`graphe_signe`, `sw_motifs`,
-  `frangi_hessienne`, `chaine_objets_cibles`, `polyedre_facettes`,
+  `frangi_hessienne`, `frangi_alignement`, `chaine_objets_cibles`, `polyedre_facettes`,
   `alphabet_fondation`, `verrou_portee`, `hierarchie_surfaces`,
   `equilibre_continuite`, `programme_falsification`, `hsa_chenille`,
   `pipeline_polyfm`) sont dessinées pour cette présentation, sans image importée.
@@ -163,11 +163,11 @@ elle-même.
   Frangi, l'ordre 2 y étant désormais une ligne de perspective ; `frangi_termes.tex`
   (les trois vignettes courbure / élongation / alignement) a été remplacée par
   `frangi_hessienne.tex` quand la diapositive est devenue mathématique.
-- **L'ellipse de `frangi_hessienne`** est le niveau $\{u : u^{\top}|\mathcal H_\sigma|\,u = 1\}$
-  de la **valeur absolue** de la hessienne, $|\mathcal H_\sigma|=\sum_k|\lambda_k|v_kv_k^{\top}$,
-  et non de $\mathcal H_\sigma$ : sur une crête $\lambda_1$ est proche de zéro et de signe
-  quelconque, donc le niveau de $\mathcal H_\sigma$ serait une hyperbole. Les demi-axes
-  $1/\sqrt{|\lambda_k|}$ portés par les $v_k$ restent ceux qui sont cotés.
+- **L'ellipse de `frangi_hessienne`** est définie par ses axes ($e_1,e_2$) et ses
+  demi-axes ($1/\sqrt{|\lambda_k|}$), et non comme un ensemble de niveau : sur une
+  crête $\lambda_1$ est proche de zéro et de signe quelconque, si bien que
+  $\{u : u^{\top}\mathcal H_\sigma u = 1\}$ serait une hyperbole. Ne pas réintroduire
+  cette écriture sur la diapositive.
 - **Cartes intermédiaires FIND** (`Int_1FIND`, `Cluster_1FIND`,
   `Betweenness_1FIND`, à côté de `FrangiSim_1FIND` et `Resultat_1FIND`) —
   recopiées telles quelles de `EUVIP/LaTeX/` : ce sont les figures du papier
