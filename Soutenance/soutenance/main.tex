@@ -1290,7 +1290,10 @@
 % ============================================================
 % 7.a — Retour au point de départ : Kleinberg, puis Carlsson--Mémoli
 % ============================================================
-\begin{frame}{Retour au début : le théorème d'impossibilité de \textsc{Kleinberg}}
+% Les deux diapositives qui suivent sont la même planche, la seconde ajoutant
+% la seule ligne de sortie (Carlsson & Mémoli). Le corps est écrit une fois ici
+% pour qu'une correction ne puisse pas n'en toucher qu'une des deux.
+\newcommand{\KleinbergCorps}{%
     \begin{columns}[c, onlytextwidth]
         \begin{column}{0.60\textwidth}
             \small
@@ -1314,16 +1317,21 @@
             \centering
             \resizebox{0.86\textwidth}{!}{\input{figs/kleinberg_axiomes}}
         \end{column}
-    \end{columns}
+    \end{columns}}
 
-    \vspace{0.26cm}
+\begin{frame}[t]{Retour au début : le théorème d'impossibilité de \textsc{Kleinberg}}
+    \KleinbergCorps
+    \reffoot{kleinberg02}
+\end{frame}
+
+\begin{frame}[t]{Retour au début : le théorème d'impossibilité de \textsc{Kleinberg}}
+    \KleinbergCorps
+
+    \vspace{0.34cm}
     \small
     \begin{itemize}
-        \setlength{\itemsep}{5pt}
-        \item La sortie n'est donc pas une partition mais un \textbf{dendrogramme} : on garde
-        toutes les échelles, et la coupe revient à l'utilisateur
-        \item Sous trois axiomes adaptés à cette sortie, \textbf{le Single-Linkage est la seule
-        solution} \citb{carlsson10}
+        \item \textsc{Carlsson} \& \textsc{Mémoli} ont trouvé la solution, et elle est
+        \textbf{hiérarchique} : c'est le \textbf{Single-Linkage} \citb{carlsson10}
     \end{itemize}
     \reffoot{kleinberg02,carlsson10}
 \end{frame}

@@ -69,16 +69,18 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    GRETSI 2025 → EUVIP 2026 → ISPRS en cours.
 7. **Perspectives : la voie hiérarchique** — quatre blocs, une illustration par
    diapositive, le détail renvoyé en secours.
-   *(a)* Retour au début de l'exposé, en **une** diapositive : le théorème
-   d'impossibilité de Kleinberg dans les notations du manuscrit
-   (`PartI/ChapII.tex` : $\mathcal C : (\mathcal X, d)$ vers une partition ;
-   axiomes (i) invariance d'échelle, (ii) richesse, (iii) cohérence), puis, en
-   deux points, la sortie qu'elle impose : un **dendrogramme** plutôt qu'une
-   partition, et le Single-Linkage comme seule solution sous les axiomes adaptés
-   (Carlsson–Mémoli 2010). Le développement — ultramétrique
-   $T : (\mathcal X, d) \mapsto (\mathcal X, u)$, et les trois paires d'axiomes
-   réalisées par autant de **règles d'arrêt** dans l'arbre du Single-Linkage — est
-   passé en secours.
+   *(a)* Retour au début de l'exposé : le théorème d'impossibilité de Kleinberg
+   dans les notations du manuscrit (`PartI/ChapII.tex` : $\mathcal C : (\mathcal X, d)$
+   vers une partition ; axiomes (i) invariance d'échelle, (ii) richesse,
+   (iii) cohérence). La planche est **dupliquée** : d'abord l'impossibilité
+   seule, puis la même page avec une **unique** ligne de sortie — Carlsson &
+   Mémoli ont trouvé la solution, et elle est hiérarchique, c'est le
+   Single-Linkage. Le corps commun est écrit une fois, dans `\KleinbergCorps`
+   juste au-dessus des deux `frame` : une correction ne peut donc pas ne toucher
+   qu'une des deux pages. Le développement — la sortie dendrogramme,
+   l'ultramétrique $T : (\mathcal X, d) \mapsto (\mathcal X, u)$, et les trois
+   paires d'axiomes réalisées par autant de **règles d'arrêt** dans l'arbre du
+   Single-Linkage — est passé en secours.
    *(b)* La **dynamique de clusters hiérarchique**, en **une** diapositive : la
    formule générale encadrée en haut (horloges $\xi_e \sim \mathrm{Exp}(|W_e|)$ sur
    les arêtes satisfaites, filtration $\Pi_\beta$ des composantes connexes), le
