@@ -1261,6 +1261,34 @@
     \reffoot{gretsi25,euvip26}
 \end{frame}
 
+\begin{frame}[t]{Un fond granulaire : l'ordre 2 coupe les ponts parasites}
+    \vspace{0.10cm}
+    \begin{center}
+        \includegraphics[width=0.94\textwidth]{imgs/VTGraF_granularite.png}\\[3pt]
+        \begin{minipage}{0.94\textwidth}\scriptsize\centering
+            \makebox[0.3266\linewidth]{visible granulaire}\hfill
+            \makebox[0.3266\linewidth]{réponse de \textsc{Frangi} au pixel}\hfill
+            \makebox[0.3266\linewidth]{composante retenue en bleu}
+        \end{minipage}
+    \end{center}
+
+    \vspace{0.20cm}
+    \footnotesize
+    \begin{itemize}
+        \setlength{\itemsep}{5pt}
+        \item Chaque caillou porte une réponse : le fond est aussi « crête » que la fissure
+        \item Une \textbf{chaîne d'arêtes} suffit alors à sauter de caillou en caillou --- le fond percole
+        \item À l'\textbf{ordre 2}, deux arêtes ne se recollent que par un \textbf{triangle} : une chaîne sans
+        triangle ne propage plus la connexité, et la vitesse de percolation croît avec $K$ \citb{ans26}
+    \end{itemize}
+
+    \vspace{0.12cm}
+    \begin{center}
+        {\footnotesize VT-GraF (visible $+$ thermique) : $K=2$ est le réglage retenu, l'évaluation appariée est en cours \citb{isprs26}}
+    \end{center}
+    \reffoot{ans26,isprs26}
+\end{frame}
+
 % ============================================================
 % VII. Perspectives : la voie hiérarchique
 % ============================================================
