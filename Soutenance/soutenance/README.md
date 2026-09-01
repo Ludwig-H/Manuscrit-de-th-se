@@ -50,17 +50,16 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    nécessaire au recouvrement faible et $\theta$ borne la fraction recouvrable —,
    un argument de couplage la retrouve exactement dans le cadre bayésien, et la
    dynamique triangulaire donne une borne strictement meilleure) et
-   détection de fissures, en quatre diapositives suivant le papier EUVIP 2026 :
+   détection de fissures, en trois diapositives suivant le papier EUVIP 2026 :
    le contexte et un exemple FIND (où l'on dit que la fusion multimodale se fait
    **au niveau de l'opérateur**, sur les hessiennes et non sur les réponses) ;
    la **hessienne lue sur une ellipse** — axes propres $e_1,e_2$, demi-axes
-   $1/\sqrt{|\lambda_1|}$ et $1/\sqrt{|\lambda_2|}$, angle $\theta$ ;
-   l'**alignement**, ce que le graphe ajoute au filtre classique, avec les deux
-   cas (directions concordantes / croisées) et sa formule encadrée ;
-   puis la chaîne d'extraction
-   illustrée par les cartes intermédiaires du papier (seuillage → composantes →
-   arbre couvrant minimal → centralité pondérée en $\mathcal O(|V|)$ → squelette)
-   et le résultat FIND, avec l'extension triangulaire d'ordre 2 en perspective ;
+   $1/\sqrt{|\lambda_1|}$ et $1/\sqrt{|\lambda_2|}$, angle $\theta$ — d'où le
+   filtre de Frangi tire ses **deux** nombres, la forme $R_B=|\lambda_1|/|\lambda_2|$
+   et le contraste $S=\lVert\mathcal H_\sigma\rVert_F$, et sa *vesselness* ;
+   puis l'**alignement**, le troisième terme, celui que le graphe ajoute au filtre
+   classique, avec ses deux cas (directions concordantes / croisées) et sa formule
+   encadrée. La chaîne d'extraction est passée en secours.
    GRETSI 2025 → EUVIP 2026 → ISPRS en cours.
 7. **Perspectives : la voie hiérarchique** — quatre blocs, une illustration par
    diapositive, le détail renvoyé en secours.
@@ -106,7 +105,10 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    condition d'existence $p \ge (1+q_c)/2$, pondération des fusions par
    $\eta_u = \tanh^2(L_u/2)$, et la réserve : la coupe critique n'est pas
    sélectionnée par l'information), échelle des seuils GSBM, calibration SBM,
-   validation 10⁶ nœuds, VT-GraF, robustesse, transferts, sensibilité,
+   validation 10⁶ nœuds, **la chaîne d'extraction du graphe de Frangi** (cartes
+   intermédiaires du papier : seuillage → composantes → arbre couvrant minimal →
+   centralité pondérée en $\mathcal O(|V|)$ → squelette, le résultat FIND et
+   l'ordre 2 en perspective), VT-GraF, robustesse, transferts, sensibilité,
    CrackSAM-GeoLoRA, **la suite progressive de guidage de SAM** (plafond par
    oracle, invites natives, biais additif), **ce que HSA exige contre ce que
    donne le graphe de Frangi**, **la chaîne complète de la partition au
