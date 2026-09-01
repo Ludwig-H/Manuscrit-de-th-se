@@ -20,8 +20,9 @@
                     \node[jeton, anchor=west] (t4) at ($(t3.east)+(0.09,0)$) {sont};
                     \node[jeton, anchor=west] (t5) at ($(t4.east)+(0.09,0)$) {partout};
                     \node[font=\scriptsize, text=inria-2024-bleu-canard, anchor=west] at ($(t5.east)+(0.25,0)$) {sous-mots};
-                    \node[modele, anchor=west] (m1) at (9.85, 1.65) {GPT};
+                    \node[modele, anchor=west] (m1) at (9.20, 1.65) {GPT};
                     \draw[fl] (8.55, 1.65) -- (m1.west);
+                    \node[anchor=west] at ($(m1.east)+(0.16,0)$) {\citb{brown20}};
 
                     % ---------------- ligne 2 : l'image ----------------
                     \node[dom] at (1.35, 0.35) {\textbf{image}};
@@ -34,6 +35,7 @@
                         }
                     \end{scope}
                     \node[font=\scriptsize, text=inria-2024-bleu-canard, anchor=west] at (4.25, 0.35) {imagettes};
-                    \node[modele, anchor=west] (m2) at (9.85, 0.35) {SAM~2};
+                    \node[modele, anchor=west] (m2) at (9.20, 0.35) {SAM};
                     \draw[fl] (8.55, 0.35) -- (m2.west);
+                    \node[anchor=west] at ($(m2.east)+(0.16,0)$) {\citb{kirillov23}};
                 \end{tikzpicture}
