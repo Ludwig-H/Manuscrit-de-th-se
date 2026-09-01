@@ -115,19 +115,19 @@
 \DeclareRef{penrose03}{Penrose 03}{M.~Penrose, \textit{Random Geometric Graphs}, Oxford University Press, 2003.}
 \DeclareRef{meesterroy96}{Meester--Roy 96}{R.~Meester, R.~Roy, \textit{Continuum Percolation}, Cambridge Tracts in Mathematics 119, Cambridge University Press, 1996.}
 \DeclareRef{boissonnat18}{Boissonnat 18}{J.-D.~Boissonnat, F.~Chazal, M.~Yvinec, \textit{Geometric and Topological Inference}, Cambridge University Press, 2018.}
-\DeclareRef{chaudhuri10}{Chaudhuri--Dasgupta 10}{K.~Chaudhuri, S.~Dasgupta, « Rates of convergence for the cluster tree », \textit{NeurIPS}, 2010.}
+\DeclareRef{chaudhuri10}{Chaudhuri--Dasgupta 10}{K.~Chaudhuri, S.~Dasgupta, « Rates of convergence for the cluster tree », \textit{Advances in Neural Information Processing Systems} (NIPS), vol.~23, p.~343--351, 2010.}
 \DeclareRef{ester96}{Ester 96}{M.~Ester, H.-P.~Kriegel, J.~Sander, X.~Xu, « A density-based algorithm for discovering clusters » (DBSCAN), KDD, 1996.}
 \DeclareRef{campello13}{Campello 13}{R.~Campello, D.~Moulavi, J.~Sander, « Density-based clustering based on hierarchical density estimates » (HDBSCAN), PAKDD, 2013.}
 \DeclareRef{edelsbrunner23}{Edelsbrunner--Osang 23}{H.~Edelsbrunner, G.~Osang, « A simple algorithm for higher-order Delaunay mosaics and alpha shapes », \textit{Algorithmica}, 2023.}
 \DeclareRef{forina83}{Forina 83}{M.~Forina, C.~Armanino, S.~Lanteri, E.~Tiscornia, « Classification of olive oils from their fatty acid composition », 1983 (jeu de données).}
-\DeclareRef{rolle23}{Rolle--Scoccola 23}{A.~Rolle, L.~Scoccola, « Stable and consistent density-based clustering » (Persistable), JMLR, 2024.}
+\DeclareRef{rolle23}{Rolle--Scoccola 24}{A.~Rolle, L.~Scoccola, « Stable and consistent density-based clustering via multiparameter persistence » (Persistable), \textit{JMLR}, 25(258), 2024.}
 \DeclareRef{sautier25}{ALPINE 25}{C.~Sautier, G.~Puy, A.~Boulch, R.~Marlet, V.~Lepetit, « Is clustering enough for LiDAR instance segmentation? A state-of-the-art training-free baseline » (ALPINE), 2025.}
 \DeclareRef{oh25}{Geo-4D 25}{G.~Oh, Y.~Jang, J.~Choi, S.-J.~Kang, G.~Lin, S.~Kim, « Training-free global geometric association for 4D LiDAR panoptic segmentation » (Geo-4D), 2025.}
 \DeclareRef{avrachenkov22}{Avrachenkov--Dreveton 22}{K.~Avrachenkov, M.~Dreveton, \textit{Statistical Analysis of Networks}, Now Publishers, 2022.}
 \DeclareRef{sw87}{Swendsen--Wang 87}{R.~H.~Swendsen, J.-S.~Wang, « Nonuniversal critical dynamics in Monte Carlo simulations », \textit{Physical Review Letters}, 1987.}
 \DeclareRef{sb18}{Sankararaman--Baccelli 18}{A.~Sankararaman, F.~Baccelli, « Community detection on Euclidean random graphs », \textit{ACM--SIAM SODA}, 2018.}
 \DeclareRef{frangi98}{Frangi 98}{A.~F.~Frangi, W.~J.~Niessen, K.~L.~Vincken, M.~A.~Viergever, « Multiscale vessel enhancement filtering », MICCAI, 1998.}
-\DeclareRef{kleinberg02}{Kleinberg 02}{J.~Kleinberg, « An impossibility theorem for clustering », \textit{Adv.~Neural Inf.~Process.~Syst.~(NIPS)}, vol.~15, 2002.}
+\DeclareRef{kleinberg02}{Kleinberg 02}{J.~Kleinberg, « An impossibility theorem for clustering », \textit{Advances in Neural Information Processing Systems} (NIPS), vol.~15, MIT Press, p.~446--453, 2002.}
 \DeclareRef{carlsson10}{Carlsson--Mémoli 10}{G.~Carlsson, F.~Mémoli, « Characterization, stability and convergence of hierarchical clustering methods », JMLR, 2010.}
 \DeclareRef{culbertson18}{Culbertson 18}{J.~Culbertson, D.~P.~Guralnik, P.~F.~Stiller, « Functorial hierarchical clustering with overlaps », \textit{Discrete Applied Mathematics}, 2018.}
 \DeclareRef{brown20}{GPT-3 20}{T.~Brown \emph{et~al.}, « Language models are few-shot learners », \textit{NeurIPS}, 2020.}
@@ -936,9 +936,10 @@
     \vspace{0.2cm}
     \begin{itemize}
         \setlength{\itemsep}{6pt}
-        \item Les $K$-polyèdres : la vitesse \textbf{croît} avec $K$, dans toutes les dimensions
-        \item Robust SL : augmenter $K$ \textbf{dégrade} (jeter la frontière est rédhibitoire)
-        \item DBSCAN : la connectivité des cœurs percole trop tôt
+        \item \textbf{$K$-polyèdres} : la vitesse \textbf{croît} avec $K$, en dimension $2$, $3$ et $4$
+        \item \textbf{Robust SL} : elle \textbf{décroît} --- élaguer les points de faible degré jette aussi
+        de la masse qu'il fallait récupérer
+        \item \textbf{DBSCAN} : il réintègre cette frontière élaguée, mais ses cœurs percolent trop tôt
     \end{itemize}
     \reffoot{ans26}
 \end{frame}
@@ -954,7 +955,7 @@
         \begin{column}{0.48\textwidth}
             \begin{itemize}
                 \setlength{\itemsep}{10pt}
-                \item L'arbre hiérarchique n'est pas qu'une sortie :\\ on peut y \textbf{injecter des \emph{a priori}} géométriques
+                \item L'arbre hiérarchique n'est pas qu'une sortie : on peut y \textbf{injecter des \emph{a priori}} géométriques
                 \item \textbf{Détection d'anomalies 3D} : comparaison\\ au modèle théorique du navire
                 \item Banc d'essai sur $2 \times 10^6$ points : objets étrangers\\ \textbf{parfaitement isolés}, sans aucun apprentissage
             \end{itemize}
