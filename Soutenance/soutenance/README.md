@@ -53,10 +53,11 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    détection de fissures, en trois diapositives suivant le papier EUVIP 2026 :
    le contexte et un exemple FIND (où l'on dit que la fusion multimodale se fait
    **au niveau de l'opérateur**, sur les hessiennes et non sur les réponses) ;
-   la **hessienne lue sur une ellipse** — axes propres $e_1,e_2$, demi-axes
-   $1/\sqrt{|\lambda_1|}$ et $1/\sqrt{|\lambda_2|}$, angle $\theta$ — d'où le
-   filtre de Frangi tire ses **deux** nombres, la forme $R_B=|\lambda_1|/|\lambda_2|$
-   et le contraste $S=\lVert\mathcal H_\sigma\rVert_F$, et sa *vesselness* ;
+   la **hessienne** comme information sur les structures tubulaires, lue sur une
+   ellipse (axes propres $e_1,e_2$, demi-axes $1/\sqrt{|\lambda_1|}$ et
+   $1/\sqrt{|\lambda_2|}$, angle $\theta$) : le filtre de Frangi en tire ses
+   **deux** nombres, la forme $R_B=|\lambda_1|/|\lambda_2|$ et le contraste
+   $S=\lVert\mathcal H_\sigma\rVert_F$, puis sa réponse ;
    puis l'**alignement**, le troisième terme, celui que le graphe ajoute au filtre
    classique, avec ses deux cas (directions concordantes / croisées) et sa formule
    encadrée ; enfin le **fond granulaire** (VT-GraF, visible + thermique), où chaque
