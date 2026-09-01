@@ -34,8 +34,14 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
 4. **La percolation comme mesure de performance** (Partie II, chap. III) —
    percolation continue, inconsistance en dimension ≥ 2, vitesse de
    percolation et tableau comparatif HGP / Robust SL / DBSCAN.
-5. **Applications LiDAR 3D et 4D** — anomalies (Naval Group), segmentation
-   panoptique 4D (SemanticKITTI), sans apprentissage.
+5. **Applications LiDAR 3D et 4D** — anomalies (Naval Group) ; puis l'état de
+   l'art panoptique, qui *est* un clustering : une bonne segmentation sémantique
+   suivie d'un regroupement classique (ALPINE, Sautier *et al.* 2025, premier au
+   classement panoptique officiel de SemanticKITTI sans aucune annotation
+   d'instance), et la même recette étendue au temps par une association globale
+   géométrique (Geo-4D, Oh *et al.* 2025) ; enfin nos deux diapositives de
+   résultats — nos *a priori* faibles injectés dans la hiérarchie, et le suivi
+   d'instances sur SemanticKITTI, sans apprentissage.
 6. **Données davantage structurées** (Partie III) — détection de communautés sur
    graphes signés (cadre bayésien, Swendsen–Wang signé, généralisation aux
    interactions d'ordre supérieur, puis une diapositive en trois temps sur le
@@ -92,8 +98,8 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    logiciels.
 9. **Diapositives de secours** (après le « Merci »), suivant la chronologie de la
    présentation : stylométrie 5 auteurs, banc d'essai SIPU, confusion huiles
-   d'olive, protocole des vitesses, fenêtre gaussienne K→∞, état de l'art
-   LiDAR, haplotypes, cadre bayésien/Gibbs, Swendsen–Wang détaillé, modèle
+   d'olive, protocole des vitesses, fenêtre gaussienne K→∞,
+   haplotypes, cadre bayésien/Gibbs, Swendsen–Wang détaillé, modèle
    Sankararaman–Baccelli, hiérarchie d'horloges, **Kruskal des horloges vers le
    dendrogramme**, **la coupe critique $\beta_c$ en détail** (formule explicite,
    condition d'existence $p \ge (1+q_c)/2$, pondération des fusions par

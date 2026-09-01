@@ -115,19 +115,19 @@
 \DeclareRef{penrose03}{Penrose 03}{M.~Penrose, \textit{Random Geometric Graphs}, Oxford University Press, 2003.}
 \DeclareRef{meesterroy96}{Meester--Roy 96}{R.~Meester, R.~Roy, \textit{Continuum Percolation}, Cambridge Tracts in Mathematics 119, Cambridge University Press, 1996.}
 \DeclareRef{boissonnat18}{Boissonnat 18}{J.-D.~Boissonnat, F.~Chazal, M.~Yvinec, \textit{Geometric and Topological Inference}, Cambridge University Press, 2018.}
-\DeclareRef{chaudhuri10}{Chaudhuri--Dasgupta 10}{K.~Chaudhuri, S.~Dasgupta, « Rates of convergence for the cluster tree », \textit{NeurIPS}, 2010.}
+\DeclareRef{chaudhuri10}{Chaudhuri--Dasgupta 10}{K.~Chaudhuri, S.~Dasgupta, « Rates of convergence for the cluster tree », \textit{Advances in Neural Information Processing Systems} (NIPS), vol.~23, p.~343--351, 2010.}
 \DeclareRef{ester96}{Ester 96}{M.~Ester, H.-P.~Kriegel, J.~Sander, X.~Xu, « A density-based algorithm for discovering clusters » (DBSCAN), KDD, 1996.}
 \DeclareRef{campello13}{Campello 13}{R.~Campello, D.~Moulavi, J.~Sander, « Density-based clustering based on hierarchical density estimates » (HDBSCAN), PAKDD, 2013.}
 \DeclareRef{edelsbrunner23}{Edelsbrunner--Osang 23}{H.~Edelsbrunner, G.~Osang, « A simple algorithm for higher-order Delaunay mosaics and alpha shapes », \textit{Algorithmica}, 2023.}
 \DeclareRef{forina83}{Forina 83}{M.~Forina, C.~Armanino, S.~Lanteri, E.~Tiscornia, « Classification of olive oils from their fatty acid composition », 1983 (jeu de données).}
-\DeclareRef{rolle23}{Rolle--Scoccola 23}{A.~Rolle, L.~Scoccola, « Stable and consistent density-based clustering » (Persistable), JMLR, 2024.}
-\DeclareRef{sautier25}{Sautier 25}{C.~Sautier \emph{et~al.}, « Alpine: is clustering enough for LiDAR instance segmentation? », 2025.}
-\DeclareRef{oh25}{Oh 25}{M.~Oh \emph{et~al.}, « Geo-4D: training-free global geometric association for 4D LiDAR panoptic segmentation », 2025.}
+\DeclareRef{rolle23}{Rolle--Scoccola 24}{A.~Rolle, L.~Scoccola, « Stable and consistent density-based clustering via multiparameter persistence » (Persistable), \textit{JMLR}, 25(258), 2024.}
+\DeclareRef{sautier25}{ALPINE 25}{C.~Sautier, G.~Puy, A.~Boulch, R.~Marlet, V.~Lepetit, « Is clustering enough for LiDAR instance segmentation? A state-of-the-art training-free baseline » (ALPINE), 2025.}
+\DeclareRef{oh25}{Geo-4D 25}{G.~Oh, Y.~Jang, J.~Choi, S.-J.~Kang, G.~Lin, S.~Kim, « Training-free global geometric association for 4D LiDAR panoptic segmentation » (Geo-4D), 2025.}
 \DeclareRef{avrachenkov22}{Avrachenkov--Dreveton 22}{K.~Avrachenkov, M.~Dreveton, \textit{Statistical Analysis of Networks}, Now Publishers, 2022.}
 \DeclareRef{sw87}{Swendsen--Wang 87}{R.~H.~Swendsen, J.-S.~Wang, « Nonuniversal critical dynamics in Monte Carlo simulations », \textit{Physical Review Letters}, 1987.}
 \DeclareRef{sb18}{Sankararaman--Baccelli 18}{A.~Sankararaman, F.~Baccelli, « Community detection on Euclidean random graphs », \textit{ACM--SIAM SODA}, 2018.}
 \DeclareRef{frangi98}{Frangi 98}{A.~F.~Frangi, W.~J.~Niessen, K.~L.~Vincken, M.~A.~Viergever, « Multiscale vessel enhancement filtering », MICCAI, 1998.}
-\DeclareRef{kleinberg02}{Kleinberg 02}{J.~Kleinberg, « An impossibility theorem for clustering », \textit{Adv.~Neural Inf.~Process.~Syst.~(NIPS)}, vol.~15, 2002.}
+\DeclareRef{kleinberg02}{Kleinberg 02}{J.~Kleinberg, « An impossibility theorem for clustering », \textit{Advances in Neural Information Processing Systems} (NIPS), vol.~15, MIT Press, p.~446--453, 2002.}
 \DeclareRef{carlsson10}{Carlsson--Mémoli 10}{G.~Carlsson, F.~Mémoli, « Characterization, stability and convergence of hierarchical clustering methods », JMLR, 2010.}
 \DeclareRef{culbertson18}{Culbertson 18}{J.~Culbertson, D.~P.~Guralnik, P.~F.~Stiller, « Functorial hierarchical clustering with overlaps », \textit{Discrete Applied Mathematics}, 2018.}
 \DeclareRef{brown20}{GPT-3 20}{T.~Brown \emph{et~al.}, « Language models are few-shot learners », \textit{NeurIPS}, 2020.}
@@ -714,7 +714,7 @@
             \end{center}
         \end{column}
     \end{columns}
-    \reffoot{penrose03,ans26,eusipco24}
+    \reffoot{ans26,eusipco24}
 \end{frame}
 
 \begin{frame}{Qui provoque les fusions ? La condition de \textsc{Gabriel}}
@@ -936,9 +936,10 @@
     \vspace{0.2cm}
     \begin{itemize}
         \setlength{\itemsep}{6pt}
-        \item Les $K$-polyèdres : la vitesse \textbf{croît} avec $K$, dans toutes les dimensions
-        \item Robust SL : augmenter $K$ \textbf{dégrade} (jeter la frontière est rédhibitoire)
-        \item DBSCAN : la connectivité des cœurs percole trop tôt
+        \item \textbf{$K$-polyèdres} : la vitesse \textbf{croît} avec $K$, en dimension $2$, $3$ et $4$
+        \item \textbf{Robust SL} : elle \textbf{décroît} --- élaguer les points de faible degré jette aussi
+        de la masse qu'il fallait récupérer
+        \item \textbf{DBSCAN} : il réintègre cette frontière élaguée, mais ses cœurs percolent trop tôt
     \end{itemize}
     \reffoot{ans26}
 \end{frame}
@@ -954,7 +955,7 @@
         \begin{column}{0.48\textwidth}
             \begin{itemize}
                 \setlength{\itemsep}{10pt}
-                \item L'arbre hiérarchique n'est pas qu'une sortie :\\ on peut y \textbf{injecter des \emph{a priori}} géométriques
+                \item L'arbre hiérarchique n'est pas qu'une sortie : on peut y \textbf{injecter des \emph{a priori}} géométriques
                 \item \textbf{Détection d'anomalies 3D} : comparaison\\ au modèle théorique du navire
                 \item Banc d'essai sur $2 \times 10^6$ points : objets étrangers\\ \textbf{parfaitement isolés}, sans aucun apprentissage
             \end{itemize}
@@ -973,29 +974,105 @@
     \reffoot{ayana25}
 \end{frame}
 
-\begin{frame}{Panoptique 4D : des \emph{a priori} plutôt que des annotations}
+\begin{frame}{Panoptique 3D : l'état de l'art \emph{est} un clustering}
     \begin{columns}[c, onlytextwidth]
-        \begin{column}{0.48\textwidth}
+        \begin{column}{0.60\textwidth}
+            \small
+            La segmentation \textbf{panoptique} demande deux choses : la \emph{classe} de chaque point,
+            et l'\emph{instance} à laquelle il appartient.
+
+            \vspace{0.30cm}
             \begin{itemize}
-                \setlength{\itemsep}{10pt}
-                \item État de l'art : sémantique profonde\\ $+$ regroupement spatial \citb{sautier25} \citb{oh25}
-                \item Nos \textbf{\emph{a priori} faibles} : volumes attendus des objets (véhicules, piétons) injectés dans la hiérarchie
-                \item Association temporelle par \textbf{transport optimal} déséquilibré $+$ filtre de \textsc{Kalman}, sans apprentissage
+                \setlength{\itemsep}{7pt}
+                \item Longtemps, l'instance s'est apprise de bout en bout --- donc avec des annotations
+                d'instances, coûteuses
+                \item ALPINE \citb{sautier25} montre qu'il n'en est rien : une bonne segmentation
+                \textbf{sémantique}, puis, classe par classe, un \textbf{clustering classique} ---
+                projection en vue de dessus, graphe des $k$ plus proches voisins, seuil sur la longueur
+                des arêtes, \textbf{composantes connexes}
+            \end{itemize}
+
+            \vspace{0.25cm}
+            \begin{center}
+                \formulebox{\parbox{0.93\textwidth}{\centering\small
+                Sans annotation d'instance, sans apprentissage ni réglage :\\
+                \textbf{premier au classement panoptique officiel de SemanticKITTI},
+                et en temps réel sur un seul cœur.}}
+            \end{center}
+        \end{column}
+
+        \begin{column}{0.38\textwidth}
+            \begin{center}
+                \includegraphics[height=0.66\textheight]{imgs/Alpine.png}
+
+                \vspace{0.15cm}
+                {\scriptsize Le regroupement d'ALPINE \citb{sautier25}}
+            \end{center}
+        \end{column}
+    \end{columns}
+    \reffoot{sautier25}
+\end{frame}
+
+\begin{frame}{Et en 4D, la recette ne change pas}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.56\textwidth}
+            \small
+            La 4D ajoute le \textbf{suivi} : une même instance doit garder son identité d'une trame
+            à l'autre.
+
+            \vspace{0.30cm}
+            \begin{itemize}
+                \setlength{\itemsep}{8pt}
+                \item Geo-4D \citb{oh25} garde le même schéma --- sémantique, puis regroupement ---
+                et y ajoute une \textbf{association globale} entre trames, purement \textbf{géométrique}
+                et là encore \textbf{sans apprentissage}
+                \item Dans les deux cas, une fois la sémantique acquise, ce qui reste est un problème
+                de \textbf{regroupement} : exactement l'objet de cette thèse
+            \end{itemize}
+
+            \vspace{0.30cm}
+            \begin{center}
+                \formulebox{\parbox{0.90\textwidth}{\centering\small
+                C'est là que notre hiérarchie a quelque chose à dire :\\
+                elle offre une \textbf{échelle} au lieu d'un seuil.}}
+            \end{center}
+        \end{column}
+
+        \begin{column}{0.42\textwidth}
+            \begin{center}
+                \includegraphics[height=0.62\textheight]{imgs/Resultat_Geo-4D.png}
+
+                \vspace{0.15cm}
+                {\scriptsize Suivi d'instances dans Geo-4D \citb{oh25}}
+            \end{center}
+        \end{column}
+    \end{columns}
+    \reffoot{oh25}
+\end{frame}
+
+\begin{frame}{Notre apport : des \emph{a priori} plutôt que des annotations}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.42\textwidth}
+            \begin{itemize}
+                \setlength{\itemsep}{12pt}
+                \item Nos \textbf{\emph{a priori} faibles} : les volumes attendus des objets
+                (véhicules, piétons), injectés dans la hiérarchie
+                \item Association temporelle par \textbf{transport optimal} déséquilibré $+$ filtre de
+                \textsc{Kalman}, sans apprentissage
             \end{itemize}
         \end{column}
 
-        \begin{column}{0.48\textwidth}
+        \begin{column}{0.55\textwidth}
             \begin{center}
-                \includegraphics[width=0.48\textwidth]{imgs/kitti_3d_prior_1.jpg}
+                \includegraphics[width=0.485\textwidth]{imgs/kitti_3d_prior_1.jpg}
                 \hfill
-                \includegraphics[width=0.48\textwidth]{imgs/kitti_3d_prior_2.jpg}
+                \includegraphics[width=0.485\textwidth]{imgs/kitti_3d_prior_2.jpg}
 
                 \vspace{0.3cm}
                 \scriptsize \emph{A priori} géométriques appliqués aux volumes des instances
             \end{center}
         \end{column}
     \end{columns}
-    \reffoot{sautier25,oh25}
 \end{frame}
 
 \begin{frame}{Résultats sur SemanticKITTI (200 trames)}
@@ -1759,6 +1836,7 @@
         \bibligne{robert23}
         \bibligne{rolle23}
         \bibligne{ge24}
+        \bibligne{ayana25}
         \bibligne{ravi24}
         \bibligne{sautier25}
         \bibligne{oh25}
@@ -1894,26 +1972,6 @@
 \end{frame}
 
 % --- LiDAR ---------------------------------------------------
-\begin{frame}{L'état de l'art LiDAR}
-    \begin{columns}[c, onlytextwidth]
-        \begin{column}{0.48\textwidth}
-            \begin{center}
-                \includegraphics[height=0.6\textheight]{imgs/Alpine.png}
-
-                {\small Alpine \citb{sautier25} : « \emph{Is clustering enough?} »}
-            \end{center}
-        \end{column}
-        \begin{column}{0.48\textwidth}
-            \begin{center}
-                \includegraphics[height=0.6\textheight]{imgs/Resultat_Geo-4D.png}
-
-                {\small Geo-4D \citb{oh25} : association géométrique 4D}
-            \end{center}
-        \end{column}
-    \end{columns}
-    \reffoot{sautier25,oh25}
-\end{frame}
-
 % --- Graphes signés ------------------------------------------
 \begin{frame}{L'assemblage d'haplotypes}
     \centering
