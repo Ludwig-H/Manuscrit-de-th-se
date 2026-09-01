@@ -40,9 +40,11 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    classement panoptique officiel de SemanticKITTI sans aucune annotation
    d'instance), la 4D tenant en un point (Geo-4D, Oh *et al.* 2025 : même schéma,
    plus une association géométrique entre trames — le détail passe en secours) ;
-   enfin nos deux diapositives de résultats — nos *a priori* faibles injectés
-   dans la hiérarchie, et le suivi d'instances sur SemanticKITTI, sans
-   apprentissage.
+   enfin nos deux diapositives de résultats, **« Nos premiers résultats : 3D »**
+   (trois scènes SemanticKITTI où les *a priori* de volume sont appliqués aux
+   instances, sans aucun texte) et **« Nos premiers résultats : 4D »** (200
+   trames, vérité terrain contre notre algorithme, l'association temporelle par
+   transport optimal déséquilibré et filtre de Kalman).
 6. **Données davantage structurées** (Partie III) — détection de communautés sur
    graphes signés (cadre bayésien, Swendsen–Wang signé, généralisation aux
    interactions d'ordre supérieur, puis une diapositive en trois temps sur le

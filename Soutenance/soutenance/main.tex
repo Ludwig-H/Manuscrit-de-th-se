@@ -127,6 +127,7 @@
 \DeclareRef{edelsbrunner23}{Edelsbrunner--Osang 23}{H.~Edelsbrunner, G.~Osang, « A simple algorithm for higher-order Delaunay mosaics and alpha shapes », \textit{Algorithmica}, 2023.}
 \DeclareRef{forina83}{Forina 83}{M.~Forina, C.~Armanino, S.~Lanteri, E.~Tiscornia, « Classification of olive oils from their fatty acid composition », 1983 (jeu de données).}
 \DeclareRef{rolle23}{Rolle--Scoccola 24}{A.~Rolle, L.~Scoccola, « Stable and consistent density-based clustering via multiparameter persistence » (Persistable), \textit{JMLR}, 25(258), 2024.}
+\DeclareRef{semantickitti19}{SemanticKITTI 19}{J.~Behley \emph{et al.}, « SemanticKITTI: A Dataset for Semantic Scene Understanding of LiDAR Sequences », \textit{ICCV}, 2019.}
 \DeclareRef{sautier25}{ALPINE 25}{C.~Sautier, G.~Puy, A.~Boulch, R.~Marlet, V.~Lepetit, « Is clustering enough for LiDAR instance segmentation? A state-of-the-art training-free baseline » (ALPINE), 2025.}
 \DeclareRef{oh25}{Geo-4D 25}{G.~Oh, Y.~Jang, J.~Choi, S.-J.~Kang, G.~Lin, S.~Kim, « Training-free global geometric association for 4D LiDAR panoptic segmentation » (Geo-4D), 2025.}
 \DeclareRef{avrachenkov22}{Avrachenkov--Dreveton 22}{K.~Avrachenkov, M.~Dreveton, \textit{Statistical Analysis of Networks}, Now Publishers, 2022.}
@@ -985,42 +986,39 @@
     \reffoot{sautier25,oh25}
 \end{frame}
 
-\begin{frame}{Notre apport : des \emph{a priori} plutôt que des annotations}
-    \begin{columns}[c, onlytextwidth]
-        \begin{column}{0.42\textwidth}
-            \begin{itemize}
-                \setlength{\itemsep}{12pt}
-                \item Nos \textbf{\emph{a priori} faibles} : les volumes attendus des objets
-                (véhicules, piétons), injectés dans la hiérarchie
-                \item Association temporelle par \textbf{transport optimal} déséquilibré $+$ filtre de
-                \textsc{Kalman}, sans apprentissage
-            \end{itemize}
-        \end{column}
+\begin{frame}{Nos premiers résultats : \textcolor{inria-rouge}{3D}}
+    \vspace{0.35cm}
+    \begin{center}
+        \begin{tabular}{@{}c@{\hspace{8pt}}c@{\hspace{8pt}}c@{}}
+            \includegraphics[height=3.4cm]{imgs/kitti_3d_prior_2.jpg} &
+            \includegraphics[height=3.4cm]{imgs/kitti_3d_prior_3.png} &
+            \includegraphics[height=3.4cm]{imgs/kitti_3d_prior_1.jpg}
+        \end{tabular}
 
-        \begin{column}{0.55\textwidth}
-            \begin{center}
-                \includegraphics[width=0.485\textwidth]{imgs/kitti_3d_prior_1.jpg}
-                \hfill
-                \includegraphics[width=0.485\textwidth]{imgs/kitti_3d_prior_2.jpg}
-
-                \vspace{0.3cm}
-                \scriptsize \emph{A priori} géométriques appliqués aux volumes des instances
-            \end{center}
-        \end{column}
-    \end{columns}
+        \vspace{0.55cm}
+        {\small \emph{A priori} géométriques appliqués aux volumes des instances,
+        sur SemanticKITTI \citb{semantickitti19}}
+    \end{center}
+    \reffoot{semantickitti19}
 \end{frame}
 
-\begin{frame}{Résultats sur SemanticKITTI (200 trames)}
+\begin{frame}{Nos premiers résultats : \textcolor{inria-rouge}{4D}}
+    \vspace{0.10cm}
     \begin{center}
         \begin{tabular}{cc}
             \textbf{Vérité terrain} & \textbf{Notre algorithme} \\
-            \includegraphics[width=0.40\textwidth]{imgs/SemanticKITTI_200frames_GT.png} &
-            \includegraphics[width=0.40\textwidth]{imgs/SemanticKITTI_200frames_HGP.png}
+            \includegraphics[width=0.30\textwidth]{imgs/SemanticKITTI_200frames_GT.png} &
+            \includegraphics[width=0.30\textwidth]{imgs/SemanticKITTI_200frames_HGP.png}
         \end{tabular}
-
-        \vspace{0.15cm}
-        \footnotesize Suivi des instances : aucun apprentissage, ni pour le regroupement ni pour l'association
     \end{center}
+
+    \vspace{0.28cm}
+    \begin{center}
+        {\small SemanticKITTI \citb{semantickitti19}, 200 trames\\[3pt]
+        suivi par \textbf{transport optimal} $+$ filtre de \textsc{Kalman},
+        \textbf{sans apprentissage}}
+    \end{center}
+    \reffoot{semantickitti19}
 \end{frame}
 
 % ============================================================
@@ -1604,6 +1602,7 @@
         \bibligne{boissonnat18}
         \bibligne{culbertson18}
         \bibligne{sb18}
+        \bibligne{semantickitti19}
         \bibligne{brown20}
         \bibligne{bommasani21}
         \bibligne{ying21}
