@@ -200,7 +200,6 @@
   {\setlength{\fboxsep}{8pt}\setlength{\fboxrule}{0.8pt}%
    \fcolorbox{inria-rouge}{gray!4}{#1}}}
 
-
 \begin{document}
 
 % ============================================================
@@ -1273,17 +1272,20 @@
         \begin{column}{0.60\textwidth}
             \small
             Une fonction de clustering $\mathcal C$ associe à un espace métrique fini
-            $(\mathcal X, d)$, avec $|\mathcal X| \ge 2$, une \textbf{partition} de $\mathcal X$
+            $(\mathcal X, d)$ une \textbf{partition} de $\mathcal X$
 
-            \vspace{0.25cm}
+            \vspace{0.20cm}
             \begin{enumerate}[(i)]
-                \setlength{\itemsep}{7pt}
+                \setlength{\itemsep}{5pt}
                 \item \textbf{Invariance d'échelle} : $\mathcal C(\mathcal X, \lambda d) = \mathcal C(\mathcal X, d)$
-                pour tout $\lambda > 0$ (changer d'unité ne change rien)
-                \item \textbf{Richesse} : toute partition de $\mathcal X$ est atteinte par une distance bien choisie
-                \item \textbf{Cohérence} : resserrer un amas \emph{rendu par $\mathcal C$}, ou écarter deux
-                de ces amas, laisse le résultat inchangé
+                \item \textbf{Richesse} : toute partition est atteinte
+                \item \textbf{Cohérence} : resserrer un amas rendu par $\mathcal C$, ou écarter deux
+                de ces amas, ne change rien
             \end{enumerate}
+
+            \vspace{0.22cm}
+            \formulebox{\parbox{0.93\textwidth}{\centering\small
+            \textbf{Impossibilité} \citb{kleinberg02} : \emph{aucune} $\mathcal C$ ne satisfait les trois}}
         \end{column}
         \begin{column}{0.38\textwidth}
             \centering
@@ -1291,38 +1293,16 @@
         \end{column}
     \end{columns}
 
-    \vspace{0.30cm}
-    \begin{center}
-        \formulebox{\textbf{Impossibilité} \citb{kleinberg02} : \emph{aucune} fonction de clustering ne satisfait ces trois axiomes}
-    \end{center}
-    \reffoot{kleinberg02}
-\end{frame}
-
-% ------------------------------------------------------------
-\begin{frame}{\textsc{Carlsson} \& \textsc{Mémoli} : changer l'objet de sortie}
-    \begin{center}
-        \resizebox{0.52\textwidth}{!}{\input{figs/kleinberg_coupes}}
-    \end{center}
-
-    \vspace{0.05cm}
+    \vspace{0.26cm}
     \small
     \begin{itemize}
         \setlength{\itemsep}{5pt}
-        \item Pour chacune des trois \emph{paires} d'axiomes, \textsc{Kleinberg} donne un témoin :
-        à chaque fois une \textbf{variante du Single-Linkage}, ce qui change d'une variante à l'autre
-        étant la \textbf{règle d'arrêt} : $k$ amas, distance $r$, ou fraction $\alpha$ du diamètre
-        \item L'obstruction indique donc la sortie : garder l'arbre, et laisser la règle de coupe à l'utilisateur
-        \item \textsc{Carlsson} \& \textsc{Mémoli} changent alors l'objet rendu : une \textbf{ultramétrique},
-        $T : (\mathcal X, d) \mapsto (\mathcal X, u)$, de façon équivalente un dendrogramme
+        \item La sortie n'est donc pas une partition mais un \textbf{dendrogramme} : on garde
+        toutes les échelles, et la coupe revient à l'utilisateur
+        \item Sous trois axiomes adaptés à cette sortie, \textbf{le Single-Linkage est la seule
+        solution} \citb{carlsson10}
     \end{itemize}
-
-    \vspace{0.10cm}
-    \begin{center}
-        \formulebox{\parbox{0.82\textwidth}{\centering\small
-        Sous trois axiomes adaptés (normalisation \emph{à deux points}, fonctorialité, séparation),\\
-        \textbf{le Single-Linkage est la seule solution} \citb{carlsson10}}}
-    \end{center}
-    \reffoot{carlsson10}
+    \reffoot{kleinberg02,carlsson10}
 \end{frame}
 
 % ============================================================
@@ -1886,16 +1866,6 @@
 \end{frame}
 
 % --- LiDAR ---------------------------------------------------
-% --- Graphes signés ------------------------------------------
-\begin{frame}{L'assemblage d'haplotypes}
-    \centering
-    \begin{block}{Un graphe signé bruité}
-        Nœuds $=$ lectures ADN ; arêtes $=$ chevauchements (attractions et répulsions)\\
-        \textbf{But} : retrouver l'affectation cachée {\large $\boldsymbol{\Sigma}$}
-    \end{block}
-    \drawHaplotypePresentation{3}
-\end{frame}
-
 \begin{frame}{Et en 4D, la recette ne change pas}
     \begin{columns}[c, onlytextwidth]
         \begin{column}{0.56\textwidth}
@@ -1931,6 +1901,16 @@
         \end{column}
     \end{columns}
     \reffoot{oh25}
+\end{frame}
+
+% --- Graphes signés ------------------------------------------
+\begin{frame}{L'assemblage d'haplotypes}
+    \centering
+    \begin{block}{Un graphe signé bruité}
+        Nœuds $=$ lectures ADN ; arêtes $=$ chevauchements (attractions et répulsions)\\
+        \textbf{But} : retrouver l'affectation cachée {\large $\boldsymbol{\Sigma}$}
+    \end{block}
+    \drawHaplotypePresentation{3}
 \end{frame}
 
 \begin{frame}{Le cadre bayésien et l'hypothèse de Gibbs}
@@ -2229,6 +2209,34 @@
         \item Valeur de référence $0{,}6241$ ; perte tolérante $0{,}6276$ ; géométrie $+$ tolérance $0{,}6270$ $\approx$ évidence permutée $0{,}6265$
         \item $|\Delta| < 0{,}001$ à toutes les tolérances : en monomodal, la géométrie n'apporte pas d'information nouvelle
     \end{itemize}
+\end{frame}
+
+% --- Perspectives : Kleinberg et Carlsson--Mémoli ------------
+\begin{frame}{\textsc{Carlsson} \& \textsc{Mémoli} : changer l'objet de sortie}
+    \vspace{-0.15cm}
+    \begin{center}
+        \resizebox{0.44\textwidth}{!}{\input{figs/kleinberg_coupes}}
+    \end{center}
+
+    \vspace{-0.05cm}
+    \small
+    \begin{itemize}
+        \setlength{\itemsep}{4pt}
+        \item Pour chacune des trois \emph{paires} d'axiomes, \textsc{Kleinberg} donne un témoin :
+        à chaque fois une \textbf{variante du Single-Linkage}, ce qui change d'une variante à l'autre
+        étant la \textbf{règle d'arrêt} : $k$ amas, distance $r$, ou fraction $\alpha$ du diamètre
+        \item L'obstruction indique donc la sortie : garder l'arbre, et laisser la règle de coupe à l'utilisateur
+        \item \textsc{Carlsson} \& \textsc{Mémoli} changent alors l'objet rendu : une \textbf{ultramétrique},
+        $T : (\mathcal X, d) \mapsto (\mathcal X, u)$, de façon équivalente un dendrogramme
+    \end{itemize}
+
+    \vspace{0.04cm}
+    \begin{center}
+        \formulebox{\parbox{0.82\textwidth}{\centering\small
+        Sous trois axiomes adaptés (normalisation \emph{à deux points}, fonctorialité, séparation),\\
+        \textbf{le Single-Linkage est la seule solution} \citb{carlsson10}}}
+    \end{center}
+    \reffoot{carlsson10}
 \end{frame}
 
 % --- Perspectives : guider SAM -------------------------------
