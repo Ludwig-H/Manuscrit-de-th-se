@@ -1263,9 +1263,10 @@
     \begin{center}
         \includegraphics[width=0.94\textwidth]{imgs/VTGraF_granularite.png}\\[3pt]
         \begin{minipage}{0.94\textwidth}\scriptsize\centering
-            \makebox[0.3266\linewidth]{visible granulaire}\hfill
-            \makebox[0.3266\linewidth]{réponse de \textsc{Frangi} au pixel}\hfill
-            \makebox[0.3266\linewidth]{composante retenue en bleu}
+            \makebox[0.2439\linewidth]{visible granulaire}\hfill
+            \makebox[0.2439\linewidth]{réponse de \textsc{Frangi} au pixel}\hfill
+            \makebox[0.2439\linewidth]{similarité du graphe}\hfill
+            \makebox[0.2439\linewidth]{composante retenue en bleu}
         \end{minipage}
     \end{center}
 
@@ -1277,13 +1278,9 @@
         \item Une \textbf{chaîne d'arêtes} suffit alors à relier les cailloux de proche en proche : le fond percole
         \item À l'\textbf{ordre 2}, deux arêtes ne se recollent que par un \textbf{triangle} : une chaîne sans
         triangle ne propage plus la connexité, et la vitesse de percolation croît avec $K$ \citb{ans26}
+        --- d'où le choix $K=2$ \citb{euvip26}
     \end{itemize}
-
-    \vspace{0.12cm}
-    \begin{center}
-        {\footnotesize VT-GraF (visible $+$ thermique) : $K=2$ est le réglage retenu, l'évaluation appariée est en cours \citb{isprs26}}
-    \end{center}
-    \reffoot{ans26,isprs26}
+    \reffoot{ans26,euvip26}
 \end{frame}
 
 % ============================================================

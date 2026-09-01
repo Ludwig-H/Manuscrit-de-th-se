@@ -200,13 +200,15 @@ elle-même.
   le préambule de `main.tex` ; l'arête gelée est un `freeze` coloré en
   `inria-rouge`, et une arête non satisfaite est tracée en `line width=0.6pt`
   pour rester distinguable d'une arête satisfaite en projection.
-- `imgs/VTGraF_granularite.png` — trois panneaux découpés de `imgs/Raphael_algo_1.png`
-  (visible granulaire, réponse de Frangi au pixel, composantes retenues), titres
-  matplotlib retirés et recomposés côte à côte. La planche d'origine vient du
-  carnet `VT-GraF/Frangi_VT_GraF_GPU.ipynb` du dépôt Frangi ; elle reste en secours
-  en entier. **Attention** : ce carnet tourne en $K=1$ — la diapositive n'affirme
-  donc pas que l'image *montre* le gain de $K=2$, elle montre le cas difficile et
-  explique le mécanisme, en renvoyant la mesure appariée à l'ISPRS en cours.
+- `imgs/VTGraF_granularite.png` — quatre panneaux découpés de `imgs/Raphael_algo_1.png`
+  (visible granulaire, réponse de Frangi au pixel, similarité du graphe de Frangi,
+  composantes retenues), titres matplotlib retirés et recomposés côte à côte ;
+  chaque panneau occupe donc $0{,}2439$ de la largeur totale, valeur reprise par les
+  `\makebox` de la légende. La planche d'origine vient du carnet
+  `VT-GraF/Frangi_VT_GraF_GPU.ipynb` du dépôt Frangi ; elle reste en secours en
+  entier. **Attention** : ce carnet tourne en $K=1$ — la diapositive n'affirme donc
+  pas que l'image *montre* le gain de $K=2$, elle montre le cas difficile, explique
+  le mécanisme et renvoie le réglage retenu à EUVIP.
 - `imgs/` — images rassemblées depuis les présentations existantes, le
   manuscrit (`img/`), le dossier `EUVIP/LaTeX/`, et extraites des PDF
   (présentation Mathnet-Dyogene 2025, rapport de stage 2017, NEO-AMELEAS)
