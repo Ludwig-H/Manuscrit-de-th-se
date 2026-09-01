@@ -82,13 +82,15 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    *a posteriori* invariante ; puis la **coupe critique** $\beta_c$, celle où les
    amas gelés percolent. Source :
    `Presentation-MathNet-2026-06-15/research/hierarchical-swendsen-wang`.
-   *(c)* **Modèles de fondation et SAM** : ce qu'est un modèle de fondation et la
-   condition rarement dite d'une unité de calcul stable ; l'architecture
-   asymétrique de SAM et son interface d'invites ; l'adaptation LoRA
-   $W = W_0 + BA$ et CrackSAM (Ge *et al.* 2024) ; puis deux idées de guidage par
-   la hiérarchie du graphe de Frangi — invites ponctuelles par centralité
-   décroissante, et biais additif indexé par la distance dans l'arbre
-   (**informer** l'attention, pas la **contraindre**).
+   *(c)* **Modèles de fondation et SAM**, en trois diapositives courtes : les
+   quatre conditions communément demandées (échelle, auto-supervision,
+   adaptabilité, émergence) avec la figure des jetons, sous-mot pour le texte et
+   imagette pour l'image ; l'adaptation LoRA $W = W_0 + BA$ et CrackSAM (Ge
+   *et al.* 2024, $0{,}7\,\%$ des poids) ; puis **une seule** diapositive de
+   guidage, les invites ponctuelles par centralité décroissante, avec la mention
+   qu'aucune IoU n'a été mesurée. L'architecture de SAM et le biais additif
+   indexé par la distance dans l'arbre (**informer** l'attention, pas la
+   **contraindre**) sont passés en secours.
    *(d)* Le **modèle de fondation 3D** qui manque : ce qu'un socle partagé
    débloquerait (la révolution robotique), l'unité de calcul absente, le nuage de
    points comme artefact du capteur, puis le polyèdre comme alphabet et la
@@ -115,7 +117,8 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    intermédiaires du papier : seuillage → composantes → arbre couvrant minimal →
    centralité pondérée en $\mathcal O(|V|)$ → squelette, le résultat FIND et
    l'ordre 2 en perspective), VT-GraF, robustesse, transferts, sensibilité,
-   CrackSAM-GeoLoRA, **Carlsson–Mémoli en détail** (les trois paires d'axiomes
+   CrackSAM-GeoLoRA, **l'architecture de SAM** et **le biais additif d'attention**
+   (informer sans contraindre), **Carlsson–Mémoli en détail** (les trois paires d'axiomes
    réalisées par autant de règles d'arrêt, l'ultramétrique et les trois axiomes
    adaptés), **la suite progressive de guidage de SAM** (plafond par
    oracle, invites natives, biais additif), **ce que HSA exige contre ce que
