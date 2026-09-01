@@ -66,13 +66,16 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    GRETSI 2025 → EUVIP 2026 → ISPRS en cours.
 7. **Perspectives : la voie hiérarchique** — quatre blocs, une illustration par
    diapositive, le détail renvoyé en secours.
-   *(a)* Retour au début de l'exposé : le théorème d'impossibilité de Kleinberg
-   dans les notations du manuscrit (`PartI/ChapII.tex` : $\mathcal C : (\mathcal X, d)$
-   vers une partition ; axiomes (i) invariance d'échelle, (ii) richesse,
-   (iii) cohérence), puis la réponse de Carlsson–Mémoli — la sortie devient une
-   **ultramétrique** $T : (\mathcal X, d) \mapsto (\mathcal X, u)$, et chacune des
-   trois paires d'axiomes se réalise par un choix de **coupe** dans l'arbre du
-   Single-Linkage.
+   *(a)* Retour au début de l'exposé, en **une** diapositive : le théorème
+   d'impossibilité de Kleinberg dans les notations du manuscrit
+   (`PartI/ChapII.tex` : $\mathcal C : (\mathcal X, d)$ vers une partition ;
+   axiomes (i) invariance d'échelle, (ii) richesse, (iii) cohérence), puis, en
+   deux points, la sortie qu'elle impose : un **dendrogramme** plutôt qu'une
+   partition, et le Single-Linkage comme seule solution sous les axiomes adaptés
+   (Carlsson–Mémoli 2010). Le développement — ultramétrique
+   $T : (\mathcal X, d) \mapsto (\mathcal X, u)$, et les trois paires d'axiomes
+   réalisées par autant de **règles d'arrêt** dans l'arbre du Single-Linkage — est
+   passé en secours.
    *(b)* La **dynamique hiérarchique** : horloges $\xi_e \sim \mathrm{Exp}(|W_e|)$,
    filtration $\Pi_\beta$, avec $\Pi_1$ = partition gelée de Swendsen–Wang ;
    Glauber aux feuilles, Swendsen–Wang aux racines, toute coupe laissant la loi
@@ -112,7 +115,9 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    intermédiaires du papier : seuillage → composantes → arbre couvrant minimal →
    centralité pondérée en $\mathcal O(|V|)$ → squelette, le résultat FIND et
    l'ordre 2 en perspective), VT-GraF, robustesse, transferts, sensibilité,
-   CrackSAM-GeoLoRA, **la suite progressive de guidage de SAM** (plafond par
+   CrackSAM-GeoLoRA, **Carlsson–Mémoli en détail** (les trois paires d'axiomes
+   réalisées par autant de règles d'arrêt, l'ultramétrique et les trois axiomes
+   adaptés), **la suite progressive de guidage de SAM** (plafond par
    oracle, invites natives, biais additif), **ce que HSA exige contre ce que
    donne le graphe de Frangi**, **la chaîne complète de la partition au
    $K$-polyèdre** (Culbertson–Guralnik–Stiller et les recouvrements), puis les
