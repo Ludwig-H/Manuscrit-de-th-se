@@ -59,7 +59,10 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    et le contraste $S=\lVert\mathcal H_\sigma\rVert_F$, et sa *vesselness* ;
    puis l'**alignement**, le troisième terme, celui que le graphe ajoute au filtre
    classique, avec ses deux cas (directions concordantes / croisées) et sa formule
-   encadrée. La chaîne d'extraction est passée en secours.
+   encadrée ; enfin le **fond granulaire** (VT-GraF, visible + thermique), où chaque
+   caillou porte une réponse et où une chaîne d'arêtes suffit à faire percoler le
+   fond — c'est l'argument de l'ordre 2, renvoyé à la vitesse de percolation de la
+   partie II. La chaîne d'extraction est passée en secours.
    GRETSI 2025 → EUVIP 2026 → ISPRS en cours.
 7. **Perspectives : la voie hiérarchique** — quatre blocs, une illustration par
    diapositive, le détail renvoyé en secours.
@@ -193,6 +196,13 @@ elle-même.
   le préambule de `main.tex` ; l'arête gelée est un `freeze` coloré en
   `inria-rouge`, et une arête non satisfaite est tracée en `line width=0.6pt`
   pour rester distinguable d'une arête satisfaite en projection.
+- `imgs/VTGraF_granularite.png` — trois panneaux découpés de `imgs/Raphael_algo_1.png`
+  (visible granulaire, réponse de Frangi au pixel, composantes retenues), titres
+  matplotlib retirés et recomposés côte à côte. La planche d'origine vient du
+  carnet `VT-GraF/Frangi_VT_GraF_GPU.ipynb` du dépôt Frangi ; elle reste en secours
+  en entier. **Attention** : ce carnet tourne en $K=1$ — la diapositive n'affirme
+  donc pas que l'image *montre* le gain de $K=2$, elle montre le cas difficile et
+  explique le mécanisme, en renvoyant la mesure appariée à l'ISPRS en cours.
 - `imgs/` — images rassemblées depuis les présentations existantes, le
   manuscrit (`img/`), le dossier `EUVIP/LaTeX/`, et extraites des PDF
   (présentation Mathnet-Dyogene 2025, rapport de stage 2017, NEO-AMELEAS)
