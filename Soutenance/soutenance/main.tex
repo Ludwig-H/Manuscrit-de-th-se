@@ -1263,7 +1263,7 @@
         \begin{minipage}{0.94\textwidth}\scriptsize\centering
             \makebox[0.2439\linewidth]{visible granulaire}\hfill
             \makebox[0.2439\linewidth]{réponse de \textsc{Frangi} au pixel}\hfill
-            \makebox[0.2439\linewidth]{similarité du graphe}\hfill
+            \makebox[0.2439\linewidth]{similarité de \textsc{Frangi}}\hfill
             \makebox[0.2439\linewidth]{composante retenue en bleu}
         \end{minipage}
     \end{center}
@@ -1275,8 +1275,8 @@
         \item Chaque caillou porte une réponse : le fond est aussi « crête » que la fissure
         \item Une \textbf{chaîne d'arêtes} suffit alors à relier les cailloux de proche en proche : le fond percole
         \item À l'\textbf{ordre 2}, deux arêtes ne se recollent que par un \textbf{triangle} : une chaîne sans
-        triangle ne propage plus la connexité, et la vitesse de percolation croît avec $K$ \citb{ans26}
-        --- d'où le choix $K=2$ \citb{euvip26}
+        triangle ne propage plus la connexité, et la vitesse de percolation croît avec $K$ \citb{ans26} :
+        d'où le choix $K=2$ \citb{euvip26}
     \end{itemize}
     \reffoot{ans26,euvip26}
 \end{frame}
@@ -1416,7 +1416,7 @@
         \item Mais un bloc \textbf{comprime} l'attention : au mieux il retrouve la \emph{softmax}
         plate, et n'apprend rien
         \item D'où la voie retenue : un \textbf{biais additif} sur la distance dans le graphe
-        \citb{ying21} --- \textbf{informer}, pas contraindre. {\color{inria-rouge}Aucune IoU mesurée}
+        \citb{ying21} : \textbf{informer}, pas contraindre. {\color{inria-rouge}Aucune IoU mesurée}
     \end{itemize}
     \reffoot{hsa25,ying21}
 \end{frame}
@@ -1427,7 +1427,7 @@
 % ============================================================
 \begin{frame}{En 3D, il manque l'\textcolor{inria-rouge}{unité de calcul}}
     \small
-    Le texte et l'image ont leur socle partagé ; la 3D, pas encore --- c'est pourtant \emph{elle}
+    Le texte et l'image ont leur socle partagé, la 3D pas encore : c'est pourtant \emph{elle}
     qui donne aux machines une prise sur le monde physique
 
     \vspace{0.10cm}
