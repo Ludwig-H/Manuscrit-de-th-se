@@ -1415,111 +1415,65 @@
 % ============================================================
 % 7.c — Modèles de fondation, SAM, LoRA, et le guidage
 % ============================================================
-\begin{frame}{Un \emph{modèle de fondation}, c'est quoi ?}
+\begin{frame}{Les modèles de fondation : le texte, et désormais l'image}
     \begin{center}
-        \resizebox{0.72\textwidth}{!}{\input{figs/fondation_jetons}}
+        \resizebox{0.66\textwidth}{!}{\input{figs/fondation_jetons}}
     \end{center}
 
-    \vspace{0.25cm}
+    \vspace{0.35cm}
     \small
+    Quatre conditions communément demandées \citb{bommasani21} :
+    \vspace{0.10cm}
     \begin{itemize}
-        \setlength{\itemsep}{6pt}
-        \item \textbf{Un seul} modèle, pré-entraîné une fois à très grande échelle,
-        puis réutilisé pour de nombreuses tâches \citb{bommasani21} : GPT-3 \citb{brown20} en est
-        l'exemple fondateur
-        \item Trois piliers : l'\textbf{échelle} (des données et des paramètres),
-        l'\textbf{auto-supervision} (pas d'annotation), l'\textbf{adaptabilité} (on ne réapprend qu'une mince couche)
-        \item Une condition préalable, rarement dite : il faut une \textbf{unité de calcul stable},
-        un \textbf{jeton} (le sous-mot pour le texte, l'imagette $16 \times 16$ pour l'image)
+        \setlength{\itemsep}{7pt}
+        \item \textbf{Échelle} : entraîné \emph{une fois}, sur des données massives
+        \item \textbf{Auto-supervision} : sans annotation
+        \item \textbf{Adaptabilité} : un seul socle, de nombreuses tâches en aval
+        \item \textbf{Émergence} : des capacités qu'on n'a pas programmées
     \end{itemize}
-    \reffoot{bommasani21,brown20}
+    \reffoot{bommasani21}
 \end{frame}
 
 % ------------------------------------------------------------
-\begin{frame}{SAM : segmenter n'importe quoi, à la demande}
+\begin{frame}{L'adapter sans le réentraîner : \emph{LoRA}}
     \begin{center}
-        \resizebox{0.68\textwidth}{!}{\input{figs/sam_architecture}}
+        \resizebox{0.50\textwidth}{!}{\input{figs/lora_adaptation}}
     \end{center}
 
-    \vspace{0.05cm}
+    \vspace{0.40cm}
     \small
     \begin{itemize}
-        \setlength{\itemsep}{5pt}
-        \item Pré-entraîné sur SA-1B, le jeu de \emph{SAM~1} : $11$~millions d'images et
-        $1{,}1$~milliard de masques \citb{kirillov23} ; SAM~2 garde l'interface, change de tronc
-        (\emph{Hiera}) et l'étend à la vidéo \citb{ravi24}
-        \item Architecture \textbf{asymétrique} : un encodeur d'image lourd, calculé \emph{une fois} ;
-        puis une boucle légère, où l'on pose des \textbf{invites}
-        \item Pour nous, la bonne nouvelle : cette interface d'invites est un \textbf{point d'entrée gratuit}
-    \end{itemize}
-    \reffoot{kirillov23,ravi24}
-\end{frame}
-
-% ------------------------------------------------------------
-\begin{frame}{L'adapter aux fissures sans le réentraîner : \emph{LoRA}}
-    \begin{center}
-        \resizebox{0.44\textwidth}{!}{\input{figs/lora_adaptation}}
-    \end{center}
-
-    \vspace{0.15cm}
-    \small
-    \begin{itemize}
-        \setlength{\itemsep}{5pt}
-        \item On \textbf{gèle} le tronc pré-entraîné et on n'apprend qu'une correction de \textbf{petit rang}
-        $W = W_0 + BA$, sur les matrices de requête et de valeur \citb{hu22}
-        \item \textbf{CrackSAM} \citb{ge24} : cette recette, \emph{plus} un réapprentissage du décodeur
-        de masque ($4{,}4$~M de poids appris sur $637$~M, soit $0{,}7\,\%$)
-        \item Il domine les réseaux spécialisés sur deux des trois jeux \emph{zero-shot} et sous le bruit,
-        mais SegFormer reste devant sur le test propre
-        \item Le difficile n'est pas la sémantique : c'est le \textbf{changement de domaine}
-        (ombres, textures rugueuses, et une fissure qui n'occupe qu'une fraction infime des pixels)
+        \setlength{\itemsep}{9pt}
+        \item On \textbf{gèle} le tronc pré-entraîné, on n'apprend qu'une correction de
+        \textbf{petit rang} $W = W_0 + BA$ \citb{hu22}
+        \item \textbf{CrackSAM} \citb{ge24} applique la recette à SAM pour les fissures :
+        $4{,}4$~M de poids appris sur $637$~M, soit $\mathbf{0{,}7\,\%}$
+        \item Le difficile n'est pas la sémantique, c'est le \textbf{changement de domaine}
     \end{itemize}
     \reffoot{hu22,ge24}
 \end{frame}
 
 % ------------------------------------------------------------
-\begin{frame}{Guider SAM : lui parler dans sa propre langue}
+\begin{frame}{Guider SAM par la hiérarchie}
     \begin{center}
-        \resizebox{0.80\textwidth}{!}{\input{figs/invites_centralite}}
+        \resizebox{0.72\textwidth}{!}{\input{figs/invites_centralite}}
     \end{center}
 
-    \vspace{0.20cm}
+    \vspace{0.14cm}
     \small
     \begin{itemize}
-        \setlength{\itemsep}{6pt}
-        \item Notre graphe de \textsc{Frangi} fournit un arbre couvrant et une centralité :
-        donc un \textbf{ordre d'importance} sur les pixels, du tronc de la fissure vers ses ramifications
+        \setlength{\itemsep}{8pt}
+        \item L'arbre couvrant et la centralité donnent un \textbf{ordre d'importance} sur les pixels,
+        du tronc de la fissure vers ses ramifications
         \item Le convertir en \textbf{invites ponctuelles} n'exige \emph{aucune} modification du modèle :
-        c'est l'interface native de SAM
-        \item Ce serait la \textbf{première utilisation réelle} de l'arbre : jusqu'ici nous n'avons injecté
-        que des \emph{cartes} (la similarité, puis onze canaux d'évidence), jamais l'arbre ni la centralité
+        c'est l'interface native de SAM \citb{ravi24}
+        \item \textbf{Première utilisation réelle de l'arbre} ; jusqu'ici, seulement des \emph{cartes}.
+        {\color{inria-rouge}Aucune IoU mesurée}
     \end{itemize}
+    \reffoot{ravi24}
 \end{frame}
 
 % ------------------------------------------------------------
-\begin{frame}{Guider SAM : \emph{informer} l'attention, pas la contraindre}
-    \small
-    Une fissure se reconnaît à sa \textbf{connexité} ; or l'attention compare des vecteurs deux à deux :
-    elle n'a \textbf{aucun \emph{a priori} de chemin}
-    {\color{inria-rouge}\emph{Aucune IoU n'a encore été mesurée pour ce guidage}}
-
-    \vspace{0.10cm}
-    \begin{center}
-        \resizebox{0.38\textwidth}{!}{\input{figs/informer_pas_contraindre}}
-    \end{center}
-
-    \vspace{0.15cm}
-    \begin{itemize}
-        \setlength{\itemsep}{5pt}
-        \item La transposition directe de l'attention hiérarchique \citb{hsa25} est écartée : elle gagne
-        à l'entraînement \emph{de zéro}, mais perd dans un modèle \emph{pré-entraîné} ; sa contrainte de
-        blocs \textbf{comprime} l'attention, sans aucun paramètre appris
-        \item Reste un \textbf{biais additif} indexé par la distance dans le \emph{graphe}, initialisé à zéro
-        \citb{ying21}, et d'abord mesurer le \textbf{plafond} avec la vérité terrain
-    \end{itemize}
-    \reffoot{hsa25,ying21}
-\end{frame}
-
 % ============================================================
 % 7.d — Le modèle de fondation 3D qui manque
 % ============================================================
@@ -2268,6 +2222,48 @@
 \end{frame}
 
 % --- Perspectives : guider SAM -------------------------------
+\begin{frame}{SAM : segmenter n'importe quoi, à la demande}
+    \begin{center}
+        \resizebox{0.68\textwidth}{!}{\input{figs/sam_architecture}}
+    \end{center}
+
+    \vspace{0.05cm}
+    \small
+    \begin{itemize}
+        \setlength{\itemsep}{5pt}
+        \item Pré-entraîné sur SA-1B, le jeu de \emph{SAM~1} : $11$~millions d'images et
+        $1{,}1$~milliard de masques \citb{kirillov23} ; SAM~2 garde l'interface, change de tronc
+        (\emph{Hiera}) et l'étend à la vidéo \citb{ravi24}
+        \item Architecture \textbf{asymétrique} : un encodeur d'image lourd, calculé \emph{une fois} ;
+        puis une boucle légère, où l'on pose des \textbf{invites}
+        \item Pour nous, la bonne nouvelle : cette interface d'invites est un \textbf{point d'entrée gratuit}
+    \end{itemize}
+    \reffoot{kirillov23,ravi24}
+\end{frame}
+
+\begin{frame}{Guider SAM : \emph{informer} l'attention, pas la contraindre}
+    \small
+    Une fissure se reconnaît à sa \textbf{connexité} ; or l'attention compare des vecteurs deux à deux :
+    elle n'a \textbf{aucun \emph{a priori} de chemin}
+    {\color{inria-rouge}\emph{Aucune IoU n'a encore été mesurée pour ce guidage}}
+
+    \vspace{0.10cm}
+    \begin{center}
+        \resizebox{0.38\textwidth}{!}{\input{figs/informer_pas_contraindre}}
+    \end{center}
+
+    \vspace{0.15cm}
+    \begin{itemize}
+        \setlength{\itemsep}{5pt}
+        \item La transposition directe de l'attention hiérarchique \citb{hsa25} est écartée : elle gagne
+        à l'entraînement \emph{de zéro}, mais perd dans un modèle \emph{pré-entraîné} ; sa contrainte de
+        blocs \textbf{comprime} l'attention, sans aucun paramètre appris
+        \item Reste un \textbf{biais additif} indexé par la distance dans le \emph{graphe}, initialisé à zéro
+        \citb{ying21}, et d'abord mesurer le \textbf{plafond} avec la vérité terrain
+    \end{itemize}
+    \reffoot{hsa25,ying21}
+\end{frame}
+
 \begin{frame}{Guider SAM : une suite progressive et réfutable}
     \begin{enumerate}
         \setlength{\itemsep}{12pt}
