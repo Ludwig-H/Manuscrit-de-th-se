@@ -104,10 +104,18 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    **biais additif** sur la distance dans le graphe (Graphormer), c'est-à-dire
    **informer** l'attention plutôt que la contraindre — aucune IoU mesurée.
    L'architecture de SAM et le détail de ce biais sont en secours.
-   *(d)* Le **modèle de fondation 3D** qui manque : l'unité de calcul absente
-   (une ligne d'accroche rappelle que le texte et l'image ont leur socle
-   partagé, la 3D pas encore), le nuage de points comme artefact du capteur, puis
-   le polyèdre comme alphabet et la hiérarchie comme grammaire.
+   *(d)* Le **modèle de fondation 3D** qui manque. La première diapositive pose
+   la question — « Vers un modèle de fondation pour la 3D ? » — et répond par
+   l'unité de calcul : le texte a son sous-mot, l'image son imagette, la 3D n'a
+   ni l'un ni l'autre. Les puces résument les deux candidats et leurs défauts
+   (le **point** est un échantillon d'acquisition, pas un objet ; le **voxel**
+   est une grille de résolution et d'orientation arbitraires, presque vide, qui
+   tranche les objets filiformes ; aucun des deux n'est stable d'une vue à
+   l'autre), puis situent Sonata, Concerto et Utonia sur ces deux unités-là.
+   Viennent ensuite le nuage de points comme artefact du capteur — c'est **là**
+   que sont traitées la densité, la portée et les occultations, pas sur la
+   diapositive précédente — puis le polyèdre comme alphabet et la hiérarchie
+   comme grammaire.
    **Rien n'y est présenté comme acquis** : les sources sont
    `E-HGP/tests/SemanticKITTI/Zoltan/HierarchicalSelfAttention` (statut
    `foundation_claim = not_yet_earned`) et
