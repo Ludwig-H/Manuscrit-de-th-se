@@ -96,12 +96,18 @@
   \fi}
 \newcommand{\citb}[1]{\mbox{{\footnotesize\bfseries\refbracket{#1}}}}
 \newcommand{\bibligne}[1]{\item {\bfseries\refbracket{#1}}\ \csname ref@full@#1\endcsname}
+% Le \par de chaque référence doit tomber DANS le groupe : sinon la dernière
+% ligne est coupée avec le \baselineskip du corps, et non celui de \tiny —
+% ce qui intercalait une demi-ligne vide avant la dernière référence.
 \newcommand{\reffoot}[1]{%
   \begin{textblock}{0.90}[0,1](0.05,0.925)%
-    \begingroup\tiny\raggedright\color{gris_fonce_inria}%
-    \@for\rf@key:=#1\do{%
-      \par\noindent{\bfseries\expandafter\refbracket\expandafter{\rf@key}}\
-      \csname ref@full@\rf@key\endcsname}%
+    \begingroup
+    \tiny\raggedright\color{gris_fonce_inria}%
+    \setlength{\parindent}{0pt}\setlength{\parskip}{0pt}%
+    \edef\rf@list{\zap@space#1 \@empty}% tolère « a, b » comme « a,b »
+    \@for\rf@key:=\rf@list\do{%
+      \noindent{\bfseries\expandafter\refbracket\expandafter{\rf@key}}%
+      \space\csname ref@full@\rf@key\endcsname\par}%
     \endgroup
   \end{textblock}}
 \makeatother
