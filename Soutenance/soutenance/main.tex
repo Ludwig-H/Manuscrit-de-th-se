@@ -1244,67 +1244,45 @@
     \reffoot{frangi98,gretsi25,euvip26}
 \end{frame}
 
-\begin{frame}[t]{Le graphe de \textsc{Frangi} : ce que la hessienne dit d'une \emph{paire}}
-    \vspace{-0.10cm}
-    \begin{columns}[T,onlytextwidth]
-        \begin{column}{0.35\textwidth}
-            \vspace{-0.22cm}
-            \begin{center}
-                \resizebox{0.86\linewidth}{!}{\input{figs/frangi_hessienne}}
-            \end{center}
-        \end{column}
-
-        \begin{column}{0.63\textwidth}
-            \footnotesize
-            Hessienne lissée à l'échelle $\sigma$, symétrique réelle, donc diagonalisable
-            en base orthonormée \citb{frangi98} :
-            \vspace{-0.12cm}
-            \[
-                \mathcal H_\sigma(x)=\nabla^{2}\!\left(G_\sigma * I\right)\!(x)
-                =\lambda_1\,v_1v_1^{\top}+\lambda_2\,v_2v_2^{\top},
-                \qquad |\lambda_1|\le|\lambda_2| .
-            \]
-            \vspace{-0.24cm}
-            \scriptsize
-            \begin{itemize}
-                \setlength{\itemsep}{1.5pt}
-                \item en multimodal : la hessienne \textbf{fusionnée} normalisée de la diapositive précédente
-                \item \textbf{transverse} $v_2$ : on garde $\lambda_2^{+}=\max\{\lambda_2,0\}$, le creux de la crête
-                \item \textbf{longitudinale} $v_1$ : son angle $\theta$ oriente la crête
-                \item $R_B=|\lambda_1|/|\lambda_2|$ : le rapport de \textsc{Frangi}
-                (proche de $0$ : crête ; de $1$ : tache)
-                \item la figure trace l'ellipse $\{u : u^{\top}|\mathcal H_\sigma|\,u=1\}$, où
-                $|\mathcal H_\sigma|=|\lambda_1|v_1v_1^{\top}+|\lambda_2|v_2v_2^{\top}$ :
-                demi-axes $1/\sqrt{|\lambda_k|}$ portés par les $v_k$
-            \end{itemize}
-        \end{column}
-    \end{columns}
-
-    \vspace{0.04cm}
-    \scriptsize
-    Une \textbf{arête} $(i,j)$ --- deux pixels à distance $\le R$ --- porte trois contraintes,
-    maximisées sur les échelles :
-    $\;S_{ij}=\max_{\sigma} S^{\sigma}_{\mathrm{int}}\,S^{\sigma}_{\mathrm{shape}}\,S^{\sigma}_{\mathrm{align}}$.
+\begin{frame}[t]{La hessienne de \textsc{Frangi}, lue sur une ellipse}
+    \vspace{0.10cm}
+    \begin{center}
+        {\small $\mathcal H_\sigma(x)=\nabla^{2}\!\left(G_\sigma * I\right)\!(x)$, symétrique réelle :
+        axes propres $e_1,e_2$, demi-axes $1/\sqrt{|\lambda_1|}$ et $1/\sqrt{|\lambda_2|}$ \citb{frangi98}}
+    \end{center}
 
     \vspace{0.02cm}
-    \begin{itemize}
-        \setlength{\itemsep}{1pt}
-        \item $S_{\mathrm{int}}=1-\exp\bigl[-\tfrac12\bigl(\sqrt{\lambda_2^{+}(x_i)\,\lambda_2^{+}(x_j)}\,/\,s_{\mathrm i}\bigr)^{2}\bigr]$ :
-        courbure transverse \emph{positive} aux deux bouts --- l'indice du \textsc{Frangi} classique
-        \item $S_{\mathrm{shape}}=\exp\bigl[-\tfrac12\bigl((R_B(x_i)+R_B(x_j))\,/\,s_{\mathrm s}\bigr)^{2}\bigr]$ :
-        les deux pixels sont sur une crête, pas sur une tache
-    \end{itemize}
-
-    \vspace{-0.30cm}
     \begin{center}
-        \formulebox{\parbox{0.93\textwidth}{\centering\scriptsize
-        \textbf{L'apport propre du graphe : l'alignement}
-        \quad
-        $\displaystyle S_{\mathrm{align}}=\exp\!\left[-\frac12\left(\frac{\sin\!\left(\theta(x_i)-\theta(x_j)\right)}{s_{\mathrm a}}\right)^{\!2}\right]$\\[1pt]
-        les $v_1$ des \emph{deux} pixels doivent être \textbf{alignés} --- le sinus,
-        car $\theta$ et $\theta+\pi$ décrivent le même axe \citb{gretsi25} \citb{euvip26}}}
+        \resizebox{0.46\linewidth}{!}{\input{figs/frangi_hessienne}}
     \end{center}
-    \reffoot{frangi98,gretsi25,euvip26}
+
+    \vspace{0.10cm}
+    \begin{center}
+        {\small \textbf{Crête sombre} : $\lambda_2>0$ \textbf{grand} en travers, $|\lambda_1|$
+        \textbf{petit} le long ; l'angle $\theta$ de $e_1$ oriente la fissure}
+    \end{center}
+    \reffoot{frangi98}
+\end{frame}
+
+\begin{frame}[t]{Ce que le graphe ajoute : l'\emph{alignement}}
+    \vspace{0.15cm}
+    \begin{center}
+        {\small Le filtre juge chaque pixel \textbf{seul} ; le graphe demande que les directions
+        $e_1$ des \textbf{deux} pixels concordent}
+    \end{center}
+
+    \vspace{0.16cm}
+    \begin{center}
+        \resizebox{0.62\linewidth}{!}{\input{figs/frangi_alignement}}
+    \end{center}
+
+    \vspace{0.14cm}
+    \begin{center}
+        \formulebox{\parbox{0.80\textwidth}{\centering\small
+        $\displaystyle S_{\mathrm{align}}=\exp\!\left[-\frac12\left(\frac{\sin\!\left(\theta(x_i)-\theta(x_j)\right)}{s_{\mathrm a}}\right)^{\!2}\right]$\\[3pt]
+        {\footnotesize le sinus, car $\theta$ et $\theta+\pi$ décrivent le même axe} \citb{gretsi25} \citb{euvip26}}}
+    \end{center}
+    \reffoot{gretsi25,euvip26}
 \end{frame}
 
 \begin{frame}[t]{De la similarité au squelette : la chaîne d'extraction}
