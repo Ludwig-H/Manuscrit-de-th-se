@@ -916,7 +916,7 @@
     \begin{itemize}
         \setlength{\itemsep}{6pt}
         \item \textbf{$K$-polyèdres} : la vitesse \textbf{croît} avec $K$, en dimension $2$, $3$ et $4$
-        \item \textbf{Robust SL} : elle \textbf{décroît} --- élaguer les points de faible degré jette aussi
+        \item \textbf{Robust SL} : elle \textbf{décroît}, car élaguer les points de faible degré jette aussi
         de la masse qu'il fallait récupérer
         \item \textbf{DBSCAN} : il réintègre cette frontière élaguée, mais ses cœurs percolent trop tôt
     \end{itemize}
@@ -964,17 +964,16 @@
                 \setlength{\itemsep}{10pt}
                 \item L'instance s'apprenait de bout en bout, au prix d'annotations coûteuses
                 \item ALPINE \citb{sautier25} : une bonne sémantique, puis, classe par classe,
-                un \textbf{clustering classique} --- graphe des $k$ plus proches voisins, seuil,
-                \textbf{composantes connexes}
+                un \textbf{clustering classique} (graphe des $k$ plus proches voisins, seuil,
+                \textbf{composantes connexes})
                 \item En 4D, Geo-4D \citb{oh25} garde le schéma et y ajoute une \textbf{association
                 géométrique} entre trames, elle aussi sans apprentissage
             \end{itemize}
 
             \vspace{0.40cm}
             \begin{center}
-                \formulebox{\parbox{0.93\textwidth}{\centering\small
-                Sans annotation d'instance ni apprentissage :\\
-                \textbf{premier au classement panoptique de SemanticKITTI}}}
+                \formulebox{\small \textbf{État de l'art en segmentation panoptique
+                sur LiDAR extérieur}}
             \end{center}
         \end{column}
 
@@ -1161,11 +1160,11 @@
             \node[chapbox, draw=inria-rouge, text width=10.8cm, below=0.82cm of sb] (nous)
                 {\textbf{Notre cadre bayésien} \citb{ii26}\\[3pt]
                 le graphe gelé d'un pas de \textsc{Swendsen}--\textsc{Wang} \emph{est} leur graphe\\
-                de percolation --- leur théorème est \textbf{retrouvé exactement}};
+                de percolation : leur théorème est \textbf{retrouvé exactement}};
 
             \node[chapbox, draw=inria-rouge, text width=10.8cm, below=0.82cm of nous] (tri)
                 {\textbf{Dynamique triangulaire} \citb{ii26}\\[3pt]
-                le gel corrélé par triangles percole \textbf{plus tard} ---\\
+                le gel corrélé par triangles percole \textbf{plus tard} :\\
                 des bornes de recouvrement \textbf{strictement meilleures}};
 
             \draw[chaparr] ($(sb.south)+(-3.4,0)$) -- ($(nous.north)+(-3.4,0)$)
@@ -1262,18 +1261,18 @@
     \begin{itemize}
         \setlength{\itemsep}{3pt}
         \item \textbf{Seuiller} les arêtes puis les sommets (une seule fraction $\tau$), garder les
-        \textbf{composantes} assez grandes --- une seule sur FIND, toutes ailleurs
+        \textbf{composantes} assez grandes : une seule sur FIND, toutes ailleurs
         \item \textbf{Arbre couvrant minimal} par composante : la réponse épaisse devient une structure
         d'axe unique \citb{euvip26}
         \item \textbf{Centralité pondérée sur l'arbre}, en $\mathcal O(|V|)$ : masses des sous-arbres
-        accumulées, réenracinement au maximum, élagage descendant --- l'axe principal reste
+        accumulées, réenracinement au maximum, élagage descendant ; seul l'axe principal reste
         \item \textbf{La suite, à l'ordre 2} : deux arêtes ne se recollent que par un \textbf{triangle} \citb{ans26} \citb{isprs26}
     \end{itemize}
 
     \vspace{0.06cm}
     \begin{center}
         {\footnotesize Sur FIND, \textbf{sans apprentissage} : $63\,\%$ de \textsc{Jaccard} en fusionnant
-        les trois modalités ($60\,\%$ à deux) --- CrackSegDiff, supervisé, atteint $87\,\%$ sur données
+        les trois modalités ($60\,\%$ à deux) ; CrackSegDiff, supervisé, atteint $87\,\%$ sur données
         propres, mais s'effondre sous le bruit}
     \end{center}
     \reffoot{euvip26,ans26,isprs26}
@@ -1299,7 +1298,7 @@
             \begin{enumerate}[(i)]
                 \setlength{\itemsep}{7pt}
                 \item \textbf{Invariance d'échelle} : $\mathcal C(\mathcal X, \lambda d) = \mathcal C(\mathcal X, d)$
-                pour tout $\lambda > 0$ --- changer d'unité ne change rien
+                pour tout $\lambda > 0$ (changer d'unité ne change rien)
                 \item \textbf{Richesse} : toute partition de $\mathcal X$ est atteinte par une distance bien choisie
                 \item \textbf{Cohérence} : resserrer un amas \emph{rendu par $\mathcal C$}, ou écarter deux
                 de ces amas, laisse le résultat inchangé
@@ -1328,12 +1327,12 @@
     \small
     \begin{itemize}
         \setlength{\itemsep}{5pt}
-        \item Pour chacune des trois \emph{paires} d'axiomes, \textsc{Kleinberg} donne un témoin ---
+        \item Pour chacune des trois \emph{paires} d'axiomes, \textsc{Kleinberg} donne un témoin :
         à chaque fois une \textbf{variante du Single-Linkage}, ce qui change d'une variante à l'autre
         étant la \textbf{règle d'arrêt} : $k$ amas, distance $r$, ou fraction $\alpha$ du diamètre
         \item L'obstruction indique donc la sortie : garder l'arbre, et laisser la règle de coupe à l'utilisateur
         \item \textsc{Carlsson} \& \textsc{Mémoli} changent alors l'objet rendu : une \textbf{ultramétrique},
-        $T : (\mathcal X, d) \mapsto (\mathcal X, u)$ --- de façon équivalente, un dendrogramme
+        $T : (\mathcal X, d) \mapsto (\mathcal X, u)$, de façon équivalente un dendrogramme
     \end{itemize}
 
     \vspace{0.10cm}
@@ -1367,8 +1366,8 @@
         \item Comme $\mathbb P(\xi_e \le 1 \mid e \text{ satisfaite}) = 1 - e^{-|W_e|}$, la coupe à $\beta = 1$
         redonne \textbf{exactement} la partition gelée de \textsc{Swendsen}--\textsc{Wang}
         \item Mais un \emph{seul} tirage d'horloges contient désormais \textbf{toutes les échelles} intermédiaires :
-        les $\Pi_\beta$ sont emboîtées, elles forment un \textbf{dendrogramme} \citb{ii26}
-        --- $\beta$ est un temps de filtration, pas une température
+        les $\Pi_\beta$ sont emboîtées, elles forment un \textbf{dendrogramme} \citb{ii26} ;
+        $\beta$ est un temps de filtration, pas une température
     \end{itemize}
     \reffoot{ii26}
 \end{frame}
@@ -1384,13 +1383,13 @@
     \begin{itemize}
         \setlength{\itemsep}{6pt}
         \item À chaque \textbf{nœud} de l'arbre, un \emph{bain thermique} exact : tirer le dendrogramme
-        d'horloges $D$ sachant $\sigma$, appliquer les bains à $D$ fixé, oublier $D$ --- tout ordonnancement
+        d'horloges $D$ sachant $\sigma$, appliquer les bains à $D$ fixé, oublier $D$ ; tout ordonnancement
         des nœuds choisi \emph{indépendamment} de la configuration laisse la loi \emph{a posteriori}
         invariante (démontré en volume fini)
         \item \textbf{À une racine} (une composante de $\Pi_1$), retourner l'amas entier se fait à pile ou
         face : c'est \textsc{Swendsen}--\textsc{Wang}. \textbf{À une feuille}, la mise à jour porte sur un
         spin isolé : c'est un bain de \textsc{Glauber}
-        \item Entre les deux, un bain à \textbf{quatre états} --- retourner ou non chacun des deux fils :
+        \item Entre les deux, un bain à \textbf{quatre états} (retourner ou non chacun des deux fils) :
         la famille \textbf{interpole} entre \textsc{Swendsen}--\textsc{Wang} et les dynamiques locales
     \end{itemize}
 \end{frame}
@@ -1413,13 +1412,13 @@
     \footnotesize
     \begin{itemize}
         \setlength{\itemsep}{3pt}
-        \item Seule une masse \textbf{macroscopique} transporte de l'information --- c'est ce que dit
+        \item Seule une masse \textbf{macroscopique} transporte de l'information : c'est ce que dit
         la borne de recouvrement de la partie précédente, évaluée à l'horizon $\beta = 1$
         \item Sur la grille triangulaire, au seuil de percolation de l'\emph{information}, le temps
         informationnel et $\beta_c$ \textbf{coïncident} \citb{ii26} : le meilleur argument dont nous
         disposons pour dire que c'est la bonne coupe
         \item \textbf{Statut : un programme.} Notre meilleure borne rigoureuse vient d'une \emph{autre}
-        source --- un canal d'information à plusieurs états sur les triangles --- et \emph{pas} de cette dynamique
+        source (un canal d'information à plusieurs états sur les triangles) et \emph{pas} de cette dynamique
     \end{itemize}
     \reffoot{ii26}
 \end{frame}
@@ -1437,12 +1436,12 @@
     \begin{itemize}
         \setlength{\itemsep}{6pt}
         \item \textbf{Un seul} modèle, pré-entraîné une fois à très grande échelle,
-        puis réutilisé pour de nombreuses tâches \citb{bommasani21} --- GPT-3 \citb{brown20} en est
+        puis réutilisé pour de nombreuses tâches \citb{bommasani21} : GPT-3 \citb{brown20} en est
         l'exemple fondateur
         \item Trois piliers : l'\textbf{échelle} (des données et des paramètres),
         l'\textbf{auto-supervision} (pas d'annotation), l'\textbf{adaptabilité} (on ne réapprend qu'une mince couche)
         \item Une condition préalable, rarement dite : il faut une \textbf{unité de calcul stable},
-        un \textbf{jeton} --- le sous-mot pour le texte, l'imagette $16 \times 16$ pour l'image
+        un \textbf{jeton} (le sous-mot pour le texte, l'imagette $16 \times 16$ pour l'image)
     \end{itemize}
     \reffoot{bommasani21,brown20}
 \end{frame}
@@ -1480,11 +1479,11 @@
         \item On \textbf{gèle} le tronc pré-entraîné et on n'apprend qu'une correction de \textbf{petit rang}
         $W = W_0 + BA$, sur les matrices de requête et de valeur \citb{hu22}
         \item \textbf{CrackSAM} \citb{ge24} : cette recette, \emph{plus} un réapprentissage du décodeur
-        de masque --- $4{,}4$~M de poids appris sur $637$~M, soit $0{,}7\,\%$
+        de masque ($4{,}4$~M de poids appris sur $637$~M, soit $0{,}7\,\%$)
         \item Il domine les réseaux spécialisés sur deux des trois jeux \emph{zero-shot} et sous le bruit,
         mais SegFormer reste devant sur le test propre
-        \item Le difficile n'est pas la sémantique : c'est le \textbf{changement de domaine} ---
-        ombres, textures rugueuses, et une fissure qui n'occupe qu'une fraction infime des pixels
+        \item Le difficile n'est pas la sémantique : c'est le \textbf{changement de domaine}
+        (ombres, textures rugueuses, et une fissure qui n'occupe qu'une fraction infime des pixels)
     \end{itemize}
     \reffoot{hu22,ge24}
 \end{frame}
@@ -1504,7 +1503,7 @@
         \item Le convertir en \textbf{invites ponctuelles} n'exige \emph{aucune} modification du modèle :
         c'est l'interface native de SAM
         \item Ce serait la \textbf{première utilisation réelle} de l'arbre : jusqu'ici nous n'avons injecté
-        que des \emph{cartes} --- la similarité, puis onze canaux d'évidence --- jamais l'arbre ni la centralité
+        que des \emph{cartes} (la similarité, puis onze canaux d'évidence), jamais l'arbre ni la centralité
     \end{itemize}
 \end{frame}
 
@@ -1524,10 +1523,10 @@
     \begin{itemize}
         \setlength{\itemsep}{5pt}
         \item La transposition directe de l'attention hiérarchique \citb{hsa25} est écartée : elle gagne
-        à l'entraînement \emph{de zéro}, mais perd dans un modèle \emph{pré-entraîné} --- sa contrainte de
+        à l'entraînement \emph{de zéro}, mais perd dans un modèle \emph{pré-entraîné} ; sa contrainte de
         blocs \textbf{comprime} l'attention, sans aucun paramètre appris
         \item Reste un \textbf{biais additif} indexé par la distance dans le \emph{graphe}, initialisé à zéro
-        \citb{ying21} --- et d'abord mesurer le \textbf{plafond} avec la vérité terrain
+        \citb{ying21}, et d'abord mesurer le \textbf{plafond} avec la vérité terrain
     \end{itemize}
     \reffoot{hsa25,ying21}
 \end{frame}
@@ -1535,7 +1534,7 @@
 % ============================================================
 % 7.d — Le modèle de fondation 3D qui manque
 % ============================================================
-\begin{frame}{En 3D, ce modèle de fondation n'existe pas --- et c'est un verrou}
+\begin{frame}{En 3D, ce modèle de fondation n'existe pas : c'est un verrou}
     \begin{center}
         \resizebox{0.74\textwidth}{!}{\input{figs/revolution_3d}}
     \end{center}
@@ -1545,9 +1544,9 @@
     \begin{itemize}
         \setlength{\itemsep}{5pt}
         \item Ce qu'un socle 3D partagé \emph{promet} : un même encodeur d'un capteur, d'un site et d'une
-        tâche à l'autre, avec \textbf{peu} d'annotations nouvelles --- c'est la \textbf{révolution robotique}
+        tâche à l'autre, avec \textbf{peu} d'annotations nouvelles ; c'est la \textbf{révolution robotique}
         que le domaine attend, et je n'en apporte ici aucune preuve
-        \item Le texte et l'image ont franchi ce pas ; la 3D, pas encore --- et c'est \emph{elle} qui donne
+        \item Le texte et l'image ont franchi ce pas, la 3D pas encore : c'est pourtant \emph{elle} qui donne
         aux machines une prise sur le monde physique
     \end{itemize}
 \end{frame}
@@ -1562,10 +1561,10 @@
     \small
     \begin{itemize}
         \setlength{\itemsep}{6pt}
-        \item L'effort est réel --- Sonata \citb{sonata25}, Concerto \citb{concerto25}, Utonia \citb{utonia26} ---
+        \item L'effort est réel (Sonata \citb{sonata25}, Concerto \citb{concerto25}, Utonia \citb{utonia26}),
         mais il porte sur des \textbf{points} ou des \textbf{voxels}
         \item Or ni le point ni le voxel ne sont un \emph{objet} : l'un est un échantillon d'acquisition
-        --- un tir de laser, un pixel de profondeur ---, l'autre une case de grille. Rien, à ma
+        (un tir de laser, un pixel de profondeur), l'autre une case de grille. Rien, à ma
         connaissance, ne fait encore \textbf{consensus}
     \end{itemize}
     \reffoot{sonata25,concerto25,utonia26}
@@ -1582,18 +1581,18 @@
     \begin{itemize}
         \setlength{\itemsep}{5pt}
         \item La \textbf{densité} décroît avec la portée : le même objet donne deux nuages sans
-        correspondance point à point ; s'y ajoutent les nappes de balayage et les \textbf{occultations}
-        --- ce qui manque n'est pas du vide : c'est du \emph{non-observé}
+        correspondance point à point ; s'y ajoutent les nappes de balayage et les \textbf{occultations} :
+        ce qui manque n'est pas du vide, c'est du \emph{non-observé}
         \item Un modèle point par point apprend donc \emph{en même temps} la géométrie, le capteur,
         la densité, l'occultation \textbf{et} la sémantique
-        \item Hypothèse assumée : c'est \emph{une} raison centrale de la difficulté --- pas la seule
+        \item Hypothèse assumée : c'est \emph{une} raison centrale de la difficulté, pas la seule
     \end{itemize}
 \end{frame}
 
 % ------------------------------------------------------------
 \begin{frame}{Mon idée : le \textcolor{inria-rouge}{polyèdre} comme alphabet, l'\textcolor{inria-rouge}{arbre} comme grammaire}
     \small
-    L'obstruction de \textsc{Kleinberg} disait : \emph{gardez l'arbre} --- c'est la sortie prise par
+    L'obstruction de \textsc{Kleinberg} disait : \emph{gardez l'arbre}, c'est la sortie prise par
     \textsc{Carlsson} \& \textsc{Mémoli}. En 3D, cet arbre, nous l'avons déjà : c'est la hiérarchie de
     $K$-polyèdres de la partie II
 
@@ -1605,11 +1604,11 @@
     \vspace{0.05cm}
     \begin{itemize}
         \setlength{\itemsep}{3pt}
-        \item \textbf{Chaque} nœud porte un \textbf{recollement de facettes} --- des triangles dès $K = 3$,
+        \item \textbf{Chaque} nœud porte un \textbf{recollement de facettes} (des triangles dès $K = 3$),
         donc une \emph{surface} : les hiérarchies de superpoints \citb{robert23} n'agrègent que des points ;
         PolyhedronNet \citb{yu25} a la surface, mais pas la hiérarchie
-        \item Le paramètre de la filtration est une grandeur \textbf{physique} --- un rayon, en mètres,
-        et non un indice $0, 1, 2, \ldots$ : les branches deviennent des trajectoires, les fusions des événements
+        \item Le paramètre de la filtration est une grandeur \textbf{physique} (un rayon, en mètres,
+        et non un indice $0, 1, 2, \ldots$) : les branches deviennent des trajectoires, les fusions des événements
         \item \textbf{Un pari réfutable} : si l'arbre réel ne bat ni un modèle plat, ni un arbre aléatoire,
         ni une hiérarchie \emph{générique}, il tombe
     \end{itemize}
@@ -1649,7 +1648,7 @@
         \item \textbf{Question ouverte assumée} : HGP-Clusterer n'est que \emph{fractionnellement} consistant ; un algorithme consistant en dimension $p \ge 2$ reste à inventer
         \item \textbf{Graphes signés} : couplage à deux répliques pour des seuils exacts de recouvrement ; vers un algorithme pratique de détection de communautés
         \item \textbf{Fissures} : un logiciel d'aide à l'annotation experte fondé sur les graphes ; réconcilier modèles géométriques et apprentissage profond
-        \item \textbf{Et, plus loin} : la \emph{voie hiérarchique} qui précède --- faire du polyèdre et de son espace d'échelle l'unité de calcul d'un modèle appris pour la 3D
+        \item \textbf{Et, plus loin}, la \emph{voie hiérarchique} qui précède : faire du polyèdre et de son espace d'échelle l'unité de calcul d'un modèle appris pour la 3D
     \end{itemize}
 \end{frame}
 
@@ -1926,7 +1925,7 @@
             \vspace{0.30cm}
             \begin{itemize}
                 \setlength{\itemsep}{8pt}
-                \item Geo-4D \citb{oh25} garde le même schéma --- sémantique, puis regroupement ---
+                \item Geo-4D \citb{oh25} garde le même schéma (sémantique, puis regroupement)
                 et y ajoute une \textbf{association globale} entre trames, purement \textbf{géométrique}
                 et là encore \textbf{sans apprentissage}
                 \item Dans les deux cas, une fois la sémantique acquise, ce qui reste est un problème
@@ -2021,7 +2020,7 @@
         $\Pi_\beta$ = composantes de $\{\xi_e \le \beta\}$ ; le dendrogramme s'obtient par \textsc{Kruskal}
         \item $\mathbb P(\xi_e \le 1) = 1 - e^{-|W_e|}$ : $\Pi_1$ est \textbf{exactement} la partition gelée de \textsc{Swendsen}--\textsc{Wang}
         \item Mesure jointe de type \textsc{Edwards}--\textsc{Sokal} $\nu(\sigma, D)$ ; à chaque nœud, un \textbf{bain thermique exact} sur les quatre orientations relatives des deux fils (balance détaillée, invariance)
-        \item Le dendrogramme est \textbf{non marqué} : l'identité de l'arête gagnante est marginalisée --- une fusion dépend de toute la coupe $\Lambda_u(\sigma) = \sum_{e \in E_u} |W_e| \ind{e \text{ satisfaite}}$
+        \item Le dendrogramme est \textbf{non marqué} : l'identité de l'arête gagnante est marginalisée ; une fusion dépend de toute la coupe $\Lambda_u(\sigma) = \sum_{e \in E_u} |W_e| \ind{e \text{ satisfaite}}$
         \item Sur le tore triangulaire : $\Pi_t$ suit une percolation indépendante $q_p(t) = p\,(1 - e^{-u_p t})$, $u_p = \log\frac{p}{1-p}$
     \end{itemize}
 \end{frame}
@@ -2056,18 +2055,18 @@
             \beta_c(p) \;=\; q_p^{-1}(q_c) \;=\; -\,\frac{\log\bigl(1 - q_c/p\bigr)}{\log\frac{p}{1-p}},
             \qquad q_c = 2\sin\tfrac{\pi}{18} = 0{,}34730\ldots
         \]
-        \item Il n'existe dans l'horizon $[0,1]$ que si $p \ge \tfrac{1 + q_c}{2} = 0{,}67365\ldots$ ---
+        \item Il n'existe dans l'horizon $[0,1]$ que si $p \ge \tfrac{1 + q_c}{2} = 0{,}67365\ldots$ :
         c'est exactement le seuil de gel de \textsc{Swendsen}--\textsc{Wang} ; en dessous, la criticité n'est
         jamais atteinte avant la censure
         \item \textbf{Ce que la hiérarchie ajoute à la borne de percolation.} Celle-ci ne retient que la
         \emph{taille} des racines ; la borne par plus petit ancêtre commun pondère chaque fusion par sa
-        fiabilité exacte --- algèbre finie établie, \emph{conditionnellement} à la formalisation complète
+        fiabilité exacte : algèbre finie établie, \emph{conditionnellement} à la formalisation complète
         de la mesure jointe augmentée
         \[
             Q_n \;\le\; \frac{1}{n^2}\,\mathbb E\Bigl[\,n + 2\!\!\sum_{u \in D}\! |C_{u,1}|\,|C_{u,2}|\,\eta_u\Bigr],
             \qquad \eta_u = \tanh^2\tfrac{L_u}{2}
         \]
-        \item \textbf{Réserve.} La coupe critique n'est \emph{pas} sélectionnée par l'information --- après
+        \item \textbf{Réserve.} La coupe critique n'est \emph{pas} sélectionnée par l'information : après
         marginalisation exacte, le jacobien répliqué vaut $\theta^2$ à tout niveau. Elle se distingue
         \emph{géométriquement}, comme ordre d'élimination du \textsc{Gibbs}
     \end{itemize}
@@ -2098,7 +2097,7 @@
                 \item Deux répliques, deux dendrogrammes \textbf{indépendants}, coupés au même $\beta_c$
                 \item Chaque branche transmet exactement $\theta^2$ : la densité d'évolution répliquée
                 redonne $d\theta^2 = 1$\\
-                {\small (le seuil de \textsc{Kesten}--\textsc{Stigum} --- identité valable pour
+                {\small (le seuil de \textsc{Kesten}--\textsc{Stigum}, identité valable pour
                 \textbf{toute} coupe exactement marginalisée : elle calibre le décompte, elle ne
                 désigne pas $\beta_c$)}
                 \item Quand le signal diverge, $\beta_{c,n} \to 0$ : la coupe s'écrase d'elle-même sur \textsc{Glauber}
@@ -2219,7 +2218,7 @@
         \setlength{\itemsep}{12pt}
         \item \textbf{Mesurer le plafond, sur SAM~2 gelé.} Injecter la \emph{vérité terrain} dans l'interface
         choisie et regarder ce qu'elle rapporte au mieux. La vérité terrain à l'inférence en fait un
-        \textbf{diagnostic}, jamais un résultat publiable --- mais deux heures de GPU suffisent, et
+        \textbf{diagnostic}, jamais un résultat publiable, mais deux heures de GPU suffisent, et
         sans plafond on arrête là
         \item \textbf{Utiliser d'abord l'interface native.} Transformer la hiérarchie en invites ponctuelles,
         sélectionnées par centralité décroissante de l'arbre couvrant minimal, du grossier au fin
@@ -2247,11 +2246,11 @@
         \setlength{\itemsep}{4pt}
         \item \textbf{Surface d'attaque} : $3$ blocs d'attention globale sur $48$ dans \emph{Hiera}-L
         ($6{,}25\,\%$ des blocs), soit $6{,}6\,\%$ du budget arithmétique du tronc (comptage analytique)
-        \item \textbf{Forme de l'arbre} : ce n'est pas un réglage --- l'arité $b = (N-1)/(N-L)$ est \emph{fixée}
+        \item \textbf{Forme de l'arbre} : ce n'est pas un réglage ; l'arité $b = (N-1)/(N-L)$ est \emph{fixée}
         par la fraction de feuilles, donc par la géométrie de la fissure ; $b \approx 1{,}3$ contre $8$ attendu
         \item Ce défaut-là se répare (décomposition en centroïdes sur la grille $64 \times 64$ : profondeur $12$,
         arité $2{,}82$) ; ce qui ne se répare pas, c'est qu'une contrainte de blocs \emph{comprime} au lieu d'informer
-        \item Et la meilleure hiérarchie possible --- construite depuis la vérité terrain --- ne demande
+        \item Et la meilleure hiérarchie possible (construite depuis la vérité terrain) ne demande
         qu'une \textbf{carte binaire} fissure/fond : ni arbre couvrant, ni composantes, ni centralité
         \item \textbf{Limite assumée} : mesures sur fissures \emph{synthétiques} calibrées sur le corpus
         Khánh Hà ($448$~px, largeur $19{,}1$~px, couverture $5{,}7\,\%$) ; \textbf{aucune heure de GPU}
@@ -2273,7 +2272,7 @@
     \vspace{0.0cm}
     \begin{itemize}
         \setlength{\itemsep}{5pt}
-        \item Un cran plus loin \citb{culbertson18} : remplacer la partition par un \textbf{recouvrement}. Pour $K \ge 2$, les $K$-polyèdres peuvent partager des sommets : leurs réalisations géométriques se \textbf{chevauchent} \citb{ans26} --- la parenté est d'idée, non de théorème
+        \item Un cran plus loin \citb{culbertson18} : remplacer la partition par un \textbf{recouvrement}. Pour $K \ge 2$, les $K$-polyèdres peuvent partager des sommets : leurs réalisations géométriques se \textbf{chevauchent} \citb{ans26} : la parenté est d'idée, non de théorème
         \item Un nœud ne porte pas qu'un sac de points : il porte un recollement de \textbf{facettes},
         c'est-à-dire un bloc de la partition des $(K-1)$-simplexes de \textsc{Gabriel} effectivement construits
     \end{itemize}
@@ -2289,7 +2288,7 @@
     \small
     \begin{itemize}
         \setlength{\itemsep}{3pt}
-        \item L'\textbf{alphabet} existe --- les polyèdres et leur hiérarchie, c'est la thèse ; le code qui en ferait des jetons reste à choisir, le \textbf{modèle} n'est pas écrit et aucune expérience d'apprentissage n'a été menée
+        \item L'\textbf{alphabet} existe : les polyèdres et leur hiérarchie, c'est la thèse ; le code qui en ferait des jetons reste à choisir, le \textbf{modèle} n'est pas écrit et aucune expérience d'apprentissage n'a été menée
         \item Si l'arbre réel ne bat ni le modèle plat, ni un arbre aléatoire, ni un arbre octal, le pari hiérarchique tombe
         \item La marge attendue concerne les objets \textbf{filiformes} ; or la connexité d'ordre $K$ les fait naître \emph{tard} dans la filtration
     \end{itemize}
@@ -2305,10 +2304,10 @@
         \setlength{\itemsep}{5pt}
         \item Ce que la hiérarchie \emph{fournit} déjà par nœud : le recollement de facettes, le niveau de
         naissance, le parent et les enfants de fusion. Ce qui reste à \textbf{construire} : la sérialisation,
-        les attributs surfaciques (aires, normales, bords --- donc $K \ge 3$), les voisins latéraux et la
+        les attributs surfaciques (aires, normales, bords, donc $K \ge 3$), les voisins latéraux et la
         confiance d'acquisition
         \item L'interface vers les points existe déjà : le vote pondéré $w_{x\tau} = S_\tau / T_x$ du §~9.1, partition de l'unité sur les points couverts ($T_x > 0$)
-        \item Ce qui manque est en aval : encodeur de surface, encodeur de branche, encodeur de fusion, décodeur par facette --- et les campagnes qui les jugeraient
+        \item Ce qui manque est en aval : encodeur de surface, encodeur de branche, encodeur de fusion, décodeur par facette, et les campagnes qui les jugeraient
     \end{itemize}
 \end{frame}
 
@@ -2349,7 +2348,7 @@
             \end{itemize}
 
             \vspace{0.35cm}
-            {\footnotesize Ces résultats resteraient publiables comme \textbf{réfutation} --- mais pas sous la thèse annoncée}
+            {\footnotesize Ces résultats resteraient publiables comme \textbf{réfutation}, mais pas sous la thèse annoncée}
         \end{column}
     \end{columns}
 \end{frame}
@@ -2383,7 +2382,7 @@
     \small
     \begin{itemize}
         \setlength{\itemsep}{4pt}
-        \item \textbf{Dilution} : combien de jetons sont moyennés avec $j$ lorsque $i$ porte son attention sur $j$. Sous attention plate, elle vaut $1$ --- $181$ reste donc \emph{énorme}. Sur \textbf{trois fissures synthétiques}
+        \item \textbf{Dilution} : combien de jetons sont moyennés avec $j$ lorsque $i$ porte son attention sur $j$. Sous attention plate, elle vaut $1$ : $181$ reste donc \emph{énorme}. Sur \textbf{trois fissures synthétiques}
         \item L'écart $181$ contre $808$ mesure la \textbf{causalité} (bon masque \emph{vs.} masque d'une autre image), pas une performance : aucune IoU n'a été mesurée
         \item Toutes les hiérarchies \textbf{équilibrées} plafonnent entre $768$ et $1\,024$, y compris celle qui cherche explicitement à éviter la fissure
     \end{itemize}
