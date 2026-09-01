@@ -1,0 +1,41 @@
+% Ellipse de la hessienne lissée en un pixel d'une crête sombre.
+% On trace le niveau {u : u^T |H_sigma| u = 1} avec |H| = |l1| v1 v1^T + |l2| v2 v2^T :
+% c'est bien une ellipse quels que soient les SIGNES des valeurs propres (le niveau
+% de H lui-même serait une hyperbole dès que l1 < 0, ce qui arrive sur une crête où
+% l1 ~ 0). Demi-axes 1/sqrt(|l_k|) portés par les vecteurs propres v_k.
+% Crête : |l1| petit (grand axe, longitudinal, angle theta) et l2 > 0 grand (petit axe).
+    \begin{tikzpicture}[x=1cm,y=1cm,scale=1.0,every node/.style={scale=1.0},
+        crete/.style={line width=8pt, gris_fonce_inria!55, line cap=round},
+        vecp/.style={-{Latex[length=2.1mm]}, line width=1pt},
+        filet/.style={line width=0.8pt}]
+
+      \begin{scope}[rotate=27]
+        \draw[crete] (-2.15,0)--(2.15,0);
+        \draw[inria-rouge, line width=0.9pt, fill=inria-rouge!7]
+              (0,0) ellipse (1.62 and 0.46);
+        % longueurs corrigées de la pointe de flèche : les pointes tombent en 1,62 et 0,46
+        \draw[vecp, inria-rouge]      (0,0)--(1.6925,0);
+        \draw[vecp, inria-rouge!62]   (0,0)--(0,0.5325);
+        \draw[inria-rouge!45, dashed, line width=0.5pt] (1.62,0)--(2.24,0);
+        \node[font=\scriptsize, inria-rouge, fill=white, inner sep=0.8pt] at (0.80,0) {$v_1$};
+        \node[font=\scriptsize, inria-rouge!62, right=1pt] at (0.02,0.30) {$v_2$};
+      \end{scope}
+
+      % axe de référence et angle theta, tracés HORS de l'ellipse
+      \draw[gray!65, dashed, line width=0.5pt] (0,0)--(2.10,0);
+      \draw[gris_fonce_inria!75, line width=0.6pt] (1.90,0) arc (0:27:1.90);
+      \node[font=\scriptsize] at (1.72,0.44) {$\theta$};
+      \node[circle,fill=inria-2024-bleu-canard,inner sep=0pt,minimum size=3.6pt] (px) at (0,0) {};
+      \node[font=\scriptsize, below left=0pt and 1pt of px] {$x$};
+
+      % demi-axes, rattachés par des filets qui sortent franchement de la bande
+      \draw[inria-rouge, filet] (1.4434,0.7355)--(1.62,1.06);
+      \node[font=\scriptsize, inria-rouge, anchor=south west] at (1.56,1.05)
+            {$\dfrac{1}{\sqrt{|\lambda_1|}}$};
+      \draw[inria-rouge!62, filet] (-0.2088,0.4099)--(-0.72,0.86);
+      \node[font=\scriptsize, inria-rouge!62, anchor=south east] at (-0.68,0.83)
+            {$\dfrac{1}{\sqrt{|\lambda_2|}}$};
+      \draw[gris_fonce_inria!70, filet] (-1.72,-0.92)--(-1.86,-1.22);
+      \node[font=\scriptsize, text=gris_fonce_inria, anchor=north, align=center] at (-1.86,-1.22)
+            {crête\\sombre};
+    \end{tikzpicture}
