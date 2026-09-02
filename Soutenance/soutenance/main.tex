@@ -793,16 +793,17 @@
 \begin{frame}{Pourquoi \textsc{Gabriel} plutôt que la mosaïque d'ordre $K$ ?}
     \vspace{-0.05cm}
     \begin{center}
-        \resizebox{0.58\textwidth}{!}{\input{figs/miniball_circumball}}
+        \resizebox{0.48\textwidth}{!}{\input{figs/miniball_circumball}}
     \end{center}
 
-    \vspace{0.20cm}
-    \footnotesize
+    \vspace{0.28cm}
+    \small
     \begin{itemize}
-        \setlength{\itemsep}{5pt}
-        \item La miniboule est \textbf{bornée} par le simplexe : un support tient près de sa \textbf{plus longue arête}
-        \item D'où une \textbf{décomposition en paires bien séparées} \citb{callahan95} : un témoin tue un \textbf{bloc} de candidats
-        \item Descente en \textbf{vague}, profondeur $\log n$, donc parallèle ; \textsc{Delaunay} s'insère point par point
+        \setlength{\itemsep}{7pt}
+        \item Quasi dégénérée, la sphère circonscrite admet des témoins \textbf{arbitrairement lointains} ;
+        ceux de la \emph{miniball} sont \textbf{localisables}
+        \item Une décomposition en \textbf{paires bien séparées} \citb{callahan95} élimine alors des
+        \textbf{blocs} de candidats \textbf{en parallèle} ; \textsc{Delaunay} reste séquentiel
     \end{itemize}
     \reffoot{callahan95}
 \end{frame}
