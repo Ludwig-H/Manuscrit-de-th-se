@@ -1,65 +1,123 @@
-                \begin{tikzpicture}[xscale=1.0, yscale=1.0]
-                    \useasboundingbox (-1.35, -1.15) rectangle (11.75, 4.95);
+                    % Hierarchie de K-polyedres proposee comme unite de calcul a la place du point.
+                    % Les six pieces des feuilles sont les six secteurs d'un meme polygone maitre
+                    % irregulier (decoupe en eventail autour d'un point interieur O). Elles sont
+                    % dessinees partout a la meme echelle et dans la meme orientation : le polyedre
+                    % d'un noeud interne est donc litteralement le recollement de ceux de ses deux
+                    % enfants, soude le long de la face tracee en rouge epais. L'ordonnee est le
+                    % rayon physique r ; le point rouge d'un noeud est place en O, au coeur du polyedre.
+                    % Coordonnees engendrees par figs/hierarchie_surfaces.py :
+                    % editer le script puis le relancer, pas le TikZ a la main.
+                    \begin{tikzpicture}[xscale=1.0, yscale=1.0]
+                    \useasboundingbox (-2.15, -0.40) rectangle (10.303, 7.541);
 
-                    \tikzset{arbre/.style={inria-rouge, line width=1.3pt, rounded corners=3pt}}
-                    \tikzset{surfglyphe/.style={draw=inria-2024-bleu-canard, line width=0.75pt,
-                                                fill=inria-2024-bleu-canard!14, line join=round}}
-                    \tikzset{niveau/.style={gray!28, line width=0.5pt, densely dotted}}
+                    \tikzset{arbre/.style={gris_fonce_inria!75, line width=0.9pt}}
+                    \tikzset{bord/.style={draw=inria-2024-bleu-canard, line width=1.05pt, line join=round}}
+                    \tikzset{couture/.style={draw=inria-2024-bleu-canard!70, line width=0.4pt}}
+                    \tikzset{soudure/.style={draw=inria-rouge, line width=1.7pt}}
 
-                    % --- axe d'échelle ---
-                    \draw[-{Latex[length=2.2mm]}, gris_fonce_inria, line width=0.8pt] (-0.95,0.05) -- (-0.95,4.45);
-                    \node[rotate=90, font=\scriptsize, text=gris_fonce_inria, anchor=south] at (-1.22,2.25)
-                        {échelle $r$};
+                    % ==== axe des rayons ====
+                    \draw[-{Latex[length=2.4mm]}, gris_fonce_inria, line width=0.8pt] (-1.00,-0.25) -- (-1.00,7.271);
+                    \node[font=\scriptsize, text=gris_fonce_inria, anchor=south] at (-1.00,7.341) {$r$};
+                    \draw[gris_fonce_inria, line width=0.6pt] (-1.00,0.6) -- (-0.84,0.6);
+                    \node[font=\scriptsize, text=gris_fonce_inria, anchor=east] at (-1.08,0.6) {$0,25$};
+                    \draw[gris_fonce_inria, line width=0.6pt] (-1.00,1.2) -- (-0.84,1.2);
+                    \node[font=\scriptsize, text=gris_fonce_inria, anchor=east] at (-1.08,1.2) {$0,5$};
+                    \draw[gris_fonce_inria, line width=0.6pt] (-1.00,2.4) -- (-0.84,2.4);
+                    \node[font=\scriptsize, text=gris_fonce_inria, anchor=east] at (-1.08,2.4) {$1,0$};
+                    \draw[gris_fonce_inria, line width=0.6pt] (-1.00,3.6) -- (-0.84,3.6);
+                    \node[font=\scriptsize, text=gris_fonce_inria, anchor=east] at (-1.08,3.6) {$1,5$};
+                    \draw[gris_fonce_inria, line width=0.6pt] (-1.00,4.8) -- (-0.84,4.8);
+                    \node[font=\scriptsize, text=gris_fonce_inria, anchor=east] at (-1.08,4.8) {$2,0$};
+                    \draw[gris_fonce_inria, line width=0.6pt] (-1.00,6) -- (-0.84,6);
+                    \node[font=\scriptsize, text=gris_fonce_inria, anchor=east] at (-1.08,6) {$2,5$};
+                    \node[rotate=90, font=\scriptsize, text=gris_fonce_inria, anchor=south] at (-1.95,2.88) {rayon (m)};
 
-                    \foreach \y in {1.62, 3.02} { \draw[niveau] (-0.80,\y) -- (10.55,\y); }
+                    % ==== arbre (passe derriere les polyedres) ====
+                    \draw[arbre] (5.9,0.528) -- (5.9,1.92);
+                    \draw[arbre] (4.1,0.912) -- (4.1,1.92);
+                    \draw[arbre] (5.9,1.92) -- (4.1,1.92);
+                    \draw[arbre] (0.5,0.312) -- (0.5,2.4);
+                    \draw[arbre] (2.3,0.744) -- (2.3,2.4);
+                    \draw[arbre] (0.5,2.4) -- (2.3,2.4);
+                    \draw[arbre] (7.7,1.056) -- (7.7,2.76);
+                    \draw[arbre] (9.5,0.624) -- (9.5,2.76);
+                    \draw[arbre] (7.7,2.76) -- (9.5,2.76);
+                    \draw[arbre] (5,1.92) -- (5,4.2);
+                    \draw[arbre] (1.4,2.4) -- (1.4,4.2);
+                    \draw[arbre] (5,4.2) -- (1.4,4.2);
+                    \draw[arbre] (3.2,4.2) -- (3.2,6.24);
+                    \draw[arbre] (8.6,2.76) -- (8.6,6.24);
+                    \draw[arbre] (3.2,6.24) -- (8.6,6.24);
 
-                    \newcommand{\glyPetit}[2]{\draw[surfglyphe] (#1,#2) -- ++(0.30,0.09) -- ++(0.11,0.25) -- ++(-0.27,0.11) -- ++(-0.18,-0.21) -- cycle;}
-                    \newcommand{\glyMoyen}[2]{\draw[surfglyphe] (#1,#2) -- ++(0.42,0.14) -- ++(0.34,-0.02) -- ++(0.08,0.34) -- ++(-0.46,0.18) -- ++(-0.32,-0.24) -- cycle;}
+                    % ==== polyedres : un par noeud, a sa hauteur ====
+                    % noeud p1
+                    \fill[inria-2024-bleu-canard!12] (5.397,0.321) -- (6.403,0.445) -- (6.103,0.735) -- cycle;
+                    \draw[bord] (5.397,0.321) -- (6.403,0.445) -- (6.103,0.735) -- cycle;
+                    % noeud p2
+                    \fill[inria-2024-bleu-canard!58] (3.902,0.582) -- (4.608,0.996) -- (4.103,1.242) -- (3.592,1.048) -- cycle;
+                    \draw[bord] (3.902,0.582) -- (4.608,0.996) -- (4.103,1.242) -- (3.592,1.048) -- cycle;
+                    % noeud p3
+                    \fill[inria-2024-bleu-canard!30] (0.936,0.274) -- (0.626,0.74) -- (0.064,0.627) -- (0.131,0.294) -- (0.14,-0.116) -- cycle;
+                    \draw[bord] (0.936,0.274) -- (0.626,0.74) -- (0.064,0.627) -- (0.131,0.294) -- (0.14,-0.116) -- cycle;
+                    % noeud p4
+                    \fill[inria-2024-bleu-canard!78] (2.698,1.095) -- (1.902,0.704) -- (2.43,0.393) -- cycle;
+                    \draw[bord] (2.698,1.095) -- (1.902,0.704) -- (2.43,0.393) -- cycle;
+                    % noeud p5
+                    \fill[inria-2024-bleu-canard!42] (7.547,1.407) -- (7.279,0.705) -- (7.745,0.89) -- (8.121,0.928) -- cycle;
+                    \draw[bord] (7.547,1.407) -- (7.279,0.705) -- (7.745,0.89) -- (8.121,0.928) -- cycle;
+                    % noeud p6
+                    \fill[inria-2024-bleu-canard!95] (8.997,0.801) -- (9.57,0.322) -- (9.897,0.507) -- (9.843,0.749) -- (10.003,0.926) -- cycle;
+                    \draw[bord] (8.997,0.801) -- (9.57,0.322) -- (9.897,0.507) -- (9.843,0.749) -- (10.003,0.926) -- cycle;
+                    % noeud A
+                    \fill[inria-2024-bleu-canard!12] (4.652,1.59) -- (5.659,1.714) -- (5.358,2.004) -- cycle;
+                    \fill[inria-2024-bleu-canard!58] (4.652,1.59) -- (5.358,2.004) -- (4.852,2.25) -- (4.341,2.056) -- cycle;
+                    \draw[bord] (4.652,1.59) -- (5.659,1.714) -- (5.358,2.004) -- (4.852,2.25) -- (4.341,2.056) -- cycle;
+                    \draw[soudure] (4.652,1.59) -- (5.358,2.004);
+                    % noeud B
+                    \fill[inria-2024-bleu-canard!30] (1.836,2.518) -- (1.526,2.983) -- (0.964,2.87) -- (1.031,2.537) -- (1.04,2.127) -- cycle;
+                    \fill[inria-2024-bleu-canard!78] (1.836,2.518) -- (1.04,2.127) -- (1.568,1.817) -- cycle;
+                    \draw[bord] (1.836,2.518) -- (1.526,2.983) -- (0.964,2.87) -- (1.031,2.537) -- (1.04,2.127) -- (1.568,1.817) -- cycle;
+                    \draw[soudure] (1.836,2.518) -- (1.04,2.127);
+                    % noeud C
+                    \fill[inria-2024-bleu-canard!42] (8.231,3.048) -- (7.962,2.347) -- (8.428,2.532) -- (8.805,2.57) -- cycle;
+                    \fill[inria-2024-bleu-canard!95] (8.231,3.048) -- (8.805,2.57) -- (9.131,2.754) -- (9.077,2.997) -- (9.238,3.173) -- cycle;
+                    \draw[bord] (8.231,3.048) -- (7.962,2.347) -- (8.428,2.532) -- (8.805,2.57) -- (9.131,2.754) -- (9.077,2.997) -- (9.238,3.173) -- cycle;
+                    \draw[soudure] (8.231,3.048) -- (8.805,2.57);
+                    % noeud D
+                    \fill[inria-2024-bleu-canard!12] (3.133,4.22) -- (4.14,4.344) -- (3.839,4.635) -- cycle;
+                    \fill[inria-2024-bleu-canard!58] (3.133,4.22) -- (3.839,4.635) -- (3.334,4.881) -- (2.823,4.686) -- cycle;
+                    \fill[inria-2024-bleu-canard!30] (3.133,4.22) -- (2.823,4.686) -- (2.26,4.573) -- (2.327,4.24) -- (2.337,3.83) -- cycle;
+                    \fill[inria-2024-bleu-canard!78] (3.133,4.22) -- (2.337,3.83) -- (2.865,3.519) -- cycle;
+                    \draw[couture] (3.133,4.22) -- (3.839,4.635);
+                    \draw[couture] (3.133,4.22) -- (2.337,3.83);
+                    \draw[bord] (3.133,4.22) -- (4.14,4.344) -- (3.839,4.635) -- (3.334,4.881) -- (2.823,4.686) -- (2.26,4.573) -- (2.327,4.24) -- (2.337,3.83) -- (2.865,3.519) -- cycle;
+                    \draw[soudure] (3.133,4.22) -- (2.823,4.686);
+                    % noeud R
+                    \fill[inria-2024-bleu-canard!12] (5.833,6.26) -- (6.84,6.384) -- (6.539,6.675) -- cycle;
+                    \fill[inria-2024-bleu-canard!58] (5.833,6.26) -- (6.539,6.675) -- (6.034,6.921) -- (5.523,6.726) -- cycle;
+                    \fill[inria-2024-bleu-canard!30] (5.833,6.26) -- (5.523,6.726) -- (4.96,6.613) -- (5.027,6.28) -- (5.037,5.87) -- cycle;
+                    \fill[inria-2024-bleu-canard!78] (5.833,6.26) -- (5.037,5.87) -- (5.565,5.559) -- cycle;
+                    \fill[inria-2024-bleu-canard!42] (5.833,6.26) -- (5.565,5.559) -- (6.031,5.744) -- (6.407,5.781) -- cycle;
+                    \fill[inria-2024-bleu-canard!95] (5.833,6.26) -- (6.407,5.781) -- (6.734,5.966) -- (6.679,6.208) -- (6.84,6.384) -- cycle;
+                    \draw[couture] (5.833,6.26) -- (6.539,6.675);
+                    \draw[couture] (5.833,6.26) -- (5.523,6.726);
+                    \draw[couture] (5.833,6.26) -- (5.037,5.87);
+                    \draw[couture] (5.833,6.26) -- (6.407,5.781);
+                    \draw[bord] (6.84,6.384) -- (6.539,6.675) -- (6.034,6.921) -- (5.523,6.726) -- (4.96,6.613) -- (5.027,6.28) -- (5.037,5.87) -- (5.565,5.559) -- (6.031,5.744) -- (6.407,5.781) -- (6.734,5.966) -- (6.679,6.208) -- (6.84,6.384) -- cycle;
+                    \draw[soudure] (5.833,6.26) -- (5.565,5.559);
+                    \draw[soudure] (5.833,6.26) -- (6.84,6.384);
 
-                    % feuilles : abscisses et niveaux de NAISSANCE distincts
-                    \def\fA{0.55} \def\yA{0.35}
-                    \def\fB{2.05} \def\yB{0.90}
-                    \def\fC{3.55} \def\yC{0.55}
-                    \def\fD{5.55} \def\yD{1.20}
-                    \def\fE{7.35} \def\yE{0.70}
-                    \def\fF{9.45} \def\yF{1.05}
-                    \def\gA{1.30} \def\gB{4.55} \def\gC{8.40}
-                    \def\rA{4.85}
+                    % ==== noeuds : le point de fusion, au centre du polyedre ====
+                    \fill[inria-rouge] (5.9,0.528) circle (2.0pt);
+                    \fill[inria-rouge] (4.1,0.912) circle (2.0pt);
+                    \fill[inria-rouge] (0.5,0.312) circle (2.0pt);
+                    \fill[inria-rouge] (2.3,0.744) circle (2.0pt);
+                    \fill[inria-rouge] (7.7,1.056) circle (2.0pt);
+                    \fill[inria-rouge] (9.5,0.624) circle (2.0pt);
+                    \fill[inria-rouge] (5,1.92) circle (2.6pt);
+                    \fill[inria-rouge] (1.4,2.4) circle (2.6pt);
+                    \fill[inria-rouge] (8.6,2.76) circle (2.6pt);
+                    \fill[inria-rouge] (3.2,4.2) circle (2.6pt);
+                    \fill[inria-rouge] (5.9,6.24) circle (3.0pt);
 
-                    % =============== arêtes de l'arbre ===============
-                    \draw[arbre] (\fA,\yA) -- (\fA,1.62) -- (\gA,1.62) -- (\gA,2.05);
-                    \draw[arbre] (\fB,\yB) -- (\fB,1.62) -- (\gA,1.62);
-                    \draw[arbre] (\fC,\yC) -- (\fC,1.62) -- (\gB,1.62) -- (\gB,2.05);
-                    \draw[arbre] (\fD,\yD) -- (\fD,1.62) -- (\gB,1.62);
-                    \draw[arbre] (\fE,\yE) -- (\fE,1.62) -- (\gC,1.62) -- (\gC,2.05);
-                    \draw[arbre] (\fF,\yF) -- (\fF,1.62) -- (\gC,1.62);
-                    \draw[arbre] (\gA,2.05) -- (\gA,3.02) -- (\rA,3.02) -- (\rA,3.45);
-                    \draw[arbre] (\gB,2.05) -- (\gB,3.02) -- (\rA,3.02);
-                    \draw[arbre] (\gC,2.05) -- (\gC,3.02) -- (\rA,3.02);
-
-                    % =============== nœuds ===============
-                    \foreach \x/\y in {\fA/\yA, \fB/\yB, \fC/\yC, \fD/\yD, \fE/\yE, \fF/\yF} {
-                        \fill[inria-rouge] (\x, \y) circle (1.9pt);
-                    }
-                    \foreach \x in {\gA, \gB, \gC} { \fill[inria-rouge] (\x, 2.05) circle (2.3pt); }
-                    \fill[inria-rouge] (\rA, 3.45) circle (2.7pt);
-
-                    % =============== surfaces portées par les nœuds ===============
-                    \glyPetit{\fA-0.44}{\yA-0.22} \glyPetit{\fB-0.44}{\yB-0.22} \glyPetit{\fC-0.44}{\yC-0.22}
-                    \glyPetit{\fD-0.44}{\yD-0.22} \glyPetit{\fE-0.44}{\yE-0.22} \glyPetit{\fF-0.44}{\yF-0.22}
-                    \glyMoyen{\gA+0.22}{2.16} \glyMoyen{\gB+0.22}{2.16} \glyMoyen{\gC+0.22}{2.16}
-                    \draw[surfglyphe] (\rA-0.74,3.70) -- ++(0.60,0.22) -- ++(0.52,-0.06) -- ++(0.24,0.46)
-                                      -- ++(-0.62,0.28) -- ++(-0.58,-0.12) -- ++(-0.16,-0.38) -- cycle;
-
-                    % =============== annotations ===============
-                    \node[font=\scriptsize, text=inria-2024-bleu-canard, anchor=west, align=left] at (10.20,0.70)
-                        {surfaces\\élémentaires,\\nées à des\\échelles différentes};
-                    \node[font=\scriptsize, text=inria-rouge, anchor=west, align=left] at (10.20,2.35)
-                        {fusions\\(événements)};
-                    \node[font=\scriptsize, text=inria-2024-bleu-canard, anchor=west, align=left] at (10.20,3.95)
-                        {surface\\recollée};
-
-                    \node[font=\scriptsize, text=gris_fonce_inria, anchor=north, align=center] at (4.85,-0.20)
-                        {\textbf{chaque} nœud porte une surface observée, pas seulement les feuilles\\
-                         {\tiny les feuilles ne sont pas des singletons et naissent à des hauteurs différentes : ce n'est pas un dendrogramme classique}};
-                \end{tikzpicture}
+                    \end{tikzpicture}

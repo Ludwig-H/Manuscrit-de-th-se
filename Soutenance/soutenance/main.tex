@@ -124,6 +124,7 @@
 \DeclareRef{chaudhuri10}{Chaudhuri--Dasgupta 10}{K.~Chaudhuri, S.~Dasgupta, « Rates of convergence for the cluster tree », \textit{Advances in Neural Information Processing Systems} (NIPS), vol.~23, p.~343--351, 2010.}
 \DeclareRef{ester96}{Ester 96}{M.~Ester, H.-P.~Kriegel, J.~Sander, X.~Xu, « A density-based algorithm for discovering clusters » (DBSCAN), KDD, 1996.}
 \DeclareRef{campello13}{Campello 13}{R.~Campello, D.~Moulavi, J.~Sander, « Density-based clustering based on hierarchical density estimates » (HDBSCAN), PAKDD, 2013.}
+\DeclareRef{callahan95}{Callahan--Kosaraju 95}{P.~B.~Callahan, S.~R.~Kosaraju, « A decomposition of multidimensional point sets with applications to $k$-nearest-neighbors and $n$-body potential fields », \textit{J. ACM}, 42(1), 1995.}
 \DeclareRef{edelsbrunner23}{Edelsbrunner--Osang 23}{H.~Edelsbrunner, G.~Osang, « A simple algorithm for higher-order Delaunay mosaics and alpha shapes », \textit{Algorithmica}, 2023.}
 \DeclareRef{forina83}{Forina 83}{M.~Forina, C.~Armanino, S.~Lanteri, E.~Tiscornia, « Classification of olive oils from their fatty acid composition », 1983 (jeu de données).}
 \DeclareRef{rolle23}{Rolle--Scoccola 24}{A.~Rolle, L.~Scoccola, « Stable and consistent density-based clustering via multiparameter persistence » (Persistable), \textit{JMLR}, 25(258), 2024.}
@@ -145,7 +146,7 @@
 \DeclareRef{yu25}{PolyhedronNet 25}{D.~Yu, G.~Zhang, L.~Zhao, « PolyhedronNet: representation learning for polyhedra with surface-attributed graph », \textit{ICLR}, 2025.}
 \DeclareRef{hsa25}{HSA 25}{S.~Amizadeh \emph{et~al.}, « Hierarchical self-attention: generalizing neural attention mechanics to multi-scale problems », \textit{NeurIPS}, 2025.}
 \DeclareRef{utonia26}{Utonia 26}{Y.~Zhang \emph{et~al.}, « Utonia: toward one encoder for all point clouds », 2026.}
-\DeclareRef{ayana25}{AYANA RA 25}{Équipe-projet \textsc{Ayana}, « 3D LiDAR Instance Segmentation with Geometric Priors: The HGP-Clusterer », \href{https://radar.inria.fr/report/2025/ayana/index.html\#AYANA-RA-2025_label_NavalResult}{\textit{Rapport annuel d'activité Inria 2025}}, \S~7.7, fig.~8, publié en 2026.}
+\DeclareRef{ayana25}{AYANA RA 25}{Équipe-projet \textsc{Ayana}, « 3D LiDAR Instance Segmentation with Geometric Priors: The HGP-Clusterer », \href{https://radar.inria.fr/report/2025/ayana/index.html\#AYANA-RA-2025_label_NavalResult}{\textit{Rapport annuel d'activité Inria 2025}}, \S~7.7.}
 \DeclareRef{bommasani21}{Bommasani 21}{R.~Bommasani \emph{et~al.}, « On the opportunities and risks of foundation models », 2021.}
 \DeclareRef{kirillov23}{SAM 23}{A.~Kirillov \emph{et~al.}, « Segment Anything », \textit{ICCV}, 2023.}
 \DeclareRef{hu22}{LoRA 22}{E.~J.~Hu \emph{et~al.}, « LoRA: low-rank adaptation of large language models », \textit{ICLR}, 2022.}
@@ -788,6 +789,30 @@
     \reffoot{edelsbrunner23,ans26}
 \end{frame}
 
+% ------------------------------------------------------------
+\begin{frame}{Pourquoi \textsc{Gabriel} plutôt que la mosaïque d'ordre $K$ ?}
+    \vspace{-0.10cm}
+    \begin{center}
+        \resizebox{0.50\textwidth}{!}{\input{figs/miniball_circumball}}\\[6pt]
+        \begin{minipage}{0.50\textwidth}\small
+            \makebox[0.50\linewidth]{\begin{tabular}[t]{@{}c@{}}\textbf{Sphère circonscrite}\end{tabular}}%
+            \makebox[0.50\linewidth]{\begin{tabular}[t]{@{}c@{}}\textbf{\emph{Miniball}}\\[1pt]
+                (plus petite boule englobante)\end{tabular}}
+        \end{minipage}
+    \end{center}
+
+    \vspace{0.22cm}
+    \small
+    \begin{itemize}
+        \setlength{\itemsep}{6pt}
+        \item Quasi dégénérée, la sphère circonscrite admet des témoins \textbf{arbitrairement lointains} ;
+        ceux de la \emph{miniball} sont \textbf{localisables}
+        \item Une décomposition en \textbf{paires bien séparées} \citb{callahan95} élimine alors des
+        \textbf{blocs} de candidats \textbf{en parallèle} ; \textsc{Delaunay} reste séquentiel
+    \end{itemize}
+    \reffoot{callahan95}
+\end{frame}
+
 % ============================================================
 % IV. La percolation, mesure de performance
 % ============================================================
@@ -880,7 +905,6 @@
             \vspace{0.25cm}
             \begin{itemize}
                 \setlength{\itemsep}{10pt}
-                \item $\lambda_{c}$ : \textbf{décollage} repéré à $1\,\%$
                 \item $\lambda_{1-\varepsilon}$ : l'amas est presque \textbf{entier}
                 \item Plus $v$ est \textbf{proche de $1$},\\ meilleur est l'algorithme \citb{src24} \citb{cn24}
             \end{itemize}
@@ -916,8 +940,7 @@
     \begin{itemize}
         \setlength{\itemsep}{6pt}
         \item \textbf{$K$-polyèdres} : la vitesse \textbf{croît} avec $K$, en dimension $2$, $3$ et $4$
-        \item \textbf{Robust SL} : elle \textbf{décroît}, car élaguer les points de faible degré jette aussi
-        de la masse qu'il fallait récupérer
+        \item \textbf{Robust SL} : elle \textbf{décroît} ; élaguer la frontière, c'est jeter une part de l'amas
         \item \textbf{DBSCAN} : il réintègre cette frontière élaguée, mais ses cœurs percolent trop tôt
     \end{itemize}
     \reffoot{ans26}
@@ -950,6 +973,11 @@
             \end{center}
         \end{column}
     \end{columns}
+
+    \vspace{0.20cm}
+    \begin{center}
+        {\small En collaboration avec Marie \textsc{Aspro} (Inria Startup Studio)}
+    \end{center}
     \reffoot{ayana25}
 \end{frame}
 
@@ -1401,7 +1429,6 @@
         \textbf{petit rang} $W = W_0 + BA$ \citb{hu22}
         \item \textbf{CrackSAM} \citb{ge24} applique la recette à SAM pour les fissures :
         $4{,}4$~M de poids appris sur $637$~M, soit $\mathbf{0{,}7\,\%}$
-        \item Le difficile n'est pas la sémantique, c'est le \textbf{changement de domaine}
     \end{itemize}
     \reffoot{hu22,ge24}
 \end{frame}
@@ -1478,26 +1505,19 @@
 
 % ------------------------------------------------------------
 \begin{frame}{Remplacer les points par une hiérarchie de \textcolor{inria-rouge}{polyèdres} ?}
-    \small
-    L'obstruction de \textsc{Kleinberg} disait : \emph{gardez l'arbre}, c'est la sortie prise par
-    \textsc{Carlsson} \& \textsc{Mémoli}. En 3D, cet arbre, nous l'avons déjà : c'est la hiérarchie de
-    $K$-polyèdres de la partie II
-
-    \vspace{0.10cm}
+    \vspace{-0.10cm}
     \begin{center}
-        \resizebox{0.38\textwidth}{!}{\input{figs/hierarchie_surfaces}}
+        \resizebox{0.54\textwidth}{!}{\input{figs/hierarchie_surfaces}}
     \end{center}
 
-    \vspace{0.05cm}
+    \vspace{0.22cm}
+    \small
     \begin{itemize}
-        \setlength{\itemsep}{3pt}
-        \item \textbf{Chaque} nœud porte un \textbf{recollement de facettes} (des triangles dès $K = 3$),
-        donc une \emph{surface} : les hiérarchies de superpoints \citb{robert23} n'agrègent que des points ;
-        PolyhedronNet \citb{yu25} a la surface, mais pas la hiérarchie
-        \item Le paramètre de la filtration est une grandeur \textbf{physique} (un rayon, en mètres,
-        et non un indice $0, 1, 2, \ldots$) : les branches deviennent des trajectoires, les fusions des événements
-        \item \textbf{Un pari réfutable} : si l'arbre réel ne bat ni un modèle plat, ni un arbre aléatoire,
-        ni une hiérarchie \emph{générique}, il tombe
+        \setlength{\itemsep}{6pt}
+        \item Chaque nœud porte une \textbf{surface} : ni un sac de points \citb{robert23},
+        ni un polyèdre isolé \citb{yu25}
+        \item \textbf{Un pari réfutable} : si l'arbre réel ne bat ni un modèle plat,
+        ni un arbre aléatoire, il tombe
     \end{itemize}
     \reffoot{robert23,yu25}
 \end{frame}
@@ -1750,6 +1770,45 @@
         \end{column}
     \end{columns}
     \reffoot{rolle23}
+\end{frame}
+
+% --- Ordre supérieur : la génération des candidats ------------
+\begin{frame}{La décomposition en paires bien séparées}
+    \vspace{0.10cm}
+    \begin{center}
+        \resizebox{0.80\textwidth}{!}{\input{figs/wspd_paires}}
+    \end{center}
+
+    \vspace{0.20cm}
+    \footnotesize
+    \begin{itemize}
+        \setlength{\itemsep}{5pt}
+        \item Séparation testée en \textbf{entiers}, sans racine ; terminal dès que séparé, on scinde
+        la boîte de plus grand \textbf{diamètre}
+        \item Ledger exact : $\sum$ paires émises $+\ \sum$ paires tuées $= \binom{n}{2}$
+        \item Descente par \textbf{vagues} sur l'arbre radix, profondeur $\sim 2\log_2 n$ ; sortie
+        bit-identique quel que soit le nombre de fils
+    \end{itemize}
+    \reffoot{callahan95}
+\end{frame}
+
+\begin{frame}{Les trois \emph{lanes} de la génération 3D}
+    \vspace{0.10cm}
+    \begin{center}
+        \resizebox{0.76\textwidth}{!}{\input{figs/lanes_q234}}
+    \end{center}
+
+    \vspace{0.20cm}
+    \footnotesize
+    \begin{itemize}
+        \setlength{\itemsep}{5pt}
+        \item Le support d'un événement a pour arité $q \in \{2,3,4\}$ : tout le reste tient dans la
+        lentille $\bar B(a,D) \cap \bar B(b,D)$ de l'ancre
+        \item Un triangle obtus n'est pas une lane $q=3$ : sa miniboule est celle d'une arête, donc
+        un $q=2$
+        \item Seuils de mort $h_q = s_{\max} - q + 1$ : un support d'arité $q$ meurt dès que $h_q$
+        témoins tombent dans son fuseau
+    \end{itemize}
 \end{frame}
 
 \begin{frame}{Vitesses de percolation : le protocole}

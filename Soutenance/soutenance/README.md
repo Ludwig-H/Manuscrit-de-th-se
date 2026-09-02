@@ -30,7 +30,12 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    (H)DBSCAN.
 3. **Monter en ordre : la hiérarchie K-NN exacte** (Partie II) — contre-exemple
    des six points, complexe de Čech, K-polyèdres, condition de Gabriel,
-   K-MST et mosaïque de Delaunay d'ordre K.
+   K-MST et mosaïque de Delaunay d'ordre K ; puis **pourquoi Gabriel plutôt que
+   la mosaïque d'ordre K** : la miniboule est bornée par le simplexe (Jung) là
+   où la circonscrite explose quand le simplexe s'aplatit, d'où une
+   décomposition en paires bien séparées (Callahan–Kosaraju 1995) où un témoin
+   tue un bloc entier de candidats, et une descente en vagues donc parallèle.
+   Source : `E-HGP/morsehgp3D_v6`.
 4. **La percolation comme mesure de performance** (Partie II, chap. III) —
    percolation continue, inconsistance en dimension ≥ 2, vitesse de
    percolation et tableau comparatif HGP / Robust SL / DBSCAN.
@@ -125,7 +130,15 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    dans aucun fichier du manuscrit, cette puce relève de la connaissance du
    domaine. Viennent ensuite le nuage de points comme artefact du capteur —
    c'est **là** que sont traitées la densité, la portée et les occultations —
-   puis le polyèdre comme alphabet et la hiérarchie comme grammaire.
+   puis la question « **Remplacer les points par une hiérarchie de polyèdres ?** »,
+   en une diapositive presque muette : la figure `hierarchie_surfaces` occupe la
+   place, deux points d'une ligne la commentent (chaque nœud porte une *surface*,
+   contre les superpoints et PolyhedronNet ; le pari est réfutable). Les six pièces
+   des feuilles sont les six secteurs d'un même polygone maître irrégulier,
+   dessinées partout à la même échelle et dans la même orientation : le polyèdre
+   d'un nœud est donc littéralement le recollement de ceux de ses deux enfants,
+   soudé le long de la face tracée en rouge. Les coordonnées sont engendrées par
+   `figs/hierarchie_surfaces.py` : éditer le script, pas le TikZ.
    **Rien n'y est présenté comme acquis** : les sources sont
    `E-HGP/tests/SemanticKITTI/Zoltan/HierarchicalSelfAttention` (statut
    `foundation_claim = not_yet_earned`) et
@@ -138,6 +151,8 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
 9. **Diapositives de secours** (après le « Merci »), suivant la chronologie de la
    présentation : stylométrie 5 auteurs, banc d'essai SIPU, huiles d'olive et leur
    matrice de confusion, protocole des vitesses, fenêtre gaussienne K→∞,
+   **la décomposition en paires bien séparées** et **les trois lanes q2/q3/q4**
+   (arité du support, ancre = plus longue arête, seuils $h_q = s_{\max}-q+1$),
    haplotypes, cadre bayésien/Gibbs, Swendsen–Wang détaillé, modèle
    Sankararaman–Baccelli, **les horloges par arête** et **la coupe où les amas
    percolent** (les deux diapositives retirées du fil principal), hiérarchie
