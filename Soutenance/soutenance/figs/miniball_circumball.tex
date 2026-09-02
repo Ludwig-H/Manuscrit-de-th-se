@@ -4,7 +4,7 @@
                 % A droite la miniboule : toujours definie, centre dans conv(sigma),
                 % rayon borne par Jung. C'est elle qui donne la localite.
                 \begin{tikzpicture}[xscale=1.0, yscale=1.0]
-                    \useasboundingbox (-0.75, -2.55) rectangle (8.05, 2.05);
+                    \useasboundingbox (-0.75, -2.00) rectangle (8.05, 1.70);
 
                     \tikzset{simplexe/.style={gris_fonce_inria, line width=1.1pt, line join=round}}
                     \tikzset{sommet/.style={fill=gris_fonce_inria}}
@@ -24,9 +24,6 @@
                             (1.5,-0.15) -- (1.5,-1.55);
                         \node[font=\scriptsize, text=inria-rouge, anchor=north] at (1.5,-1.60)
                             {centre};
-
-                        \node[leg, text=gris_fonce_inria] at (1.5,-1.95)
-                            {\textbf{Sphère circonscrite}};
                     \end{scope}
 
                     % ================= droite : miniboule =================
@@ -36,12 +33,5 @@
                         \draw[simplexe] (0,0) -- (3,0) -- (1.95,0.15) -- cycle;
                         \foreach \p in {(0,0), (3,0), (1.95,0.15)} { \fill[sommet] \p circle (2.1pt); }
                         \fill[inria-2024-bleu-canard] (1.5,0) circle (2.1pt);
-
-                        \node[leg, text=gris_fonce_inria] at (1.5,-1.95)
-                            {\textbf{\emph{Miniball}}\\
-                             {\scriptsize (plus petite boule englobante)}};
                     \end{scope}
-
-                    \node[font=\scriptsize, text=gris_fonce_inria, anchor=south] at (3.68,1.62)
-                        {le \textbf{même} simplexe, presque plat};
                 \end{tikzpicture}
