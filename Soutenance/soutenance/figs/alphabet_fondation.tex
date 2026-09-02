@@ -1,5 +1,5 @@
                 \begin{tikzpicture}[xscale=1.0, yscale=1.0]
-                    \useasboundingbox (-0.35, -2.05) rectangle (12.6, 3.35);
+                    \useasboundingbox (-0.35, -2.05) rectangle (13.35, 3.35);
 
                     \tikzset{jeton/.style={draw=inria-2024-bleu-canard, line width=0.7pt, rounded corners=1.5pt,
                                            fill=inria-2024-bleu-canard!12, inner sep=2pt, font=\scriptsize,
@@ -20,6 +20,7 @@
                     \node[jeton, anchor=west] (t5) at ($(t4.east)+(0.09,0)$) {partout};
                     \node[font=\scriptsize, text=inria-2024-bleu-canard, anchor=west] at ($(t5.east)+(0.25,0)$) {sous-mots};
                     \node[modele, anchor=west] (m1) at (9.85, 2.75) {GPT};
+                    \node[anchor=west] at ($(m1.east)+(0.14,0)$) {\citb{brown20}};
                     \draw[fl] (8.55, 2.75) -- (m1.west);
 
                     % ---------------- ligne 2 : l'image ----------------
@@ -34,6 +35,7 @@
                     \end{scope}
                     \node[font=\scriptsize, text=inria-2024-bleu-canard, anchor=west] at (4.25, 1.45) {imagettes};
                     \node[modele, anchor=west] (m2) at (9.85, 1.45) {SAM};
+                    \node[anchor=west] at ($(m2.east)+(0.14,0)$) {\citb{kirillov23}};
                     \draw[fl] (8.55, 1.45) -- (m2.west);
 
                     % ---------------- ligne 3 : la 3D ----------------
