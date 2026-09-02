@@ -157,6 +157,18 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    Sankararaman–Baccelli, **les horloges par arête** et **la coupe où les amas
    percolent** (les deux diapositives retirées du fil principal), hiérarchie
    d'horloges, **Kruskal des horloges vers le dendrogramme**,
+   **« Retourner un amas : la loi exacte »** — la loi conditionnelle
+   $\nu(\sigma \mid D) \propto \mu_0(\sigma) \prod_u \Lambda_u(\sigma)\,
+   e^{(1-\beta_u)\Lambda_u(\sigma)}$ et le tirage à quatre états
+   $p_u(a,b \mid \sigma, D)$ au nœud $u$ ; elle répond à la phrase de la
+   diapositive Kruskal (« la *loi* des retournements utilise toujours **toutes**
+   les arêtes ») et à la puce « bain thermique exact » de la hiérarchie
+   d'horloges, qui la mentionnaient sans la donner. Source :
+   `../beamer-presentation-reunion-2026-07-16/hierarchical_sw_frames.tex`, dont
+   les deux formules sont reprises verbatim ; la spécialisation binaire des
+   quatre poids ($\Lambda_u$ pour $(0,0)$ et $(1,1)$, $A_u - \Lambda_u$ pour
+   $(1,0)$ et $(0,1)$, avec $A_u = \sum_{e \in E_u} |W_e|$) est **volontairement
+   laissée hors de la diapositive** — elle se dit à l'oral,
    **la coupe critique $\beta_c$ en détail** (formule explicite,
    condition d'existence $p \ge (1+q_c)/2$, pondération des fusions par
    $\eta_u = \tanh^2(L_u/2)$, et la réserve : la coupe critique n'est pas

@@ -2020,6 +2020,46 @@
     \end{itemize}
 \end{frame}
 
+\begin{frame}[t]{Retourner un amas : la loi exacte}
+    \small
+    Un tirage d'horloges fixe le dendrogramme $D$ ; reste à décider, à chaque fusion, \textbf{quels
+    amas retourner}
+
+    \vspace{0.20cm}
+    \begin{center}
+        \formulebox{\parbox{0.72\textwidth}{\centering
+        $\displaystyle \nu(\sigma \mid D) \;\propto\; \mu_0(\sigma)
+        \prod_u \Lambda_u(\sigma)\; e^{(1-\beta_u)\,\Lambda_u(\sigma)}$}}
+    \end{center}
+
+    \vspace{0.10cm}
+    \begin{center}
+        {\footnotesize $\Lambda_u(\sigma) = \sum_{e \in E_u} |W_e|\, \ind{e \text{ satisfaite}}$
+        \; (poids satisfait de la coupe) \qquad
+        $\beta_u = \min_{e \in E_u,\ e \text{ satisfaite}} \xi_e$ \; (date de la fusion)}
+    \end{center}
+
+    \vspace{0.20cm}
+    Au nœud $u$, où $C = C_1 \sqcup C_2$ : \textbf{un seul tirage à quatre états} $\sigma^{ab}$,
+    et non deux retournements indépendants
+
+    \vspace{0.12cm}
+    \begin{center}
+        \formulebox{\parbox{0.80\textwidth}{\centering
+        $\displaystyle p_u(a,b \mid \sigma, D) = \frac{q_u^{ab}}{\sum_{c,d \,\in\, \{0,1\}} q_u^{cd}}$,
+        \qquad
+        $\displaystyle q_u^{ab} = \mu_0(\sigma^{ab}) \prod_{v \,\succeq\, u}
+        \Lambda_v(\sigma^{ab})\; e^{(1-\beta_v)\,\Lambda_v(\sigma^{ab})}$}}
+    \end{center}
+
+    \vspace{0.16cm}
+    \begin{itemize}
+        \item Seuls $u$ et ses \textbf{ancêtres} se recalculent ; bain thermique exact, donc
+        \textbf{balance détaillée} et $\mu$ invariante \citb{ii26}
+    \end{itemize}
+    \reffoot{ii26}
+\end{frame}
+
 \begin{frame}[t]{Quelle coupe choisir ? Celle où les amas \textcolor{inria-rouge}{percolent}}
     \vspace{-0.10cm}
     \begin{center}
