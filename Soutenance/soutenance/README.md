@@ -159,8 +159,14 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    GPU). Sur la dynamique hiérarchique, la borne rigoureuse $0{,}809439$ vient du
    canal triangulaire et **non** de cette dynamique : c'est un programme.
 8. **Conclusion, publications** — deux fils conducteurs et quatre contributions,
-   perspectives dans le fil de la thèse, liste des publications et des dépôts
-   logiciels.
+   puis « **Perspectives** » en **trois** points seulement, dans cet ordre : la
+   hiérarchie de polyèdres pour un modèle de fondation en 3D (elle prolonge
+   directement la partie 7 qui précède), la grande dimension et la réduction de
+   dimension d'ordre supérieur, enfin la question ouverte de la consistance en
+   dimension $p \ge 2$. Les deux points sur les **graphes signés** et les
+   **fissures** ont été retirés de cette diapositive : les perspectives sont
+   volontairement resserrées sur le fil hiérarchique, et ces deux sujets se
+   disent à l'oral. Suivent la liste des publications et des dépôts logiciels.
 9. **Diapositives de secours** (après le « Merci »), suivant la chronologie de la
    présentation : stylométrie 5 auteurs, banc d'essai SIPU, huiles d'olive et leur
    matrice de confusion, protocole des vitesses, fenêtre gaussienne K→∞,
