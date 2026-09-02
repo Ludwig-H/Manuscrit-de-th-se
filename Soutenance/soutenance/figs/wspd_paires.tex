@@ -1,0 +1,65 @@
+                % La decomposition en paires bien separees (Callahan-Kosaraju) :
+                % un rectangle A x B represente d'un coup les |A|.|B| paires, et un
+                % temoin universel au rectangle les tue toutes ensemble.
+                \begin{tikzpicture}[xscale=1.0, yscale=1.0]
+                    \useasboundingbox (-0.70, -1.85) rectangle (12.60, 3.05);
+
+                    \tikzset{site/.style={fill=inria-2024-bleu-canard}}
+                    \tikzset{boite/.style={draw=gris_fonce_inria, line width=0.8pt, rounded corners=2pt}}
+                    \tikzset{halo/.style={draw=gray!45, line width=0.6pt, densely dashed}}
+                    \tikzset{paire/.style={gray!55, line width=0.35pt}}
+                    \tikzset{leg/.style={font=\scriptsize, text=gris_fonce_inria, align=center, anchor=north}}
+
+                    \def\ptsA{{0.30/0.35, 0.62/0.92, 0.05/0.85, 0.55/0.15, 0.22/0.62}}
+                    \def\ptsB{{2.95/0.30, 3.35/0.80, 3.05/1.05, 3.50/0.35, 2.80/0.70, 3.25/0.10}}
+
+                    % ================= gauche : un rectangle bien separe =================
+                    \begin{scope}[shift={(0,0)}]
+                        \foreach \xa/\ya in {0.30/0.35, 0.62/0.92, 0.05/0.85, 0.55/0.15, 0.22/0.62} {
+                            \foreach \xb/\yb in {2.95/0.30, 3.35/0.80, 3.05/1.05, 3.50/0.35, 2.80/0.70, 3.25/0.10} {
+                                \draw[paire] (\xa,\ya) -- (\xb,\yb);
+                            }
+                        }
+                        \draw[halo] (0.335,0.60) circle (0.58);
+                        \draw[halo] (3.15,0.575) circle (0.62);
+                        \draw[boite] (-0.10,0.00) rectangle (0.72,1.02);
+                        \draw[boite] (2.70,0.00) rectangle (3.60,1.15);
+                        \foreach \xa/\ya in {0.30/0.35, 0.62/0.92, 0.05/0.85, 0.55/0.15, 0.22/0.62} { \fill[site] (\xa,\ya) circle (1.7pt); }
+                        \foreach \xb/\yb in {2.95/0.30, 3.35/0.80, 3.05/1.05, 3.50/0.35, 2.80/0.70, 3.25/0.10} { \fill[site] (\xb,\yb) circle (1.7pt); }
+                        \node[font=\scriptsize, text=gris_fonce_inria] at (0.31,1.28) {$A$};
+                        \node[font=\scriptsize, text=gris_fonce_inria] at (3.15,1.42) {$B$};
+
+                        \draw[{Latex[length=1.8mm]}-{Latex[length=1.8mm]}, gris_fonce_inria, line width=0.7pt]
+                            (0.335,-0.42) -- (3.15,-0.42);
+                        \node[font=\scriptsize, text=gris_fonce_inria, anchor=north] at (1.74,-0.50) {$d$};
+
+                        \node[leg] at (1.74,-0.95)
+                            {$d \ge s \max(r_A, r_B)$, testé en \textbf{entiers}\\
+                             un rectangle $=$ les $|A|\cdot|B|$ paires};
+                    \end{scope}
+
+                    % ================= droite : un temoin tue le bloc =================
+                    \begin{scope}[shift={(6.30,0)}]
+                        \foreach \xa/\ya in {0.30/0.35, 0.62/0.92, 0.05/0.85, 0.55/0.15, 0.22/0.62} {
+                            \foreach \xb/\yb in {2.95/0.30, 3.35/0.80, 3.05/1.05, 3.50/0.35, 2.80/0.70, 3.25/0.10} {
+                                \draw[gray!22, line width=0.35pt] (\xa,\ya) -- (\xb,\yb);
+                            }
+                        }
+                        \fill[inria-rouge!12] (1.74,0.58) circle (0.62);
+                        \draw[boite] (-0.10,0.00) rectangle (0.72,1.02);
+                        \draw[boite] (2.70,0.00) rectangle (3.60,1.15);
+                        \foreach \xa/\ya in {0.30/0.35, 0.62/0.92, 0.05/0.85, 0.55/0.15, 0.22/0.62} { \fill[gray!45] (\xa,\ya) circle (1.7pt); }
+                        \foreach \xb/\yb in {2.95/0.30, 3.35/0.80, 3.05/1.05, 3.50/0.35, 2.80/0.70, 3.25/0.10} { \fill[gray!45] (\xb,\yb) circle (1.7pt); }
+                        \fill[inria-rouge] (1.74,0.58) circle (2.4pt);
+                        \node[font=\scriptsize, text=inria-rouge, anchor=south] at (1.74,0.72) {$z$};
+                        \node[font=\scriptsize, text=gris_fonce_inria] at (0.31,1.28) {$A$};
+                        \node[font=\scriptsize, text=gris_fonce_inria] at (3.15,1.42) {$B$};
+
+                        \node[leg, text=inria-rouge] at (1.74,-0.42)
+                            {$z$ est dans le fuseau de \textbf{toutes} les paires\\
+                             le rectangle meurt d'un coup, par lane};
+                    \end{scope}
+
+                    \node[font=\scriptsize, text=gris_fonce_inria, anchor=south] at (5.60,2.55)
+                        {$\mathcal O(s^3 n)$ rectangles partitionnent \textbf{exactement} les $\binom{n}{2}$ paires};
+                \end{tikzpicture}

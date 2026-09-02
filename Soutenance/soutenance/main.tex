@@ -124,6 +124,7 @@
 \DeclareRef{chaudhuri10}{Chaudhuri--Dasgupta 10}{K.~Chaudhuri, S.~Dasgupta, « Rates of convergence for the cluster tree », \textit{Advances in Neural Information Processing Systems} (NIPS), vol.~23, p.~343--351, 2010.}
 \DeclareRef{ester96}{Ester 96}{M.~Ester, H.-P.~Kriegel, J.~Sander, X.~Xu, « A density-based algorithm for discovering clusters » (DBSCAN), KDD, 1996.}
 \DeclareRef{campello13}{Campello 13}{R.~Campello, D.~Moulavi, J.~Sander, « Density-based clustering based on hierarchical density estimates » (HDBSCAN), PAKDD, 2013.}
+\DeclareRef{callahan95}{Callahan--Kosaraju 95}{P.~B.~Callahan, S.~R.~Kosaraju, « A decomposition of multidimensional point sets with applications to $k$-nearest-neighbors and $n$-body potential fields », \textit{J. ACM}, 42(1), 1995.}
 \DeclareRef{edelsbrunner23}{Edelsbrunner--Osang 23}{H.~Edelsbrunner, G.~Osang, « A simple algorithm for higher-order Delaunay mosaics and alpha shapes », \textit{Algorithmica}, 2023.}
 \DeclareRef{forina83}{Forina 83}{M.~Forina, C.~Armanino, S.~Lanteri, E.~Tiscornia, « Classification of olive oils from their fatty acid composition », 1983 (jeu de données).}
 \DeclareRef{rolle23}{Rolle--Scoccola 24}{A.~Rolle, L.~Scoccola, « Stable and consistent density-based clustering via multiparameter persistence » (Persistable), \textit{JMLR}, 25(258), 2024.}
@@ -786,6 +787,24 @@
         \end{column}
     \end{columns}
     \reffoot{edelsbrunner23,ans26}
+\end{frame}
+
+% ------------------------------------------------------------
+\begin{frame}{Pourquoi \textsc{Gabriel} plutôt que la mosaïque d'ordre $K$ ?}
+    \vspace{-0.05cm}
+    \begin{center}
+        \resizebox{0.58\textwidth}{!}{\input{figs/miniball_circumball}}
+    \end{center}
+
+    \vspace{0.20cm}
+    \footnotesize
+    \begin{itemize}
+        \setlength{\itemsep}{5pt}
+        \item La miniboule est \textbf{bornée} par le simplexe : un support tient près de sa \textbf{plus longue arête}
+        \item D'où une \textbf{décomposition en paires bien séparées} \citb{callahan95} : un témoin tue un \textbf{bloc} de candidats
+        \item Descente en \textbf{vague}, profondeur $\log n$, donc parallèle ; \textsc{Delaunay} s'insère point par point
+    \end{itemize}
+    \reffoot{callahan95}
 \end{frame}
 
 % ============================================================
@@ -1746,6 +1765,45 @@
         \end{column}
     \end{columns}
     \reffoot{rolle23}
+\end{frame}
+
+% --- Ordre supérieur : la génération des candidats ------------
+\begin{frame}{La décomposition en paires bien séparées}
+    \vspace{0.10cm}
+    \begin{center}
+        \resizebox{0.80\textwidth}{!}{\input{figs/wspd_paires}}
+    \end{center}
+
+    \vspace{0.20cm}
+    \footnotesize
+    \begin{itemize}
+        \setlength{\itemsep}{5pt}
+        \item Séparation testée en \textbf{entiers}, sans racine ; terminal dès que séparé, on scinde
+        la boîte de plus grand \textbf{diamètre}
+        \item Ledger exact : $\sum$ paires émises $+\ \sum$ paires tuées $= \binom{n}{2}$
+        \item Descente par \textbf{vagues} sur l'arbre radix, profondeur $\sim 2\log_2 n$ ; sortie
+        bit-identique quel que soit le nombre de fils
+    \end{itemize}
+    \reffoot{callahan95}
+\end{frame}
+
+\begin{frame}{Les trois \emph{lanes} de la génération 3D}
+    \vspace{0.10cm}
+    \begin{center}
+        \resizebox{0.76\textwidth}{!}{\input{figs/lanes_q234}}
+    \end{center}
+
+    \vspace{0.20cm}
+    \footnotesize
+    \begin{itemize}
+        \setlength{\itemsep}{5pt}
+        \item Le support d'un événement a pour arité $q \in \{2,3,4\}$ : tout le reste tient dans la
+        lentille $\bar B(a,D) \cap \bar B(b,D)$ de l'ancre
+        \item Un triangle obtus n'est pas une lane $q=3$ : sa miniboule est celle d'une arête, donc
+        un $q=2$
+        \item Seuils de mort $h_q = s_{\max} - q + 1$ : un support d'arité $q$ meurt dès que $h_q$
+        témoins tombent dans son fuseau
+    \end{itemize}
 \end{frame}
 
 \begin{frame}{Vitesses de percolation : le protocole}

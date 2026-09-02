@@ -30,7 +30,12 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    (H)DBSCAN.
 3. **Monter en ordre : la hiérarchie K-NN exacte** (Partie II) — contre-exemple
    des six points, complexe de Čech, K-polyèdres, condition de Gabriel,
-   K-MST et mosaïque de Delaunay d'ordre K.
+   K-MST et mosaïque de Delaunay d'ordre K ; puis **pourquoi Gabriel plutôt que
+   la mosaïque d'ordre K** : la miniboule est bornée par le simplexe (Jung) là
+   où la circonscrite explose quand le simplexe s'aplatit, d'où une
+   décomposition en paires bien séparées (Callahan–Kosaraju 1995) où un témoin
+   tue un bloc entier de candidats, et une descente en vagues donc parallèle.
+   Source : `E-HGP/morsehgp3D_v6`.
 4. **La percolation comme mesure de performance** (Partie II, chap. III) —
    percolation continue, inconsistance en dimension ≥ 2, vitesse de
    percolation et tableau comparatif HGP / Robust SL / DBSCAN.
@@ -146,6 +151,8 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
 9. **Diapositives de secours** (après le « Merci »), suivant la chronologie de la
    présentation : stylométrie 5 auteurs, banc d'essai SIPU, huiles d'olive et leur
    matrice de confusion, protocole des vitesses, fenêtre gaussienne K→∞,
+   **la décomposition en paires bien séparées** et **les trois lanes q2/q3/q4**
+   (arité du support, ancre = plus longue arête, seuils $h_q = s_{\max}-q+1$),
    haplotypes, cadre bayésien/Gibbs, Swendsen–Wang détaillé, modèle
    Sankararaman–Baccelli, **les horloges par arête** et **la coupe où les amas
    percolent** (les deux diapositives retirées du fil principal), hiérarchie

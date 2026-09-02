@@ -1,0 +1,66 @@
+                % Les trois lanes de la generation 3D : le support d'une boule a
+                % pour arite q = 2, 3 ou 4. L'ancre (rouge) est la plus longue arete
+                % du support ; la miniboule (bleu) est vide d'intrus.
+                \begin{tikzpicture}[xscale=1.0, yscale=1.0]
+                    \useasboundingbox (-0.85, -1.65) rectangle (11.30, 2.85);
+
+                    \tikzset{ancre/.style={inria-rouge, line width=1.5pt}}
+                    \tikzset{arete/.style={gris_fonce_inria, line width=0.9pt}}
+                    \tikzset{cachee/.style={gris_fonce_inria, line width=0.7pt, densely dashed}}
+                    \tikzset{boule/.style={draw=inria-2024-bleu-canard, line width=1.1pt,
+                                           fill=inria-2024-bleu-canard!10}}
+                    \tikzset{site/.style={fill=gris_fonce_inria}}
+                    \tikzset{titre/.style={font=\scriptsize\bfseries, text=gris_fonce_inria, anchor=south}}
+                    \tikzset{leg/.style={font=\scriptsize, text=gris_fonce_inria, align=center, anchor=north}}
+
+                    % ================= q2 : la boule diametrale =================
+                    \begin{scope}[shift={(0,0)}]
+                        \draw[boule] (1.10,0) circle (1.10);
+                        \draw[ancre] (0,0) -- (2.20,0);
+                        \fill[site] (0,0) circle (2.2pt);
+                        \fill[site] (2.20,0) circle (2.2pt);
+                        \fill[inria-2024-bleu-canard] (1.10,0) circle (1.8pt);
+                        \node[font=\scriptsize, text=gris_fonce_inria, anchor=north east] at (0,-0.06) {$a$};
+                        \node[font=\scriptsize, text=gris_fonce_inria, anchor=north west] at (2.20,-0.06) {$b$};
+                        \node[titre] at (1.10,1.45) {$q = 2$};
+                        \node[leg] at (1.10,-1.22) {boule diamétrale\\$R = D/2$, \; $h_2 = 10$};
+                    \end{scope}
+
+                    % ================= q3 : le triangle strictement aigu =================
+                    \begin{scope}[shift={(4.20,0)}]
+                        \draw[boule] (1.10,0.36) circle (1.157);
+                        \draw[ancre] (0,0) -- (2.20,0);
+                        \draw[arete] (0,0) -- (1.30,1.50) -- (2.20,0);
+                        \fill[site] (0,0) circle (2.2pt);
+                        \fill[site] (2.20,0) circle (2.2pt);
+                        \fill[site] (1.30,1.50) circle (2.2pt);
+                        \fill[inria-2024-bleu-canard] (1.10,0.36) circle (1.8pt);
+                        \node[font=\scriptsize, text=gris_fonce_inria, anchor=north east] at (0,-0.06) {$a$};
+                        \node[font=\scriptsize, text=gris_fonce_inria, anchor=north west] at (2.20,-0.06) {$b$};
+                        \node[titre] at (1.10,1.72) {$q = 3$};
+                        \node[leg] at (1.10,-1.22) {triangle \textbf{strictement aigu}\\$R \le D/\sqrt{3}$, \; $h_3 = 9$};
+                    \end{scope}
+
+                    % ================= q4 : le tetraedre a centre interieur =================
+                    \begin{scope}[shift={(8.40,0)}]
+                        % le quatrieme sommet est sur la sphere mais hors du plan du dessin :
+                        % en projection il tombe strictement dans le disque.
+                        \draw[boule] (1.10,0.355) circle (1.156);
+                        \draw[ancre] (0,0) -- (2.20,0);
+                        \draw[arete] (0,0) -- (1.55,1.42) -- (2.20,0);
+                        \draw[cachee] (0,0) -- (1.10,0.60) -- (2.20,0);
+                        \draw[cachee] (1.55,1.42) -- (1.10,0.60);
+                        \fill[site] (0,0) circle (2.2pt);
+                        \fill[site] (2.20,0) circle (2.2pt);
+                        \fill[site] (1.55,1.42) circle (2.2pt);
+                        \fill[site] (1.10,0.60) circle (2.2pt);
+                        \fill[inria-2024-bleu-canard] (1.10,0.355) circle (1.8pt);
+                        \node[font=\scriptsize, text=gris_fonce_inria, anchor=north east] at (0,-0.06) {$a$};
+                        \node[font=\scriptsize, text=gris_fonce_inria, anchor=north west] at (2.20,-0.06) {$b$};
+                        \node[titre] at (1.10,1.72) {$q = 4$};
+                        \node[leg] at (1.10,-1.22) {centre \textbf{strictement intérieur}\\$R \le \sqrt{3/8}\,D$, \; $h_4 = 8$};
+                    \end{scope}
+
+                    \node[font=\scriptsize, text=inria-rouge, anchor=south] at (5.22,2.32)
+                        {en rouge l'\textbf{ancre} : la plus longue arête du support};
+                \end{tikzpicture}
