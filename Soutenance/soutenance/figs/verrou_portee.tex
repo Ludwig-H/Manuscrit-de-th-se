@@ -58,11 +58,10 @@
                     \end{scope}
                     \begin{scope}[xshift=6.9cm, yshift=-2.40cm]
                         \draw[gray!45, line width=0.7pt, densely dotted] plot coordinates {\contour};
-                        % la surface ne va pas au-delà des retours effectivement observés,
-                        % et le trou central reste un trou : « non observé », pas « vide ».
-                        \draw[surf] plot coordinates {(0.20,0.44) (0.86,0.86) (1.46,0.98)};
-                        \draw[surf] plot coordinates {(2.10,0.90) (2.72,0.44)};
-                        \node[font=\tiny, text=gris_fonce_inria] at (1.80,0.60) {non observé};
+                        % La surface interpole les cinq retours observés : ses sommets sont
+                        % sur le contour gris, les cordes coupent les angles. Grossière, mais
+                        % c'est bien le même objet — c'est tout le propos de la planche.
+                        \draw[surf] plot coordinates {(0.20,0.44) (0.86,0.91) (1.46,0.98) (2.10,0.86) (2.72,0.44)};
                     \end{scope}
 
                     \node[font=\Large\bfseries, text=inria-rouge] at (6.15,-1.86) {$\approx$};

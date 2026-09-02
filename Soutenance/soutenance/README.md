@@ -132,8 +132,21 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    c'est **là** que sont traitées la densité, la portée et les occultations —
    puis la question « **Remplacer les points par une hiérarchie de polyèdres ?** »,
    en une diapositive presque muette : la figure `hierarchie_surfaces` occupe la
-   place, deux points d'une ligne la commentent (chaque nœud porte une *surface*,
-   contre les superpoints et PolyhedronNet ; le pari est réfutable). Les six pièces
+   place, et **une seule** ligne la commente — le polyèdre est l'alphabet,
+   l'unité fixée une fois pour toutes, et la hiérarchie en est la grammaire.
+   La ligne reprend volontairement le vocabulaire de l'accroche des modèles de
+   fondation (« un découpage fixé une fois pour toutes »), c'est le fil qui
+   tient les trois dernières diapositives. Aucune citation, donc pas de
+   `\reffoot` : les deux points supprimés portaient les seuls `\citb` de la page
+   (superpoints, PolyhedronNet), qui restent déclarés et en bibliographie mais ne
+   sont plus cités dans le corps. Réserves à garder pour l'oral, l'analogie étant
+   volontairement rapide : en TAL l'alphabet n'est pas l'unité de calcul (le
+   sous-mot l'est, et il s'*apprend*, là où le $K$-polyèdre est donné par la
+   géométrie) ; une grammaire est un système de règles génératif, alors que la
+   hiérarchie est *une* analyse d'un nuage donné — la règle, ici, c'est la
+   filtration et l'emboîtement des $K$-polyèdres ; et il n'y a pas de vocabulaire
+   partagé entre deux scènes, ce qui transfère est le *descripteur* du polyèdre,
+   pas le polyèdre. Les six pièces
    des feuilles sont les six secteurs d'un même polygone maître irrégulier,
    dessinées partout à la même échelle et dans la même orientation : le polyèdre
    d'un nœud est donc littéralement le recollement de ceux de ses deux enfants,
@@ -236,6 +249,12 @@ elle-même.
   Frangi, l'ordre 2 y étant désormais une ligne de perspective ; `frangi_termes.tex`
   (les trois vignettes courbure / élongation / alignement) a été remplacée par
   `frangi_hessienne.tex` quand la diapositive est devenue mathématique.
+- `verrou_portee.tex` — la surface reconstruite du panneau bas-droit est une
+  polyligne **continue** passant par les cinq retours observés : ses sommets sont
+  sur le contour gris pointillé, les cordes coupent les angles. Elle a d'abord
+  été dessinée en deux morceaux avec un trou étiqueté « non observé » ; ce n'est
+  plus le propos de la planche, qui compare la *variabilité* du nuage à celle de
+  la surface, et non ce que le capteur a manqué. Ne pas rouvrir le trou.
 - `attention_hierarchie.tex` — les deux matrices de la diapositive de guidage.
   Celle de gauche suit une formule explicite ; les **neuf tons de droite sont les
   moyennes des blocs de gauche**, calculées hors du fichier et écrites en dur. Ce
