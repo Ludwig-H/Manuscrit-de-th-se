@@ -236,6 +236,12 @@ elle-même.
   Frangi, l'ordre 2 y étant désormais une ligne de perspective ; `frangi_termes.tex`
   (les trois vignettes courbure / élongation / alignement) a été remplacée par
   `frangi_hessienne.tex` quand la diapositive est devenue mathématique.
+- `verrou_portee.tex` — la surface reconstruite du panneau bas-droit est une
+  polyligne **continue** passant par les cinq retours observés : ses sommets sont
+  sur le contour gris pointillé, les cordes coupent les angles. Elle a d'abord
+  été dessinée en deux morceaux avec un trou étiqueté « non observé » ; ce n'est
+  plus le propos de la planche, qui compare la *variabilité* du nuage à celle de
+  la surface, et non ce que le capteur a manqué. Ne pas rouvrir le trou.
 - `attention_hierarchie.tex` — les deux matrices de la diapositive de guidage.
   Celle de gauche suit une formule explicite ; les **neuf tons de droite sont les
   moyennes des blocs de gauche**, calculées hors du fichier et écrites en dur. Ce
