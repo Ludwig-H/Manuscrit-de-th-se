@@ -158,7 +158,7 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    `ISPRS/CrackSAM-HierarchicalSelfAttention` (no-go de conception, sans dépense
    GPU). Sur la dynamique hiérarchique, la borne rigoureuse $0{,}809439$ vient du
    canal triangulaire et **non** de cette dynamique : c'est un programme.
-8. **Conclusion, publications** — deux piliers et quatre contributions,
+8. **Conclusion, publications** — deux fils conducteurs et quatre contributions,
    perspectives dans le fil de la thèse, liste des publications et des dépôts
    logiciels.
 9. **Diapositives de secours** (après le « Merci »), suivant la chronologie de la
