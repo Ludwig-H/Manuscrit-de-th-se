@@ -1435,25 +1435,26 @@
 
 % ------------------------------------------------------------
 \begin{frame}[t]{Guider l'\textcolor{inria-rouge}{attention} par la hiérarchie}
-    \small
-    L'attention compare les jetons \textbf{deux à deux} : aucun \emph{a priori} de chemin,
-    là où un objet se reconnaît à sa \textbf{connexité}
-
-    \vspace{0.06cm}
+    \vspace{-0.05cm}
     \begin{center}
         \resizebox{0.52\textwidth}{!}{\input{figs/attention_hierarchie}}
     \end{center}
 
-    \vspace{0.06cm}
+    \vspace{0.22cm}
+    \small
     \begin{itemize}
         \setlength{\itemsep}{5pt}
-        \item Deux sous-arbres frères n'échangent plus qu'\textbf{une} valeur \citb{hsa25}
-        \item Mais un bloc \textbf{comprime} l'attention : au mieux il retrouve la \emph{softmax}
-        plate, et n'apprend rien
-        \item D'où la voie retenue : un \textbf{biais additif} sur la distance dans le graphe
-        \citb{ying21} : \textbf{informer}, pas contraindre. {\color{inria-rouge}Aucune IoU mesurée}
+        \item L'attention est \textbf{lourde} : elle porte une matrice \textbf{complète}, chaque paire jugée seule
+        \item Une hiérarchie la découpe en \textbf{blocs} : un coefficient par couple de sous-arbres frères \citb{hsa25}
     \end{itemize}
-    \reffoot{hsa25,ying21}
+
+    \vspace{0.22cm}
+    \begin{center}
+        \formulebox{\parbox{0.93\textwidth}{\centering\small
+        La hiérarchie produite par le graphe de \textsc{Frangi} pourrait-elle aider à guider un
+        modèle de fondation comme SAM ?}}
+    \end{center}
+    \reffoot{hsa25}
 \end{frame}
 
 % ------------------------------------------------------------
