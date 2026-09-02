@@ -132,8 +132,21 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    c'est **là** que sont traitées la densité, la portée et les occultations —
    puis la question « **Remplacer les points par une hiérarchie de polyèdres ?** »,
    en une diapositive presque muette : la figure `hierarchie_surfaces` occupe la
-   place, deux points d'une ligne la commentent (chaque nœud porte une *surface*,
-   contre les superpoints et PolyhedronNet ; le pari est réfutable). Les six pièces
+   place, et **une seule** ligne la commente — le polyèdre est l'alphabet,
+   l'unité fixée une fois pour toutes, et la hiérarchie en est la grammaire.
+   La ligne reprend volontairement le vocabulaire de l'accroche des modèles de
+   fondation (« un découpage fixé une fois pour toutes »), c'est le fil qui
+   tient les trois dernières diapositives. Aucune citation, donc pas de
+   `\reffoot` : les deux points supprimés portaient les seuls `\citb` de la page
+   (superpoints, PolyhedronNet), qui restent déclarés et en bibliographie mais ne
+   sont plus cités dans le corps. Réserves à garder pour l'oral, l'analogie étant
+   volontairement rapide : en TAL l'alphabet n'est pas l'unité de calcul (le
+   sous-mot l'est, et il s'*apprend*, là où le $K$-polyèdre est donné par la
+   géométrie) ; une grammaire est un système de règles génératif, alors que la
+   hiérarchie est *une* analyse d'un nuage donné — la règle, ici, c'est la
+   filtration et l'emboîtement des $K$-polyèdres ; et il n'y a pas de vocabulaire
+   partagé entre deux scènes, ce qui transfère est le *descripteur* du polyèdre,
+   pas le polyèdre. Les six pièces
    des feuilles sont les six secteurs d'un même polygone maître irrégulier,
    dessinées partout à la même échelle et dans la même orientation : le polyèdre
    d'un nœud est donc littéralement le recollement de ceux de ses deux enfants,
