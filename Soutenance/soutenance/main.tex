@@ -61,6 +61,18 @@
           {\small\insertsubtitle}\\[2.6ex]
           {\insertauthor}
     };
+   % Tutelles en haut : République française + Inria à gauche (gabarit du thème),
+   % Université Côte d'Azur à droite. Les deux programmes financeurs en bas au
+   % centre, séparés d'un filet, à hauteur totale à peu près égale (DS4H compte
+   % trois lignes contre deux, son corps de texte est donc un peu plus petit).
+   \node [anchor=north east, inner sep=0pt]
+         at (\paperwidth-\hmargin, \canvastop-0.10cm) {%
+          \includegraphics[height=0.86cm]{imgs/logo_uca.png}};
+   \node [anchor=south, inner sep=0pt]
+         at (0.5\paperwidth, \posfooterline+0.42cm) {%
+          \includegraphics[height=0.62cm]{imgs/logo_3ia.png}%
+          \hspace{0.60cm}\textcolor{gray!45}{\rule{0.4pt}{0.82cm}}\hspace{0.60cm}%
+          \includegraphics[height=0.74cm]{imgs/logo_ds4h.png}};
   \end{tikzpicture}
 }
 
@@ -501,13 +513,15 @@
         \begin{column}{0.40\textwidth}
             Cette hiérarchie a un nom :\\ le \textbf{\emph{Single-Linkage}} \citb{florek51} \citb{gowerross69}
 
-            \vspace{0.5cm}
-            L'arbre minimum couvrant euclidien\\ vit dans la triangulation de \textsc{Delaunay} \citb{boissonnat18} :
+            \vspace{0.40cm}
+            L'arbre minimum couvrant euclidien s'emboîte dans \textsc{Gabriel}, puis dans
+            \textsc{Delaunay} \citb{boissonnat18} :
             \begin{center}
-                \formulebox{arbre minimum couvrant $\subseteq$ \textsc{Delaunay}}
+                \formulebox{\parbox{0.93\linewidth}{\centering\small
+                arbre minimum couvrant\\ $\subseteq$ \textsc{Gabriel} $\subseteq$ \textsc{Delaunay}}}
             \end{center}
 
-            \vspace{0.4cm}
+            \vspace{0.30cm}
             Dans le plan $\mathbb{R}^2$ : $\mathcal{O}(n \log n)$
         \end{column}
     \end{columns}
@@ -734,10 +748,12 @@
         \begin{column}{0.54\textwidth}
             \begin{itemize}
                 \setlength{\itemsep}{12pt}
-                \item Le simplexe $K$-séparant provoque une \textbf{fusion}
+                \item \textbf{Définition} : un simplexe est dit \textbf{$K$-séparant} s'il provoque une
+                fusion $K$-NN
                 \item \textbf{Cas $K=1$} : les $1$-séparants sont exactement les arêtes de l'arbre minimum couvrant
-                \item \textbf{Théorème} \citb{ans26} : tout simplexe $K$-séparant est un simplexe de \textbf{\textsc{Gabriel}}\\
-                {\small (sa boule minimale est vide d'intrus)}
+                \item \textbf{Définition} : un $K$-simplexe est dit de \textbf{\textsc{Gabriel}} si sa miniboule
+                ne contient aucun autre point
+                \item \textbf{Théorème} \citb{ans26} : tout simplexe $K$-séparant est de \textsc{Gabriel}
             \end{itemize}
         \end{column}
 
@@ -790,14 +806,15 @@
 \end{frame}
 
 % ------------------------------------------------------------
-\begin{frame}{Pourquoi \textsc{Gabriel} plutôt que la mosaïque d'ordre $K$ ?}
+\begin{frame}{Pourquoi \textsc{Gabriel} plutôt que la mosaïque de \textsc{Delaunay} d'ordre supérieur ?}
     \vspace{-0.10cm}
     \begin{center}
         \resizebox{0.50\textwidth}{!}{\input{figs/miniball_circumball}}\\[6pt]
         \begin{minipage}{0.50\textwidth}\small
-            \makebox[0.50\linewidth]{\begin{tabular}[t]{@{}c@{}}\textbf{Sphère circonscrite}\end{tabular}}%
-            \makebox[0.50\linewidth]{\begin{tabular}[t]{@{}c@{}}\textbf{\emph{Miniball}}\\[1pt]
-                (plus petite boule englobante)\end{tabular}}
+            \makebox[0.50\linewidth]{\begin{tabular}[t]{@{}c@{}}\textbf{\textsc{Delaunay}}\\[1pt]
+                (sphère circonscrite)\end{tabular}}%
+            \makebox[0.50\linewidth]{\begin{tabular}[t]{@{}c@{}}\textbf{\textsc{Gabriel}}\\[1pt]
+                (\emph{miniball})\end{tabular}}
         \end{minipage}
     \end{center}
 
@@ -1536,13 +1553,12 @@
         \setlength{\itemsep}{11pt}
         \item \textbf{Une hiérarchie de polyèdres pour un modèle de fondation en 3D ?} Faire du
         polyèdre et de son espace d'échelle l'unité de calcul d'un modèle appris
-        \item \textbf{La grande dimension} : la mosaïque de \textsc{Delaunay} d'ordre $K$ y est bien
-        plus riche que les graphes de voisinage, d'où une \textbf{réduction de dimension} d'ordre
-        supérieur (UMAP)
+        \item \textbf{La grande dimension} : une \textbf{réduction de dimension} d'ordre supérieur,
+        là où les méthodes courantes s'appuient sur des graphes de voisinage (UMAP)
         \item \textbf{Question ouverte} : HGP-Clusterer n'est que \emph{fractionnellement} consistant ;
         un algorithme consistant en dimension $p \ge 2$ reste à inventer
         \item \textbf{Une hiérarchie « métier » peut-elle guider un modèle de fondation ?} Le graphe
-        de \textsc{Frangi} pour SAM : en invites, ou en biais d'attention
+        de \textsc{Frangi} pour SAM
         \item \textbf{Une dynamique de clusters \emph{hiérarchique} donne-t-elle de meilleurs
         résultats ?} Détection de communautés sur graphes signés
     \end{itemize}

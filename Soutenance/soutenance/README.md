@@ -9,6 +9,32 @@ Louis Hauseux — Learning Centre SophiaTech, Université Côte d'Azur.
 - [Source principale](main.tex)
 - Thème Beamer Inria dans [`theme/`](theme/)
 
+## Logos de la page de titre
+
+Le bloc République française $+$ Inria vient du thème (`theme/imgs/`). Les trois
+autres ont été récupérés le 3 septembre 2026 sur les sites officiels des
+structures concernées :
+
+| Fichier | Source | Traitement |
+|---|---|---|
+| `imgs/logo_uca.png` | <https://univ-cotedazur.fr/uas/ksup/LOGO/UCAlogoQlarge-inverse.png> | détouré, sinon intact |
+| `imgs/logo_3ia.png` | <https://3ia.univ-cotedazur.eu/uas/3ia-en/LOGO/logo_ai_cluster.png> | bloc « Université Côte d'Azur » **retiré** |
+| `imgs/logo_ds4h.png` | <https://ds4h.univ-cotedazur.eu/uas/eur-uca-02-en/LOGO/UCA_DS4H_France2030.png> | bloc « Université Côte d'Azur » **retiré** |
+
+Les deux fichiers d'origine sont les verrouillages co-brandés officiels, qui
+portent chacun le bloc « Université Côte d'Azur ». Ils ont été **recadrés à la
+demande** pour ne garder que la marque propre, l'université figurant une seule
+fois en haut à droite. C'est un écart assumé à la charte de l'université ; le
+recadrage se refait en deux lignes de Pillow depuis les originaux, en coupant
+juste après le filet séparateur (x $= 428$ pour le 3IA, x $= 858$ pour DS4H).
+
+Disposition : tutelles en haut (République française $+$ Inria à gauche,
+Université Côte d'Azur à droite), programmes financeurs en bas au centre,
+séparés d'un filet gris. Les deux marques du bas sont mises à **hauteur totale
+à peu près égale** ($0{,}62$ cm et $0{,}74$ cm) : le bloc DS4H compte trois
+lignes contre deux pour le 3IA, son corps de texte est donc un peu plus petit,
+et c'est l'équilibre visuel des deux blocs qui a été retenu.
+
 ## Compilation
 
 ```bash
