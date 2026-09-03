@@ -513,13 +513,15 @@
         \begin{column}{0.40\textwidth}
             Cette hiérarchie a un nom :\\ le \textbf{\emph{Single-Linkage}} \citb{florek51} \citb{gowerross69}
 
-            \vspace{0.5cm}
-            L'arbre minimum couvrant euclidien\\ vit dans la triangulation de \textsc{Delaunay} \citb{boissonnat18} :
+            \vspace{0.40cm}
+            L'arbre minimum couvrant euclidien s'emboîte dans \textsc{Gabriel}, puis dans
+            \textsc{Delaunay} \citb{boissonnat18} :
             \begin{center}
-                \formulebox{arbre minimum couvrant $\subseteq$ \textsc{Delaunay}}
+                \formulebox{\parbox{0.93\linewidth}{\centering\small
+                arbre minimum couvrant\\ $\subseteq$ \textsc{Gabriel} $\subseteq$ \textsc{Delaunay}}}
             \end{center}
 
-            \vspace{0.4cm}
+            \vspace{0.30cm}
             Dans le plan $\mathbb{R}^2$ : $\mathcal{O}(n \log n)$
         \end{column}
     \end{columns}
@@ -746,10 +748,12 @@
         \begin{column}{0.54\textwidth}
             \begin{itemize}
                 \setlength{\itemsep}{12pt}
-                \item Le simplexe $K$-séparant provoque une \textbf{fusion}
+                \item \textbf{Définition} : un simplexe est dit \textbf{$K$-séparant} s'il provoque une
+                fusion $K$-NN
                 \item \textbf{Cas $K=1$} : les $1$-séparants sont exactement les arêtes de l'arbre minimum couvrant
-                \item \textbf{Théorème} \citb{ans26} : tout simplexe $K$-séparant est un simplexe de \textbf{\textsc{Gabriel}}\\
-                {\small (sa boule minimale est vide d'intrus)}
+                \item \textbf{Définition} : un $K$-simplexe est dit de \textbf{\textsc{Gabriel}} si sa miniboule
+                ne contient aucun autre point
+                \item \textbf{Théorème} \citb{ans26} : tout simplexe $K$-séparant est de \textsc{Gabriel}
             \end{itemize}
         \end{column}
 
@@ -802,14 +806,15 @@
 \end{frame}
 
 % ------------------------------------------------------------
-\begin{frame}{Pourquoi \textsc{Gabriel} plutôt que la mosaïque d'ordre $K$ ?}
+\begin{frame}{Pourquoi \textsc{Gabriel} plutôt que la mosaïque de \textsc{Delaunay} d'ordre supérieur ?}
     \vspace{-0.10cm}
     \begin{center}
         \resizebox{0.50\textwidth}{!}{\input{figs/miniball_circumball}}\\[6pt]
         \begin{minipage}{0.50\textwidth}\small
-            \makebox[0.50\linewidth]{\begin{tabular}[t]{@{}c@{}}\textbf{Sphère circonscrite}\end{tabular}}%
-            \makebox[0.50\linewidth]{\begin{tabular}[t]{@{}c@{}}\textbf{\emph{Miniball}}\\[1pt]
-                (plus petite boule englobante)\end{tabular}}
+            \makebox[0.50\linewidth]{\begin{tabular}[t]{@{}c@{}}\textbf{\textsc{Delaunay}}\\[1pt]
+                (sphère circonscrite)\end{tabular}}%
+            \makebox[0.50\linewidth]{\begin{tabular}[t]{@{}c@{}}\textbf{\textsc{Gabriel}}\\[1pt]
+                (\emph{miniball})\end{tabular}}
         \end{minipage}
     \end{center}
 
