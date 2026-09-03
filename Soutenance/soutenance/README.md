@@ -137,9 +137,11 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    *et al.* 2024, $0{,}7\,\%$ des poids) ; puis **une seule** diapositive de
    guidage, « Guider l'attention par la hiérarchie », bâtie sur le diptyque de
    matrices `attention_hierarchie` (plate à gauche, découpée en blocs à droite).
-   Trois points d'une ligne, dans cet ordre : ce qu'**est** l'attention (chaque
-   jeton se compare à tous les autres, et devient leur moyenne pondérée) — la
-   diapositive ne suppose donc pas le mécanisme connu ; elle est de ce fait
+   Trois points, dans cet ordre : ce qu'**est** l'attention — chaque jeton pose
+   une **requête**, la compare aux **clefs** de tous les autres, et repart avec la
+   moyenne de leurs **valeurs**. Les trois objets sont nommés, en français et sans
+   $QK^\top$ : la diapositive ne suppose donc pas le mécanisme connu du jury, et
+   les deux points suivants s'enchaînent dessus. Elle est de ce fait
    **lourde**, la matrice est complète ; une hiérarchie la découpe en **blocs**,
    un coefficient par couple de sous-arbres frères (HSA, NeurIPS 2025). Puis
    l'encadré, sur **une** ligne : « Le graphe de Frangi pourrait-il guider un

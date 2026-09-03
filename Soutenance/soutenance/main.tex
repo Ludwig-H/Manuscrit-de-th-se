@@ -1458,15 +1458,15 @@
 \begin{frame}[t]{Guider l'\textcolor{inria-rouge}{attention} par la hiérarchie}
     \vspace{-0.05cm}
     \begin{center}
-        \resizebox{0.47\textwidth}{!}{\input{figs/attention_hierarchie}}
+        \resizebox{0.42\textwidth}{!}{\input{figs/attention_hierarchie}}
     \end{center}
 
     \vspace{0.22cm}
     \small
     \begin{itemize}
         \setlength{\itemsep}{5pt}
-        \item L'\textbf{attention} : chaque jeton se compare à tous les autres, et devient leur
-        moyenne pondérée
+        \item L'\textbf{attention} : chaque jeton pose une \textbf{requête}, la compare aux
+        \textbf{clefs} de tous les autres, et repart avec la moyenne de leurs \textbf{valeurs}
         \item Elle est donc \textbf{lourde} : la matrice est \textbf{complète}, chaque paire jugée seule
         \item Une hiérarchie la découpe en \textbf{blocs} : un coefficient par couple de sous-arbres frères \citb{hsa25}
     \end{itemize}
