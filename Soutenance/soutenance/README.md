@@ -137,13 +137,17 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    *et al.* 2024, $0{,}7\,\%$ des poids) ; puis **une seule** diapositive de
    guidage, « Guider l'attention par la hiérarchie », bâtie sur le diptyque de
    matrices `attention_hierarchie` (plate à gauche, découpée en blocs à droite).
-   Elle dit les trois choses dans l'ordre : la hiérarchie réduit la matrice à un
-   coefficient par couple de sous-arbres frères (HSA, NeurIPS 2025) ; une
-   contrainte de blocs **comprime** l'attention — au mieux elle retrouve la
-   *softmax* plate, et n'apprend aucun paramètre ; la voie retenue est donc un
-   **biais additif** sur la distance dans le graphe (Graphormer), c'est-à-dire
-   **informer** l'attention plutôt que la contraindre — aucune IoU mesurée.
-   L'architecture de SAM et le détail de ce biais sont en secours.
+   Trois points d'une ligne, dans cet ordre : ce qu'**est** l'attention (chaque
+   jeton se compare à tous les autres, et devient leur moyenne pondérée) — la
+   diapositive ne suppose donc pas le mécanisme connu ; elle est de ce fait
+   **lourde**, la matrice est complète ; une hiérarchie la découpe en **blocs**,
+   un coefficient par couple de sous-arbres frères (HSA, NeurIPS 2025). Puis
+   l'encadré, sur **une** ligne : « Le graphe de Frangi pourrait-il guider un
+   modèle de fondation comme SAM ? ». Aucun grand $O$ nulle part : la planche
+   dit « non plus les paires, mais les nœuds », ce qui est la même chose en
+   français. L'architecture de SAM, le biais additif de type Graphormer et la
+   raison pour laquelle une contrainte de blocs *comprime* l'attention au lieu
+   de l'informer sont en secours.
    *(d)* Le **modèle de fondation 3D** qui manque. La première diapositive pose
    la question — « Vers un modèle de fondation pour la 3D ? » — et l'accroche
    donne le cahier des charges d'un jeton : le sous-mot et l'imagette sont un
@@ -332,6 +336,10 @@ ni SIGMETRICS SRC 2024, ni CN 2024.
   n'est pas un choix esthétique : c'est ce qui rend visible que la contrainte de
   blocs est une *compression* de la matrice plate et non un apport
   d'information. Si la formule de gauche change, recalculer les neuf moyennes.
+  L'étiquette sous la flèche dit « non plus les **paires**, mais les **nœuds** » :
+  la complexité $O(N^2) \to O(Mb^2)$ qui s'y trouvait a été retirée, un grand $O$
+  ne se lit pas à cinq mètres. Elle doit rester **courte** — elle tient dans les
+  deux unités TikZ qui séparent les deux matrices, et déborde sur elles sinon.
 - `invites_centralite.tex` et `revolution_3d.tex` sont **conservées mais plus
   appelées** depuis le retrait des diapositives « Guider SAM par la hiérarchie »
   et « En 3D, ce modèle de fondation n'existe pas ». La première reste la seule

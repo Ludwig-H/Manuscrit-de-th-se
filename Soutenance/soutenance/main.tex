@@ -1458,22 +1458,23 @@
 \begin{frame}[t]{Guider l'\textcolor{inria-rouge}{attention} par la hiérarchie}
     \vspace{-0.05cm}
     \begin{center}
-        \resizebox{0.52\textwidth}{!}{\input{figs/attention_hierarchie}}
+        \resizebox{0.47\textwidth}{!}{\input{figs/attention_hierarchie}}
     \end{center}
 
     \vspace{0.22cm}
     \small
     \begin{itemize}
         \setlength{\itemsep}{5pt}
-        \item L'attention est \textbf{lourde} : elle porte une matrice \textbf{complète}, chaque paire jugée seule
+        \item L'\textbf{attention} : chaque jeton se compare à tous les autres, et devient leur
+        moyenne pondérée
+        \item Elle est donc \textbf{lourde} : la matrice est \textbf{complète}, chaque paire jugée seule
         \item Une hiérarchie la découpe en \textbf{blocs} : un coefficient par couple de sous-arbres frères \citb{hsa25}
     \end{itemize}
 
-    \vspace{0.22cm}
+    \vspace{0.20cm}
     \begin{center}
-        \formulebox{\parbox{0.93\textwidth}{\centering\small
-        La hiérarchie produite par le graphe de \textsc{Frangi} pourrait-elle aider à guider un
-        modèle de fondation comme SAM ?}}
+        \formulebox{\parbox{0.90\textwidth}{\centering\small
+        Le graphe de \textsc{Frangi} pourrait-il guider un modèle de fondation comme SAM ?}}
     \end{center}
     \reffoot{hsa25}
 \end{frame}
