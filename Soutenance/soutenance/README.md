@@ -278,6 +278,19 @@ mathématiques. À vérifier après **toute** retouche d'une entrée de
 la citent : `ii26` en cite neuf, et sa mention du journal *Information and
 Inference* lui fait tenir deux lignes partout.
 
+### Antériorité des jeux de données
+
+Les **huiles d'olive italiennes** (Forina 1983, 572 échantillons, 9 régions en
+3 macro-aires) apparaissent d'abord dans **EUSIPCO 2024**
+(`hal-04617936`, § IV.B, arbre condensé fig. 8, 8 des 9 régions retrouvées avec
+$K \leftarrow 6$), et seulement ensuite dans ANS 2026. La diapositive « Deux
+exemples issus de la thèse » cite donc les deux, EUSIPCO en premier. Vérifié en
+téléchargeant les textes intégraux des douze dépôts HAL de Louis
+(`authFullName_s:"Louis Hauseux"`) et en cherchant « olive » et « Forina » :
+seuls `hal-04617936` (EUSIPCO 24) et `hal-05369659` (ANS 26) en parlent — ni le
+rapport de 2017, ni le poster des Journées de géostatistiques 2023, ni CN 2023,
+ni SIGMETRICS SRC 2024, ni CN 2024.
+
 ## Provenance des figures
 
 - `figs/*.tex` — blocs TikZ extraits (et francisés) de
