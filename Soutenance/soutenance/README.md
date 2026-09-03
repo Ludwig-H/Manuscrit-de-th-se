@@ -239,6 +239,19 @@ correspondant. Seule exception, la diapositive « Publications », où chaque
 crochet est déjà suivi du titre, du lieu et de l'année sur la diapositive
 elle-même.
 
+**Le `\reffoot` grandit vers le haut, et en silence.** Il est posé dans un
+`textblock` ancré `[0,1](0.05,0.925)` : allonger une référence, ou en ajouter
+une, pousse le bloc dans le contenu **sans qu'aucun `Overfull \vbox` ne soit
+signalé**. Le rendu peut même sembler correct à l'œil. Le contrôle qui attrape
+vraiment ces collisions est `pdftotext -bbox` : deux mots dont les boîtes se
+recouvrent de plus de 3 pt en vertical et 1,5 pt en horizontal se chevauchent
+pour de bon. Les faux positifs connus et sans gravité sont les numéros de
+partie en filigrane derrière les titres (`01`…`08`) et les indices/exposants
+mathématiques. À vérifier après **toute** retouche d'une entrée de
+`\DeclareRef`, car une seule référence rallongée touche toutes les pages qui
+la citent : `ii26` en cite neuf, et sa mention du journal *Information and
+Inference* lui fait tenir deux lignes partout.
+
 ## Provenance des figures
 
 - `figs/*.tex` — blocs TikZ extraits (et francisés) de
