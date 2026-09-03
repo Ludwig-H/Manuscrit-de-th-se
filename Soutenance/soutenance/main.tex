@@ -61,13 +61,19 @@
           {\small\insertsubtitle}\\[2.6ex]
           {\insertauthor}
     };
-   % Les deux financeurs, à la même hauteur d'encre, alignés sur la marge du
-   % texte : le bloc République française + Inria reste seul en haut à gauche.
-   \node [anchor=south west, inner sep=0pt]
-         at (\fullpageinnerhmargin, \posfooterline+0.40cm) {%
-          \includegraphics[height=0.72cm]{imgs/logo_3ia_cote_dazur.png}%
-          \hspace{0.95cm}%
-          \includegraphics[height=0.72cm]{imgs/logo_eur_ds4h.png}};
+   % Tutelles en haut : République française + Inria à gauche (gabarit du thème),
+   % Université Côte d'Azur à droite. Les deux programmes financeurs en bas au
+   % centre, séparés d'un filet, à hauteur de CAPITALE égale : les blocs 3IA et
+   % DS4H n'ont pas le même nombre de lignes, c'est le corps du texte qui doit
+   % s'accorder, pas la hauteur totale.
+   \node [anchor=north east, inner sep=0pt]
+         at (\paperwidth-\hmargin, \canvastop-0.10cm) {%
+          \includegraphics[height=0.86cm]{imgs/logo_uca.png}};
+   \node [anchor=south, inner sep=0pt]
+         at (0.5\paperwidth, \posfooterline+0.42cm) {%
+          \includegraphics[height=0.58cm]{imgs/logo_3ia.png}%
+          \hspace{0.60cm}\textcolor{gray!45}{\rule{0.4pt}{1.02cm}}\hspace{0.60cm}%
+          \includegraphics[height=1.06cm]{imgs/logo_ds4h.png}};
   \end{tikzpicture}
 }
 
