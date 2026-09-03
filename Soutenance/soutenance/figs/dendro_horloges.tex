@@ -1,10 +1,10 @@
 % Dendrogramme des horloges exponentielles (charte : feuilles bleu canard,
 % branches rouge Inria, coupes en gris) — beta = 0 : Glauber ;
 % beta = 1 : Swendsen--Wang ; entre les deux, un bain a quatre etats.
-\begin{tikzpicture}[scale=0.82, >=latex, font=\scriptsize]
-    \useasboundingbox (-1.85, -0.75) rectangle (12.45, 5.05);
+\begin{tikzpicture}[scale=0.82, >=latex, font=\small]
+    \useasboundingbox (-1.85, -0.28) rectangle (11.95, 4.62);
     % Axe du temps d'horloge
-    \draw[->, thick] (-1.1, 0) -- (-1.1, 4.7) node[above] {$\beta$};
+    \draw[->, thick] (-1.1, 0) -- (-1.1, 4.35) node[above] {$\beta$};
     \draw[thick] (-1.2, 0) -- (-1.0, 0) node[left=6pt] {$0$};
     \draw[thick] (-1.2, 4.0) -- (-1.0, 4.0) node[left=6pt] {$1$};
 
@@ -29,10 +29,9 @@
 
     % Coupe intermédiaire : un nœud interne, ni feuille ni racine
     \draw[dashed, thick, gris_fonce_inria] (-0.6, 2.55) -- (7.1, 2.55);
-    \node[gris_fonce_inria, right, align=left] at (7.1, 2.55)
-        {une coupe \textbf{intermédiaire}\\{\scriptsize bain à quatre états}};
+    \node[gris_fonce_inria, right] at (7.1, 2.55) {coupe \textbf{intermédiaire}};
 
     % Étiquettes des deux extrémités
-    \node[right, align=left] at (7.1, 0) {les \textbf{feuilles}\\{\scriptsize un spin à la fois $\Rightarrow$ bain de \textsc{Glauber}}};
-    \node[right, align=left] at (7.1, 4.0) {les \textbf{racines} ($\Pi_1$)\\{\scriptsize l'amas entier $\Rightarrow$ \textsc{Swendsen}--\textsc{Wang}}};
+    \node[right] at (7.1, 0) {les \textbf{feuilles} $\Rightarrow$ \textsc{Glauber}};
+    \node[right] at (7.1, 4.0) {les \textbf{racines} $\Rightarrow$ \textsc{Swendsen}--\textsc{Wang}};
 \end{tikzpicture}

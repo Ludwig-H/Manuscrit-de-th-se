@@ -120,6 +120,15 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    recouvrement faible, celle de la température de percolation. Le détail (la
    construction des horloges, l'invariance de la postérieure, la **coupe
    critique** $\beta_c$ et son statut de programme) est passé en secours.
+   La légende de `dendro_horloges` est réduite à trois étiquettes d'une ligne
+   (« les racines $\Rightarrow$ Swendsen–Wang », « coupe intermédiaire »,
+   « les feuilles $\Rightarrow$ Glauber ») : le commentaire qu'elles portaient
+   se dit à l'oral. Pour qu'elles gagnent en taille sans que la figure ne pousse
+   le bloc de références, c'est la **hauteur** de la planche qui a été rognée —
+   l'axe des $\beta$ s'arrête à $4{,}35$ au lieu de $4{,}7$ et le cadre est
+   resserré en bas — ce qui a permis de passer la largeur de $0{,}49$ à
+   $0{,}54\,$`\textwidth`. Augmenter la police dans le TikZ **sans** toucher au
+   cadre ne sert à rien : le `\resizebox` normalise la largeur et annule le gain.
    Source : `Presentation-MathNet-2026-06-15/research/hierarchical-swendsen-wang`.
    *(c)* **Modèles de fondation et SAM**, en trois diapositives courtes : les
    quatre conditions communément demandées (échelle, auto-supervision,
