@@ -61,6 +61,13 @@
           {\small\insertsubtitle}\\[2.6ex]
           {\insertauthor}
     };
+   % Les deux financeurs, à la même hauteur d'encre, alignés sur la marge du
+   % texte : le bloc République française + Inria reste seul en haut à gauche.
+   \node [anchor=south west, inner sep=0pt]
+         at (\fullpageinnerhmargin, \posfooterline+0.40cm) {%
+          \includegraphics[height=0.72cm]{imgs/logo_3ia_cote_dazur.png}%
+          \hspace{0.95cm}%
+          \includegraphics[height=0.72cm]{imgs/logo_eur_ds4h.png}};
   \end{tikzpicture}
 }
 

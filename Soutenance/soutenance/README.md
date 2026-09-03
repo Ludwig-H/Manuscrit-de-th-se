@@ -9,6 +9,25 @@ Louis Hauseux — Learning Centre SophiaTech, Université Côte d'Azur.
 - [Source principale](main.tex)
 - Thème Beamer Inria dans [`theme/`](theme/)
 
+## Logos de la page de titre
+
+Le bloc République française $+$ Inria vient du thème (`theme/imgs/`). Les deux
+logos des financeurs, posés en bas de la page de titre à hauteur d'encre égale
+et alignés sur la marge du texte, ont été récupérés le 3 septembre 2026 sur les
+sites officiels des deux structures :
+
+| Fichier | Source |
+|---|---|
+| `imgs/logo_3ia_cote_dazur.png` | <https://3ia.univ-cotedazur.eu/uas/3ia-en/LOGO/logo_ai_cluster.png> |
+| `imgs/logo_eur_ds4h.png` | <https://ds4h.univ-cotedazur.eu/uas/eur-uca-02-en/LOGO/UCA_DS4H_France2030.png> |
+
+Ce sont les verrouillages co-brandés officiels, repris **tels quels** : ils
+portent tous deux le bloc « Université Côte d'Azur », ce qui est voulu par la
+charte de l'université et explique la répétition. Ne pas les recadrer pour
+supprimer ce bloc, ce serait sortir de la charte. Les deux images ont un fond
+transparent et sont détourées au pixel près, d'où l'alignement exact à hauteur
+égale.
+
 ## Compilation
 
 ```bash
