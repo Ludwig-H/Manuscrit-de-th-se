@@ -190,7 +190,12 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    dessinées partout à la même échelle et dans la même orientation : le polyèdre
    d'un nœud est donc littéralement le recollement de ceux de ses deux enfants,
    soudé le long de la face tracée en rouge. Les coordonnées sont engendrées par
-   `figs/hierarchie_surfaces.py` : éditer le script, pas le TikZ.
+   `figs/hierarchie_surfaces.py` : éditer le script, pas le TikZ. L'axe vertical
+   garde sa flèche, son $r$, ses graduations et son étiquette « rayon (m) », mais
+   **plus les valeurs** : la planche dit que le rayon croît vers le haut, pas
+   quelle est l'échelle — la hiérarchie ne dépend pas de la valeur des rayons.
+   Attention en régénérant : `make` ne dépend que de `main.tex`, donc modifier
+   une figure sans toucher `main.tex` ne relance rien. Faire `touch main.tex`.
    **Rien n'y est présenté comme acquis** : les sources sont
    `E-HGP/tests/SemanticKITTI/Zoltan/HierarchicalSelfAttention` (statut
    `foundation_claim = not_yet_earned`) et

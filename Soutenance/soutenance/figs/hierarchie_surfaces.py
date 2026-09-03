@@ -105,7 +105,7 @@ wi(r"% d'un noeud interne est donc litteralement le recollement de ceux de ses d
 wi(r"% enfants, soude le long de la face tracee en rouge epais. L'ordonnee est le")
 wi(r"% rayon physique r ; le point rouge d'un noeud est place en O, au coeur du polyedre.")
 wi(r"\begin{tikzpicture}[xscale=1.0, yscale=1.0]")
-wi(r"\useasboundingbox (-2.15, -0.40) rectangle (%s, %s);"%(f(RIGHT+0.30), f(TOP+0.62)))
+wi(r"\useasboundingbox (-1.70, -0.40) rectangle (%s, %s);"%(f(RIGHT+0.30), f(TOP+0.62)))
 wi()
 wi(r"\tikzset{arbre/.style={gris_fonce_inria!75, line width=0.9pt}}")
 wi(r"\tikzset{bord/.style={draw=inria-2024-bleu-canard, line width=1.05pt, line join=round}}")
@@ -115,10 +115,12 @@ wi()
 wi(r"% ==== axe des rayons ====")
 wi(r"\draw[-{Latex[length=2.4mm]}, gris_fonce_inria, line width=0.8pt] (-1.00,-0.25) -- (-1.00,%s);"%f(TOP+0.35))
 wi(r"\node[font=\scriptsize, text=gris_fonce_inria, anchor=south] at (-1.00,%s) {$r$};"%f(TOP+0.42))
+# Graduations sans valeurs : l'axe dit le sens de lecture (le rayon croit vers
+# le haut), pas une echelle a lire. Les nombres alourdissaient la planche sans
+# rien apporter — la hierarchie ne depend pas de la valeur des rayons.
 for r in [0.25] + [x/2.0 for x in range(1, int(RV['R']*2)+1)]:
     wi(r"\draw[gris_fonce_inria, line width=0.6pt] (-1.00,%s) -- (-0.84,%s);"%(f(yy(r)),f(yy(r))))
-    wi(r"\node[font=\scriptsize, text=gris_fonce_inria, anchor=east] at (-1.08,%s) {$%s$};"%(f(yy(r)),(("%.2f"%r).rstrip('0').rstrip('.') if r < 0.5 else "%.1f"%r).replace('.',',')))
-wi(r"\node[rotate=90, font=\scriptsize, text=gris_fonce_inria, anchor=south] at (-1.95,%s) {rayon (m)};"%f(yy(1.2)))
+wi(r"\node[rotate=90, font=\scriptsize, text=gris_fonce_inria, anchor=south] at (-1.50,%s) {rayon (m)};"%f(yy(1.2)))
 wi()
 wi(r"% ==== arbre (passe derriere les polyedres) ====")
 for n in ('A','B','C','D','R'):
