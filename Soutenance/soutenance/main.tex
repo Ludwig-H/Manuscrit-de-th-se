@@ -1440,14 +1440,16 @@
         \resizebox{0.50\textwidth}{!}{\input{figs/lora_adaptation}}
     \end{center}
 
-    \vspace{0.40cm}
+    \vspace{0.35cm}
     \small
     \begin{itemize}
-        \setlength{\itemsep}{9pt}
+        \setlength{\itemsep}{7pt}
         \item On \textbf{gèle} le tronc pré-entraîné, on n'apprend qu'une correction de
         \textbf{petit rang} $W = W_0 + BA$ \citb{hu22}
-        \item \textbf{CrackSAM} \citb{ge24} applique la recette à SAM pour les fissures :
-        $4{,}4$~M de poids appris sur $637$~M, soit $\mathbf{0{,}7\,\%}$
+        \item \textbf{CrackSAM} \citb{ge24} : $4{,}4$~M de poids appris sur les $637$~M de SAM
+        \item {\color{inria-rouge}SAM a déjà tout vu : lui donner en plus nos descripteurs
+        (hessienne, gradient) ne change \textbf{rien}}
+        \item Et il \textbf{transfère} : des fissures de chantiers jamais vus, sans rien réapprendre
     \end{itemize}
     \reffoot{hu22,ge24}
 \end{frame}
