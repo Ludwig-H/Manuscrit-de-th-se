@@ -30,9 +30,10 @@ juste après le filet séparateur (x $= 428$ pour le 3IA, x $= 858$ pour DS4H).
 
 Disposition : tutelles en haut (République française $+$ Inria à gauche,
 Université Côte d'Azur à droite), programmes financeurs en bas au centre,
-séparés d'un filet gris. Les deux marques du bas sont mises à **hauteur de
-capitale égale** et non à hauteur totale égale : le bloc DS4H compte trois
-lignes contre deux pour le 3IA, c'est le corps du texte qui doit s'accorder.
+séparés d'un filet gris. Les deux marques du bas sont mises à **hauteur totale
+à peu près égale** ($0{,}62$ cm et $0{,}74$ cm) : le bloc DS4H compte trois
+lignes contre deux pour le 3IA, son corps de texte est donc un peu plus petit,
+et c'est l'équilibre visuel des deux blocs qui a été retenu.
 
 ## Compilation
 
