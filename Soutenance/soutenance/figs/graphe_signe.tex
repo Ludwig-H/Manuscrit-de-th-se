@@ -4,14 +4,56 @@
 %   trait plein    = interaction attractive  (W_e > 0)
 %   pointillés     = interaction répulsive   (W_e < 0)
 %   trait gras     = arête satisfaite par la configuration sigma
-% Configuration : a=+, b=+, c=-, d=+, e=-, f=-.
-    \begin{tikzpicture}[x=1cm,y=1cm,scale=0.92,every node/.style={scale=0.92}]
-      \node[spin] (a) at (0,1.15) {$+$};
-      \node[spin] (b) at (1.30,1.55) {$+$};
-      \node[spin] (c) at (2.55,1.05) {$-$};
+%
+% Deux lectures ajoutées pour la soutenance, d'après le chapitre 11 du
+% manuscrit (« Un cadre bayésien pour la détection de communautés ») :
+%   - les six sommets V = {1,...,6} portent leur numéro (petit chiffre gris,
+%     posé vers l'extérieur du nuage) et la ligne du haut donne la
+%     configuration cachée Sigma = (+,+,-,+,-,-), chaque signe surmontant
+%     le numéro du sommet auquel il appartient ;
+%   - le repère (X_1,X_2) rappelle que l'attribut X d'un sommet EST sa
+%     position dans le plan (modèle géométrique de Sankararaman--Baccelli,
+%     § 11.3 du manuscrit, où la loi d'une arête ne dépend que de sa
+%     longueur r_e = || x_i - x_j ||).
+% Les positions ont été très légèrement retouchées (seuls c et f bougent) pour
+% que les sept paires reliées soient exactement les sept plus courtes du nuage
+% (arêtes de 1,13 à 1,35 ; plus courte paire non reliée : 1,51) : avec un
+% repère affiché, le dessin se lit alors comme un vrai graphe géométrique.
+    \begin{tikzpicture}[x=1cm,y=1cm,scale=0.78,every node/.style={scale=0.88},
+        num/.style={font=\footnotesize,text=gris_fonce_inria,inner sep=1.6pt},
+        axe/.style={gris_fonce_inria,line width=0.6pt}]
+
+      % --- la configuration cachée, composante par composante ---
+      \node[anchor=south,inner sep=0pt] at (1.33,2.08)
+        {$\Sigma=\bigl(
+            \underset{\textcolor{gris_fonce_inria}{1}}{+},
+            \underset{\textcolor{gris_fonce_inria}{2}}{+},
+            \underset{\textcolor{gris_fonce_inria}{3}}{-},
+            \underset{\textcolor{gris_fonce_inria}{4}}{+},
+            \underset{\textcolor{gris_fonce_inria}{5}}{-},
+            \underset{\textcolor{gris_fonce_inria}{6}}{-}\bigr)$};
+
+      % --- le repère : l'attribut X d'un sommet est sa position ---
+      \draw[axe,-{Latex[length=1.6mm]}] (-0.62,-0.46) -- (3.28,-0.46)
+        node[num,anchor=west,inner sep=2pt] {$X_1$};
+      \draw[axe,-{Latex[length=1.6mm]}] (-0.62,-0.46) -- (-0.62,1.58)
+        node[num,anchor=south,inner sep=2pt] {$X_2$};
+
+      % --- les six sommets : position = attribut X, signe = composante de Sigma ---
+      \node[spin] (a) at (0.03,1.16) {$+$};
+      \node[spin] (b) at (1.31,1.55) {$+$};
+      \node[spin] (c) at (2.66,1.43) {$-$};
       \node[spin] (d) at (0.30,0.05) {$+$};
       \node[spin] (e) at (1.60,0.35) {$-$};
-      \node[spin] (f) at (2.70,-0.15) {$-$};
+      \node[spin] (f) at (2.69,0.08) {$-$};
+
+      % numéros posés vers l'extérieur du nuage
+      \node[num,anchor=east]       at (a.180) {1};
+      \node[num,anchor=south west] at (b.55)  {2};
+      \node[num,anchor=south west] at (c.40)  {3};
+      \node[num,anchor=north east] at (d.215) {4};
+      \node[num,anchor=north]      at (e.270) {5};
+      \node[num,anchor=north west] at (f.-35) {6};
 
       % --- arêtes satisfaites (en gras) ---
       \draw[posedge,freeze] (a)--(b);   % attractive, (+,+)
