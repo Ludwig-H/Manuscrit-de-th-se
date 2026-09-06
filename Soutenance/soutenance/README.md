@@ -134,34 +134,34 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    quatre conditions communément demandées (échelle, auto-supervision,
    adaptabilité, émergence) avec la figure des jetons, sous-mot pour le texte et
    imagette pour l'image ; l'adaptation LoRA $W = W_0 + BA$ et CrackSAM (Ge
-   *et al.* 2024, $0{,}7\,\%$ des poids) ; puis **deux** diapositives de
-   guidage, qui suivent la direction fixée le 6 septembre 2026 dans
-   `ISPRS/CrackSAM-HierarchicalSelfAttention` du dépôt Frangi (`README.md`,
-   `SOUTENANCE.md`) : **un biais additif dans une attention de SAM, appris avec
-   LoRA** — et non plus la contrainte de blocs de HSA, que ce dossier archive
-   explicitement. La première, « L'attention : ce qu'elle calcule, et où la
-   guider », porte la chaîne `attention_biais` (requête et clefs → score →
-   **$+\,\beta B_{ij}$** en rouge → softmax → moyenne pondérée des valeurs) et
-   trois points : ce qu'est l'attention (requête, clefs, valeurs nommées, sans
-   $QK^\top$), le score visuel que SAM sait déjà calculer, et le bonus ajouté
-   **avant** le softmax — un échange favorisé, jamais imposé (Graphormer). Encadré
-   sur une ligne : $\mathrm{attention} = \mathrm{softmax}(\text{scores visuels} +
-   \beta B_H)$. La seconde, « Perspective : relier les fragments grâce à la
-   hiérarchie », est la diapositive que `SOUTENANCE.md` demande : la figure
-   `sam_lora_hierarchie` (SAM gelé en gris, graphe de Frangi → hiérarchie →
-   $\beta B_H$ en rouge) et ses trois messages — SAM reconnaît, l'arbre
-   rapproche (bonus d'autant plus fort que la fusion est précoce dans le graphe
-   de Frangi, c'est $\kappa_{ij} = 1 - u_{ij}$ dit en français), LoRA apprend avec
-   un seul $\beta$ — puis la ligne d'objectif avec le témoin (la simple proximité
-   spatiale) et « Rien n'est encore mesuré » en rouge. Les formules
-   $d_{ij}$, $u_{ij}$, $P\kappa P^\top$ et $A_H$ du dépôt restent hors des
-   diapositives : elles se disent à l'oral si le jury les demande. « SAM » et
-   non « SAM 2 » dans le texte, comme partout dans le deck, mais la référence
-   citée est bien SAM 2 (Ravi *et al.*), le modèle réellement visé. Les
-   secours « Guider SAM : informer l'attention », « une suite progressive et
-   réfutable » et « Ce que HSA exige » datent de l'analyse précédente (oracle,
-   invites par centralité, no-go HSA) : ils ne contredisent pas le mécanisme
-   mais décrivent un protocole antérieur au premier test défini dans le dépôt.
+   *et al.* 2024, $0{,}7\,\%$ des poids) ; puis **une seule** diapositive de
+   guidage, « Comment guider l'attention *via* la hiérarchie ? », qui suit la
+   direction fixée le 6 septembre 2026 dans `ISPRS/CrackSAM-HierarchicalSelfAttention`
+   du dépôt Frangi (`README.md`, `SOUTENANCE.md`) : **un biais additif dans une
+   attention de SAM, appris avec LoRA** — et non plus la contrainte de blocs de
+   HSA, que ce dossier archive explicitement. La planche porte la chaîne
+   `attention_biais` (requête et clefs → score → **$+\,\beta B_{ij}$** en rouge
+   → softmax → moyenne pondérée des valeurs) et trois points : ce qu'est
+   l'attention (requête, clefs, valeurs nommées, sans $QK^\top$, et le score
+   visuel que SAM sait déjà calculer) ; le bonus ajouté **avant** le softmax, un
+   échange favorisé jamais imposé (Graphormer) ; d'où vient le bonus — la
+   hiérarchie du graphe de Frangi, d'autant plus fort que deux jetons fusionnent
+   tôt dans l'arbre, c'est $\kappa_{ij} = 1 - u_{ij}$ dit en français — et LoRA
+   qui l'apprend avec un seul $\beta$. Encadré sur une ligne :
+   $\mathrm{attention} = \mathrm{softmax}(\text{scores visuels} + \beta B_H)$.
+   Le mot « fragment » est **banni** de ces planches : il ne dit rien à un jury
+   qui n'a pas les images sous les yeux ; on parle de *jetons* (côté attention)
+   ou de *morceaux d'une même fissure* (côté image). Le montage complet — la
+   figure `03_sam_lora` du dépôt adaptée à la charte (`sam_lora_hierarchie`), les
+   trois messages de `SOUTENANCE.md`, le témoin (la simple proximité spatiale) et
+   « Rien n'est encore mesuré » — est en **secours**, « SAM gelé, LoRA et la
+   hiérarchie : le montage », en tête des secours SAM. Les formules $d_{ij}$,
+   $u_{ij}$, $P\kappa P^\top$ et $A_H$ du dépôt restent hors des diapositives.
+   « SAM » et non « SAM 2 » dans le texte, comme partout dans le deck, mais la
+   référence citée en secours est bien SAM 2 (Ravi *et al.*), le modèle
+   réellement visé. Les autres secours SAM (« informer l'attention », « une suite
+   progressive et réfutable », « Ce que HSA exige ») datent de l'analyse
+   précédente ; ils décrivent un protocole antérieur au premier test du dépôt.
    *(d)* Le **modèle de fondation 3D** qui manque. La première diapositive pose
    la question — « Vers un modèle de fondation pour la 3D ? » — et l'accroche
    donne le cahier des charges d'un jeton : le sous-mot et l'imagette sont un
