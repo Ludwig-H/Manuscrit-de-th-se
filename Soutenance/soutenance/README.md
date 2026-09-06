@@ -134,22 +134,34 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    quatre conditions communément demandées (échelle, auto-supervision,
    adaptabilité, émergence) avec la figure des jetons, sous-mot pour le texte et
    imagette pour l'image ; l'adaptation LoRA $W = W_0 + BA$ et CrackSAM (Ge
-   *et al.* 2024, $0{,}7\,\%$ des poids) ; puis **une seule** diapositive de
-   guidage, « Guider l'attention par la hiérarchie », bâtie sur le diptyque de
-   matrices `attention_hierarchie` (plate à gauche, découpée en blocs à droite).
-   Trois points, dans cet ordre : ce qu'**est** l'attention — chaque jeton pose
-   une **requête**, la compare aux **clefs** de tous les autres, et repart avec la
-   moyenne de leurs **valeurs**. Les trois objets sont nommés, en français et sans
-   $QK^\top$ : la diapositive ne suppose donc pas le mécanisme connu du jury, et
-   les deux points suivants s'enchaînent dessus. Elle est de ce fait
-   **lourde**, la matrice est complète ; une hiérarchie la découpe en **blocs**,
-   un coefficient par couple de sous-arbres frères (HSA, NeurIPS 2025). Puis
-   l'encadré, sur **une** ligne : « Le graphe de Frangi pourrait-il guider un
-   modèle de fondation comme SAM ? ». Aucun grand $O$ nulle part : la planche
-   dit « non plus les paires, mais les nœuds », ce qui est la même chose en
-   français. L'architecture de SAM, le biais additif de type Graphormer et la
-   raison pour laquelle une contrainte de blocs *comprime* l'attention au lieu
-   de l'informer sont en secours.
+   *et al.* 2024, $0{,}7\,\%$ des poids) ; puis **deux** diapositives de
+   guidage, qui suivent la direction fixée le 6 septembre 2026 dans
+   `ISPRS/CrackSAM-HierarchicalSelfAttention` du dépôt Frangi (`README.md`,
+   `SOUTENANCE.md`) : **un biais additif dans une attention de SAM, appris avec
+   LoRA** — et non plus la contrainte de blocs de HSA, que ce dossier archive
+   explicitement. La première, « L'attention : ce qu'elle calcule, et où la
+   guider », porte la chaîne `attention_biais` (requête et clefs → score →
+   **$+\,\beta B_{ij}$** en rouge → softmax → moyenne pondérée des valeurs) et
+   trois points : ce qu'est l'attention (requête, clefs, valeurs nommées, sans
+   $QK^\top$), le score visuel que SAM sait déjà calculer, et le bonus ajouté
+   **avant** le softmax — un échange favorisé, jamais imposé (Graphormer). Encadré
+   sur une ligne : $\mathrm{attention} = \mathrm{softmax}(\text{scores visuels} +
+   \beta B_H)$. La seconde, « Perspective : relier les fragments grâce à la
+   hiérarchie », est la diapositive que `SOUTENANCE.md` demande : la figure
+   `sam_lora_hierarchie` (SAM gelé en gris, graphe de Frangi → hiérarchie →
+   $\beta B_H$ en rouge) et ses trois messages — SAM reconnaît, l'arbre
+   rapproche (bonus d'autant plus fort que la fusion est précoce dans le graphe
+   de Frangi, c'est $\kappa_{ij} = 1 - u_{ij}$ dit en français), LoRA apprend avec
+   un seul $\beta$ — puis la ligne d'objectif avec le témoin (la simple proximité
+   spatiale) et « Rien n'est encore mesuré » en rouge. Les formules
+   $d_{ij}$, $u_{ij}$, $P\kappa P^\top$ et $A_H$ du dépôt restent hors des
+   diapositives : elles se disent à l'oral si le jury les demande. « SAM » et
+   non « SAM 2 » dans le texte, comme partout dans le deck, mais la référence
+   citée est bien SAM 2 (Ravi *et al.*), le modèle réellement visé. Les
+   secours « Guider SAM : informer l'attention », « une suite progressive et
+   réfutable » et « Ce que HSA exige » datent de l'analyse précédente (oracle,
+   invites par centralité, no-go HSA) : ils ne contredisent pas le mécanisme
+   mais décrivent un protocole antérieur au premier test défini dans le dépôt.
    *(d)* Le **modèle de fondation 3D** qui manque. La première diapositive pose
    la question — « Vers un modèle de fondation pour la 3D ? » — et l'accroche
    donne le cahier des charges d'un jeton : le sous-mot et l'imagette sont un
@@ -273,6 +285,23 @@ de CrackSAM-GeoLoRA de l'import `ISPRS/CrackSAM-GeoLoRA/` de ce dépôt.
 - **Encadrés de formules** (`\formulebox`) : liseré rouge Inria, fond gris 4 %
 - Courbes matplotlib : palette d'origine, annotations aux couleurs des courbes
 
+## Convention $x$ / $y$ à partir de la diapositive 14
+
+Celle du manuscrit (`notations.tex` : « en général $x, x' \in \mathcal X$ et
+$y \in \mathbb R^p$ ») : **$y$ est un point de l'espace**, du nuage ou non,
+**$x$ un point du nuage**. Elle s'applique dès que l'on évalue quelque chose
+*contre* le nuage — l'estimateur $\widehat f_{K\text{-NN}}(y)$, le rayon
+$r_K(y)$, les niveaux $\widehat\lambda(y) \ge \lambda_0 \Leftrightarrow
+r_1(y) \le r_0$ — et la diapositive 14 le dit en toutes lettres dans sa première
+puce. Elle **ne** s'applique **pas** à la *core distance* du Robust
+Single-Linkage ni aux points cœurs de DBSCAN, définis sur des points du nuage
+($r_K(x)$, $x \in \mathcal X$, comme au chapitre III du manuscrit), ni à la
+vraie densité $f(x)$ et à l'intégrale d'excès de masse, où le manuscrit
+lui-même garde $x$. Conséquence sur `rsl_mreach` : les deux points du nuage y
+sont $x$ et $x'$, plus $x$ et $y$ — un $y$ y aurait désigné un point de
+l'espace. La diapositive 13 (Hartigan) est en amont de la règle et n'a pas été
+touchée.
+
 ## Système de citations
 
 Citations entre crochets définies dans le préambule (`\DeclareRef` /
@@ -337,8 +366,20 @@ ni SIGMETRICS SRC 2024, ni CN 2024.
   été dessinée en deux morceaux avec un trou étiqueté « non observé » ; ce n'est
   plus le propos de la planche, qui compare la *variabilité* du nuage à celle de
   la surface, et non ce que le capteur a manqué. Ne pas rouvrir le trou.
-- `attention_hierarchie.tex` — les deux matrices de la diapositive de guidage.
-  Celle de gauche suit une formule explicite ; les **neuf tons de droite sont les
+- `attention_biais.tex` — la chaîne de l'attention avec le point d'insertion
+  du biais, dessinée pour cette présentation. Le bloc $+\,\beta B_{ij}$ est le
+  seul en rouge : c'est la seule chose que nous ajoutons à SAM.
+- `sam_lora_hierarchie.tex` — adaptée de `03_sam_lora.tikz` dans
+  `ISPRS/CrackSAM-HierarchicalSelfAttention/figures/` du dépôt Frangi (état du
+  6 septembre 2026, commit `db88fb7`) : mêmes boîtes, même disposition. Les
+  couleurs propres du dépôt (`fhNavy`, `fhTeal`, `fhGray`) sont remplacées par
+  la charte du deck, le titre interne et la formule sont retirés (ils sont sur
+  la diapositive), « SAM 2 » devient « SAM ». Si le dépôt fait évoluer la
+  figure, reporter la modification ici à la main.
+- `attention_hierarchie.tex` — **conservée mais plus appelée** depuis que le
+  guidage suit le biais additif : ses deux matrices illustraient la contrainte
+  de blocs de HSA, désormais archivée dans le dépôt Frangi. Celle de gauche
+  suit une formule explicite ; les **neuf tons de droite sont les
   moyennes des blocs de gauche**, calculées hors du fichier et écrites en dur. Ce
   n'est pas un choix esthétique : c'est ce qui rend visible que la contrainte de
   blocs est une *compression* de la matrice plate et non un apport

@@ -28,12 +28,12 @@
     % Cercles et distances derrière les points.
     \draw[coreball] (X) circle (\rx);
     \draw[coreball] (Y) circle (\ry);
-    \draw[separation] (X) -- node[midway, above, sloped, fill=white, inner sep=1.5pt] {$d(x,y)$} (Y);
+    \draw[separation] (X) -- node[midway, above, sloped, fill=white, inner sep=1.5pt] {$d(x,x')$} (Y);
     \draw[radius] (X) -- (Xs);
     \draw[radius] (Y) -- (Ys);
 
     \node[text=inria-rouge, above left, inner sep=1.5pt] at (Xs) {$r_3(x)$};
-    \node[text=inria-rouge, above, inner sep=1.5pt] at (Ys) {$r_3(y)$};
+    \node[text=inria-rouge, above, inner sep=1.5pt] at (Ys) {$r_3(x')$};
 
     \foreach \P in {Xi,Xii,Yi,Yii}
         \node[neighbour] at (\P) {};
@@ -43,7 +43,7 @@
     \node[central] at (X) {};
     \node[central] at (Y) {};
     \node[below left, inner sep=1.5pt] at (X) {$x$};
-    \node[below right, inner sep=1.5pt] at (Y) {$y$};
+    \node[below right, inner sep=1.5pt] at (Y) {$x'$};
 
     \node[
         draw=inria-rouge,
@@ -53,6 +53,6 @@
         inner xsep=5pt,
         inner ysep=4pt
     ] at (1.85,-1.45) {
-        $d_{\mathrm{mreach},3}(x,y)=\max\{r_3(x),r_3(y),d(x,y)\}$
+        $d_{\mathrm{mreach},3}(x,x')=\max\{r_3(x),r_3(x'),d(x,x')\}$
     };
 \end{tikzpicture}

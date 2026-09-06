@@ -165,6 +165,7 @@
 \DeclareRef{hu22}{LoRA 22}{E.~J.~Hu \emph{et~al.}, « LoRA: low-rank adaptation of large language models », \textit{ICLR}, 2022.}
 \DeclareRef{ge24}{CrackSAM 24}{K.~Ge \emph{et~al.}, « Fine-tuning vision foundation model for crack segmentation in civil infrastructures », \textit{Construction and Building Materials}, 2024.}
 \DeclareRef{ying21}{Graphormer 21}{C.~Ying \emph{et~al.}, « Do Transformers really perform badly for graph representation? », \textit{NeurIPS}, 2021.}
+\DeclareRef{turaga09}{MALIS 09}{S.~C.~Turaga, K.~L.~Briggman, M.~Helmstaedter, W.~Denk, H.~S.~Seung, « Maximin affinity learning of image segmentation », \textit{NIPS}, 2009.}
 
 % ---- Mes travaux (en rouge) --------------------------------
 \DeclareMyRef{hal17}{HAL 17}{L.~Hauseux (encadré par B.~Błaszczyszyn), « Un classificateur non supervisé utilisant les complexes simpliciaux », Inria Paris, 2017. HAL : hal-01597846.}
@@ -428,19 +429,20 @@
     \begin{columns}[c, onlytextwidth]
         \begin{column}{0.56\textwidth}
             \begin{center}
-                {\large\mathversion{bold} $\forall x \in \mathbb{R}^p, \quad \widehat{f}_{K\text{-NN}}(x) = \dfrac{K}{n \, \omega_p \, r_K(x)^p}$}
+                {\large\mathversion{bold} $\forall y \in \mathbb{R}^p, \quad \widehat{f}_{K\text{-NN}}(y) = \dfrac{K}{n \, \omega_p \, r_K(y)^p}$}
 
                 \vspace{1.0cm}
 
-                \formulebox{\small\mathversion{bold} $r_K(x) = \min \left\{ r \ge 0 \;\middle|\; |B(x,r) \cap (\mathcal{X}\setminus\{x\})| \ge K \right\}$}
+                \formulebox{\small\mathversion{bold} $r_K(y) = \min \left\{ r \ge 0 \;\middle|\; |B(y,r) \cap (\mathcal{X}\setminus\{y\})| \ge K \right\}$}
             \end{center}
         \end{column}
         \begin{column}{0.42\textwidth}
             \begin{itemize}
                 \setlength{\itemsep}{8pt}
+                \item \textbf{$y$} : un point de l'\textbf{espace}, du nuage ou non
                 \item \textbf{$n$} : nombre de points de $\mathcal{X}$
                 \item \textbf{$\omega_p$} : volume de la boule unité de $\mathbb{R}^p$
-                \item \textbf{$r_K(x)$} : distance de $x$ à son $K$\up{e} plus proche voisin ; si $x\in\mathcal X$, on exclut $x$ lui-même
+                \item \textbf{$r_K(y)$} : distance de $y$ à son $K$\up{e} plus proche voisin ; si $y\in\mathcal X$, on exclut $y$ lui-même
             \end{itemize}
         \end{column}
     \end{columns}
@@ -458,8 +460,8 @@
         \begin{column}{0.40\textwidth}
             \only<2>{
                 \begin{center}
-                    {\Large\mathversion{bold} $\widehat{\lambda}(x) \ge \lambda_0$} \\[6pt]
-                    {\Large\mathversion{bold} $\Leftrightarrow r_1(x) \le r_0$}
+                    {\Large\mathversion{bold} $\widehat{\lambda}(y) \ge \lambda_0$} \\[6pt]
+                    {\Large\mathversion{bold} $\Leftrightarrow r_1(y) \le r_0$}
 
                     \vspace{0.8cm}
 
@@ -469,8 +471,8 @@
             }
             \only<3>{
                 \begin{center}
-                    {\Large\mathversion{bold} $\widehat{\lambda}(x) \ge \lambda_0$} \\[6pt]
-                    {\Large\mathversion{bold} $\Leftrightarrow r_1(x) \le r_0$}
+                    {\Large\mathversion{bold} $\widehat{\lambda}(y) \ge \lambda_0$} \\[6pt]
+                    {\Large\mathversion{bold} $\Leftrightarrow r_1(y) \le r_0$}
 
                     \vspace{0.8cm}
 
@@ -480,7 +482,7 @@
             }
             \only<4>{
                 \begin{center}
-                    {\Large\mathversion{bold} $r_1(x) \le r_0$}
+                    {\Large\mathversion{bold} $r_1(y) \le r_0$}
 
                     \vspace{1.0cm}
 
@@ -490,7 +492,7 @@
             }
             \only<5>{
                 \begin{center}
-                    {\Large\mathversion{bold} $r_1(x) \le r_0$}
+                    {\Large\mathversion{bold} $r_1(y) \le r_0$}
 
                     \vspace{1.0cm}
 
@@ -1455,28 +1457,57 @@
 \end{frame}
 
 % ------------------------------------------------------------
-\begin{frame}[t]{Guider l'\textcolor{inria-rouge}{attention} par la hiérarchie}
-    \vspace{-0.05cm}
+\begin{frame}[t]{L'attention : ce qu'elle calcule, et où la guider}
+    \vspace{0.04cm}
     \begin{center}
-        \resizebox{0.42\textwidth}{!}{\input{figs/attention_hierarchie}}
+        \resizebox{0.80\textwidth}{!}{\input{figs/attention_biais}}
     \end{center}
 
-    \vspace{0.22cm}
+    \vspace{0.08cm}
     \small
     \begin{itemize}
         \setlength{\itemsep}{5pt}
         \item L'\textbf{attention} : chaque jeton pose une \textbf{requête}, la compare aux
         \textbf{clefs} de tous les autres, et repart avec la moyenne de leurs \textbf{valeurs}
-        \item Elle est donc \textbf{lourde} : la matrice est \textbf{complète}
-        \item Une hiérarchie la découpe en \textbf{blocs} : un coefficient par couple de sous-arbres frères \citb{hsa25}
+        \item Le poids de chaque échange est un \textbf{score visuel}, passé au \emph{softmax} :
+        SAM sait déjà les calculer
+        \item Pour la guider sans la contraindre : un \textbf{bonus} ajouté au score, avant le
+        \emph{softmax} --- un échange \textbf{favorisé}, jamais imposé \citb{ying21}
     \end{itemize}
 
-    \vspace{0.20cm}
+    \vspace{0.08cm}
     \begin{center}
-        \formulebox{\parbox{0.90\textwidth}{\centering\small
-        Le graphe de \textsc{Frangi} pourrait-il guider un modèle de fondation comme SAM ?}}
+        \formulebox{\parbox{0.80\textwidth}{\centering\small
+        $\mathrm{attention} \;=\; \mathrm{softmax}\bigl(\text{scores visuels} \;+\; \beta\, B_H\bigr)$}}
     \end{center}
-    \reffoot{hsa25}
+    \reffoot{ying21}
+\end{frame}
+
+% ------------------------------------------------------------
+\begin{frame}[t]{Perspective : relier les fragments grâce à la hiérarchie}
+    \vspace{-0.08cm}
+    \begin{center}
+        \resizebox{0.61\textwidth}{!}{\input{figs/sam_lora_hierarchie}}
+    \end{center}
+
+    \vspace{0.06cm}
+    \small
+    \begin{itemize}
+        \setlength{\itemsep}{5pt}
+        \item \textbf{SAM reconnaît} les fissures et le fond : ses poids restent \textbf{gelés} \citb{ravi24}
+        \item \textbf{L'arbre rapproche} deux fragments reliés par une chaîne de raccords compatibles,
+        même loin dans l'image : le bonus $B_H$ est d'autant plus fort que leur \textbf{fusion}
+        dans le graphe de \textsc{Frangi} est \textbf{précoce} \citb{euvip26} \citb{turaga09}
+        \item \textbf{LoRA apprend avec ce guidage}, pondéré par un \textbf{seul} coefficient $\beta$,
+        parti de zéro \citb{hu22}
+    \end{itemize}
+
+    \vspace{0.04cm}
+    \begin{center}
+        {\footnotesize Objectif : moins de \textbf{ruptures}, pas plus de \textbf{faux raccords} ---
+        témoin : la simple proximité spatiale. {\color{inria-rouge}Rien n'est encore mesuré}}
+    \end{center}
+    \reffoot{ravi24,euvip26,turaga09,hu22}
 \end{frame}
 
 % ------------------------------------------------------------
@@ -1642,6 +1673,7 @@
         \bibligne{brown20}
         \bibligne{bommasani21}
         \bibligne{ying21}
+        \bibligne{turaga09}
         \bibligne{avrachenkov22}
         \bibligne{hu22}
         \bibligne{edelsbrunner23}
