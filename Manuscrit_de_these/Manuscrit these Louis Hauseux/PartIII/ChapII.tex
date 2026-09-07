@@ -429,7 +429,7 @@ En particulier, dans ce cas, obtenir avec haute probabilité un recouvrement au 
 \end{Fait}
 
 \begin{Preuve}
-Par le Fait~\ref{fait:chapII_best_random_guess}, il suffit de considérer une configuration déterministe $a\in\Conf_n$. Pour une permutation fixée des étiquettes, l'accord moyen entre $a$ et une configuration tirée au hasard se concentre autour de $1/K$. Le nombre de permutations ($K!$) étant fixé, l'on obtient que la probabilité de dépasser $1/K+\eps$ (ou d'être en-dessous $1/K-\eps$) converge vers $0$.
+Par la \Fact~\ref{fait:chapII_best_random_guess}, il suffit de considérer une configuration déterministe $a\in\Conf_n$. Pour une permutation fixée des étiquettes, l'accord moyen entre $a$ et une configuration tirée au hasard se concentre autour de $1/K$. Le nombre de permutations ($K!$) étant fixé, l'on obtient que la probabilité de dépasser $1/K+\eps$ (ou d'être en dessous de $1/K-\eps$) converge vers $0$.
 \end{Preuve}
 
 \begin{Fait}{Concordance avec la \Def~2.2 de \nom{Sankararaman--Baccelli} \cite{SankararamanBaccelli2018}}{chapII_equiv_SB_definition}
@@ -1033,7 +1033,7 @@ On pose ensuite
 
 
 \begin{Theoreme}{Borne sur la fraction recouvrable \emph{via} percolation}{chapII_balanced_perco_bound}
-Supposons $K$ fixé, et par simplicité l'\emph{a priori} $\mu_0$ uniforme (mettant le seuil de recouvrement d'un tirage aléatoire à $\frac1K$, \emph{c.f.} \Fact[fait:chapII_RG_uniforme]), et supposons aussi que les clusters soient recoloriés indépendamment et uniformément (comme dans les dynamiques de type \SW{}). Alors, pour tout $\eta>0$ et toute suite d'algorithmes $\tau_n$,
+Supposons $K$ fixé, et par simplicité l'\emph{a priori} $\mu_0$ uniforme (mettant le seuil de recouvrement d'un tirage aléatoire à $\frac1K$, \emph{cf.} \Fact[fait:chapII_RG_uniforme]), et supposons aussi que les clusters soient recoloriés indépendamment et uniformément (comme dans les dynamiques de type \SW{}). Alors, pour tout $\eta>0$ et toute suite d'algorithmes $\tau_n$,
 \begin{equation}
     \lim_{n\to\infty}
     \mathbb P\left[
@@ -1345,7 +1345,6 @@ Comme
     p_c^{\mathrm{edge}}<p_c^{\triangle},
     \label{eq:chapII_pc_comparison}
 \end{equation}
-
 la dynamique triangulaire donne une zone de recouvrement plus fine (\Cor~\ref{cor:chapII_triangle_improvement}).
 
 \begin{Corollaire}{Amélioration stricte de la borne sur la grille triangulaire}{chapII_triangle_improvement}

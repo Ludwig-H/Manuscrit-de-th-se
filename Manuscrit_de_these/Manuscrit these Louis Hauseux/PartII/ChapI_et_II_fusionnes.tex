@@ -531,7 +531,7 @@ Les interactions d'ordre supérieur (ici des arêtes connectées entre elles au 
 Pour généraliser correctement le Single-Linkage, nous prenons comme point de départ l'axe (développé dans la partie~I) d'analyse persistante sur des \emph{graphes géométriques} (\Def[def:dendrogramme_gg]).
 %Le point de vue sur le Single-Linkage développé dans la partie~I que nous reprenons comme point de départ est celui d'une analyse persistante sur des graphes géométriques (\Def~\ref{def:dendrogramme_gg}). 
 La généralisation naturelle consiste à remplacer les graphes par des hypergraphes\footnote{Un graphe est la donnée d'un ensemble de sommets noté $V$ (pour \emph{vertices} en anglais) et d'un ensemble de relations binaires entre ces sommets, les arêtes $E$ (\emph{edges} en anglais). Dans le cas d'un \emph{hyper}graphe, les arêtes deviennent des hyper-arêtes, c'est-à-dire qu'elles ne sont plus nécessairement binaires mais peuvent encoder des relations d'ordre supérieur : des triangles, des tétraèdres, \emph{etc}.}.
-Plus précisément, une sous-famille des hypergraphes va nous servir au cours de ce manuscrit : les complexes simpliciaux \cite{Munkres}. Un complexe simplicial est un hypergraphe pour lequel la présence d'une hyper-arête entraîne la présence de toutes les sous-hyper-arêtes. Par exemple, la présence d'un tétraèdre entraîne la présence de ses quatre ``facettes'' (triangles), de ses six arêtes (et bien-sûr des quatre sommets, que l'on peut voir comme des hyper-arêtes d'ordre $0$).
+Plus précisément, une sous-famille des hypergraphes va nous servir au cours de ce manuscrit : les complexes simpliciaux \cite{Munkres}. Un complexe simplicial est un hypergraphe pour lequel la présence d'une hyper-arête entraîne la présence de toutes les sous-hyper-arêtes. Par exemple, la présence d'un tétraèdre entraîne la présence de ses quatre ``facettes'' (triangles), de ses six arêtes (et bien sûr des quatre sommets, que l'on peut voir comme des hyper-arêtes d'ordre $0$).
 
 Il devient alors possible de remplacer les composantes connexes ordinaires par une ``connectivité'' d'ordre supérieur.
 
@@ -747,6 +747,6 @@ Il généralise ensuite exactement les deux premières vues du Single-Linkage :
     \item \textbf{Modèle statistique de \nom{Hartigan}}. Le \Th~\ref{th:cech_kpolyedres_knn} montre que cette construction coïncide niveau par niveau avec les amas discrets de forte densité $H^{\mathrm{discrets}}_{\widehat f_K}(r)$.
 \end{enumerate}
 
-La définition proposée dans ce chapitre de \HGP-Clusterer (\Def[def:hgp_clusterer]) reste bien-sûr toute théorique (comme l'était la définition du Single-Linkage en \Def[def:dendrogramme_gg], recourant à des graphes géométriques).
+La définition proposée dans ce chapitre de \HGP-Clusterer (\Def[def:hgp_clusterer]) reste bien sûr toute théorique (comme l'était la définition du Single-Linkage en \Def[def:dendrogramme_gg], recourant à des graphes géométriques).
 
 Il reste au cours des chapitres suivants à retrouver le troisième volet du triptyque : définir \HGP-Clusterer au moyen d'un objet combinatoire (beaucoup) plus mince jouant le rôle de l'\textbf{arbre minimum couvrant}. C'est sur cet arbre couvrant généralisé qu'est calculée en pratique la hiérarchie \KNN des amas de forte densité.}

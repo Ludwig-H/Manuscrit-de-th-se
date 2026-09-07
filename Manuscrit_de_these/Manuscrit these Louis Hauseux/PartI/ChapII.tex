@@ -48,7 +48,7 @@ Et réciproquement, de toute partition l'on peut tirer une relation d'équivalen
 Le clustering est souvent défini comme un \emph{partitionnement}\footnote{Ce n'est pas notre point de vue, la contrainte de partition étant trop forte comme nous le verrons dans la partie suivante. C'est toutefois le point de vue que nous adoptons pour ce début de chapitre.} de l'espace des données $\mathcal X$.
 
 
-\begin{Definition}{Clustering sur un espace métrique $\left( \X, d\right).$}{clustering_metrique}
+\begin{Definition}{Clustering sur un espace métrique $\left( \X, d\right)$}{clustering_metrique}
 Un clustering $\C$ est une fonction qui prend en entrée un espace métrique fini $\left( \X, d\right)$%\footnote{Représentable par une matrice de distances.}
 \[
 \boxed{
@@ -101,7 +101,7 @@ telle que :
 \end{Definition}
 \Remarque{$\preceq$ désigne l'ordre (partiel) habituel sur les partitions $\bigl( \Partitions{\mathcal X}, \preceq\bigr)$ : soient $P,P' \in \Partitions{\mathcal X}$, on dit que $P$ \emph{raffine} $P'$ (et l'on note $P \preceq P'$) si pour tout $C \in P$, il existe $C' \in P'$ tel que $C \subseteq C'$.}
 
-Le Single-Linkage tel que défini précédemment (\Def[def:single-linkage]) rentre bien-sûr dans cette définition, il suffit de poser :
+Le Single-Linkage tel que défini précédemment (\Def[def:single-linkage]) rentre bien sûr dans cette définition, il suffit de poser :
 % \begin{Definition}{Single-Linkage \cite{DendriteSingleLinkage1951, GowerRoss1969}}{single-linkage-axiomatique}
 %     %Soit un jeu de données $\X =\bigl\{x_1,\dots,x_n\bigr\}$ dans un espace métrique. 
 %     Le Single-Linkage est un algorithme de clustering hiérarchique dont le dendrogramme $\thetaSL$ est défini itérativement comme suit, pour $t \in \bigl\{ 0, \ldots , n-1 \bigr\}$ :

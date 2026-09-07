@@ -510,12 +510,17 @@
 % \nom[Cech]{Čech}             -> affiche ČECH + trie à Cech
 % \nom*{Fig.}                  -> affiche FIG. sans indexer
 
+% Dans un en-tête courant, LaTeX neutralise \index (\let\index\@gobble dans
+% \@outputpage) : l'appel \index[noms]{...} y laisserait « noms]...@... » en
+% clair. On n'écrit donc rien dans ce cas.
 \NewDocumentCommand{\IndexNomEntree}{O{} m}{%
   \ifIndexEntreesActives
-    \if\relax\detokenize{#1}\relax
-      \index[noms]{#2@\textsc{#2}}%
-    \else
-      \index[noms]{#1@\textsc{#2}}%
+    \ifx\index\@gobble\else
+      \if\relax\detokenize{#1}\relax
+        \index[noms]{#2@\textsc{#2}}%
+      \else
+        \index[noms]{#1@\textsc{#2}}%
+      \fi
     \fi
   \fi
 }
@@ -605,11 +610,18 @@
 % Acronymes indexés
 % ============================================================
 
+% Le \makeatother de la section précédente a rendu « @ » non-lettre : on le
+% rétablit ici, sinon \@gobble se lirait « \@ gobble » et la garde ci-dessous
+% (même rôle que dans \IndexNomEntree) ne fonctionnerait pas.
+\makeatletter
 \NewDocumentCommand{\IndexAcronyme}{m m}{%
   \ifIndexEntreesActives
-    \index[acronymes]{#1@\textsc{#1} -- #2}%
+    \ifx\index\@gobble\else
+      \index[acronymes]{#1@\textsc{#1} -- #2}%
+    \fi
   \fi
 }
+\makeatother
 
 % \acronyme{HDBSCAN}{Hierarchical Density-Based Spatial Clustering of Applications with Noise}
 % \acronyme*{HDBSCAN}{...} : affiche sans indexer

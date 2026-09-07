@@ -86,7 +86,7 @@ lorsque les matrices de covariance $\Sigma_c$ deviennent petites et que chaque c
 
 Cette approche est naturelle lorsque l'on accepte de poser des hypothèses fortes sur la distribution des données. Elle cherche, en quelque sorte, à reconstruire un modèle global de la densité. Elle est puissante, mais elle impose souvent une géométrie assez rigide aux clusters attendus.
 
-Le second paradigme est celui des méthodes agglomératives fondées sur la densité. Le Single-Linkage en est l'exemple le plus élémentaire. L'algorithme ne cherche pas à ajuster explicitement une densité paramétrique ; il se concentre sur les distances locales entre les points, et donc sur les vides qui séparent les structures. Dans le cadre du modèle de de \nom{Hartigan}, cette approche possède une interprétation statistique précise : pour $K=1$, le Single-Linkage retrouve exactement les amas de forte densité de l'estimateur $1$-NN.
+Le second paradigme est celui des méthodes agglomératives fondées sur la densité. Le Single-Linkage en est l'exemple le plus élémentaire. L'algorithme ne cherche pas à ajuster explicitement une densité paramétrique ; il se concentre sur les distances locales entre les points, et donc sur les vides qui séparent les structures. Dans le cadre du modèle de \nom{Hartigan}, cette approche possède une interprétation statistique précise : pour $K=1$, le Single-Linkage retrouve exactement les amas de forte densité de l'estimateur $1$-NN.
 
 C'est cette seconde famille qui nous intéressera principalement. Elle a l'avantage de ne pas supposer \emph{a priori} que les clusters sont décrits par un nombre fixé de paramètres. Elle est donc plus adaptée à des structures géométriques complexes. 
 %Son défaut est tout aussi clair : en reliant les points par des arêtes, elle peut aussi relier ce qui ne devrait pas l'être.
@@ -184,7 +184,7 @@ L'exactitude topologique est satisfaisante mathématiquement, mais elle ne suffi
 
 C'est ici qu'intervient la théorie de la percolation continue. 
 Lorsque l'on fait varier le rayon $r$, les composantes apparaissent, croissent, puis fusionnent.
-Dans un fond bruité, une composante géante peut apparaître et relier des régions qui devraient rester distinctes :%. Le problème n'est donc pas seulement que les graphes ``chaînent'' ; c'est qu'ils 
+Dans un fond bruité, une composante géante peut apparaître et relier des régions qui devraient rester distinctes : %. Le problème n'est donc pas seulement que les graphes ``chaînent'' ; c'est qu'ils 
 les clusters percolent trop tôt.
 
 En dimension $p\geq2$, on ne peut pas espérer, à $K$ fixé, retrouver intégralement deux amas de forte densité avant qu'ils ne fusionnent avec le bruit. 
@@ -264,7 +264,7 @@ images.
 Le Chapitre~\ref{chap:bayes_clusters_graphes} propose un cadre bayésien pour la détection de communautés sur graphes pondérés signés. 
 Nous y étudions des dynamiques de clusters généralisant \nom{Swendsen--Wang} et montrons comment les interactions d'ordre supérieur permettent d'obtenir de meilleures bornes de recouvrement. 
 Le Chapitre~\ref{chap:frangi_fissures} applique les mêmes idées au traitement d'image avec le graphe de \nom{Frangi} pour l'extraction de réseaux de fissures.
-L'objectif est alors de construire une méthode sans apprentissage, robuste aux changements de domaine, et produisant une sortie géométrique directement ``éditable'' à fin d'être intégrée à une suite logicielle d'aide à l'annotation experte de vérité terrain.
+L'objectif est alors de construire une méthode sans apprentissage, robuste aux changements de domaine, et produisant une sortie géométrique directement ``éditable'' afin d'être intégrée à une suite logicielle d'aide à l'annotation experte de vérité terrain.
 
 Enfin, le Chapitre~\ref{chap:conclusion} conclut le manuscrit en reprenant ces contributions et en présentant plusieurs perspectives : axiomatique des recouvrements, consistance en dimension $p\geq2$, réduction de dimension à l'aide d'une analogie sur la mosaïque de \nom{Delaunay} d'ordre $K$, \emph{etc}.
 

@@ -86,7 +86,7 @@ Cette faiblesse est connue sous le nom d'effet de chaînage (ou \emph{chaining e
             % Les arêtes
             \draw (A) -- (B) -- (C) -- (A);
         \end{tikzpicture}
-        \caption{$\mathcal Y = \bigl\{y_1,y_2,y_3\bigl\} \subset \mathbb R^2$\label{fig:triangle_equilateral}}
+        \caption{$\mathcal Y = \bigl\{y_1,y_2,y_3\bigr\} \subset \mathbb R^2$\label{fig:triangle_equilateral}}
     \end{subfigure}
     
     \caption{(a) Trois points alignés espacés de $2\delta$. (b) Le dendrogramme résultant pour le Single-Linkage (fusion simultanée à $\delta$). (c) Trois points en triangle équilatéral à distance $2\delta$. %$\phi \colon \X \to \mathcal Y $ est $1$-lipschitzien pour la distance euclidienne.
@@ -189,7 +189,7 @@ L'algorithme du {Robust Single-Linkage} consiste alors simplement à appliquer l
 L'ultramétrique $u^{\mathrm{RSL}}$ induite par le Robust Single-Linkage pouvant, de la même façon que précédemment avec le Single-Linkage, s'exprimer à l'aide d'un $\min \max$ \cite{Draganov2025} (\Res~\ref{res:uRSL} ci-dessous).
 
 \begin{Resultat}{Ultramétrique $u^{\mathrm{RSL}}$ du Robust Single-Linkage exprimée comme un $\min \max$ \cite{Draganov2025}}{uRSL}
-Soit $\mathcal X \subset \mathbb R^p$ un nuage $n$ de points, et $K \in \mathbb N^\star, K\le n$ un entier. Soit $d_{\mathrm{mreach}, K}$ la distance d'atteignabilité mutuelle sur $\mathcal X$. Alors l'ultramétrique $u^{\mathrm{RSL_K}}$ induite par le Robust Single-Linkage sur $\mathcal X$ peut s'exprimer ainsi :
+Soit $\mathcal X \subset \mathbb R^p$ un nuage de $n$ points, et $K \in \mathbb N^\star, K\le n$ un entier. Soit $d_{\mathrm{mreach}, K}$ la distance d'atteignabilité mutuelle sur $\mathcal X$. Alors l'ultramétrique $u^{\mathrm{RSL_K}}$ induite par le Robust Single-Linkage sur $\mathcal X$ peut s'exprimer ainsi :
 \[
 \boxed{
     \forall x,x' \in \mathcal X, \ u^{\mathrm{RSL}_K}(x,x') = \frac{1}{2} \min_{\omega : x \rightsquigarrow x'} \max_{(u, v) \in \omega} d_{\mathrm{mreach}, K}(u,v)

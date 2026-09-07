@@ -257,7 +257,7 @@ L'algorithme complet \Alg~\ref{alg:chapIII_frangi_graph} est résumé ci-dessous
 \begin{algorithmic}[1]
 \Require Modalités recalées $\{I^{(m)}\}_{m\in\mathcal M}$, poids $\{w_m\}$, échelles $\Sigma$, rayon $R$, paramètres $s_{\mathrm{s}},s_{\mathrm{i}},s_{\mathrm{a}}$, seuils $\tau,\tau_c$, ordre $K\in\{1,2\}$.
 \Return Squelette de fissures $\widehat\Gamma$.
-\State Calculer la hessienne fusionnée à chaque échelle (\emph{c.f.} \S~\ref{subsec:chapIII_multimodalite}).
+\State Calculer la hessienne fusionnée à chaque échelle (\emph{cf.} \S~\ref{subsec:chapIII_multimodalite}).
 \State Extraire les valeurs propres $(\lambda_1^\sigma,\lambda_2^\sigma)$ et l'orientation $\theta^\sigma$.
 \State Construire les arêtes de voisinage $E_R$ et calculer $S_{ij}$ puis $d_{ij}$.
 \State Élaguer les pixels de faible courbure positive (on en garde une proportion $\tau$).
@@ -336,7 +336,7 @@ L'idée est alors de reprendre le principe développé dans la Partie II (voir l
 \]
 On construit alors un graphe dual $G^\triangle$ dont les sommets sont les arêtes de $G$. Deux arêtes de $G$ sont adjacentes dans $G^\triangle$ si elles appartiennent à un même triangle. Les composantes connexes de $G^\triangle$ définissent ce que nous appelons les composantes triangles-connexes.
 
-Ce critère est plus exigeant qu'une simple connexité par l'intermédiaire arêtes. Une chaîne fine de bruit peut relier deux zones très éloignées, mais elle forme rarement des triangles cohérents. À l'inverse, une fissure réelle, même si l'on cherche finalement son squelette unidimensionnel, apparaît dans l'image comme un ruban de quelques pixels d'épaisseur ; elle contient donc localement assez de densité pour engendrer des triangles. 
+Ce critère est plus exigeant qu'une simple connexité par l'intermédiaire d'arêtes. Une chaîne fine de bruit peut relier deux zones très éloignées, mais elle forme rarement des triangles cohérents. À l'inverse, une fissure réelle, même si l'on cherche finalement son squelette unidimensionnel, apparaît dans l'image comme un ruban de quelques pixels d'épaisseur ; elle contient donc localement assez de densité pour engendrer des triangles. 
 
 L'implémentation GPU procède par intersections de listes de voisins triées, avec des appels vectorisés de type \texttt{torch.searchsorted}. Cela évite de parcourir explicitement tous les triplets de pixels.
 
@@ -382,7 +382,7 @@ Sur les deux images des Vaches Noires, nous utilisons une seule modalité visibl
     \Sigma=\{1,3,5,7,9\}.
 \]
 Les autres paramètres sont fixés de façon \emph{ad hoc}\footnote{Comme nous le verrons lors de l'analyse de sensibilité en \S~\ref{subsec:chapIII_res_sensibilite}, le paramètre le plus important à bien régler est l'ensemble d'échelles $\Sigma$. Or $\Sigma$ peut se régler facilement de façon \emph{ad hoc} avec seulement un \emph{a priori} sur la fenêtre de largeur des structures d'intérêt, \emph{i.e.} les fissures.} : $R=3$, $\tau=0,3$ ; $\tau_c=0,005$ ; $K=1$. 
-(Voir les différentes étapes de notre méthode illustrés en \Fig~\ref{fig:chapIII_vaches_pipeline}.)
+(Voir les différentes étapes de notre méthode illustrées en \Fig~\ref{fig:chapIII_vaches_pipeline}.)
 Le modèle U-Net de comparaison est adapté par \emph{transfer learning} sur une image annotée de $3760\times2058$ pixels provenant de la même zone. Cette annotation a demandé environ deux jours de travail à un expert géophysicien \cite{BibiStrasbourg}.
 
 \begin{figure}[H]

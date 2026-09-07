@@ -240,7 +240,7 @@ Ces idées (\Fact~\ref{fait:opt_K2_gabriel} et la preuve) se généralisent trè
 La mosaïque de \nom{Delaunay} \(\mathrm{Del}_{K-1}(\mathcal X)\) d'ordre \(K-1\) a pour sommets les sous-ensembles
 \(Q \subset \mathcal X\) de cardinal \(K-1\) associés à une cellule de \nom{Voronoï} d'ordre \(K-1\) non vide. Les arêtes élémentaires de cette mosaïque (reliant deux sommets \(Q,Q'\) tels que
 \(
-        |Q \cup Q'| = K,
+        |Q \cup Q'| = K
 \))
 portent donc un \((K-1)\)-simplexe
 \(
@@ -633,8 +633,8 @@ La question qui touche à la structuration automatique de données, champ plus v
 
 Plusieurs analogies avec le travail déjà établi seraient à faire :
 \begin{itemize}
-    \item \textbf{le cadre mathématique.} De même que le modèle de \nom{Hartigan} nous fournissait un cadre statistique satisfaisant pour le problème de clustering hiérarchique, il nous faudrait un cadre mathématique tout aussi rigoureux pour le problème de réduction de dimension. L'``adversaire'' du point suivant nous semble proposer un début de réponse.
-    \item \textbf{L'``adversaire'' état-de-l'art.} De même que \HDBSCAN, lointain descendant du Single-Linkage, fut l'algorithme concurrent naturel (puisque état-de-l'art) auquel se comparer ; pour la réduction de dimension, la place est occupée par UMAP \cite{Umap}. Le cadre mathématique dans lequel se placent les auteurs de UMAP donne un début de réponse au point précédent : ils supposent les données de $\mathbb R^p$ se répartissant le long d'une sous-variété de dimension $q < p$, et uniformément (pour la métrique riemanienne induite).
+    \item \textbf{Le cadre mathématique.} De même que le modèle de \nom{Hartigan} nous fournissait un cadre statistique satisfaisant pour le problème de clustering hiérarchique, il nous faudrait un cadre mathématique tout aussi rigoureux pour le problème de réduction de dimension. L'``adversaire'' du point suivant nous semble proposer un début de réponse.
+    \item \textbf{L'``adversaire'' état-de-l'art.} De même que \HDBSCAN, lointain descendant du Single-Linkage, fut l'algorithme concurrent naturel (puisque état-de-l'art) auquel se comparer ; pour la réduction de dimension, la place est occupée par UMAP \cite{Umap}. Le cadre mathématique dans lequel se placent les auteurs de UMAP donne un début de réponse au point précédent : ils supposent les données de $\mathbb R^p$ se répartissant le long d'une sous-variété de dimension $q < p$, et uniformément (pour la métrique riemannienne induite).
 \end{itemize}
 
 
@@ -684,7 +684,7 @@ où $a,b>0$ sont choisis à partir des paramètres de l'algorithme. L'optimisati
 Le point important est le suivant : malgré son recours à un vocabulaire topologique, UMAP exploite essentiellement un graphe. Le complexe simplicial flou qu'il construit est gouverné par son $1$-squelette, c'est-à-dire par des relations binaires. Les interactions d'ordre supérieur n'y apparaissent qu'indirectement \emph{via} des relations de voisinage deux à deux. La mosaïque d'ordre $K$, elle, encode nativement des configurations de $K+1$ points, leurs rayons de naissance, leurs cellules duales et leurs adjacences. Elle donne donc un candidat naturel plus riche que le graphe d'UMAP.
 
 
-On voit ainsi apparaître deux difficultés
+On voit ainsi apparaître deux difficultés :
 \begin{enumerate}
     \item \textbf{Le réducteur.} Supposons que l'on dispose de la mosaïque de \nom{Delaunay} d'ordre $K$ sur $\mathcal X$... comment construire proprement le réducteur ? Pour répondre proprement à cette question, il est d'abord nécessaire d'identifier exactement le bon cadre mathématique de travail.
     \item La seconde difficulté est algorithmique : en grande dimension, il est déraisonnable de vouloir calculer exactement la mosaïque de \nom{Delaunay} d'ordre $K$. UMAP doit une bonne partie de son efficacité au fait qu'il approxime rapidement un graphe \KNN.
