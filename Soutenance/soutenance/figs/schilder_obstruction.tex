@@ -1,0 +1,39 @@
+% Les deux obstructions au rappel dans la fenetre gaussienne (manuscrit,
+% partie II chap. III, « Et a haut rappel ») : a gauche un coeur de Robust SL
+% echoue des qu'UN point plonge sous -a (energie 1) ; a droite un polyedre
+% n'echoue que si la boule entiere plonge (energie 1/U_p, capacite RKHS).
+% Croquis 1D : le champ en bleu canard, le niveau -a et l'obstruction en rouge.
+\begin{tikzpicture}[x=1cm, y=1cm]
+    \useasboundingbox (-0.55,-1.85) rectangle (12.35,1.75);
+    \tikzset{champ/.style={inria-2024-bleu-canard, line width=1.1pt}}
+    \tikzset{niveau/.style={inria-rouge, densely dashed, line width=0.8pt}}
+    \tikzset{axe/.style={gris_fonce_inria!70, line width=0.6pt}}
+    \tikzset{lab/.style={font=\scriptsize, text=gris_fonce_inria}}
+
+    % ================= gauche : un coeur =================
+    \begin{scope}[shift={(0,0)}]
+        \draw[axe] (0,0) -- (5.2,0);
+        \draw[niveau] (0,-0.9) -- (5.2,-0.9) node[right, font=\scriptsize, text=inria-rouge] {$-a$};
+        \draw[champ] plot[smooth, tension=0.8] coordinates
+            {(0,0.55) (0.7,0.9) (1.4,0.3) (2.1,0.7) (2.45,-0.35) (2.6,-1.15) (2.75,-0.35) (3.1,0.6) (3.8,0.2) (4.5,0.85) (5.2,0.4)};
+        \fill[inria-rouge] (2.6,-1.15) circle (2.2pt);
+        \draw[axe] (2.6,0.06) -- (2.6,-0.06); \node[lab, above] at (2.6,0.06) {$0$};
+        \node[font=\small\bfseries, text=gris_fonce_inria] at (2.6,1.45) {cœur : \emph{un} point plonge};
+        \node[lab, align=center] at (2.6,-1.55) {$G_p(0) < -a$ \quad --- \quad énergie $1$};
+    \end{scope}
+
+    % ================= droite : un polyedre =================
+    \begin{scope}[shift={(6.9,0)}]
+        \draw[axe] (0,0) -- (5.2,0);
+        \draw[niveau] (0,-0.9) -- (5.2,-0.9) node[right, font=\scriptsize, text=inria-rouge] {$-a$};
+        % la boule B(0,1/2) : segment [-1/2, 1/2] autour de 0, ici de 1.85 a 3.35
+        \fill[inria-rouge!12] (1.85,-0.9) rectangle (3.35,-1.45);
+        \draw[champ] plot[smooth, tension=0.8] coordinates
+            {(0,0.5) (0.7,0.85) (1.3,0.2) (1.75,-0.55) (2.1,-1.2) (2.6,-1.4) (3.1,-1.2) (3.45,-0.55) (3.9,0.3) (4.6,0.8) (5.2,0.45)};
+        \draw[inria-rouge, line width=1.1pt] (1.85,-0.9) -- (3.35,-0.9);
+        \draw[axe] (2.6,0.06) -- (2.6,-0.06); \node[lab, above] at (2.6,0.06) {$0$};
+        \draw[{Bar}-{Bar}, gris_fonce_inria!70, line width=0.6pt] (1.85,0.42) -- node[lab, above] {$B(0,\tfrac12)$} (3.35,0.42);
+        \node[font=\small\bfseries, text=gris_fonce_inria] at (2.6,1.45) {polyèdre : la \emph{boule entière} plonge};
+        \node[lab, align=center] at (2.6,-1.55) {$G_p < -a$ sur $B(0,\tfrac12)$ \quad --- \quad énergie $1/U_p > 1$};
+    \end{scope}
+\end{tikzpicture}

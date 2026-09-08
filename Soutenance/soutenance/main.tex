@@ -133,6 +133,9 @@
 \DeclareRef{gowerross69}{Gower--Ross 69}{J.~C.~Gower, G.~J.~S.~Ross, « Minimum spanning trees and Single-Linkage cluster analysis », JRSS C, 1969.}
 \DeclareRef{penrose03}{Penrose 03}{M.~Penrose, \textit{Random Geometric Graphs}, Oxford University Press, 2003.}
 \DeclareRef{meesterroy96}{Meester--Roy 96}{R.~Meester, R.~Roy, \textit{Continuum Percolation}, Cambridge Tracts in Mathematics 119, Cambridge University Press, 1996.}
+\DeclareRef{cameron44}{Cameron--Martin 44}{R.~H.~Cameron, W.~T.~Martin, « Transformations of Wiener integrals under translations », \textit{Annals of Mathematics}, 45(2), 1944.}
+\DeclareRef{schilder66}{Schilder 66}{M.~Schilder, « Some asymptotic formulas for Wiener integrals », \textit{Transactions of the AMS}, 125(1), 1966.}
+\DeclareRef{berlinet04}{Berlinet--Thomas-Agnan 04}{A.~Berlinet, C.~Thomas-Agnan, \textit{Reproducing Kernel Hilbert Spaces in Probability and Statistics}, Kluwer, 2004.}
 \DeclareRef{boissonnat18}{Boissonnat 18}{J.-D.~Boissonnat, F.~Chazal, M.~Yvinec, \textit{Geometric and Topological Inference}, Cambridge University Press, 2018.}
 \DeclareRef{chaudhuri10}{Chaudhuri--Dasgupta 10}{K.~Chaudhuri, S.~Dasgupta, « Rates of convergence for the cluster tree », \textit{Advances in Neural Information Processing Systems} (NIPS), vol.~23, p.~343--351, 2010.}
 \DeclareRef{ester96}{Ester 96}{M.~Ester, H.-P.~Kriegel, J.~Sander, X.~Xu, « A density-based algorithm for discovering clusters » (DBSCAN), KDD, 1996.}
@@ -1614,55 +1617,66 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Bibliographie (1/3)}
+\begin{frame}{Bibliographie (1/4)}
     \scriptsize
     \begin{itemize}
         \setlength{\itemsep}{2.5pt}
+                \bibligne{cameron44}
         \bibligne{florek51}
+        \bibligne{schilder66}
         \bibligne{gowerross69}
         \bibligne{hartigan81}
-        \bibligne{biau15}
         \bibligne{forina83}
         \bibligne{sw87}
+        \bibligne{es88}
         \bibligne{ester96}
-        \bibligne{frangi98}
-        \bibligne{kleinberg02}
-        \bibligne{penrose03}
         \bibligne{meesterroy96}
-        \bibligne{ghrist08}
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Bibliographie (2/3)}
+\begin{frame}{Bibliographie (2/4)}
     \scriptsize
     \begin{itemize}
         \setlength{\itemsep}{2.5pt}
-                \bibligne{turaga09}
+                \bibligne{frangi98}
+        \bibligne{kleinberg02}
+        \bibligne{penrose03}
+        \bibligne{berlinet04}
+        \bibligne{ghrist08}
+        \bibligne{turaga09}
         \bibligne{chaudhuri10}
         \bibligne{carlsson10}
         \bibligne{campello13}
         \bibligne{chazal13}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Bibliographie (3/4)}
+    \scriptsize
+    \begin{itemize}
+        \setlength{\itemsep}{2.5pt}
+                \bibligne{biau15}
         \bibligne{boissonnat18}
         \bibligne{sb18}
         \bibligne{semantickitti19}
         \bibligne{brown20}
         \bibligne{bommasani21}
         \bibligne{ying21}
+        \bibligne{avrachenkov22}
+        \bibligne{hu22}
         \bibligne{kirillov23}
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Bibliographie (3/3)}
+\begin{frame}{Bibliographie (4/4)}
     \scriptsize
     \begin{itemize}
         \setlength{\itemsep}{2.5pt}
-                \bibligne{avrachenkov22}
-        \bibligne{hu22}
-        \bibligne{edelsbrunner23}
+                \bibligne{edelsbrunner23}
         \bibligne{rolle23}
         \bibligne{ge24}
-        \bibligne{ayana25}
         \bibligne{ravi24}
+        \bibligne{ayana25}
         \bibligne{sautier25}
         \bibligne{oh25}
         \bibligne{sonata25}
@@ -1816,6 +1830,32 @@
         \item Les trois algorithmes ne diffèrent que par l'\textbf{ordre des opérations} : dilater puis connecter (cœurs, DBSCAN) \emph{vs.} connecter puis dilater (polyèdres)
         \item Seuils de bruit : $a_c^{\mathrm{poly}} \ge a_c^{\mathrm{core}}$, vitesse asymptotiquement meilleure pour les $K$-polyèdres
     \end{itemize}
+\end{frame}
+
+\begin{frame}[t]{\textsc{Schilder} dans l'espace de \textsc{Cameron}--\textsc{Martin}}
+    \small
+    L'espace de \textsc{Cameron}--\textsc{Martin} $\mathcal H_p$ \citb{cameron44} : les déformations $h$ du champ
+    $G_p$ d'\textbf{énergie finie} $\Vert h\Vert^2_{\mathcal H_p}$ --- le \textbf{RKHS} de sa covariance \citb{berlinet04}
+
+    \vspace{0.10cm}
+    \begin{center}
+        \formulebox{\parbox{0.80\textwidth}{\centering\small
+        \textsc{Schilder} \citb{schilder66} : \quad
+        $\mathbb P\bigl(G_p \approx a\,h\bigr) \;\approx\; \exp\!\bigl(-\tfrac{a^2}{2}\,\Vert h\Vert^2_{\mathcal H_p}\bigr)$}}
+    \end{center}
+
+    \vspace{0.08cm}
+    \begin{center}
+        \resizebox{0.54\textwidth}{!}{\input{figs/schilder_obstruction}}
+    \end{center}
+
+    \vspace{0.14cm}
+    \begin{center}
+        Un point qui plonge coûte $1$ ; la boule entière coûte $1/U_p$, l'inverse de sa \textbf{capacité}
+        ($1/U_2 \approx 3{,}4$)\\[2pt]
+        {\color{inria-rouge}Ébauche : la borne globale (lemme de Peierls) reste à écrire}
+    \end{center}
+    \reffoot{cameron44,berlinet04,schilder66}
 \end{frame}
 
 % --- LiDAR ---------------------------------------------------

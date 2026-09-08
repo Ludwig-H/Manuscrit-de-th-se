@@ -234,7 +234,24 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    banc d'essai SIPU (image claire `SIPU_s1s3_clair.png`, voir plus bas) ; huiles
    d'olive et leur matrice de confusion ; vitesses de percolation de Robust SL et
    DBSCAN, avec le protocole en une ligne sous les images ; la fenêtre gaussienne
-   $K \to \infty$ ; **la coupe où les amas percolent** ; la hiérarchie
+   $K \to \infty$, suivie de **« Schilder dans l'espace de Cameron–Martin »** —
+   la planche demandée le 7 septembre, tenue à un titre d'une ligne, un
+   encadré, un croquis et deux puces : l'espace de
+   Cameron–Martin $\mathcal H_p$ du champ limite $G_p$ est le RKHS de sa
+   covariance ; Schilder dit que $\mathbb P(G_p \in aA) = \exp(-\tfrac{a^2}{2}
+   \inf_{h \in A} \Vert h \Vert_{\mathcal H_p}^2 + o(a^2))$ ; un cœur échoue dès
+   qu'*un* point plonge sous $-a$ (énergie $1$), un polyèdre seulement si la
+   boule $B(0,\tfrac12)$ entière plonge (énergie $1/U_p$, inverse de la capacité
+   de la boule, $U_2 = \tfrac12 - \tfrac{2}{\pi^2} \approx 0{,}30$, $U_3 =
+   \tfrac15$), d'où $a^{\mathrm{poly}}_{1-\varepsilon} \sim \sqrt{2U_p\log(1/\varepsilon)}
+   < a^{\mathrm{core}}_{1-\varepsilon}$. **Statut : ébauche**, dit en rouge sur la
+   planche — c'est le statut que le manuscrit lui donne (partie II, chap. III,
+   « Et à haut rappel », Remarque « ces résultats ne sont qu'à l'ébauche
+   d'intuitions ») ; le développement RKHS complet n'y existe qu'en brouillon
+   commenté, et le passage du coût local à la borne globale (lemme de Peierls)
+   n'est pas écrit. Ne pas durcir le statut sans le manuscrit. Croquis
+   `schilder_obstruction` : un point qui plonge contre une boule entière qui
+   plonge ; **la coupe où les amas percolent** ; la hiérarchie
    Swendsen–Wang coupée à $\beta$ vue par Edwards–Sokal (ajoutée par l'autre
    éditeur le 7 septembre) ; **« Retourner un amas : la loi exacte »** — la loi
    conditionnelle $\nu(\sigma \mid D) \propto \mu_0(\sigma) \prod_u
@@ -302,10 +319,15 @@ correspondant. Seule exception, la diapositive « Publications », où chaque
 crochet est déjà suivi du titre, du lieu et de l'année sur la diapositive
 elle-même.
 
-**Les trois pages de bibliographie tiennent douze entrées chacune, pas une de
-plus** : à seize, la deuxième montait dans son titre et sortait par le pied de
-page (constaté le 7 septembre). Elles sont chronologiques d'une page à l'autre ;
-ajouter une entrée oblige à en faire glisser une vers la page suivante. Quatre
+**Les quatre pages de bibliographie tiennent dix entrées chacune** (douze est
+le maximum constaté ; à seize, une page montait dans son titre et sortait par le
+pied, le 7 septembre). Elles sont **chronologiques** sur l'ensemble, l'année
+étant lue dans le label du `\DeclareRef` ; ajouter une entrée oblige à en faire
+glisser une vers la page suivante — le plus simple est de régénérer les quatre
+listes en triant toutes les clés par année, comme l'a fait le script du
+7 septembre. Cameron–Martin 44, Schilder 66 et Berlinet–Thomas-Agnan 04 sont
+entrés avec la planche Schilder ; Edwards–Sokal 88, cité par la planche de
+l'autre éditeur mais absent de la bibliographie, a été ajouté au passage. Quatre
 entrées qui n'étaient plus citées nulle part après l'élagage des secours
 (Culbertson 18, HSA 25, Superpoint Transformer 23, PolyhedronNet 25) ont été
 retirées ; Sonata, Concerto et Utonia sont gardées, la figure du modèle de
