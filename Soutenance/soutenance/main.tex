@@ -2256,24 +2256,13 @@
 \end{frame}
 
 \begin{frame}{Sans entraînement\ldots\ et robuste}
-    \begin{columns}[c, onlytextwidth]
-        \begin{column}{0.40\textwidth}
-            \begin{center}
-                \includegraphics[height=0.52\textheight]{imgs/Test1_512_512_result.png}
+    \begin{center}
+        \includegraphics[height=0.54\textheight]{imgs/Test1_512_512_result.png}
 
-                {\scriptsize Vaches Noires : vérité (vert), nous (rouge), U-Net (bleu)}
-            \end{center}
-        \end{column}
-        \begin{column}{0.58\textwidth}
-            \begin{center}
-                \includegraphics[width=\textwidth]{imgs/Resultats_SpeckleIntesity.png}
+        {\scriptsize Vaches Noires : vérité (vert), nous (rouge), U-Net $+$ \emph{transfer learning} (bleu)}
+    \end{center}
 
-                {\scriptsize Sous bruit croissant, notre méthode (rouge) reste stable}
-            \end{center}
-        \end{column}
-    \end{columns}
-
-    \vspace{0.2cm}
+    \vspace{0.15cm}
     \begin{itemize}
         \setlength{\itemsep}{4pt}
         \item Compétitif avec un U-Net ayant coûté deux jours d'annotation experte
@@ -2309,33 +2298,6 @@
     \end{center}
 \end{frame}
 
-\begin{frame}{CrackSAM-GeoLoRA : le protocole causal}
-    \begin{columns}[c, onlytextwidth]
-        \begin{column}{0.46\textwidth}
-            \begin{center}
-                \includegraphics[width=\textwidth]{imgs/CrackSAM_ablation.png}
-
-                {\scriptsize Six variantes, IoU stricte sur $1\,695$ images de test (corpus Khánh Hà)}
-            \end{center}
-        \end{column}
-        \begin{column}{0.50\textwidth}
-            \begin{center}
-                \includegraphics[width=\textwidth]{imgs/CrackSAM_controle_permute.png}
-
-                {\scriptsize Évidence alignée \emph{vs.} permutée : sur la diagonale}
-            \end{center}
-        \end{column}
-    \end{columns}
-
-    \vspace{0.25cm}
-    \begin{itemize}
-        \setlength{\itemsep}{4pt}
-        \item Valeur de référence $0{,}6241$ ; perte tolérante $0{,}6276$ ; géométrie $+$ tolérance $0{,}6270$ $\approx$ évidence permutée $0{,}6265$
-        \item $|\Delta| < 0{,}001$ à toutes les tolérances : en monomodal, la géométrie n'apporte pas d'information nouvelle
-    \end{itemize}
-\end{frame}
-
-% --- Perspectives : Kleinberg et Carlsson--Mémoli ------------
 \begin{frame}{\textsc{Carlsson} \& \textsc{Mémoli} : changer l'objet de sortie}
     \vspace{-0.15cm}
     \begin{center}
