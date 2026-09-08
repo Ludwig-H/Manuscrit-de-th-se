@@ -135,6 +135,7 @@
 \DeclareRef{meesterroy96}{Meester--Roy 96}{R.~Meester, R.~Roy, \textit{Continuum Percolation}, Cambridge Tracts in Mathematics 119, Cambridge University Press, 1996.}
 \DeclareRef{cameron44}{Cameron--Martin 44}{R.~H.~Cameron, W.~T.~Martin, « Transformations of Wiener integrals under translations », \textit{Annals of Mathematics}, 45(2), 1944.}
 \DeclareRef{schilder66}{Schilder 66}{M.~Schilder, « Some asymptotic formulas for Wiener integrals », \textit{Transactions of the AMS}, 125(1), 1966.}
+\DeclareRef{dembozeitouni10}{Dembo--Zeitouni 10}{A.~Dembo, O.~Zeitouni, \textit{Large Deviations Techniques and Applications}, 2\up{e} éd., Springer, 2010.}
 \DeclareRef{berlinet04}{Berlinet--Thomas-Agnan 04}{A.~Berlinet, C.~Thomas-Agnan, \textit{Reproducing Kernel Hilbert Spaces in Probability and Statistics}, Kluwer, 2004.}
 \DeclareRef{boissonnat18}{Boissonnat 18}{J.-D.~Boissonnat, F.~Chazal, M.~Yvinec, \textit{Geometric and Topological Inference}, Cambridge University Press, 2018.}
 \DeclareRef{chaudhuri10}{Chaudhuri--Dasgupta 10}{K.~Chaudhuri, S.~Dasgupta, « Rates of convergence for the cluster tree », \textit{Advances in Neural Information Processing Systems} (NIPS), vol.~23, p.~343--351, 2010.}
@@ -1621,7 +1622,7 @@
     \scriptsize
     \begin{itemize}
         \setlength{\itemsep}{2.5pt}
-                \bibligne{cameron44}
+                        \bibligne{cameron44}
         \bibligne{florek51}
         \bibligne{schilder66}
         \bibligne{gowerross69}
@@ -1638,7 +1639,7 @@
     \scriptsize
     \begin{itemize}
         \setlength{\itemsep}{2.5pt}
-                \bibligne{frangi98}
+                        \bibligne{frangi98}
         \bibligne{kleinberg02}
         \bibligne{penrose03}
         \bibligne{berlinet04}
@@ -1646,6 +1647,7 @@
         \bibligne{turaga09}
         \bibligne{chaudhuri10}
         \bibligne{carlsson10}
+        \bibligne{dembozeitouni10}
         \bibligne{campello13}
         \bibligne{chazal13}
     \end{itemize}
@@ -1655,7 +1657,7 @@
     \scriptsize
     \begin{itemize}
         \setlength{\itemsep}{2.5pt}
-                \bibligne{biau15}
+                        \bibligne{biau15}
         \bibligne{boissonnat18}
         \bibligne{sb18}
         \bibligne{semantickitti19}
@@ -1672,7 +1674,7 @@
     \scriptsize
     \begin{itemize}
         \setlength{\itemsep}{2.5pt}
-                \bibligne{edelsbrunner23}
+                        \bibligne{edelsbrunner23}
         \bibligne{rolle23}
         \bibligne{ge24}
         \bibligne{ravi24}
@@ -1856,6 +1858,38 @@
         {\color{inria-rouge}Ébauche : la borne globale (lemme de Peierls) reste à écrire}
     \end{center}
     \reffoot{cameron44,berlinet04,schilder66}
+\end{frame}
+
+\begin{frame}[t]{Le théorème de \textsc{Schilder}, énoncé}
+    \small
+    $G_p$ : le champ gaussien limite, centré, de covariance
+    $\rho_p(x - y) = \bigl|B(x,\tfrac12) \cap B(y,\tfrac12)\bigr| \,/\, \bigl|B(0,\tfrac12)\bigr|$, à trajectoires
+    continues sur un compact $\Gamma \subset \mathbb R^p$ ; \; $\mathcal H_p$ son espace de
+    \textsc{Cameron}--\textsc{Martin}, de norme $\Vert\cdot\Vert_{\mathcal H_p}$
+
+    \vspace{0.16cm}
+    \begin{center}
+        \formulebox{\parbox{0.93\textwidth}{\small
+        \textbf{Théorème} (\textsc{Schilder} \citb{schilder66} ; forme gaussienne \citb{dembozeitouni10}).
+        Pour tout borélien $A \subseteq \mathcal C(\Gamma, \mathbb R)$, d'intérieur $\mathring A$ et
+        d'adhérence $\overline A$, quand $a \to +\infty$ :
+        \[
+        \begin{aligned}
+            \liminf_{a \to +\infty} \frac{1}{a^2} \log \mathbb P\bigl(G_p \in a\,A\bigr)
+            &\;\ge\; -\inf_{h \in \mathring A} \tfrac12\,\Vert h\Vert^2_{\mathcal H_p}, \\[2pt]
+            \limsup_{a \to +\infty} \frac{1}{a^2} \log \mathbb P\bigl(G_p \in a\,A\bigr)
+            &\;\le\; -\inf_{h \in \overline A} \tfrac12\,\Vert h\Vert^2_{\mathcal H_p}.
+        \end{aligned}
+        \]}}
+    \end{center}
+
+    \vspace{0.16cm}
+    \begin{itemize}
+        \item Autrement dit : $\{G_p / a\}_{a > 0}$ satisfait un \textbf{principe de grandes déviations}
+        de vitesse $a^2$ et de fonction de taux $I(h) = \tfrac12 \Vert h\Vert^2_{\mathcal H_p}$,
+        valant $+\infty$ hors de $\mathcal H_p$
+    \end{itemize}
+    \reffoot{schilder66,dembozeitouni10}
 \end{frame}
 
 % --- LiDAR ---------------------------------------------------

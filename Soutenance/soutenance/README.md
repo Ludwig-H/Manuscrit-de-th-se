@@ -251,7 +251,17 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    commenté, et le passage du coût local à la borne globale (lemme de Peierls)
    n'est pas écrit. Ne pas durcir le statut sans le manuscrit. Croquis
    `schilder_obstruction` : un point qui plonge contre une boule entière qui
-   plonge ; **la coupe où les amas percolent** ; la hiérarchie
+   plonge. Puis **« Le théorème de Schilder, énoncé »**, la planche « énoncé
+   seul » demandée dans la foulée : les notations du manuscrit ($G_p$, $\rho_p$
+   comme volume d'intersection de deux boules, $\mathcal H_p$, le grand paramètre
+   $a$ de la fenêtre), le champ pris à trajectoires continues sur un compact
+   $\Gamma$, et le principe de grandes déviations sous sa forme à deux
+   inégalités (liminf sur l'intérieur, limsup sur l'adhérence), vitesse $a^2$,
+   fonction de taux $\tfrac12\Vert h\Vert^2_{\mathcal H_p}$, $+\infty$ hors de
+   $\mathcal H_p$. Le manuscrit ne formule jamais le théorème, il le cite
+   (Schilder 1966, Dembo–Zeitouni 2010) : l'énoncé est celui, standard, des
+   mesures gaussiennes, écrit dans ses notations, sans application ; **la coupe
+   où les amas percolent** ; la hiérarchie
    Swendsen–Wang coupée à $\beta$ vue par Edwards–Sokal (ajoutée par l'autre
    éditeur le 7 septembre) ; **« Retourner un amas : la loi exacte »** — la loi
    conditionnelle $\nu(\sigma \mid D) \propto \mu_0(\sigma) \prod_u
@@ -319,14 +329,14 @@ correspondant. Seule exception, la diapositive « Publications », où chaque
 crochet est déjà suivi du titre, du lieu et de l'année sur la diapositive
 elle-même.
 
-**Les quatre pages de bibliographie tiennent dix entrées chacune** (douze est
+**Les quatre pages de bibliographie tiennent dix ou onze entrées** (douze est
 le maximum constaté ; à seize, une page montait dans son titre et sortait par le
 pied, le 7 septembre). Elles sont **chronologiques** sur l'ensemble, l'année
 étant lue dans le label du `\DeclareRef` ; ajouter une entrée oblige à en faire
 glisser une vers la page suivante — le plus simple est de régénérer les quatre
 listes en triant toutes les clés par année, comme l'a fait le script du
-7 septembre. Cameron–Martin 44, Schilder 66 et Berlinet–Thomas-Agnan 04 sont
-entrés avec la planche Schilder ; Edwards–Sokal 88, cité par la planche de
+7 septembre. Cameron–Martin 44, Schilder 66, Berlinet–Thomas-Agnan 04 et
+Dembo–Zeitouni 10 sont entrés avec les deux planches Schilder ; Edwards–Sokal 88, cité par la planche de
 l'autre éditeur mais absent de la bibliographie, a été ajouté au passage. Quatre
 entrées qui n'étaient plus citées nulle part après l'élagage des secours
 (Culbertson 18, HSA 25, Superpoint Transformer 23, PolyhedronNet 25) ont été
