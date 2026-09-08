@@ -229,51 +229,39 @@ Nécessite LuaLaTeX (fontspec dans le thème) et le module français de babel
    et non un regroupement thématique — les deux points « modèle de fondation »
    (1 et 4) ne sont donc pas voisins. Suivent la liste des publications et des
    dépôts logiciels.
-9. **Diapositives de secours** (après le « Merci »), suivant la chronologie de la
-   présentation : stylométrie 5 auteurs, banc d'essai SIPU, huiles d'olive et leur
-   matrice de confusion, protocole des vitesses, fenêtre gaussienne K→∞,
-   **la décomposition en paires bien séparées** et **les trois lanes q2/q3/q4**
-   (arité du support, ancre = plus longue arête, seuils $h_q = s_{\max}-q+1$),
-   haplotypes, cadre bayésien/Gibbs, Swendsen–Wang détaillé, modèle
-   Sankararaman–Baccelli, **les horloges par arête** et **la coupe où les amas
-   percolent** (les deux diapositives retirées du fil principal), hiérarchie
-   d'horloges, **Kruskal des horloges vers le dendrogramme**,
-   **« Retourner un amas : la loi exacte »** — la loi conditionnelle
-   $\nu(\sigma \mid D) \propto \mu_0(\sigma) \prod_u \Lambda_u(\sigma)\,
-   e^{(1-\beta_u)\Lambda_u(\sigma)}$ et le tirage à quatre états
-   $p_u(a,b \mid \sigma, D)$ au nœud $u$ ; elle répond à la phrase de la
-   diapositive Kruskal (« la *loi* des retournements utilise toujours **toutes**
-   les arêtes ») et à la puce « bain thermique exact » de la hiérarchie
-   d'horloges, qui la mentionnaient sans la donner. Source :
-   `../beamer-presentation-reunion-2026-07-16/hierarchical_sw_frames.tex`, dont
-   les deux formules sont reprises verbatim ; la spécialisation binaire des
-   quatre poids ($\Lambda_u$ pour $(0,0)$ et $(1,1)$, $A_u - \Lambda_u$ pour
-   $(1,0)$ et $(0,1)$, avec $A_u = \sum_{e \in E_u} |W_e|$) est **volontairement
-   laissée hors de la diapositive** — elle se dit à l'oral,
-   **la coupe critique $\beta_c$ en détail** (formule explicite,
-   condition d'existence $p \ge (1+q_c)/2$, pondération des fusions par
-   $\eta_u = \tanh^2(L_u/2)$, et la réserve : la coupe critique n'est pas
-   sélectionnée par l'information), échelle des seuils GSBM, calibration SBM,
-   validation 10⁶ nœuds, **la chaîne d'extraction du graphe de Frangi** (cartes
-   intermédiaires du papier : seuillage → composantes → arbre couvrant minimal →
-   centralité pondérée en $\mathcal O(|V|)$ → squelette, le résultat FIND et
-   l'ordre 2 en perspective), VT-GraF, robustesse, transferts, sensibilité,
-   CrackSAM-GeoLoRA, **l'architecture de SAM** et **le biais additif d'attention**
-   (informer sans contraindre), **Carlsson–Mémoli en détail** (les trois paires d'axiomes
-   réalisées par autant de règles d'arrêt, l'ultramétrique et les trois axiomes
-   adaptés), **la suite progressive de guidage de SAM** (plafond par
-   oracle, invites natives, biais additif), **ce que HSA exige contre ce que
-   donne le graphe de Frangi**, **la chaîne complète de la partition au
-   $K$-polyèdre** (Culbertson–Guralnik–Stiller et les recouvrements), puis les
-   quatre dernières diapositives de la voie hiérarchique (ce qui reste à
-   démontrer ; ce que la thèse fournit déjà à la segmentation en jetons ; les
-   bras de contrôle H0–H8 qui réfuteraient le pari hiérarchique ; efficacité
-   contre continuité, en chiffres — illustrée par `equilibre_continuite`).
+9. **Diapositives de secours** (après le « Merci »), **résultats supplémentaires
+   seulement**, dans l'ordre de la présentation : stylométrie à 5 auteurs (2017) ;
+   banc d'essai SIPU (image claire `SIPU_s1s3_clair.png`, voir plus bas) ; huiles
+   d'olive et leur matrice de confusion ; vitesses de percolation de Robust SL et
+   DBSCAN, avec le protocole en une ligne sous les images ; la fenêtre gaussienne
+   $K \to \infty$ ; **la coupe où les amas percolent** ; la hiérarchie
+   Swendsen–Wang coupée à $\beta$ vue par Edwards–Sokal (ajoutée par l'autre
+   éditeur le 7 septembre) ; **« Retourner un amas : la loi exacte »** — la loi
+   conditionnelle $\nu(\sigma \mid D) \propto \mu_0(\sigma) \prod_u
+   \Lambda_u(\sigma)\, e^{(1-\beta_u)\Lambda_u(\sigma)}$ et le tirage à quatre
+   états $p_u(a,b \mid \sigma, D)$, formules reprises verbatim de
+   `../beamer-presentation-reunion-2026-07-16/hierarchical_sw_frames.tex` ;
+   échelle des seuils GSBM, calibration SBM, validation à $10^6$ nœuds ; **la
+   chaîne d'extraction du graphe de Frangi** (cartes intermédiaires du papier et
+   le résultat FIND), VT-GraF, robustesse, transferts, sensibilité,
+   CrackSAM-GeoLoRA (résultat négatif à contrôle permuté) ; et le montage
+   **SAM gelé + LoRA + hiérarchie** demandé par `SOUTENANCE.md` du dépôt Frangi.
+   **Vingt-deux diapositives ont été retirées** le 7 septembre pour ne garder
+   que des résultats : les détails d'implémentation (paires bien séparées, lanes
+   3D), les rappels de théorie (cadre bayésien, Swendsen–Wang, modèle
+   Sankararaman–Baccelli, horloges par arête, hiérarchie d'horloges, Kruskal,
+   $\beta_c$ en détail, Carlsson–Mémoli, protocole des vitesses, haplotypes, le
+   contexte 4D de Geo-4D), les planches SAM antérieures à la direction du
+   6 septembre (architecture de SAM, « informer l'attention », « suite
+   progressive », « ce que HSA exige ») et les quatre planches-programme de la
+   voie hiérarchique. Elles sont dans l'historique Git (dernier état complet :
+   commit `694d6e8`) et leurs figures TikZ restent dans `figs/`, non appelées.
+   Le premier candidat à restaurer si un membre du jury creuse est
+   **Carlsson–Mémoli** (les trois axiomes adaptés).
 
 Les figures de la dynamique hiérarchique proviennent de GitHub
 `Ludwig-H/Presentation-MathNet-2026-06-15/research` (SVG convertis) ; celles
 de CrackSAM-GeoLoRA de l'import `ISPRS/CrackSAM-GeoLoRA/` de ce dépôt.
-
 ## Charte graphique
 
 - **Bleu canard Inria** (`inria-2024-bleu-canard`) : les données (points, nuages, feuilles)
@@ -313,6 +301,15 @@ en bas de la diapositive.
 correspondant. Seule exception, la diapositive « Publications », où chaque
 crochet est déjà suivi du titre, du lieu et de l'année sur la diapositive
 elle-même.
+
+**Les trois pages de bibliographie tiennent douze entrées chacune, pas une de
+plus** : à seize, la deuxième montait dans son titre et sortait par le pied de
+page (constaté le 7 septembre). Elles sont chronologiques d'une page à l'autre ;
+ajouter une entrée oblige à en faire glisser une vers la page suivante. Quatre
+entrées qui n'étaient plus citées nulle part après l'élagage des secours
+(Culbertson 18, HSA 25, Superpoint Transformer 23, PolyhedronNet 25) ont été
+retirées ; Sonata, Concerto et Utonia sont gardées, la figure du modèle de
+fondation 3D les nomme encore.
 
 **Le `\reffoot` grandit vers le haut, et en silence.** Il est posé dans un
 `textblock` ancré `[0,1](0.05,0.925)` : allonger une référence, ou en ajouter
@@ -412,6 +409,12 @@ ni SIGMETRICS SRC 2024, ni CN 2024.
   le préambule de `main.tex` ; l'arête gelée est un `freeze` coloré en
   `inria-rouge`, et une arête non satisfaite est tracée en `line width=0.6pt`
   pour rester distinguable d'une arête satisfaite en projection.
+- `imgs/SIPU_s1s3_clair.png` — la planche SIPU d'origine (`SIPU_s1s3.png`) est
+  une figure matplotlib à **fond noir**, illisible en projection (70 % de pixels
+  noirs). La version claire est obtenue par traitement d'image, sans les
+  données : fond noir → blanc, traits et texte gris ou blancs (faible saturation)
+  → gris foncé par inversion de luminance, points colorés des amas inchangés.
+  Script en tête de l'historique du 7 septembre ; à refaire si l'original change.
 - `imgs/VTGraF_granularite.png` — quatre panneaux découpés de `imgs/Raphael_algo_1.png`
   (visible granulaire, réponse de Frangi au pixel, similarité du graphe de Frangi,
   composantes retenues), titres matplotlib retirés et recomposés côte à côte ;

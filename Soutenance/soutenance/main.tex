@@ -1637,21 +1637,17 @@
     \scriptsize
     \begin{itemize}
         \setlength{\itemsep}{2.5pt}
+                \bibligne{turaga09}
         \bibligne{chaudhuri10}
         \bibligne{carlsson10}
         \bibligne{campello13}
         \bibligne{chazal13}
         \bibligne{boissonnat18}
-        \bibligne{culbertson18}
         \bibligne{sb18}
         \bibligne{semantickitti19}
         \bibligne{brown20}
         \bibligne{bommasani21}
         \bibligne{ying21}
-        \bibligne{turaga09}
-        \bibligne{avrachenkov22}
-        \bibligne{hu22}
-        \bibligne{edelsbrunner23}
         \bibligne{kirillov23}
     \end{itemize}
 \end{frame}
@@ -1660,7 +1656,9 @@
     \scriptsize
     \begin{itemize}
         \setlength{\itemsep}{2.5pt}
-        \bibligne{robert23}
+                \bibligne{avrachenkov22}
+        \bibligne{hu22}
+        \bibligne{edelsbrunner23}
         \bibligne{rolle23}
         \bibligne{ge24}
         \bibligne{ayana25}
@@ -1669,8 +1667,6 @@
         \bibligne{oh25}
         \bibligne{sonata25}
         \bibligne{concerto25}
-        \bibligne{yu25}
-        \bibligne{hsa25}
         \bibligne{utonia26}
     \end{itemize}
 \end{frame}
@@ -1710,7 +1706,7 @@
     \begin{columns}[c, onlytextwidth]
         \begin{column}{0.52\textwidth}
             \begin{center}
-                \includegraphics[height=0.72\textheight]{imgs/SIPU_s1s3.png}
+                \includegraphics[height=0.72\textheight]{imgs/SIPU_s1s3_clair.png}
             \end{center}
         \end{column}
         \begin{column}{0.44\textwidth}
@@ -1786,72 +1782,30 @@
 \end{frame}
 
 % --- Ordre supérieur : la génération des candidats ------------
-\begin{frame}{La décomposition en paires bien séparées}
-    \vspace{0.10cm}
-    \begin{center}
-        \resizebox{0.80\textwidth}{!}{\input{figs/wspd_paires}}
-    \end{center}
-
-    \vspace{0.20cm}
-    \footnotesize
-    \begin{itemize}
-        \setlength{\itemsep}{5pt}
-        \item Séparation testée en \textbf{entiers}, sans racine ; terminal dès que séparé, on scinde
-        la boîte de plus grand \textbf{diamètre}
-        \item Ledger exact : $\sum$ paires émises $+\ \sum$ paires tuées $= \binom{n}{2}$
-        \item Descente par \textbf{vagues} sur l'arbre radix, profondeur $\sim 2\log_2 n$ ; sortie
-        bit-identique quel que soit le nombre de fils
-    \end{itemize}
-    \reffoot{callahan95}
-\end{frame}
-
-\begin{frame}{Les trois \emph{lanes} de la génération 3D}
-    \vspace{0.10cm}
-    \begin{center}
-        \resizebox{0.76\textwidth}{!}{\input{figs/lanes_q234}}
-    \end{center}
-
-    \vspace{0.20cm}
-    \footnotesize
-    \begin{itemize}
-        \setlength{\itemsep}{5pt}
-        \item Le support d'un événement a pour arité $q \in \{2,3,4\}$ : tout le reste tient dans la
-        lentille $\bar B(a,D) \cap \bar B(b,D)$ de l'ancre
-        \item Un triangle obtus n'est pas une lane $q=3$ : sa miniboule est celle d'une arête, donc
-        un $q=2$
-        \item Seuils de mort $h_q = s_{\max} - q + 1$ : un support d'arité $q$ meurt dès que $h_q$
-        témoins tombent dans son fuseau
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{Vitesses de percolation : le protocole}
-    \begin{itemize}
-        \setlength{\itemsep}{10pt}
-        \item $\mathcal X$ : $n = 100\,000$ points uniformes dans $\left[0\,; n^{1/p}\right]^p$ ($n = 10\,000$ en dimension $4$)
-        \item $T = 100$ tirages indépendants ; rappel $\varepsilon = 3\,\%$
-        \item Pour chaque algorithme (HGP, Robust SL, DBSCAN) : rayons de fusion et taille de la plus grande composante
-        \item Estimateur $\widehat v = \widehat\lambda_{\varepsilon} / \widehat\lambda_{1-\varepsilon}$
-        \item Repère : seuil critique du modèle booléen ($K=1$, 2D) : $\lambda_c \approx 1{,}44$
-    \end{itemize}
-\end{frame}
-
 \begin{frame}{Vitesses de percolation : \emph{Robust Single-Linkage} et DBSCAN}
     \begin{columns}[c, onlytextwidth]
         \begin{column}{0.48\textwidth}
             \begin{center}
                 \includegraphics[width=\textwidth]{imgs/vitesse_percolation_RSL_d2.png}
 
-                {\scriptsize \emph{Robust Single-Linkage} : la percolation converge trop lentement vers $1$}
+                {\scriptsize \emph{Robust SL} : la percolation converge trop lentement vers $1$}
             \end{center}
         \end{column}
         \begin{column}{0.48\textwidth}
             \begin{center}
                 \includegraphics[width=\textwidth]{imgs/vitesse_percolation_DBSCAN_d2.png}
 
-                {\scriptsize DBSCAN : la frontière est réintégrée, mais les cœurs percolent trop tôt}
+                {\scriptsize DBSCAN : frontière réintégrée, mais les cœurs percolent trop tôt}
             \end{center}
         \end{column}
     \end{columns}
+
+    \vspace{0.25cm}
+    \begin{center}
+        {\footnotesize $n = 100\,000$ points uniformes, $100$ tirages ;
+        $\widehat v = \widehat\lambda_{\varepsilon} / \widehat\lambda_{1-\varepsilon}$, $\varepsilon = 3\,\%$ ;
+        repère 2D, $K=1$ : $\lambda_c \approx 1{,}44$}
+    \end{center}
 \end{frame}
 
 \begin{frame}{Quand $K \to +\infty$ : la fenêtre gaussienne}
@@ -1865,173 +1819,7 @@
 \end{frame}
 
 % --- LiDAR ---------------------------------------------------
-\begin{frame}{Et en 4D, la recette ne change pas}
-    \begin{columns}[c, onlytextwidth]
-        \begin{column}{0.56\textwidth}
-            \small
-            La 4D ajoute le \textbf{suivi} : une même instance doit garder son identité d'une trame
-            à l'autre
-
-            \vspace{0.30cm}
-            \begin{itemize}
-                \setlength{\itemsep}{8pt}
-                \item Geo-4D \citb{oh25} garde le même schéma (sémantique, puis regroupement)
-                et y ajoute une \textbf{association globale} entre trames, purement \textbf{géométrique}
-                et là encore \textbf{sans apprentissage}
-                \item Dans les deux cas, une fois la sémantique acquise, ce qui reste est un problème
-                de \textbf{regroupement} : exactement l'objet de cette thèse
-            \end{itemize}
-
-            \vspace{0.30cm}
-            \begin{center}
-                \formulebox{\parbox{0.90\textwidth}{\centering\small
-                C'est là que notre hiérarchie a quelque chose à dire :\\
-                elle offre une \textbf{échelle} au lieu d'un seuil}}
-            \end{center}
-        \end{column}
-
-        \begin{column}{0.42\textwidth}
-            \begin{center}
-                \includegraphics[height=0.62\textheight]{imgs/Resultat_Geo-4D.png}
-
-                \vspace{0.15cm}
-                {\scriptsize Suivi d'instances dans Geo-4D \citb{oh25}}
-            \end{center}
-        \end{column}
-    \end{columns}
-    \reffoot{oh25}
-\end{frame}
-
 % --- Graphes signés ------------------------------------------
-\begin{frame}{L'assemblage d'haplotypes}
-    \centering
-    \begin{block}{Un graphe signé bruité}
-        Nœuds $=$ lectures ADN ; arêtes $=$ chevauchements (attractions et répulsions)\\
-        \textbf{But} : retrouver l'affectation cachée {\large $\boldsymbol{\Sigma}$}
-    \end{block}
-    \drawHaplotypePresentation{3}
-\end{frame}
-
-\begin{frame}{Le cadre bayésien et l'hypothèse de Gibbs}
-    \begin{center}
-        \begin{tikzpicture}[node distance=0.7cm and 0.9cm, scale=0.85, every node/.style={scale=0.85}]
-            \node[chapbox] (prior) {\emph{A priori}\\$\mu_{0}$};
-            \node[chapbox,right=of prior] (truth) {Communautés\\cachées $\Sigma$};
-            \node[chapbox,right=of truth] (chan) {Canal bruité\\$Q$};
-            \node[chapboxdark,right=of chan] (obs) {Observation\\$(X,W)$};
-            \node[chapbox,right=of obs] (post) {\emph{A posteriori}\\$\mu$};
-            \draw[chaparr] (prior) -- (truth);
-            \draw[chaparr] (truth) -- (chan);
-            \draw[chaparr] (chan) -- (obs);
-            \draw[chaparr] (obs) -- (post);
-        \end{tikzpicture}
-    \end{center}
-
-    \vspace{0.3cm}
-    \begin{center}
-        \formulebox{$U(\sigma) = \displaystyle\sum_{e \in F} W_e \ind{\sigma_i \neq \sigma_j} + \sum_{e \in \tilde F} |W_e| \ind{\sigma_i = \sigma_j}
-        \qquad
-        \mu(\sigma) = \frac{e^{-U(\sigma)}}{Z}$}
-    \end{center}
-
-    \vspace{0.25cm}
-    \begin{itemize}
-        \item $F$ : arêtes attractives ($W_e > 0$) ; $\tilde F$ : répulsives ($W_e < 0$) ; $U$ pénalise les arêtes non satisfaites
-        \item Ici l'\emph{a priori} est uniforme : le terme $-\log\mu_0(\sigma \mid X)$ est constant et absorbé dans $Z$
-        \item \textbf{Hypothèse de Gibbs} : la loi \emph{a posteriori} est la mesure de Gibbs signée
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{Un pas de \textsc{Swendsen}--\textsc{Wang} signé, en détail}
-    \begin{itemize}
-        \setlength{\itemsep}{10pt}
-        \item \textbf{Gel} : chaque arête \emph{satisfaite} est gelée avec probabilité $1 - e^{-|W_e|}$ ; les non satisfaites jamais
-        \item \textbf{Recoloriage} : chaque amas gelé est recolorié uniformément au hasard
-        \item La dynamique laisse la loi \emph{a posteriori} invariante
-        \item Un pas depuis la vérité $\Sigma$ produit une \textbf{réplique} $\Sigma^{(1)} \sim \mu$ (identité de Nishimori) : un couplage entre vérité et observation
-        \item Les petits amas sont recoloriés aveuglément : l'information globale ne survit que dans les \textbf{composantes géantes}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{Le modèle de Sankararaman--Baccelli, en détail}
-    \begin{itemize}
-        \setlength{\itemsep}{9pt}
-        \item Nœuds : processus de Poisson dans $\mathbb R^p$ ; communautés $\Sigma_i \in \{\pm 1\}$ uniformes
-        \item Arête $e = \{i,j\}$ présente avec probabilité $f_{\mathrm{in}}(r_e)$ (même communauté) ou $f_{\mathrm{out}}(r_e)$ (communautés différentes), $r_e = \|X_i - X_j\|$
-        \item Poids signés reconstruits : $W_e = \log\frac{f_{\mathrm{in}}(r_e)}{f_{\mathrm{out}}(r_e)} \ge 0$ si $e$ observée, $W_e = -\log\frac{1-f_{\mathrm{out}}(r_e)}{1-f_{\mathrm{in}}(r_e)} \le 0$ sinon
-    \end{itemize}
-
-    \vspace{0.3cm}
-    \begin{center}
-        \formulebox{$\mathbb P(\text{arête gelée}) = f_{\mathrm{in}}(r_e) \left(1 - e^{-|W_e|}\right) = f_{\mathrm{in}}(r_e) - f_{\mathrm{out}}(r_e)$}
-    \end{center}
-
-    \vspace{0.25cm}
-    \begin{itemize}
-        \item Le graphe gelé d'un pas de SW sur les arêtes est \textbf{exactement} la percolation indépendante de \citb{sb18}
-    \end{itemize}
-    \reffoot{sb18}
-\end{frame}
-
-\begin{frame}{Après \textsc{Swendsen}--\textsc{Wang} : une \emph{horloge} par arête}
-    \small
-    Un pas de \textsc{Swendsen}--\textsc{Wang} gèle chaque arête satisfaite avec probabilité
-    $1 - e^{-|W_e|}$, puis recolorie les amas gelés. Remplaçons ce tirage \emph{binaire} par un \textbf{temps}
-
-    \vspace{0.25cm}
-    \begin{center}
-        \formulebox{\parbox{0.86\textwidth}{\centering
-        $\xi_e \sim \mathrm{Exp}\bigl(|W_e|\bigr)$ si $e$ est satisfaite, \quad $\xi_e = +\infty$ sinon ;\\[5pt]
-        $\Pi_\beta \;=\;$ composantes connexes du graphe $\bigl(V, \{e : \xi_e \le \beta\}\bigr)$,
-        \qquad $0 \le \beta \le 1$}}
-    \end{center}
-
-    \vspace{0.25cm}
-    \begin{itemize}
-        \setlength{\itemsep}{9pt}
-        \item Comme $\mathbb P(\xi_e \le 1 \mid e \text{ satisfaite}) = 1 - e^{-|W_e|}$, la coupe à $\beta = 1$
-        redonne \textbf{exactement} la partition gelée de \textsc{Swendsen}--\textsc{Wang}
-        \item Mais un \emph{seul} tirage d'horloges contient désormais \textbf{toutes les échelles} intermédiaires :
-        les $\Pi_\beta$ sont emboîtées, elles forment un \textbf{dendrogramme} \citb{ii26} ;
-        $\beta$ est un temps de filtration, pas une température
-    \end{itemize}
-    \reffoot{ii26}
-\end{frame}
-
-\begin{frame}{La hiérarchie d'horloges, en détail}
-    \begin{itemize}
-        \setlength{\itemsep}{8pt}
-        \item Conditionnellement à $\sigma$ : $\xi_e \sim \mathrm{Exp}(|W_e|)$ sur les arêtes satisfaites, $\xi_e = +\infty$ sinon ;\\
-        $\Pi_\beta$ = composantes de $\{\xi_e \le \beta\}$ ; le dendrogramme s'obtient par \textsc{Kruskal}
-        \item $\mathbb P(\xi_e \le 1) = 1 - e^{-|W_e|}$ : $\Pi_1$ est \textbf{exactement} la partition gelée de \textsc{Swendsen}--\textsc{Wang}
-        \item Mesure jointe de type \textsc{Edwards}--\textsc{Sokal} $\nu(\sigma, D)$ ; à chaque nœud, un \textbf{bain thermique exact} sur les quatre orientations relatives des deux fils (balance détaillée, invariance)
-        \item Le dendrogramme est \textbf{non marqué} : l'identité de l'arête gagnante est marginalisée ; une fusion dépend de toute la coupe $\Lambda_u(\sigma) = \sum_{e \in E_u} |W_e| \ind{e \text{ satisfaite}}$
-        \item Sur le tore triangulaire : $\Pi_t$ suit une percolation indépendante $q_p(t) = p\,(1 - e^{-u_p t})$, $u_p = \log\frac{p}{1-p}$
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{Des horloges au dendrogramme : \textsc{Kruskal}}
-    \begin{center}
-        \resizebox{0.94\textwidth}{!}{\input{figs/horloges_kruskal}}
-    \end{center}
-
-    \vspace{0.30cm}
-    \begin{center}
-        \formulebox{$\displaystyle
-        \mathrm{cc}\{e : \xi_e \le \beta\} \;=\; \mathrm{cc}\{e \in \mathrm{FCM} : \xi_e \le \beta\},
-        \qquad 0 \le \beta \le 1$}
-    \end{center}
-
-    \vspace{0.25cm}
-    \begin{itemize}
-        \setlength{\itemsep}{7pt}
-        \item La forêt couvrante minimale \textbf{calcule} la hiérarchie ; mais la \emph{loi} des retournements
-        utilise toujours \textbf{toutes} les arêtes du graphe, pas seulement celles retenues par \textsc{Kruskal}
-        \item L'arête $\{d,e\}$ n'a jamais sonné avant l'horizon ($\xi = 1{,}26 > 1$) : le sommet $e$ reste
-        \textbf{isolé}, et $\Pi_1$ a deux composantes
-    \end{itemize}
-\end{frame}
-
 \begin{frame}[t]{La hiérarchie \textsc{Swendsen}--\textsc{Wang} coupée à $\beta$, vue par \textsc{Edwards}--\textsc{Sokal}}
     \footnotesize
     \textsc{Edwards}--\textsc{Sokal} \citb{es88} : tirer le couple $(\sigma, \omega)$ plutôt que $\sigma$ seul,
@@ -2130,31 +1918,6 @@
         source (un canal d'information à plusieurs états sur les triangles) et \emph{pas} de cette dynamique
     \end{itemize}
     \reffoot{ii26}
-\end{frame}
-
-\begin{frame}{La coupe critique $\beta_c$, en détail}
-    \begin{itemize}
-        \setlength{\itemsep}{9pt}
-        \item Le niveau critique s'inverse explicitement :
-        \[
-            \beta_c(p) \;=\; q_p^{-1}(q_c) \;=\; -\,\frac{\log\bigl(1 - q_c/p\bigr)}{\log\frac{p}{1-p}},
-            \qquad q_c = 2\sin\tfrac{\pi}{18} = 0{,}34730\ldots
-        \]
-        \item Il n'existe dans l'horizon $[0,1]$ que si $p \ge \tfrac{1 + q_c}{2} = 0{,}67365\ldots$ :
-        c'est exactement le seuil de gel de \textsc{Swendsen}--\textsc{Wang} ; en dessous, la criticité n'est
-        jamais atteinte avant la censure
-        \item \textbf{Ce que la hiérarchie ajoute à la borne de percolation.} Celle-ci ne retient que la
-        \emph{taille} des racines ; la borne par plus petit ancêtre commun pondère chaque fusion par sa
-        fiabilité exacte : algèbre finie établie, \emph{conditionnellement} à la formalisation complète
-        de la mesure jointe augmentée
-        \[
-            Q_n \;\le\; \frac{1}{n^2}\,\mathbb E\Bigl[\,n + 2\!\!\sum_{u \in D}\! |C_{u,1}|\,|C_{u,2}|\,\eta_u\Bigr],
-            \qquad \eta_u = \tanh^2\tfrac{L_u}{2}
-        \]
-        \item \textbf{Réserve.} La coupe critique n'est \emph{pas} sélectionnée par l'information : après
-        marginalisation exacte, le jacobien répliqué vaut $\theta^2$ à tout niveau. Elle se distingue
-        \emph{géométriquement}, comme ordre d'élimination du \textsc{Gibbs}
-    \end{itemize}
 \end{frame}
 
 \begin{frame}{L'échelle des seuils du GSBM triangulaire}
@@ -2336,33 +2099,6 @@
 \end{frame}
 
 % --- Perspectives : Kleinberg et Carlsson--Mémoli ------------
-\begin{frame}{\textsc{Carlsson} \& \textsc{Mémoli} : changer l'objet de sortie}
-    \vspace{-0.15cm}
-    \begin{center}
-        \resizebox{0.44\textwidth}{!}{\input{figs/kleinberg_coupes}}
-    \end{center}
-
-    \vspace{-0.05cm}
-    \small
-    \begin{itemize}
-        \setlength{\itemsep}{4pt}
-        \item Pour chacune des trois \emph{paires} d'axiomes, \textsc{Kleinberg} donne un témoin :
-        à chaque fois une \textbf{variante du Single-Linkage}, ce qui change d'une variante à l'autre
-        étant la \textbf{règle d'arrêt} : $k$ amas, distance $r$, ou fraction $\alpha$ du diamètre
-        \item L'obstruction indique donc la sortie : garder l'arbre, et laisser la règle de coupe à l'utilisateur
-        \item \textsc{Carlsson} \& \textsc{Mémoli} changent alors l'objet rendu : une \textbf{ultramétrique},
-        $T : (\mathcal X, d) \mapsto (\mathcal X, u)$, de façon équivalente un dendrogramme
-    \end{itemize}
-
-    \vspace{0.04cm}
-    \begin{center}
-        \formulebox{\parbox{0.82\textwidth}{\centering\small
-        Sous trois axiomes adaptés (normalisation \emph{à deux points}, fonctorialité, séparation),\\
-        \textbf{le Single-Linkage est la seule solution} \citb{carlsson10}}}
-    \end{center}
-    \reffoot{carlsson10}
-\end{frame}
-
 % --- Perspectives : guider SAM -------------------------------
 \begin{frame}[t]{SAM gelé, LoRA et la hiérarchie : le montage}
     \vspace{-0.08cm}
@@ -2390,221 +2126,5 @@
     \reffoot{ravi24,euvip26,turaga09,hu22}
 \end{frame}
 
-\begin{frame}{SAM : segmenter n'importe quoi, à la demande}
-    \begin{center}
-        \resizebox{0.68\textwidth}{!}{\input{figs/sam_architecture}}
-    \end{center}
-
-    \vspace{0.05cm}
-    \small
-    \begin{itemize}
-        \setlength{\itemsep}{5pt}
-        \item Pré-entraîné sur SA-1B, le jeu de \emph{SAM~1} : $11$~millions d'images et
-        $1{,}1$~milliard de masques \citb{kirillov23} ; SAM~2 garde l'interface, change de tronc
-        (\emph{Hiera}) et l'étend à la vidéo \citb{ravi24}
-        \item Architecture \textbf{asymétrique} : un encodeur d'image lourd, calculé \emph{une fois} ;
-        puis une boucle légère, où l'on pose des \textbf{invites}
-        \item Pour nous, la bonne nouvelle : cette interface d'invites est un \textbf{point d'entrée gratuit}
-    \end{itemize}
-    \reffoot{kirillov23,ravi24}
-\end{frame}
-
-\begin{frame}{Guider SAM : \emph{informer} l'attention, pas la contraindre}
-    \small
-    Une fissure se reconnaît à sa \textbf{connexité} ; or l'attention compare des vecteurs deux à deux :
-    elle n'a \textbf{aucun \emph{a priori} de chemin}
-    {\color{inria-rouge}\emph{Aucune IoU n'a encore été mesurée pour ce guidage}}
-
-    \vspace{0.10cm}
-    \begin{center}
-        \resizebox{0.38\textwidth}{!}{\input{figs/informer_pas_contraindre}}
-    \end{center}
-
-    \vspace{0.15cm}
-    \begin{itemize}
-        \setlength{\itemsep}{5pt}
-        \item La transposition directe de l'attention hiérarchique \citb{hsa25} est écartée : elle gagne
-        à l'entraînement \emph{de zéro}, mais perd dans un modèle \emph{pré-entraîné} ; sa contrainte de
-        blocs \textbf{comprime} l'attention, sans aucun paramètre appris
-        \item Reste un \textbf{biais additif} indexé par la distance dans le \emph{graphe}, initialisé à zéro
-        \citb{ying21}, et d'abord mesurer le \textbf{plafond} avec la vérité terrain
-    \end{itemize}
-    \reffoot{hsa25,ying21}
-\end{frame}
-
-\begin{frame}{Guider SAM : une suite progressive et réfutable}
-    \begin{enumerate}
-        \setlength{\itemsep}{12pt}
-        \item \textbf{Mesurer le plafond, sur SAM~2 gelé.} Injecter la \emph{vérité terrain} dans l'interface
-        choisie et regarder ce qu'elle rapporte au mieux. La vérité terrain à l'inférence en fait un
-        \textbf{diagnostic}, jamais un résultat publiable, mais deux heures de GPU suffisent, et
-        sans plafond on arrête là
-        \item \textbf{Utiliser d'abord l'interface native.} Transformer la hiérarchie en invites ponctuelles,
-        sélectionnées par centralité décroissante de l'arbre couvrant minimal, du grossier au fin
-        Ce serait la première utilisation réelle de l'arbre et des composantes
-        \item \textbf{Seulement si le signal est causal.} Apprendre un biais additif selon la distance dans
-        le graphe ou dans l'arbre, initialisé à zéro : \textbf{informer} l'attention sans lier ses coefficients
-    \end{enumerate}
-
-    \vfill
-    \begin{center}
-        \formulebox{\parbox{0.82\textwidth}{\centering\small
-        À chaque étape : \textbf{aligné contre permuté et aléatoire},
-        à capacité et budget identiques. Sans séparation, on arrête}}
-    \end{center}
-\end{frame}
-
-\begin{frame}{Ce que HSA exige, et ce que le graphe de \textsc{Frangi} donne}
-    \begin{center}
-        \resizebox{0.44\textwidth}{!}{\input{figs/hsa_chenille}}
-    \end{center}
-
-    \vspace{0.15cm}
-    \small
-    \begin{itemize}
-        \setlength{\itemsep}{4pt}
-        \item \textbf{Surface d'attaque} : $3$ blocs d'attention globale sur $48$ dans \emph{Hiera}-L
-        ($6{,}25\,\%$ des blocs), soit $6{,}6\,\%$ du budget arithmétique du tronc (comptage analytique)
-        \item \textbf{Forme de l'arbre} : ce n'est pas un réglage ; l'arité $b = (N-1)/(N-L)$ est \emph{fixée}
-        par la fraction de feuilles, donc par la géométrie de la fissure ; $b \approx 1{,}3$ contre $8$ attendu
-        \item Ce défaut-là se répare (décomposition en centroïdes sur la grille $64 \times 64$ : profondeur $12$,
-        arité $2{,}82$) ; ce qui ne se répare pas, c'est qu'une contrainte de blocs \emph{comprime} au lieu d'informer
-        \item Et la meilleure hiérarchie possible (construite depuis la vérité terrain) ne demande
-        qu'une \textbf{carte binaire} fissure/fond : ni arbre couvrant, ni composantes, ni centralité
-        \item \textbf{Limite assumée} : mesures sur fissures \emph{synthétiques} calibrées sur le corpus
-        Khánh Hà ($448$~px, largeur $19{,}1$~px, couverture $5{,}7\,\%$) ; \textbf{aucune heure de GPU}
-        n'a été dépensée
-    \end{itemize}
-\end{frame}
-
 % --- Perspectives : la voie hiérarchique ---------------------
-\begin{frame}{De la partition au $K$-polyèdre : la chaîne complète}
-    \begin{center}
-        \resizebox{0.66\textwidth}{!}{\input{figs/chaine_objets_cibles}}
-    \end{center}
-
-    \vspace{-0.10cm}
-    \begin{center}
-        \resizebox{0.46\textwidth}{!}{\input{figs/polyedre_facettes}}
-    \end{center}
-
-    \vspace{0.0cm}
-    \begin{itemize}
-        \setlength{\itemsep}{5pt}
-        \item Un cran plus loin \citb{culbertson18} : remplacer la partition par un \textbf{recouvrement}. Pour $K \ge 2$, les $K$-polyèdres peuvent partager des sommets : leurs réalisations géométriques se \textbf{chevauchent} \citb{ans26} : la parenté est d'idée, non de théorème
-        \item Un nœud ne porte pas qu'un sac de points : il porte un recollement de \textbf{facettes},
-        c'est-à-dire un bloc de la partition des $(K-1)$-simplexes de \textsc{Gabriel} effectivement construits
-    \end{itemize}
-    \reffoot{culbertson18,ans26}
-\end{frame}
-
-\begin{frame}{Rester honnête : ce qui reste entièrement à démontrer}
-    \begin{center}
-        \resizebox{0.68\textwidth}{!}{\input{figs/programme_falsification}}
-    \end{center}
-
-    \vspace{0.05cm}
-    \small
-    \begin{itemize}
-        \setlength{\itemsep}{3pt}
-        \item L'\textbf{alphabet} existe : les polyèdres et leur hiérarchie, c'est la thèse ; le code qui en ferait des jetons reste à choisir, le \textbf{modèle} n'est pas écrit et aucune expérience d'apprentissage n'a été menée
-        \item Si l'arbre réel ne bat ni le modèle plat, ni un arbre aléatoire, ni un arbre octal, le pari hiérarchique tombe
-        \item La marge attendue concerne les objets \textbf{filiformes} ; or la connexité d'ordre $K$ les fait naître \emph{tard} dans la filtration
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{Voie hiérarchique : ce que la thèse fournit déjà}
-    \begin{center}
-        \resizebox{0.80\textwidth}{!}{\input{figs/pipeline_polyfm}}
-    \end{center}
-
-    \vspace{0.2cm}
-    \begin{itemize}
-        \setlength{\itemsep}{5pt}
-        \item Ce que la hiérarchie \emph{fournit} déjà par nœud : le recollement de facettes, le niveau de
-        naissance, le parent et les enfants de fusion. Ce qui reste à \textbf{construire} : la sérialisation,
-        les attributs surfaciques (aires, normales, bords, donc $K \ge 3$), les voisins latéraux et la
-        confiance d'acquisition
-        \item L'interface vers les points existe déjà : le vote pondéré $w_{x\tau} = S_\tau / T_x$ du §~9.1, partition de l'unité sur les points couverts ($T_x > 0$)
-        \item Ce qui manque est en aval : encodeur de surface, encodeur de branche, encodeur de fusion, décodeur par facette, et les campagnes qui les jugeraient
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{Voie hiérarchique : comment saurais-je que c'est l'arbre qui aide ?}
-    \begin{columns}[c, onlytextwidth]
-        \begin{column}{0.50\textwidth}
-            \centering
-            \scriptsize
-            \renewcommand{\arraystretch}{1.15}
-            \begin{tabular}{@{} l l @{}}
-                \toprule
-                Bras & Structure \\
-                \midrule
-                H0 & polyèdres indépendants \\
-                H1 & graphe latéral seulement \\
-                H2 & arbre aléatoire apparié \\
-                   & (profondeur, degrés, masses) \\
-                H3 & arbre octal ou arbre de voxels \\
-                H4 & HDBSCAN ou Robust SL \\
-                H5 & niveaux HGP permutés \\
-                H6 & topologie HGP sans les niveaux \\
-                \textbf{H7} & \textbf{trajectoires HGP complètes} \\
-                H8 & H7 $+$ événements $+$ latéral \\
-                \bottomrule
-            \end{tabular}
-        \end{column}
-        \begin{column}{0.46\textwidth}
-            \small
-            À segmentation en jetons, paramètres et budget \textbf{appariés}, trois lectures suffisent à
-            réfuter le pari :
-
-            \vspace{0.35cm}
-            \begin{itemize}
-                \setlength{\itemsep}{7pt}
-                \item $\mathrm{H6} \approx \mathrm{H7}$ : les \textbf{niveaux} de densité n'apportent rien
-                \item $\mathrm{H4} \approx \mathrm{H7}$ : une hiérarchie \textbf{générique} suffit
-                \item $\mathrm{H1} \approx \mathrm{H8}$ : le \textbf{graphe spatial} explique tout
-            \end{itemize}
-
-            \vspace{0.35cm}
-            {\footnotesize Ces résultats resteraient publiables comme \textbf{réfutation}, mais pas sous la thèse annoncée}
-        \end{column}
-    \end{columns}
-\end{frame}
-
-\begin{frame}{Voie hiérarchique : efficacité \emph{contre} continuité, en chiffres}
-    \begin{center}
-        \resizebox{0.24\textwidth}{!}{\input{figs/equilibre_continuite}}
-    \end{center}
-
-    \vspace{-0.10cm}
-    \begin{center}
-        \scriptsize
-        \renewcommand{\arraystretch}{1.18}
-        \begin{tabular}{@{} l ccc @{}}
-            \toprule
-            Hiérarchie candidate & Profondeur & Arité & Dilution à longue portée \\
-            \midrule
-            \textbf{sémantique} \{fissure, fond\} & $10{,}3$ & $3{,}17$ & \textbf{181} \\
-            \emph{son contrôle permuté}           & $10{,}0$ & $3{,}23$ & $808$ \\
-            \midrule
-            coupe spatiale \emph{min-cut}          & $9{,}3$  & $2{,}75$ & $768$ \\
-            ordonné le long de la fissure          & $10{,}0$ & $2{,}66$ & $1\,024$ \\
-            \textsc{Frangi} $+$ centroïdes         & $12{,}0$ & $2{,}82$ & $1\,013$ \\
-            \emph{quadtree}                        & $7{,}0$  & $4{,}00$ & $1\,024$ \\
-            aléatoire                              & $7{,}0$  & $4{,}00$ & $1\,024$ \\
-            \bottomrule
-        \end{tabular}
-    \end{center}
-
-    \vspace{0.15cm}
-    \small
-    \begin{itemize}
-        \setlength{\itemsep}{4pt}
-        \item \textbf{Dilution} : combien de jetons sont moyennés avec $j$ lorsque $i$ porte son attention sur $j$. Sous attention plate, elle vaut $1$ : $181$ reste donc \emph{énorme}. Sur \textbf{trois fissures synthétiques}
-        \item L'écart $181$ contre $808$ mesure la \textbf{causalité} (bon masque \emph{vs.} masque d'une autre image), pas une performance : aucune IoU n'a été mesurée
-        \item Toutes les hiérarchies \textbf{équilibrées} plafonnent entre $768$ et $1\,024$, y compris celle qui cherche explicitement à éviter la fissure
-    \end{itemize}
-\end{frame}
-
 \end{document}
