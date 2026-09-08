@@ -146,6 +146,7 @@
 \DeclareRef{oh25}{Geo-4D 25}{G.~Oh, Y.~Jang, J.~Choi, S.-J.~Kang, G.~Lin, S.~Kim, « Training-free global geometric association for 4D LiDAR panoptic segmentation » (Geo-4D), 2025.}
 \DeclareRef{avrachenkov22}{Avrachenkov--Dreveton 22}{K.~Avrachenkov, M.~Dreveton, \textit{Statistical Analysis of Networks}, Now Publishers, 2022.}
 \DeclareRef{sw87}{Swendsen--Wang 87}{R.~H.~Swendsen, J.-S.~Wang, « Nonuniversal critical dynamics in Monte Carlo simulations », \textit{Physical Review Letters}, 1987.}
+\DeclareRef{es88}{Edwards--Sokal 88}{R.~G.~Edwards, A.~D.~Sokal, « Generalization of the Fortuin--Kasteleyn--Swendsen--Wang representation and Monte Carlo algorithm », \textit{Physical Review D}, 38(6), 1988.}
 \DeclareRef{sb18}{Sankararaman--Baccelli 18}{A.~Sankararaman, F.~Baccelli, « Community detection on Euclidean random graphs », \textit{ACM--SIAM SODA}, 2018.}
 \DeclareRef{frangi98}{Frangi 98}{A.~F.~Frangi, W.~J.~Niessen, K.~L.~Vincken, M.~A.~Viergever, « Multiscale vessel enhancement filtering », MICCAI, 1998.}
 \DeclareRef{kleinberg02}{Kleinberg 02}{J.~Kleinberg, « An impossibility theorem for clustering », \textit{Advances in Neural Information Processing Systems} (NIPS), vol.~15, MIT Press, p.~446--453, 2002.}
@@ -2029,6 +2030,37 @@
         \item L'arête $\{d,e\}$ n'a jamais sonné avant l'horizon ($\xi = 1{,}26 > 1$) : le sommet $e$ reste
         \textbf{isolé}, et $\Pi_1$ a deux composantes
     \end{itemize}
+\end{frame}
+
+\begin{frame}[t]{La hiérarchie \textsc{Swendsen}--\textsc{Wang} coupée à $\beta$, vue par \textsc{Edwards}--\textsc{Sokal}}
+    \footnotesize
+    \textsc{Edwards}--\textsc{Sokal} \citb{es88} : tirer le couple $(\sigma, \omega)$ plutôt que $\sigma$ seul,
+    $\omega$ étant l'ensemble des arêtes \textbf{gelées} avant la date $\beta$
+
+    \vspace{0.12cm}
+    \begin{center}
+        \formulebox{\parbox{0.90\textwidth}{\centering
+        $\displaystyle \nu_\beta(\sigma,\omega) \;\propto\;
+        \underbrace{\mu_0(\sigma)\, e^{-(1-\beta)\,U(\sigma)}}_{\text{\emph{a priori} chargé de l'énergie résiduelle}}
+        \;\prod_{e \in \omega} \bigl(1 - e^{-\beta |W_e|}\bigr)\, \ind{e \text{ satisfaite}}
+        \;\prod_{e \notin \omega} e^{-\beta |W_e|}$}}
+    \end{center}
+
+    \vspace{0.08cm}
+    \begin{itemize}
+        \setlength{\itemsep}{3pt}
+        \item \textbf{Marginale en $\sigma$} : sommer sur $\omega$ donne $e^{-\beta U(\sigma)}$ ; le poids $(1-\beta)\,U$
+        mis dans l'\emph{a priori} complète l'exposant : $\mu(\sigma) \propto \mu_0(\sigma)\, e^{-U(\sigma)}$ pour tout $\beta$
+        \item \textbf{Sachant $\sigma$, le gel} : arête satisfaite gelée avec probabilité
+        $1 - e^{-\beta|W_e|} = \mathbb P(\xi_e \le \beta)$ : $\omega = \{\xi_e \le \beta\}$, ses amas sont $\Pi_\beta$,
+        et les mêmes horloges servent à tous les $\beta$ (emboîtement)
+        \item \textbf{Sachant $\omega$, le recoloriage} : chaque amas est retourné en bloc ou non, selon
+        $\mu_0(\sigma)\, e^{-(1-\beta)U(\sigma)}$ : les amas de $\Pi_\beta$ interagissent encore par les arêtes non gelées ;
+        à $\beta = 1$, retournements uniformes et indépendants (\textsc{Swendsen}--\textsc{Wang})
+        \item Au nœud $u$ du dendrogramme, la coupe $E_u$ est vue à sa date de fusion $\beta_u$ : le facteur
+        $e^{(1-\beta_u)\Lambda_u(\sigma)}$ du retournement exact est ce poids résiduel \citb{ii26}
+    \end{itemize}
+    \reffoot{es88,ii26}
 \end{frame}
 
 \begin{frame}[t]{Retourner un amas : la loi exacte}
