@@ -26,7 +26,7 @@ ici ne se propage pas à `../soutenance/`, et réciproquement.
 | Écart | Détail |
 |---|---|
 | Ni date, ni lieu | Sous-titre, `\date` (donc le pied de page de chaque planche) et métadonnées PDF réduits à « septembre 2026 » ; le Learning Centre SophiaTech et l'Université Côte d'Azur comme lieu ne sont plus cités |
-| Aucune mention du contexte de soutenance | Page de titre : le sous-titre « Soutenance de thèse » est retiré, ainsi que les lignes **rapporteurs** et **examinateurs** ; l'encadrement devient « Travaux dirigés par… et co-encadrés par… » |
+| Aucune mention du contexte de soutenance | Page de titre : le sous-titre « Soutenance de thèse » est retiré, ainsi que les lignes **rapporteurs** et **examinateurs** ; l'encadrement devient « Travaux encadrés par Josiane Zerubia et Konstantin Avrachenkov », sans distinction directeur/co-encadrante |
 | « les deux idées » | Planche « Quand la structure n'est plus (seulement) la géométrie » : « Les deux idées **de la thèse** appliquées… » → « Les deux idées appliquées… » |
 | Pas de diapositives de secours | Les 20 planches de secours (et leur page de garde) sont supprimées : le document s'arrête après la bibliographie |
 | Planche 65 retirée | « Travaux de l'auteur présentés aujourd'hui » (la liste complète des références de l'auteur, juste après le « Merci ») |
