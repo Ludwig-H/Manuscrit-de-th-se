@@ -42,19 +42,26 @@
 
 % ------------------------------------------------------------
 % Page de titre : variante du gabarit Inria avec une largeur de
-% texte maîtrisée (le titre de la thèse est long).
+% texte maîtrisée (le titre est long).
+%
+% Le bloc de titre est ancré par son *milieu* (anchor=west) à
+% mi-hauteur de la bande libre entre le bandeau des tutelles (en
+% haut) et les logos des financeurs (en bas), et non par son coin
+% supérieur : il reste ainsi équilibré quel que soit le nombre de
+% lignes du sous-titre et du bloc auteur. Le 0,51 plutôt que 0,50
+% donne le très léger relèvement optique d'usage.
 % ------------------------------------------------------------
 \setbeamertemplate{title page}{%
   \hspace*{-\fullpageinnerhmargin}%
   \begin{tikzpicture}[%
-        title/.style={text=inria-noir,anchor=north west,align=left,
+        title/.style={text=inria-noir,anchor=west,align=left,
                  text width={\dimexpr\paperwidth-\fullpageinnerhmargin-\hmargin},
                  inner sep=0pt,outer sep=0pt},
         mainlogo/.style={anchor=north west,outer sep=0pt, inner sep=0pt},
      ]
    \useasboundingbox (0,0) rectangle (\paperwidth,\paperheight);
    \node [mainlogo] at (\hmargin,\canvastop) {\titlelogo};
-   \node [title] at (\fullpageinnerhmargin,.74\paperheight) {%
+   \node [title] at (\fullpageinnerhmargin,.51\paperheight) {%
           {\LARGE\textbf{\inserttitle}}\\[1.2ex]
           {\barrecouleur}\\[2.2ex]
           {\small\insertsubtitle}\\[2.6ex]
@@ -1574,10 +1581,6 @@
 
 \begin{frame}{Publications}
     \footnotesize
-    \textbf{Rapport de recherche}
-    \begin{itemize}
-        \item \citb{hal17} Un classificateur non supervisé utilisant les complexes simpliciaux, Inria Paris, 2017
-    \end{itemize}
     \textbf{Journal}
     \begin{itemize}
         \item \citb{ans26} \emph{Generalization of Single-Linkage with higher-order interactions}, \textit{Applied Network Science}, 2026
@@ -1596,6 +1599,10 @@
     \begin{itemize}
         \item \citb{ii26} Cadre bayésien pour la détection de communautés sur graphes signés (journal)
         \item \citb{isprs26} Graphe de Frangi généralisé, multimodal et sans apprentissage (journal ISPRS)
+    \end{itemize}
+    \textbf{Rapport de recherche}
+    \begin{itemize}
+        \item \citb{hal17} Un classificateur non supervisé utilisant les complexes simpliciaux, Inria Paris, 2017
     \end{itemize}
     \textbf{Logiciels} \emph{Open source} : dépôts GitHub \texttt{Ayana-Inria/HypergraphPercol\_K2}
     et \texttt{Ayana-Inria/Frangi-EUVIP}
