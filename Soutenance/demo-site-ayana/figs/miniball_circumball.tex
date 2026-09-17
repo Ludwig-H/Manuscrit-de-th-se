@@ -1,0 +1,37 @@
+                % Le meme triangle presque plat, vu par ses deux boules.
+                % A gauche la boule circonscrite : son rayon n'est pas borne par le
+                % simplexe et son centre part a l'infini quand le triangle s'aplatit.
+                % A droite la miniboule : toujours definie, centre dans conv(sigma),
+                % rayon borne par Jung. C'est elle qui donne la localite.
+                \begin{tikzpicture}[xscale=1.0, yscale=1.0]
+                    \useasboundingbox (-0.75, -2.00) rectangle (8.05, 1.70);
+
+                    \tikzset{simplexe/.style={gris_fonce_inria, line width=1.1pt, line join=round}}
+                    \tikzset{sommet/.style={fill=gris_fonce_inria}}
+                    \tikzset{boule/.style={draw=inria-2024-bleu-canard, line width=1.2pt}}
+                    \tikzset{leg/.style={font=\scriptsize, align=center, anchor=north}}
+
+                    % ================= gauche : boule circonscrite =================
+                    \begin{scope}[shift={(0,0)}]
+                        \begin{scope}
+                            \clip (-0.60,-1.30) rectangle (3.60,1.55);
+                            \draw[boule, draw=inria-rouge] (1.5,-6.75) circle (6.9146);
+                        \end{scope}
+                        \draw[simplexe] (0,0) -- (3,0) -- (1.95,0.15) -- cycle;
+                        \foreach \p in {(0,0), (3,0), (1.95,0.15)} { \fill[sommet] \p circle (2.1pt); }
+
+                        \draw[-{Latex[length=2.2mm]}, inria-rouge, densely dashed, line width=0.8pt]
+                            (1.5,-0.15) -- (1.5,-1.55);
+                        \node[font=\scriptsize, text=inria-rouge, anchor=north] at (1.5,-1.60)
+                            {centre};
+                    \end{scope}
+
+                    % ================= droite : miniboule =================
+                    \begin{scope}[shift={(4.35,0)}]
+                        \fill[inria-2024-bleu-canard!10] (1.5,0) circle (1.5);
+                        \draw[boule] (1.5,0) circle (1.5);
+                        \draw[simplexe] (0,0) -- (3,0) -- (1.95,0.15) -- cycle;
+                        \foreach \p in {(0,0), (3,0), (1.95,0.15)} { \fill[sommet] \p circle (2.1pt); }
+                        \fill[inria-2024-bleu-canard] (1.5,0) circle (2.1pt);
+                    \end{scope}
+                \end{tikzpicture}

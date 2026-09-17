@@ -1,0 +1,58 @@
+\begin{tikzpicture}[scale=0.75, >=Latex, font=\scriptsize]
+    \useasboundingbox (-1.05,-1.75) rectangle (5.10,2.20);
+
+    \tikzset{
+        central/.style={circle, fill=gris_fonce_inria, inner sep=0pt, minimum size=5.8pt},
+        neighbour/.style={circle, fill=inria-2024-bleu-canard, inner sep=0pt, minimum size=4.2pt},
+        boundary/.style={circle, fill=inria-rouge, inner sep=0pt, minimum size=4.5pt},
+        coreball/.style={draw=inria-2024-bleu-canard, fill=inria-2024-bleu-canard!4, densely dashed, line width=0.9pt},
+        radius/.style={-{Latex[length=2mm]}, draw=inria-rouge, line width=0.9pt},
+        separation/.style={<->, draw=gris_fonce_inria!60, densely dashed, line width=0.8pt}
+    }
+
+    \def\rx{0.82}
+    \def\ry{1.28}
+
+    \coordinate (X) at (0,0);
+    \coordinate (Y) at (3.70,0.75);
+
+    % Deux voisins strictement intérieurs et un troisième sur la frontière.
+    \coordinate (Xi)  at ($(X)+(15:0.46)$);
+    \coordinate (Xii) at ($(X)+(285:0.60)$);
+    \coordinate (Xs)  at ($(X)+(140:\rx)$);
+
+    \coordinate (Yi)  at ($(Y)+(215:0.74)$);
+    \coordinate (Yii) at ($(Y)+(340:0.92)$);
+    \coordinate (Ys)  at ($(Y)+(105:\ry)$);
+
+    % Cercles et distances derrière les points.
+    \draw[coreball] (X) circle (\rx);
+    \draw[coreball] (Y) circle (\ry);
+    \draw[separation] (X) -- node[midway, above, sloped, fill=white, inner sep=1.5pt] {$d(x,x')$} (Y);
+    \draw[radius] (X) -- (Xs);
+    \draw[radius] (Y) -- (Ys);
+
+    \node[text=inria-rouge, above left, inner sep=1.5pt] at (Xs) {$r_3(x)$};
+    \node[text=inria-rouge, above, inner sep=1.5pt] at (Ys) {$r_3(x')$};
+
+    \foreach \P in {Xi,Xii,Yi,Yii}
+        \node[neighbour] at (\P) {};
+    \foreach \P in {Xs,Ys}
+        \node[boundary] at (\P) {};
+
+    \node[central] at (X) {};
+    \node[central] at (Y) {};
+    \node[below left, inner sep=1.5pt] at (X) {$x$};
+    \node[below right, inner sep=1.5pt] at (Y) {$x'$};
+
+    \node[
+        draw=inria-rouge,
+        rounded corners=2pt,
+        fill=gray!4,
+        line width=0.8pt,
+        inner xsep=5pt,
+        inner ysep=4pt
+    ] at (1.85,-1.45) {
+        $d_{\mathrm{mreach},3}(x,x')=\max\{r_3(x),r_3(x'),d(x,x')\}$
+    };
+\end{tikzpicture}
