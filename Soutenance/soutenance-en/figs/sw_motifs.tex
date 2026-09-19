@@ -1,0 +1,53 @@
+% Swendsen--Wang generalised to bonds: on each bond b, a SINGLE correlated
+% draw picks the frozen sub-bond omega_b, a subset of b.
+% Convention: solid = attraction, dashed = repulsion, bold = satisfied,
+% bold red = frozen.
+    \begin{tikzpicture}[x=1cm,y=1cm,scale=0.88,every node/.style={scale=0.88}]
+
+      % ================= attractive triangle: all or nothing ===============
+      \node[font=\footnotesize,align=center] at (1.85,2.20) {\textbf{Attractive} triangle\\[-1pt] {\scriptsize all or nothing}};
+
+      \begin{scope}[shift={(0.55,0)}]
+        \node[spin] (a1) at (0,0) {$+$};
+        \node[spin] (b1) at (1.3,0) {$+$};
+        \node[spin] (c1) at (0.65,1.13) {$+$};
+        \draw[posedge,freeze] (a1)--(b1);
+        \draw[posedge,freeze] (b1)--(c1);
+        \draw[posedge,freeze] (c1)--(a1);
+        \node[font=\scriptsize] at (0.65,-0.55) {$\omega_b=\varnothing$};
+      \end{scope}
+
+      \begin{scope}[shift={(2.75,0)}]
+        \node[spin] (a2) at (0,0) {$+$};
+        \node[spin] (b2) at (1.3,0) {$+$};
+        \node[spin] (c2) at (0.65,1.13) {$+$};
+        \draw[posedge,freeze,inria-rouge] (a2)--(b2);
+        \draw[posedge,freeze,inria-rouge] (b2)--(c2);
+        \draw[posedge,freeze,inria-rouge] (c2)--(a2);
+        \node[font=\scriptsize] at (0.65,-0.55) {$\omega_b=b$};
+      \end{scope}
+
+      % ============ frustrated repulsive triangle: never both edges =======
+      \node[font=\footnotesize,align=center] at (7.5,2.20) {\textbf{Repulsive} triangle (frustrated)\\[-1pt] {\scriptsize never both edges}};
+
+      \begin{scope}[shift={(5.6,0)}]
+        \node[spin] (a3) at (0,0) {$+$};
+        \node[spin] (b3) at (1.3,0) {$+$};
+        \node[spin] (c3) at (0.65,1.13) {$-$};
+        \draw[negedge,line width=0.6pt] (a3)--(b3);
+        \draw[negedge,freeze] (b3)--(c3);
+        \draw[negedge,freeze] (c3)--(a3);
+        \node[font=\scriptsize] at (0.65,-0.55) {$\omega_b=\varnothing$};
+      \end{scope}
+
+      \begin{scope}[shift={(7.8,0)}]
+        \node[spin] (a4) at (0,0) {$+$};
+        \node[spin] (b4) at (1.3,0) {$+$};
+        \node[spin] (c4) at (0.65,1.13) {$-$};
+        \draw[negedge,line width=0.6pt] (a4)--(b4);
+        \draw[negedge,freeze,inria-rouge] (b4)--(c4);
+        \draw[negedge,freeze] (c4)--(a4);
+        \node[font=\scriptsize] at (0.65,-0.55) {$|\omega_b|=1$};
+      \end{scope}
+
+    \end{tikzpicture}

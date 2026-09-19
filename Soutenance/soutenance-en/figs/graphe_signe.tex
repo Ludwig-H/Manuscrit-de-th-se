@@ -1,0 +1,68 @@
+% A small signed graph, drawn with the convention of the manuscript
+% (PartIII/ChapII, fig. ``Interpretation of a real weight w'') and of the
+% NIM talk of 25 June 2026:
+%   solid line     = attractive interaction  (W_e > 0)
+%   dashed line    = repulsive interaction   (W_e < 0)
+%   bold line      = edge satisfied by the configuration sigma
+%
+% Two extra readings added for the defence, after chapter 11 of the
+% manuscript (``A Bayesian framework for community detection''):
+%   - the six vertices V = {1,...,6} carry their number (small grey digit,
+%     placed towards the outside of the cloud) and the top line gives the
+%     hidden configuration Sigma = (+,+,-,+,-,-), each sign sitting above
+%     the number of the vertex it belongs to;
+%   - the axes (X_1,X_2) remind us that the attribute X of a vertex IS its
+%     position in the plane (geometric model of Sankararaman--Baccelli,
+%     § 11.3 of the manuscript, where the law of an edge depends only on
+%     its length r_e = || x_i - x_j ||).
+% The positions have been very slightly adjusted (only c and f move) so that
+% the seven linked pairs are exactly the seven shortest ones in the cloud
+% (edges from 1.13 to 1.35; shortest unlinked pair: 1.51): with the axes
+% shown, the picture then reads as a genuine geometric graph.
+    \begin{tikzpicture}[x=1cm,y=1cm,scale=0.78,every node/.style={scale=0.88},
+        num/.style={font=\footnotesize,text=gris_fonce_inria,inner sep=1.6pt},
+        axe/.style={gris_fonce_inria,line width=0.6pt}]
+
+      % --- the hidden configuration, component by component ---
+      \node[anchor=south,inner sep=0pt] at (1.33,2.08)
+        {$\Sigma=\bigl(
+            \underset{\textcolor{gris_fonce_inria}{1}}{+},
+            \underset{\textcolor{gris_fonce_inria}{2}}{+},
+            \underset{\textcolor{gris_fonce_inria}{3}}{-},
+            \underset{\textcolor{gris_fonce_inria}{4}}{+},
+            \underset{\textcolor{gris_fonce_inria}{5}}{-},
+            \underset{\textcolor{gris_fonce_inria}{6}}{-}\bigr)$};
+
+      % --- the axes: the attribute X of a vertex is its position ---
+      \draw[axe,-{Latex[length=1.6mm]}] (-0.62,-0.46) -- (3.28,-0.46)
+        node[num,anchor=west,inner sep=2pt] {$X_1$};
+      \draw[axe,-{Latex[length=1.6mm]}] (-0.62,-0.46) -- (-0.62,1.58)
+        node[num,anchor=south,inner sep=2pt] {$X_2$};
+
+      % --- the six vertices: position = attribute X, sign = component of Sigma ---
+      \node[spin] (a) at (0.03,1.16) {$+$};
+      \node[spin] (b) at (1.31,1.55) {$+$};
+      \node[spin] (c) at (2.66,1.43) {$-$};
+      \node[spin] (d) at (0.30,0.05) {$+$};
+      \node[spin] (e) at (1.60,0.35) {$-$};
+      \node[spin] (f) at (2.69,0.08) {$-$};
+
+      % numbers placed towards the outside of the cloud
+      \node[num,anchor=east]       at (a.180) {1};
+      \node[num,anchor=south west] at (b.55)  {2};
+      \node[num,anchor=south west] at (c.40)  {3};
+      \node[num,anchor=north east] at (d.215) {4};
+      \node[num,anchor=north]      at (e.270) {5};
+      \node[num,anchor=north west] at (f.-35) {6};
+
+      % --- satisfied edges (bold) ---
+      \draw[posedge,freeze] (a)--(b);   % attractive, (+,+)
+      \draw[posedge,freeze] (a)--(d);   % attractive, (+,+)
+      \draw[posedge,freeze] (e)--(f);   % attractive, (-,-)
+      \draw[negedge,freeze] (b)--(c);   % repulsive,  (+,-)
+      \draw[negedge,freeze] (d)--(e);   % repulsive,  (+,-)
+
+      % --- unsatisfied edges (thin line) ---
+      \draw[posedge,line width=0.6pt] (b)--(e);   % attractive, (+,-)
+      \draw[negedge,line width=0.6pt] (c)--(f);   % repulsive,  (-,-)
+    \end{tikzpicture}

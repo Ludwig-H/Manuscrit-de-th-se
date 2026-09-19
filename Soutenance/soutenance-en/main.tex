@@ -1,0 +1,1685 @@
+% !TEX program = lualatex
+% ============================================================
+% PhD defence — Louis Hauseux
+% Tuesday 8 September 2026, Learning Centre SophiaTech,
+% Université Côte d'Azur.
+%
+% Compilation: make   (latexmk + LuaLaTeX, Inria theme in theme/)
+% ============================================================
+\pdfvariable objcompresslevel = 0
+\documentclass[A4,svgnames,9pt,aspectratio=169]{beamer}
+
+\usepackage[british]{babel}
+\usepackage{amsmath,amssymb,amsfonts,mathtools}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{booktabs}
+\usepackage{colortbl}
+\usepackage{tikz}
+\usetikzlibrary{positioning, shapes, arrows.meta, calc, decorations.pathreplacing, fit, backgrounds, shapes.geometric, babel}
+
+\hypersetup{
+   allcolors=rouge_inria,
+   pdfauthor   = {Louis Hauseux},
+   pdftitle    = {Using graphs for clustering and structure extraction. Generalisation to higher-order interactions.},
+   pdfsubject  = {PhD defence, Université Côte d'Azur},
+   pdfkeywords = {hierarchical clustering, Single-Linkage, hypergraphs, percolation, Delaunay, signed graphs, Frangi filter}
+}
+
+\title[Graphs, higher order and percolation]{Using graphs for clustering and structure extraction\\[3pt]{\large\normalfont Generalisation to higher-order interactions}}
+\subtitle{PhD defence, Tuesday 8 September 2026\\{\footnotesize Learning Centre SophiaTech, Université Côte d'Azur}}
+\date[8 September 2026]{Tuesday 8 September 2026}
+\author[L.~Hauseux]{%
+   \small Louis \textsc{Hauseux} (Inria Centre at Université Côte d'Azur; 3IA--DS4H scholarship)\\[2pt]
+   \footnotesize Supervised by \href{https://www-sop.inria.fr/members/Konstantin.Avratchenkov/me.html}{Konstantin \textsc{Avrachenkov}} (Inria, \textsc{Neo} team) and co-supervised by \href{https://www-sop.inria.fr/members/Josiane.Zerubia/}{Josiane \textsc{Zerubia}} (Inria, \textsc{Ayana} team)\\[4pt]
+   \footnotesize Reviewers: \href{https://www.mat.uc.cl/personas/perfil/dieter.mitsche}{Dieter \textsc{Mitsche}} (PUC de Chile), \href{https://icb.cnrs.fr/equipe/cherifi-hocine/}{Hocine \textsc{Cherifi}} (Univ. Bourgogne Europe)\\
+   \footnotesize Examiners: \href{https://www-sop.inria.fr/members/Nicolas.Nisse/}{Nicolas \textsc{Nisse}} (Inria, \textsc{Coati} team), \href{https://cv.hal.science/pierre-charbonnier?langChosen=fr}{Pierre \textsc{Charbonnier}} (Cerema), \href{https://www.inf.u-szeged.hu/users/kato-zoltan}{Zoltán \textsc{Kató}} (Univ. of Szeged)%
+}
+\institute{Sophia Antipolis}
+
+\usetheme{inria}
+% The theme hard-codes \thankyou as ``Merci.''; we override it here rather
+% than editing theme/, which stays identical to the French deck's copy.
+\renewcommand{\thankyou}{Thank you.}
+% \up is defined only by babel-french; safety net under babel-british.
+\providecommand{\up}[1]{\textsuperscript{#1}}
+\colorlet{inria-bleu}{inria-2024-bleu-azur}
+
+% ------------------------------------------------------------
+% Title page: a variant of the Inria template with a controlled
+% text width (the thesis title is long).
+% ------------------------------------------------------------
+\setbeamertemplate{title page}{%
+  \hspace*{-\fullpageinnerhmargin}%
+  \begin{tikzpicture}[%
+        title/.style={text=inria-noir,anchor=north west,align=left,
+                 text width={\dimexpr\paperwidth-\fullpageinnerhmargin-\hmargin},
+                 inner sep=0pt,outer sep=0pt},
+        mainlogo/.style={anchor=north west,outer sep=0pt, inner sep=0pt},
+     ]
+   \useasboundingbox (0,0) rectangle (\paperwidth,\paperheight);
+   \node [mainlogo] at (\hmargin,\canvastop) {\titlelogo};
+   \node [title] at (\fullpageinnerhmargin,.74\paperheight) {%
+          {\LARGE\textbf{\inserttitle}}\\[1.2ex]
+          {\barrecouleur}\\[2.2ex]
+          {\small\insertsubtitle}\\[2.6ex]
+          {\insertauthor}
+    };
+   % Institutions at the top: French Republic + Inria on the left (theme
+   % template), Université Côte d'Azur on the right. The two funding programmes
+   % at the bottom centre, separated by a rule, with roughly equal total height
+   % (DS4H has three lines against two, so its text is a little smaller).
+   \node [anchor=north east, inner sep=0pt]
+         at (\paperwidth-\hmargin, \canvastop-0.10cm) {%
+          \includegraphics[height=0.86cm]{imgs/logo_uca.png}};
+   \node [anchor=south, inner sep=0pt]
+         at (0.5\paperwidth, \posfooterline+0.42cm) {%
+          \includegraphics[height=0.62cm]{imgs/logo_3ia.png}%
+          \hspace{0.60cm}\textcolor{gray!45}{\rule{0.4pt}{0.82cm}}\hspace{0.60cm}%
+          \includegraphics[height=0.74cm]{imgs/logo_ds4h.png}};
+  \end{tikzpicture}
+}
+
+% ------------------------------------------------------------
+% Outline: Roman numbering of the sections
+% ------------------------------------------------------------
+\newcounter{tocsectioncounter}
+\setbeamertemplate{section in toc}{%
+    \vspace*{1.8ex}%
+    \setcounter{tocsectioncounter}{\inserttocsectionnumber}%
+    \textcolor{inria-noir}{\textbf{\Roman{tocsectioncounter})~\inserttocsection}}%
+}
+
+% ------------------------------------------------------------
+% Bracketed citation system.
+%   \DeclareRef{cle}{Label}{Full reference}   — literature
+%   \DeclareMyRef{cle}{Label}{Full reference} — my own work (red)
+%   \citb{cle}    : [Label] in the body of the slide
+%   \reffoot{c1,c2} : full references at the foot of the slide
+%                     (to be placed on the slide of first citation)
+% ------------------------------------------------------------
+\makeatletter
+\newcommand{\DeclareRef}[3]{%
+  \expandafter\gdef\csname ref@lab@#1\endcsname{#2}%
+  \expandafter\gdef\csname ref@full@#1\endcsname{#3}}
+\newcommand{\DeclareMyRef}[3]{\DeclareRef{#1}{#2}{#3}%
+  \expandafter\gdef\csname ref@mine@#1\endcsname{}}
+\newcommand{\refbracket}[1]{%
+  \ifcsname ref@mine@#1\endcsname
+    \textcolor{inria-rouge}{[\csname ref@lab@#1\endcsname]}%
+  \else
+    \textcolor{gris_fonce_inria}{[\csname ref@lab@#1\endcsname]}%
+  \fi}
+\newcommand{\citb}[1]{\mbox{{\footnotesize\bfseries\refbracket{#1}}}}
+\newcommand{\bibligne}[1]{\item {\bfseries\refbracket{#1}}\ \csname ref@full@#1\endcsname}
+% The \par of each reference must fall INSIDE the group: otherwise the last
+% line is set with the \baselineskip of the body, not that of \tiny — which
+% inserted a blank half-line before the last reference.
+\newcommand{\reffoot}[1]{%
+  \begin{textblock}{0.90}[0,1](0.05,0.925)%
+    \begingroup
+    \tiny\linespread{0.90}\selectfont\raggedright\color{gris_fonce_inria}%
+    \setlength{\parindent}{0pt}\setlength{\parskip}{0pt}%
+    \edef\rf@list{\zap@space#1 \@empty}% tolerates ``a, b'' as ``a,b''
+    \@for\rf@key:=\rf@list\do{%
+      \noindent{\bfseries\expandafter\refbracket\expandafter{\rf@key}}%
+      \space\csname ref@full@\rf@key\endcsname\par}%
+    \endgroup
+  \end{textblock}}
+\makeatother
+
+% ---- Literature --------------------------------------------
+\DeclareRef{chazal13}{ToMATo 13}{F.~Chazal, L.~J.~Guibas, S.~Y.~Oudot, P.~Skraba, ``Persistence-based clustering in Riemannian manifolds'' (ToMATo), \textit{J. ACM}, 60(6), art.~41, 2013.}
+\DeclareRef{ghrist08}{Ghrist 08}{R.~Ghrist, ``Barcodes: the persistent topology of data'', Bulletin of the AMS, 2008.}
+\DeclareRef{hartigan81}{Hartigan 81}{J.~A.~Hartigan, ``Consistency of Single Linkage for high-density clusters'', JASA, 1981.}
+\DeclareRef{biau15}{Biau--Devroye 15}{G.~Biau, L.~Devroye, \textit{Lectures on the Nearest Neighbor Method}, Springer, 2015.}
+\DeclareRef{florek51}{Florek 51}{K.~Florek, J.~Łukaszewicz, J.~Perkal, H.~Steinhaus, S.~Zubrzycki, ``Sur la liaison et la division des points d'un ensemble fini'', Colloq. Math., 1951.}
+\DeclareRef{gowerross69}{Gower--Ross 69}{J.~C.~Gower, G.~J.~S.~Ross, ``Minimum spanning trees and Single-Linkage cluster analysis'', JRSS C, 1969.}
+\DeclareRef{penrose03}{Penrose 03}{M.~Penrose, \textit{Random Geometric Graphs}, Oxford University Press, 2003.}
+\DeclareRef{meesterroy96}{Meester--Roy 96}{R.~Meester, R.~Roy, \textit{Continuum Percolation}, Cambridge Tracts in Mathematics 119, Cambridge University Press, 1996.}
+\DeclareRef{cameron44}{Cameron--Martin 44}{R.~H.~Cameron, W.~T.~Martin, ``Transformations of Wiener integrals under translations'', \textit{Annals of Mathematics}, 45(2), 1944.}
+\DeclareRef{schilder66}{Schilder 66}{M.~Schilder, ``Some asymptotic formulas for Wiener integrals'', \textit{Transactions of the AMS}, 125(1), 1966.}
+\DeclareRef{dembozeitouni10}{Dembo--Zeitouni 10}{A.~Dembo, O.~Zeitouni, \textit{Large Deviations Techniques and Applications}, 2nd ed., Springer, 2010.}
+\DeclareRef{berlinet04}{Berlinet--Thomas-Agnan 04}{A.~Berlinet, C.~Thomas-Agnan, \textit{Reproducing Kernel Hilbert Spaces in Probability and Statistics}, Kluwer, 2004.}
+\DeclareRef{boissonnat18}{Boissonnat 18}{J.-D.~Boissonnat, F.~Chazal, M.~Yvinec, \textit{Geometric and Topological Inference}, Cambridge University Press, 2018.}
+\DeclareRef{chaudhuri10}{Chaudhuri--Dasgupta 10}{K.~Chaudhuri, S.~Dasgupta, ``Rates of convergence for the cluster tree'', \textit{Advances in Neural Information Processing Systems} (NIPS), vol.~23, p.~343--351, 2010.}
+\DeclareRef{ester96}{Ester 96}{M.~Ester, H.-P.~Kriegel, J.~Sander, X.~Xu, ``A density-based algorithm for discovering clusters'' (DBSCAN), KDD, 1996.}
+\DeclareRef{campello13}{Campello 13}{R.~Campello, D.~Moulavi, J.~Sander, ``Density-based clustering based on hierarchical density estimates'' (HDBSCAN), PAKDD, 2013.}
+\DeclareRef{callahan95}{Callahan--Kosaraju 95}{P.~B.~Callahan, S.~R.~Kosaraju, ``A decomposition of multidimensional point sets with applications to $k$-nearest-neighbors and $n$-body potential fields'', \textit{J. ACM}, 42(1), 1995.}
+\DeclareRef{edelsbrunner23}{Edelsbrunner--Osang 23}{H.~Edelsbrunner, G.~Osang, ``A simple algorithm for higher-order Delaunay mosaics and alpha shapes'', \textit{Algorithmica}, 2023.}
+\DeclareRef{forina83}{Forina 83}{M.~Forina, C.~Armanino, S.~Lanteri, E.~Tiscornia, ``Classification of olive oils from their fatty acid composition'', 1983 (dataset).}
+\DeclareRef{rolle23}{Rolle--Scoccola 24}{A.~Rolle, L.~Scoccola, ``Stable and consistent density-based clustering via multiparameter persistence'' (Persistable), \textit{JMLR}, 25(258), 2024.}
+\DeclareRef{semantickitti19}{SemanticKITTI 19}{J.~Behley \emph{et al.}, ``SemanticKITTI: A Dataset for Semantic Scene Understanding of LiDAR Sequences'', \textit{ICCV}, 2019.}
+\DeclareRef{sautier25}{ALPINE 25}{C.~Sautier, G.~Puy, A.~Boulch, R.~Marlet, V.~Lepetit, ``Is clustering enough for LiDAR instance segmentation? A state-of-the-art training-free baseline'' (ALPINE), 2025.}
+\DeclareRef{oh25}{Geo-4D 25}{G.~Oh, Y.~Jang, J.~Choi, S.-J.~Kang, G.~Lin, S.~Kim, ``Training-free global geometric association for 4D LiDAR panoptic segmentation'' (Geo-4D), 2025.}
+\DeclareRef{avrachenkov22}{Avrachenkov--Dreveton 22}{K.~Avrachenkov, M.~Dreveton, \textit{Statistical Analysis of Networks}, Now Publishers, 2022.}
+\DeclareRef{sw87}{Swendsen--Wang 87}{R.~H.~Swendsen, J.-S.~Wang, ``Nonuniversal critical dynamics in Monte Carlo simulations'', \textit{Physical Review Letters}, 1987.}
+\DeclareRef{es88}{Edwards--Sokal 88}{R.~G.~Edwards, A.~D.~Sokal, ``Generalization of the Fortuin--Kasteleyn--Swendsen--Wang representation and Monte Carlo algorithm'', \textit{Physical Review D}, 38(6), 1988.}
+\DeclareRef{sb18}{Sankararaman--Baccelli 18}{A.~Sankararaman, F.~Baccelli, ``Community detection on Euclidean random graphs'', \textit{ACM--SIAM SODA}, 2018.}
+\DeclareRef{frangi98}{Frangi 98}{A.~F.~Frangi, W.~J.~Niessen, K.~L.~Vincken, M.~A.~Viergever, ``Multiscale vessel enhancement filtering'', MICCAI, 1998.}
+\DeclareRef{kleinberg02}{Kleinberg 02}{J.~Kleinberg, ``An impossibility theorem for clustering'', \textit{Advances in Neural Information Processing Systems} (NIPS), vol.~15, MIT Press, p.~446--453, 2002.}
+\DeclareRef{carlsson10}{Carlsson--Mémoli 10}{G.~Carlsson, F.~Mémoli, ``Characterization, stability and convergence of hierarchical clustering methods'', JMLR, 2010.}
+\DeclareRef{culbertson18}{Culbertson 18}{J.~Culbertson, D.~P.~Guralnik, P.~F.~Stiller, ``Functorial hierarchical clustering with overlaps'', \textit{Discrete Applied Mathematics}, 2018.}
+\DeclareRef{brown20}{GPT-3 20}{T.~Brown \emph{et~al.}, ``Language models are few-shot learners'', \textit{NeurIPS}, 2020.}
+\DeclareRef{robert23}{SPT 23}{D.~Robert, H.~Raguet, L.~Landrieu, ``Efficient 3D semantic segmentation with Superpoint Transformer'', \textit{ICCV}, 2023.}
+\DeclareRef{ravi24}{SAM 2 24}{N.~Ravi \emph{et~al.}, ``SAM 2: segment anything in images and videos'', 2024.}
+\DeclareRef{sonata25}{Sonata 25}{X.~Wu \emph{et~al.}, ``Sonata: self-supervised learning of reliable point representations'', \textit{CVPR}, 2025.}
+\DeclareRef{concerto25}{Concerto 25}{Y.~Zhang \emph{et~al.}, ``Concerto: joint 2D--3D self-supervised learning emerges spatial representations'', \textit{NeurIPS}, 2025.}
+\DeclareRef{yu25}{PolyhedronNet 25}{D.~Yu, G.~Zhang, L.~Zhao, ``PolyhedronNet: representation learning for polyhedra with surface-attributed graph'', \textit{ICLR}, 2025.}
+\DeclareRef{hsa25}{HSA 25}{S.~Amizadeh \emph{et~al.}, ``Hierarchical self-attention: generalizing neural attention mechanics to multi-scale problems'', \textit{NeurIPS}, 2025.}
+\DeclareRef{utonia26}{Utonia 26}{Y.~Zhang \emph{et~al.}, ``Utonia: toward one encoder for all point clouds'', 2026.}
+\DeclareRef{ayana25}{AYANA RA 25}{\textsc{Ayana} project-team, ``3D LiDAR Instance Segmentation with Geometric Priors: The HGP-Clusterer'', \href{https://radar.inria.fr/report/2025/ayana/index.html\#AYANA-RA-2025_label_NavalResult}{\textit{Inria annual activity report 2025}}, \S~7.7.}
+\DeclareRef{bommasani21}{Bommasani 21}{R.~Bommasani \emph{et~al.}, ``On the opportunities and risks of foundation models'', 2021.}
+\DeclareRef{kirillov23}{SAM 23}{A.~Kirillov \emph{et~al.}, ``Segment Anything'', \textit{ICCV}, 2023.}
+\DeclareRef{hu22}{LoRA 22}{E.~J.~Hu \emph{et~al.}, ``LoRA: low-rank adaptation of large language models'', \textit{ICLR}, 2022.}
+\DeclareRef{ge24}{CrackSAM 24}{K.~Ge \emph{et~al.}, ``Fine-tuning vision foundation model for crack segmentation in civil infrastructures'', \textit{Construction and Building Materials}, 2024.}
+\DeclareRef{ying21}{Graphormer 21}{C.~Ying \emph{et~al.}, ``Do Transformers really perform badly for graph representation?'', \textit{NeurIPS}, 2021.}
+\DeclareRef{turaga09}{MALIS 09}{S.~C.~Turaga, K.~L.~Briggman, M.~Helmstaedter, W.~Denk, H.~S.~Seung, ``Maximin affinity learning of image segmentation'', \textit{NIPS}, 2009.}
+
+% ---- My own work (in red) ----------------------------------
+\DeclareMyRef{hal17}{HAL 17}{L.~Hauseux (supervised by B.~Błaszczyszyn), ``Un classificateur non supervisé utilisant les complexes simpliciaux'', Inria Paris, 2017. HAL: hal-01597846.}
+\DeclareMyRef{cn23}{CN 23}{L.~Hauseux, K.~Avrachenkov, J.~Zerubia, ``Graph based approach for galaxy filament extraction'', \textit{Complex Networks \& Their Applications}, Menton, 2023.}
+\DeclareMyRef{eusipco24}{EUSIPCO 24}{L.~Hauseux, K.~Avrachenkov, J.~Zerubia, ``Benefits of hypergraphs for density-based clustering'', \textit{EUSIPCO}, Lyon, 2024.}
+\DeclareMyRef{cn24}{CN 24}{L.~Hauseux, K.~Avrachenkov, J.~Zerubia, ``Hypergraphs, percolation and hierarchical clustering'', \textit{Complex Networks \& Their Applications}, Istanbul, 2024.}
+\DeclareMyRef{src24}{SIGMETRICS SRC 24}{L.~Hauseux, ``How can we theoretically measure the performance of density-based clustering algorithms?'', ACM SIGMETRICS SRC, Venice, 2024 (second prize).}
+\DeclareMyRef{ans26}{ANS 26}{L.~Hauseux, K.~Avrachenkov, J.~Zerubia, ``Generalization of Single-Linkage with higher-order interactions'', \textit{Applied Network Science}, 11(9), 2026.}
+\DeclareMyRef{gretsi25}{GRETSI 25}{L.~Hauseux, R.~Antoine, P.~Foucher, P.~Charbonnier, J.~Zerubia, ``Généralisation du filtre de Frangi pour l'extraction des réseaux de fissures'', GRETSI, 2025.}
+\DeclareMyRef{asilomar25}{Asilomar 25}{L.~Hauseux, N.~Soprano-Loto, K.~Avrachenkov, ``Higher-order Monte Carlo cluster dynamics for community detection in Euclidean graphs'', Asilomar, 2025.}
+\DeclareMyRef{ii26}{I\&I 26+}{L.~Hauseux, N.~Soprano-Loto, K.~Avrachenkov, ``A Bayesian framework for community detection on signed graphs'', paper in preparation for \textit{Information and Inference}, 2026.}
+\DeclareMyRef{euvip26}{EUVIP 26}{L.~Hauseux, R.~Antoine, P.~Foucher, P.~Charbonnier, J.~Zerubia, ``Multi-modal, training-free crack extraction via generalized Frangi graph'', EUVIP, 2026.}
+\DeclareMyRef{isprs26}{ISPRS 26+}{L.~Hauseux, R.~Antoine, P.~Foucher, P.~Charbonnier, J.~Zerubia, paper in preparation for the \textit{ISPRS Journal of Photogrammetry and Remote Sensing}, 2026.}
+
+% ------------------------------------------------------------
+% TikZ styles (taken from the NIM presentation / manuscript)
+% ------------------------------------------------------------
+\tikzset{
+  chapbox/.style={draw,rounded corners,very thick,align=center,fill=gray!8,inner sep=5pt,minimum height=1.05cm},
+  chapboxdark/.style={draw,rounded corners,very thick,align=center,fill=gray!18,inner sep=5pt,minimum height=1.05cm},
+  chaparr/.style={-{Latex[length=2.4mm]},very thick},
+  chapdash/.style={-{Latex[length=2.4mm]},very thick,dashed},
+  spin/.style={circle,draw,inner sep=0pt,minimum size=5mm,font=\scriptsize,fill=white},
+  tinynode/.style={circle,draw,inner sep=0pt,minimum size=3.8mm,font=\tiny,fill=white},
+  posedge/.style={line width=1pt},
+  negedge/.style={line width=1pt,dashed},
+  freeze/.style={line width=1.6pt},
+  faint/.style={line width=.45pt,gray!55},
+  read/.style={line width=5pt, gray!45, line cap=round, preaction={draw, white, line width=7pt, line cap=round}},
+  readlink/.style={densely dotted, thick, gray!60},
+  errlabel/.style={font=\scriptsize\bfseries, text=red!80!black, fill=white, inner sep=1.5pt, rounded corners=2pt},
+  interedge/.style={negedge, draw=gray!60}
+}
+\newcommand{\ind}[1]{\mathbb{I}_{\{#1\}}}
+
+% Haplotype figure (3 steps), taken from the NIM presentation
+\input{figs/haplotype_macro}
+
+% Matplotlib colours (annotations of the percolation curves)
+\definecolor{mplC0}{HTML}{1F77B4}
+\definecolor{mplC1}{HTML}{FF7F0E}
+\definecolor{mplC2}{HTML}{2CA02C}
+\definecolor{mplC3}{HTML}{D62728}
+\definecolor{mplC4}{HTML}{9467BD}
+
+% Box for the important formulas
+\newcommand{\formulebox}[1]{%
+  {\setlength{\fboxsep}{8pt}\setlength{\fboxrule}{0.8pt}%
+   \fcolorbox{inria-rouge}{gray!4}{#1}}}
+
+\begin{document}
+
+% ============================================================
+% Title
+% ============================================================
+\frame{\titlepage}
+
+% ============================================================
+% I. Prologue: the initial riddle
+% ============================================================
+\section{Prologue: an old riddle}
+\frame{\sectionpage}
+
+\begin{frame}{An old riddle\ldots}
+    \begin{center}
+        \fbox{\includegraphics[width=0.62\textwidth]{imgs/RapportStage2017_Titre.png}}
+
+        \vspace{0.5cm}
+        \normalsize Internship at Inria Paris, \textsc{Dyogene}-\textsc{MathNet} team \citb{hal17}
+    \end{center}
+    \reffoot{hal17}
+\end{frame}
+
+\begin{frame}{The fashionable topic: \emph{persistent} homology}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.56\textwidth}
+            \begin{center}
+                \includegraphics[width=\textwidth]{imgs/Ghrist_Cech_anneau.png}
+            \end{center}
+        \end{column}
+        \begin{column}{0.40\textwidth}
+            \begin{center}
+                \includegraphics[width=\textwidth]{imgs/Barcodes_HomologiePersistante.png}
+            \end{center}
+        \end{column}
+    \end{columns}
+    \vspace{0.3cm}
+    \begin{center}
+        \normalsize Grow a radius $r$; watch structures be \textbf{born}, \textbf{live}, \textbf{die} \citb{ghrist08} \citb{chazal13}
+    \end{center}
+    \reffoot{ghrist08,chazal13}
+\end{frame}
+
+\begin{frame}{\ldots with an application to \emph{stylometry}}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.46\textwidth}
+            \begin{center}
+                \includegraphics[width=0.92\textwidth]{imgs/GramMatrix_Stylometrie.png}
+            \end{center}
+        \end{column}
+        \begin{column}{0.50\textwidth}
+            \begin{itemize}
+                \setlength{\itemsep}{10pt}
+                \item A \textbf{\textsc{Gram}} matrix: $500 \times 500$ similarity between newspaper articles \citb{hal17}
+                \item \textbf{5 authors} (anonymous), 100 articles each\\
+                {\small (style statistics: vocabulary, parts of speech, punctuation, \emph{etc.})}
+                \item \textbf{Goal (unsupervised)}: give each author back their 100 articles
+            \end{itemize}
+            \vspace{0.4cm}
+            {\small Here the articles are \emph{sorted} by author; the algorithm only sees a shuffled matrix}
+        \end{column}
+    \end{columns}
+    \reffoot{hal17}
+\end{frame}
+
+\begin{frame}{A heuristic inspired by persistence}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.44\textwidth}
+            \begin{center}
+                \includegraphics[width=0.9\textwidth]{imgs/Polyedres_2017.png}
+
+                \vspace{0.2cm}
+                {\scriptsize The ``polyhedra'' returned ($k = 2$) \citb{hal17}}
+            \end{center}
+        \end{column}
+        \begin{column}{0.52\textwidth}
+            \begin{itemize}
+                \setlength{\itemsep}{10pt}
+                \item Grow the similarity threshold
+                \item Watch the \textbf{``triangle-connected''} components\\
+                {\small ($k$-simplices glued along facets)}
+                \item See them be \textbf{born}, \textbf{grow}, \textbf{merge}
+                \item Stop: a proportion $P$ is covered
+            \end{itemize}
+        \end{column}
+    \end{columns}
+    \reffoot{hal17}
+\end{frame}
+
+\begin{frame}{And\ldots\ it works well}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.44\textwidth}
+            \begin{center}
+                \includegraphics[width=0.86\textwidth]{imgs/ACP_2auteurs_2017.png}
+
+                \vspace{0.2cm}
+                {\scriptsize Principal component analysis: two authors out of five}
+            \end{center}
+        \end{column}
+        \begin{column}{0.52\textwidth}
+            \begin{itemize}
+                \setlength{\itemsep}{10pt}
+                \item \textbf{2 authors}: 1 error, 1 unclassified article (out of 100)
+                \item Better than the $k$-means algorithm\ldots
+                \item \ldots\ and better than \emph{semi-supervised} Gaussian mixtures
+                \item And with \textbf{5 authors}: 4 clusters recovered
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+\begin{frame}[c]{}
+    \begin{center}
+        {\Huge\bfseries Why does it work so well?}
+
+    \end{center}
+\end{frame}
+
+\begin{frame}{Outline}
+  \tableofcontents
+\end{frame}
+
+% ============================================================
+% II. Single-Linkage and its foundations
+% ============================================================
+\section{From \emph{Single-Linkage} to its foundations}
+\frame{\sectionpage}
+
+\begin{frame}{\emph{Clustering} on Euclidean data $\mathcal X \subset \mathbb R^p$}
+    \begin{center}
+        \large
+        \textbf{The \textsc{Hartigan} model} \citb{hartigan81}: \textbf{high-density clusters}
+    \end{center}
+
+    \vspace{0.4cm}
+
+    \begin{center}
+        \begin{tikzpicture}[every node/.style={inner sep=0}]
+            \node (raw) [draw=gray!30, line width=1.5pt, inner sep=2pt, label={[label distance=8pt]below:{\small Raw data $\mathcal{X}$}}]
+                {\includegraphics[width=0.22\textwidth]{imgs/Nuage2D.png}};
+            \node (clustered) at (6.8, 0) [draw=inria-rouge, line width=1.5pt, inner sep=2pt, label={[label distance=8pt]below:{\small Result}}]
+                {\includegraphics[width=0.22\textwidth]{imgs/Nuage2D_HDBSCAN.png}};
+            \draw[-{Latex[length=10pt, width=10pt]}, line width=5pt, color=gray!40] (2.0, 0) -- (4.8, 0);
+            \node (gears) at (3.4, 0.75) {\includegraphics[width=0.07\textwidth]{imgs/roues_dentee.jpeg}};
+            \node (algo) at (3.4, -0.9) [align=center] {\small \textbf{HDBSCAN} \citb{campello13}};
+        \end{tikzpicture}
+    \end{center}
+    \reffoot{hartigan81,campello13}
+\end{frame}
+
+\begin{frame}{Two examples from the thesis}
+    \begin{columns}[T, onlytextwidth]
+        \begin{column}{0.48\textwidth}
+            \vspace{0pt}
+            \begin{center}
+                \begin{minipage}[c][4.2cm][c]{\linewidth}
+                    \centering
+                    \includegraphics[width=\linewidth,height=4.2cm,keepaspectratio]{imgs/FilamentsGalaxie.png}
+                \end{minipage}
+
+                \vspace{0.3cm}
+                \small \textbf{3D cosmology}: cosmic filaments \citb{cn23}
+            \end{center}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \vspace{0pt}
+            \begin{center}
+                \begin{minipage}[c][4.2cm][c]{\linewidth}
+                    \centering
+                    \includegraphics[width=\linewidth,height=4.2cm,keepaspectratio]{imgs/CondenseTree_OliveOil_HGP.png}
+                \end{minipage}
+
+                \vspace{0.3cm}
+                \small \textbf{Olive oil} ($\mathbb R^8$): resulting hierarchy
+                \citb{eusipco24} \citb{ans26}
+            \end{center}
+        \end{column}
+    \end{columns}
+    \reffoot{cn23,eusipco24,ans26}
+\end{frame}
+
+\begin{frame}{The \textsc{Hartigan} model: the cluster hierarchy}
+    \begin{columns}[onlytextwidth]
+        \begin{column}{0.48\textwidth}
+            \begin{center}
+                \textbf{Level set} $\{f \ge \lambda\}$
+
+                \vspace{0.3cm}
+                \input{figs/hartigan_gauche}
+            \end{center}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \begin{center}
+                \textcolor{inria-rouge}{\textbf{Hierarchical tree}}
+
+                \vspace{0.3cm}
+                \input{figs/hartigan_droite}
+            \end{center}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{In practice: estimating the density}
+    \begin{center}
+        \formulebox{\Large\mathversion{bold} $\widehat{f} \leftarrow \widehat{f}_{K\text{-NN}}$} \\[4pt]
+        \normalsize \textbf{$K$-nearest neighbour estimator} \citb{biau15}
+    \end{center}
+
+    \vspace{0.4cm}
+
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.56\textwidth}
+            \begin{center}
+                {\large\mathversion{bold} $\forall y \in \mathbb{R}^p, \quad \widehat{f}_{K\text{-NN}}(y) = \dfrac{K}{n \, \omega_p \, r_K(y)^p}$}
+
+                \vspace{1.0cm}
+
+                \formulebox{\small\mathversion{bold} $r_K(y) = \min \left\{ r \ge 0 \;\middle|\; |B(y,r) \cap (\mathcal{X}\setminus\{y\})| \ge K \right\}$}
+            \end{center}
+        \end{column}
+        \begin{column}{0.42\textwidth}
+            \begin{itemize}
+                \setlength{\itemsep}{8pt}
+                \item \textbf{$y$}: a point of the \textbf{space}, in the point cloud or not
+                \item \textbf{$n$}: number of points in $\mathcal{X}$
+                \item \textbf{$\omega_p$}: volume of the unit ball of $\mathbb{R}^p$
+                \item \textbf{$r_K(y)$}: distance from $y$ to its $K$th nearest neighbour; if $y\in\mathcal X$, $y$ itself is excluded
+            \end{itemize}
+        \end{column}
+    \end{columns}
+    \reffoot{biau15}
+\end{frame}
+\begin{frame}{The case $K = 1$: a geometric ``miracle''}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.58\textwidth}
+            \begin{center}
+                \input{figs/k1_nuage}
+            \end{center}
+        \end{column}
+
+        \begin{column}{0.40\textwidth}
+            \only<2>{
+                \begin{center}
+                    {\Large\mathversion{bold} $\widehat{\lambda}(y) \ge \lambda_0$} \\[6pt]
+                    {\Large\mathversion{bold} $\Leftrightarrow r_1(y) \le r_0$}
+
+                    \vspace{0.8cm}
+
+                    Level sets \\
+                    = \textbf{Boolean model} \citb{meesterroy96}
+                \end{center}
+            }
+            \only<3>{
+                \begin{center}
+                    {\Large\mathversion{bold} $\widehat{\lambda}(y) \ge \lambda_0$} \\[6pt]
+                    {\Large\mathversion{bold} $\Leftrightarrow r_1(y) \le r_0$}
+
+                    \vspace{0.8cm}
+
+                    High-density clusters\\
+                    = \textbf{connected components}\\ of a \textbf{geometric graph} \citb{penrose03}
+                \end{center}
+            }
+            \only<4>{
+                \begin{center}
+                    {\Large\mathversion{bold} $r_1(y) \le r_0$}
+
+                    \vspace{1.0cm}
+
+                    High-density clusters\\
+                    = \textbf{connected components}\\ of a \textbf{geometric graph} \citb{penrose03}
+                \end{center}
+            }
+            \only<5>{
+                \begin{center}
+                    {\Large\mathversion{bold} $r_1(y) \le r_0$}
+
+                    \vspace{1.0cm}
+
+                    High-density clusters\\
+                    = \textbf{connected components}\\ of the pruned \textbf{minimum spanning tree}
+                \end{center}
+            }
+        \end{column}
+    \end{columns}
+    \only<2>{\reffoot{meesterroy96}}
+    \only<3-4>{\reffoot{penrose03}}
+\end{frame}
+
+\begin{frame}{The minimum spanning tree and the \textsc{Delaunay} triangulation}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.58\textwidth}
+            \begin{center}
+                \input{figs/mst_delaunay}
+            \end{center}
+        \end{column}
+
+        \begin{column}{0.40\textwidth}
+            This hierarchy has a name:\\ \textbf{\emph{Single-Linkage}} \citb{florek51} \citb{gowerross69}
+
+            \vspace{0.40cm}
+            The Euclidean minimum spanning tree (MST) is a \textbf{subgraph} of \textsc{Gabriel},
+            itself a subgraph of \textsc{Delaunay} \citb{boissonnat18}:
+            \begin{center}
+                \formulebox{\parbox{0.93\linewidth}{\centering\small
+                minimum spanning tree\\ $\subseteq$ \textsc{Gabriel} $\subseteq$ \textsc{Delaunay}}}
+            \end{center}
+
+            \vspace{0.30cm}
+            In the plane $\mathbb{R}^2$: $\mathcal{O}(n \log n)$
+        \end{column}
+    \end{columns}
+    \reffoot{florek51,gowerross69,boissonnat18}
+\end{frame}
+
+\begin{frame}{The chaining effect and \emph{Robust Single-Linkage}}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.48\textwidth}
+            \begin{center}
+                \input{figs/rsl_mreach}
+            \end{center}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \textbf{Chaining effect}: a chain of points is enough to merge two clusters
+
+            \vspace{0.4cm}
+            \textbf{\emph{Robust Single-Linkage}} \citb{chaudhuri10}:
+            \begin{itemize}
+                \setlength{\itemsep}{6pt}
+                \item The \emph{core distance} $r_K(x)$ estimates the local density
+                \item The distance becomes the \emph{mutual reachability}
+                \item Isolated points are pushed away
+            \end{itemize}
+        \end{column}
+    \end{columns}
+    \reffoot{chaudhuri10}
+\end{frame}
+\begin{frame}{The descendants: DBSCAN, then HDBSCAN}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.60\textwidth}
+            \begin{center}
+                \input{figs/eom_courbes}
+            \end{center}
+        \end{column}
+        \begin{column}{0.38\textwidth}
+            \small
+            \textbf{DBSCAN} \citb{ester96}: \emph{core} points ($r_K(x)\le r$) \emph{vs.} \emph{border} points:\\ \textbf{brings back the cluster boundary}
+
+            \vspace{0.3cm}
+            \textbf{HDBSCAN} \citb{campello13}: varies the threshold $r$ continuously and extracts clusters by \textbf{excess of mass}
+
+            \begin{center}
+                \formulebox{$E(C) = \displaystyle\int_C \bigl(f(x) - \lambda\bigr)\, \mathrm{d}x$}
+            \end{center}
+
+        \end{column}
+    \end{columns}
+    \reffoot{ester96,campello13}
+\end{frame}
+
+% ============================================================
+% III. Going higher-order
+% ============================================================
+\section{\texorpdfstring{Going \textcolor{inria-rouge}{higher-order}: the exact $K$-NN hierarchy}{Going higher-order: the exact K-NN hierarchy}}
+\frame{\sectionpage}
+
+\begin{frame}{What do Robust SL and (H)DBSCAN do for $K = 2$?}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.52\textwidth}
+            \begin{center}
+                \textbf{Point cloud and balls of radius $r$}
+
+                \vspace{0.4cm}
+                \input{figs/sixpts_boules}
+            \end{center}
+        \end{column}
+
+        \begin{column}{0.44\textwidth}
+            \begin{center}
+                \textcolor{black}{\textbf{Resulting hierarchical tree}}
+
+                \vspace{0.4cm}
+                \input{figs/sixpts_dendro_plat}
+            \end{center}
+        \end{column}
+    \end{columns}
+    \vspace{0.3cm}
+    \begin{center}
+        \small A \textbf{flat} dendrogram: all the fine hierarchical information is lost
+    \end{center}
+\end{frame}
+
+\begin{frame}{The true $2$-NN hierarchy: scale $r$}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.52\textwidth}
+            \begin{center}
+                \textbf{The $2$-intersections of balls at level $r$}
+
+                \vspace{0.4cm}
+                \input{figs/deuxnn_r_boules}
+            \end{center}
+        \end{column}
+
+        \begin{column}{0.44\textwidth}
+            \begin{center}
+                \textcolor{inria-rouge}{\textbf{Hierarchical tree}}
+
+                \vspace{0.4cm}
+                \input{figs/deuxnn_r_dendro}
+            \end{center}
+        \end{column}
+    \end{columns}
+    \vspace{0.3cm}
+    \begin{center}
+        \small \textbf{Step 1}: the 7 segments merge at threshold $r$
+    \end{center}
+\end{frame}
+
+\begin{frame}{The true $2$-NN hierarchy: scale $r'$}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.52\textwidth}
+            \begin{center}
+                \textbf{Triangles and $3$-intersections at $r'$}
+
+                \vspace{0.4cm}
+                \input{figs/deuxnn_rp_boules}
+            \end{center}
+        \end{column}
+
+        \begin{column}{0.44\textwidth}
+            \begin{center}
+                \textcolor{inria-rouge}{\textbf{Hierarchical tree}}
+
+                \vspace{0.4cm}
+                \input{figs/deuxnn_rp_dendro}
+            \end{center}
+        \end{column}
+    \end{columns}
+    \vspace{0.3cm}
+    \begin{center}
+        \small \textbf{Step 2}: the triangles merge at $r'$ \emph{via} the $3$-intersections. Edge $CD$ stays isolated
+    \end{center}
+\end{frame}
+\begin{frame}{The true $2$-NN hierarchy: scale $r''$}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.52\textwidth}
+            \begin{center}
+                \textbf{Global connectivity at $r''$}
+
+                \vspace{0.4cm}
+                \input{figs/deuxnn_rs_boules}
+            \end{center}
+        \end{column}
+
+        \begin{column}{0.44\textwidth}
+            \begin{center}
+                \textcolor{inria-rouge}{\textbf{Hierarchical tree}}
+
+                \vspace{0.4cm}
+                \input{figs/deuxnn_rs_dendro}
+            \end{center}
+        \end{column}
+    \end{columns}
+    \vspace{0.3cm}
+    \begin{center}
+        \small \textbf{Step 3}: global connectivity at $r''$ through the tangency points
+    \end{center}
+\end{frame}
+
+\begin{frame}{The diagnosis}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.48\textwidth}
+            \begin{center}
+                \textcolor{black}{\textbf{Robust SL ($K=2$)}}
+
+                \vspace{0.4cm}
+                \input{figs/comp_dendro_rsl}
+            \end{center}
+        \end{column}
+
+        \begin{column}{0.48\textwidth}
+            \begin{center}
+                \textcolor{inria-rouge}{\textbf{True $2$-NN hierarchy}}
+
+                \vspace{0.4cm}
+                \input{figs/comp_dendro_2nn}
+            \end{center}
+        \end{column}
+    \end{columns}
+    \vspace{0.25cm}
+    \begin{center}
+        \normalsize An asymmetry: order-$K$ condition on the \textbf{points}, but order-$1$ connectivity through the \textbf{edges}
+    \end{center}
+\end{frame}
+
+\begin{frame}{The fix: the \v{C}ech complex and the $K$-polyhedra}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.63\textwidth}
+            \begin{itemize}
+                \setlength{\itemsep}{10pt}
+                \item \textbf{Geometric graph} $\longrightarrow$ \textbf{\v{C}ech complex}:\\
+                a $K$-simplex $\Longleftrightarrow$ $K+1$ balls with non-empty intersection
+                \item \textbf{Connected components} $\longrightarrow$ \textbf{$K$-polyhedra}:\\
+                $(K-1)$-simplices glued along $K$-simplices
+                \item For $K \ge 2$, clusters may \textbf{overlap}
+            \end{itemize}
+
+            \vspace{0.5cm}
+            \begin{beamercolorbox}[rounded=true,sep=6pt]{block body}
+                \small\textbf{Theorem} \citb{ans26} \citb{eusipco24}: at every level, the $K$-polyhedra identify \emph{exactly} the discrete high-density clusters of the estimator $\widehat f_{K\text{-NN}}$. For $K=1$: \emph{Single-Linkage}
+            \end{beamercolorbox}
+
+        \end{column}
+
+        \begin{column}{0.35\textwidth}
+            \begin{center}
+                \input{figs/cech_complexe}
+            \end{center}
+        \end{column}
+    \end{columns}
+    \reffoot{ans26,eusipco24}
+\end{frame}
+
+\begin{frame}{What causes the merges? The \textsc{Gabriel} condition}
+    \begin{center}
+        \large \textbf{Edge of the minimum spanning tree} $\longrightarrow$ \textbf{$K$-splitting simplex}
+    \end{center}
+
+    \vspace{0.2cm}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.54\textwidth}
+            \begin{itemize}
+                \setlength{\itemsep}{12pt}
+                \item \textbf{Definition} \citb{ans26}: a simplex is said to be \textbf{$K$-splitting} if it
+                causes a $K$-NN merge
+                \item \textbf{Case $K=1$}: the $1$-splitting simplices are exactly the edges of the MST
+                \item \textbf{Definition} \citb{ans26}: a $K$-simplex is said to be \textbf{\textsc{Gabriel}}
+                if its miniball contains no other point
+                \item \textbf{Theorem} \citb{ans26}: every $K$-splitting simplex is \textsc{Gabriel}
+            \end{itemize}
+        \end{column}
+
+        \begin{column}{0.44\textwidth}
+            \begin{center}
+                \input{figs/gabriel_simplexes}
+            \end{center}
+        \end{column}
+    \end{columns}
+    \reffoot{ans26}
+\end{frame}
+\begin{frame}{$K$-minimum spanning tree and order-$K$ \textsc{Delaunay} mosaic}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.54\textwidth}
+            \begin{itemize}
+                \setlength{\itemsep}{10pt}
+                \item \textbf{Critical merges}: the $K$-splitting simplices,\\
+                all $K$-\textsc{Gabriel} (empty miniball)
+                \item \textbf{Minimum spanning tree} $\longrightarrow$ \textbf{$K$-MST}:\\
+                pruned at $r$, it returns the $K$-polyhedra \citb{ans26}
+                \item \textbf{\textsc{Delaunay}} $\longrightarrow$ \textbf{order-$K$ mosaic}:\\
+                it carries every $K$-\textsc{Gabriel} simplex \citb{edelsbrunner23}
+                \item For $K=2$: everything lies in \textsc{Delaunay},\\
+                in $\mathcal O(n\log n)$ in the plane
+            \end{itemize}
+        \end{column}
+
+        \begin{column}{0.44\textwidth}
+            \begin{center}
+                \textbf{Order $1$ \emph{vs.} order $K$ analogy}
+
+                \vspace{0.4cm}
+                \small
+                \renewcommand{\arraystretch}{1.5}
+                \begin{tabular}{lcc}
+                    \toprule
+                    & \textbf{$K = 1$} & \textbf{$K \ge 2$} \\
+                    \midrule
+                    \textbf{Vertices} & points & $(K-1)$-simplices \\
+                    \textbf{Merges} & edges & $K$-simplices \\
+                    \textbf{Condition} & \textsc{Gabriel} edge & $K$-\textsc{Gabriel} \\
+                    \textbf{Domain} & \textsc{Delaunay} & order-$K$ \textsc{Delaunay} \\
+                    \bottomrule
+                \end{tabular}
+            \end{center}
+        \end{column}
+    \end{columns}
+    \reffoot{edelsbrunner23,ans26}
+\end{frame}
+
+% ------------------------------------------------------------
+\begin{frame}{Why \textsc{Gabriel} rather than the higher-order \textsc{Delaunay} mosaic?}
+    \vspace{-0.10cm}
+    \begin{center}
+        \resizebox{0.50\textwidth}{!}{\input{figs/miniball_circumball}}\\[6pt]
+        \begin{minipage}{0.50\textwidth}\small
+            \makebox[0.50\linewidth]{\begin{tabular}[t]{@{}c@{}}\textbf{\textsc{Delaunay}}\\[1pt]
+                (circumsphere)\end{tabular}}%
+            \makebox[0.50\linewidth]{\begin{tabular}[t]{@{}c@{}}\textbf{\textsc{Gabriel}}\\[1pt]
+                (miniball)\end{tabular}}
+        \end{minipage}
+    \end{center}
+
+    \vspace{0.22cm}
+    \small
+    \begin{itemize}
+        \setlength{\itemsep}{6pt}
+        \item Near-degenerate, the circumsphere admits \textbf{arbitrarily distant} witnesses;
+        those of the miniball \textbf{can be localised}
+        \item A \textbf{well-separated pair decomposition} \citb{callahan95} then rules out
+        \textbf{blocks} of candidates \textbf{in parallel}; \textsc{Delaunay} stays sequential
+    \end{itemize}
+    \reffoot{callahan95}
+\end{frame}
+
+% ============================================================
+% IV. Percolation as a performance measure
+% ============================================================
+\section{\texorpdfstring{\textcolor{inria-rouge}{Percolation} as a performance measure}{Percolation as a performance measure}}
+\frame{\sectionpage}
+
+\begin{frame}{The phenomenon at the heart of it all: continuum percolation}
+    \begin{center}
+        \includegraphics[width=0.78\textwidth]{imgs/PercolationContinue.png}
+
+        \vspace{0.4cm}
+        \normalsize $r < r_c$ \hspace{2.4cm} $r = r_c$ \hspace{2.4cm} $r > r_c$
+
+        \vspace{0.3cm}
+        \small Above a critical threshold, a \textbf{giant component} (in red) emerges \citb{penrose03}
+    \end{center}
+    \reffoot{penrose03}
+\end{frame}
+
+\begin{frame}{Why \emph{Single-Linkage} fails in dimension $\ge 2$}
+    \begin{center}
+        \resizebox{0.60\textwidth}{!}{\input{figs/perco_carres}}
+
+        \vspace{0.3cm}
+        \only<1>{\small Two dense clusters, $A$ and $B$ (the squares), on a low-density background}%
+        \only<2>{\small Minimum spanning tree pruned at radius $r_1$: percolation in each square, not in the background}%
+        \only<3>{\small At radius $r_2 > r_1$, \textbf{the background percolates too}: $A$ and $B$ merge \emph{before} they are fully recovered}
+    \end{center}
+\end{frame}
+
+\begin{frame}{The recoverable fraction}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.56\textwidth}
+            \begin{center}
+                \includegraphics[width=\textwidth]{imgs/vitesse_percolation_HGP_d2.png}
+
+                \vspace{0.15cm}
+                {\small Fraction of points in the giant component \citb{ans26}}
+            \end{center}
+        \end{column}
+        \begin{column}{0.42\textwidth}
+            \begin{itemize}
+                \setlength{\itemsep}{11pt}
+                \item On the $x$-axis: the intensity $\lambda$; on the $y$-axis: the fraction of points in the \textbf{giant component}
+                \item Below the critical threshold $\lambda_c$: nothing
+                \item A cluster's \textbf{recoverable fraction}\\ is read off the curve
+            \end{itemize}
+        \end{column}
+    \end{columns}
+    \reffoot{ans26}
+\end{frame}
+\begin{frame}{Quantifying it: the \emph{percolation rate}}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.58\textwidth}
+            \begin{center}
+                \begin{tikzpicture}
+                    \node[anchor=south west, inner sep=0] (img) at (0,0) {\includegraphics[width=0.96\textwidth]{imgs/vitesse_percolation_HGP_d2.png}};
+                    \begin{scope}[x={(img.south east)}, y={(img.north west)}]
+                        % Upper level: 1-epsilon = 97 % in the experimental protocol.
+                        \draw[gris_fonce_inria, densely dashed, line width=0.65pt]
+                            (0.050, 0.916) -- (0.979, 0.916);
+                        \node[gris_fonce_inria, font=\scriptsize\bfseries, anchor=south west,
+                              fill=white, fill opacity=0.90, text opacity=1, inner sep=1pt]
+                            at (0.055, 0.918) {$1-\varepsilon$};
+                        % Where the curves lift off: intersections with the 1 % level.
+                        \foreach \xc/\couleur/\k in {0.160/mplC0/1, 0.260/mplC1/2, 0.360/mplC2/3, 0.461/mplC3/4, 0.564/mplC4/5} {
+                            \fill[white] (\xc, 0.116) circle (2.4pt);
+                            \fill[\couleur] (\xc, 0.116) circle (1.7pt);
+                            \node[\couleur, font=\scriptsize, anchor=south east, inner sep=1pt]
+                                at (\xc, 0.128) {$\lambda_c^{\k}$};
+                        }
+                        % 1-epsilon quantiles: dots at the saturation shoulder.
+                        \foreach \xs/\couleur/\k in {0.213/mplC0/1, 0.344/mplC1/2, 0.471/mplC2/3, 0.596/mplC3/4, 0.722/mplC4/5} {
+                            \fill[\couleur] (\xs, 0.916) circle (2.1pt);
+                            \node[\couleur, font=\scriptsize, anchor=south] at (\xs, 0.960) {$\lambda_{1-\varepsilon}^{\k}$};
+                        }
+                    \end{scope}
+                \end{tikzpicture}
+
+                \vspace{0.1cm}
+                {\small Percolation probability of the $K$-polyhedra \citb{ans26}}
+            \end{center}
+        \end{column}
+        \begin{column}{0.40\textwidth}
+            \begin{center}
+                \formulebox{$\displaystyle v \;=\; \frac{\lambda_{c}}{\lambda_{1-\varepsilon}}$}
+            \end{center}
+
+            \vspace{0.25cm}
+            \begin{itemize}
+                \setlength{\itemsep}{10pt}
+                \item $\lambda_{1-\varepsilon}$: the cluster is almost \textbf{whole}
+                \item The \textbf{closer $v$ is to $1$},\\ the better the algorithm \citb{src24} \citb{cn24}
+            \end{itemize}
+        \end{column}
+    \end{columns}
+    \reffoot{src24,cn24,ans26}
+\end{frame}
+
+\begin{frame}{Measured percolation rates}
+    \begin{center}
+        \footnotesize
+        \renewcommand{\arraystretch}{1.3}
+        \setlength{\tabcolsep}{4pt}
+        \begin{tabular}{@{} l ccc c ccc c ccc @{}}
+            \toprule
+            & \multicolumn{3}{c}{$p=2$} & \phantom{a} & \multicolumn{3}{c}{$p=3$} & \phantom{a} & \multicolumn{3}{c}{$p=4$} \\
+            \cmidrule{2-4} \cmidrule{6-8} \cmidrule{10-12}
+            $K$ & HGP & Robust SL & DBSCAN && HGP & Robust SL & DBSCAN && HGP & Robust SL & DBSCAN \\
+            \midrule
+            1 & \textbf{0.735} & \textbf{0.735} & \textbf{0.735} && \textbf{0.563} & \textbf{0.563} & \textbf{0.563} && \textbf{0.362} & \textbf{0.362} & \textbf{0.362} \\
+            2 & \textbf{0.779} & 0.689 & 0.735 && \textbf{0.646} & 0.462 & 0.563 && \textbf{0.451} & 0.271 & 0.362 \\
+            3 & \textbf{0.800} & 0.632 & 0.753 && \textbf{0.690} & 0.412 & 0.582 && \textbf{0.497} & 0.247 & 0.378 \\
+            4 & \textbf{0.817} & 0.598 & 0.767 && \textbf{0.714} & 0.400 & 0.605 && \textbf{0.500} & 0.246 & 0.409 \\
+            5 & \textbf{0.826} & 0.584 & 0.779 && \textbf{0.732} & 0.399 & 0.625 && \textbf{0.534} & 0.236 & 0.415 \\
+            \bottomrule
+        \end{tabular}
+
+        \vspace{0.12cm}
+        {\small Percolation rate measurements \citb{ans26}}
+    \end{center}
+
+    \vspace{0.2cm}
+    \begin{itemize}
+        \setlength{\itemsep}{6pt}
+        \item \textbf{$K$-polyhedra}: the rate \textbf{increases} with $K$, in dimension $2$, $3$ and $4$
+        \item \textbf{Robust SL}: it \textbf{decreases}; pruning the boundary throws away part of the cluster
+        \item \textbf{DBSCAN}: it brings back that pruned boundary, but its cores percolate too early
+    \end{itemize}
+    \reffoot{ans26}
+\end{frame}
+
+% ============================================================
+% V. 3D and 4D LiDAR applications
+% ============================================================
+\section{Applications: 3D and 4D LiDAR, training-free}
+\frame{\sectionpage}
+
+\begin{frame}{The hierarchy becomes a search space}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.48\textwidth}
+            \begin{itemize}
+                \setlength{\itemsep}{10pt}
+                \item The hierarchical tree is not just an output: we can \textbf{inject geometric priors} into it
+                \item \textbf{3D anomaly detection}: comparison\\ with the theoretical model of the ship
+                \item Benchmark on $2\,000\,000$ points: foreign objects \textbf{perfectly isolated}, with no training at all
+            \end{itemize}
+        \end{column}
+
+        \begin{column}{0.48\textwidth}
+            \begin{center}
+                \includegraphics[width=\textwidth]{imgs/Resultat_MarieBenchmark.png}
+
+                \vspace{0.3cm}
+                \scriptsize Reference model in red, anomalies in colour \citb{ayana25}\\[-1pt]
+                {\tiny \copyright~Naval Group}
+            \end{center}
+        \end{column}
+    \end{columns}
+
+    \vspace{0.20cm}
+    \begin{center}
+        {\small In collaboration with Marie \textsc{Aspro} (Inria Startup Studio)}
+    \end{center}
+    \reffoot{ayana25}
+\end{frame}
+\begin{frame}{3D panoptic: the state of the art \emph{is} clustering}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.60\textwidth}
+            \small
+            Panoptic $=$ the \emph{class} of each point $+$ its \emph{instance}
+
+            \vspace{0.40cm}
+            \begin{itemize}
+                \setlength{\itemsep}{10pt}
+                \item Instances used to be learned end to end, with costly annotations
+                \item ALPINE \citb{sautier25}: good semantics, then, class by class,
+                \textbf{classical clustering} ($k$-nearest neighbour graph, threshold,
+                \textbf{connected components})
+                \item In 4D, Geo-4D \citb{oh25} keeps the same pipeline and adds a \textbf{geometric
+                association} between frames, also training-free
+            \end{itemize}
+
+            \vspace{0.40cm}
+            \begin{center}
+                \formulebox{\parbox{0.88\textwidth}{\centering\small
+                \textbf{State of the art in panoptic segmentation on outdoor LiDAR}}}
+            \end{center}
+        \end{column}
+
+        \begin{column}{0.38\textwidth}
+            \begin{center}
+                \includegraphics[height=0.62\textheight]{imgs/Alpine.png}
+            \end{center}
+        \end{column}
+    \end{columns}
+    \reffoot{sautier25,oh25}
+\end{frame}
+
+\begin{frame}{Our first results: \textcolor{inria-rouge}{3D}}
+    \vspace{0.35cm}
+    \begin{center}
+        \begin{tabular}{@{}c@{\hspace{8pt}}c@{\hspace{8pt}}c@{}}
+            \includegraphics[height=3.4cm]{imgs/kitti_3d_prior_2.jpg} &
+            \includegraphics[height=3.4cm]{imgs/kitti_3d_prior_3.png} &
+            \includegraphics[height=3.4cm]{imgs/kitti_3d_prior_1.jpg}
+        \end{tabular}
+
+        \vspace{0.55cm}
+        {\small Geometric priors applied to instance volumes,
+        on SemanticKITTI \citb{semantickitti19}}
+    \end{center}
+    \reffoot{semantickitti19}
+\end{frame}
+
+\begin{frame}{Our first results: \textcolor{inria-rouge}{4D}}
+    \vspace{0.10cm}
+    \begin{center}
+        \begin{tabular}{cc}
+            \textbf{Ground truth} & \textbf{Our algorithm} \\
+            \includegraphics[width=0.30\textwidth]{imgs/SemanticKITTI_200frames_GT.png} &
+            \includegraphics[width=0.30\textwidth]{imgs/SemanticKITTI_200frames_HGP.png}
+        \end{tabular}
+    \end{center}
+
+    \vspace{0.28cm}
+    \begin{center}
+        {\small SemanticKITTI \citb{semantickitti19}, 200 frames\\[3pt]
+        tracking by \textbf{optimal transport} $+$ \textsc{Kalman} filter,
+        \textbf{training-free}}
+    \end{center}
+    \reffoot{semantickitti19}
+\end{frame}
+
+% ============================================================
+% VI. More structured data
+% ============================================================
+\section{Towards more structured data}
+\frame{\sectionpage}
+
+\begin{frame}{When structure is no longer (only) geometry}
+    \begin{center}
+        \large The two ideas of the thesis applied to more structured data\\[4pt]
+        \normalsize \textbf{1)} higher-order interactions bring robustness\\
+        \textbf{2)} percolation governs performance
+    \end{center}
+
+    \vspace{0.05cm}
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.48\textwidth}
+            \begin{center}
+                \input{figs/graphe_signe}
+
+                \vspace{0.05cm}
+                {\scriptsize solid line: attraction \quad dashed line: repulsion\\
+                thick line: satisfied edge (thin line: unsatisfied)}
+
+                \vspace{0.05cm}
+                \footnotesize \textbf{Signed graphs}: the links \emph{create} the communities \citb{asilomar25}
+            \end{center}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \begin{center}
+                \includegraphics[height=2.55cm]{imgs/PalaisDesPapes.png}
+
+                \footnotesize \textbf{Images}: extracting crack networks \citb{euvip26}\\[-1pt]
+                {\tiny \copyright~Cerema}
+            \end{center}
+        \end{column}
+    \end{columns}
+    \reffoot{asilomar25,euvip26}
+\end{frame}
+\begin{frame}[t]{Community detection on signed graphs: a Bayesian framework}
+    \begin{center}
+        {\small \textbf{Community detection} \citb{avrachenkov22}: recover the hidden communities $\Sigma$ of a graph whose links are \emph{signed}}
+
+        \vspace{0.06cm}
+        \begin{tikzpicture}[node distance=0.6cm and 0.75cm, scale=0.78, every node/.style={scale=0.78}]
+            \node[chapbox] (prior) {Prior\\$\mu_{0}$};
+            \node[chapbox,right=of prior] (truth) {Hidden\\communities $\Sigma$};
+            \node[chapbox,right=of truth] (chan) {Noisy channel\\$Q$};
+            \node[chapboxdark,right=of chan] (obs) {Observation\\$(X,W)$};
+            \node[chapbox,right=of obs] (post) {Posterior\\$\mu$};
+            \draw[chaparr] (prior) -- (truth);
+            \draw[chaparr] (truth) -- (chan);
+            \draw[chaparr] (chan) -- (obs);
+            \draw[chaparr] (obs) -- (post);
+        \end{tikzpicture}
+    \end{center}
+
+    \vspace{0.35cm}
+    \small
+    \begin{itemize}
+        \setlength{\itemsep}{7pt}
+        \item $W_e>0$ encodes an \textbf{attraction}; $W_e<0$, a \textbf{repulsion}; $|W_e|$ measures the interaction strength
+        \item In the case we study, the calibrated channel gives a signed \textsc{Gibbs} posterior \citb{ii26}:
+    \end{itemize}
+
+    \vspace{0.15cm}
+    \begin{center}
+        \formulebox{$\displaystyle
+        U(\sigma)=-\log\mu_0(\sigma\mid X)
+        +\sum_{\substack{e=\{i,j\}\\ W_e>0}}W_e\ind{\sigma_i\neq\sigma_j}
+        +\sum_{\substack{e=\{i,j\}\\ W_e<0}}|W_e|\ind{\sigma_i=\sigma_j},
+        \qquad \mu(\sigma)=\frac{e^{-U(\sigma)}}{Z}$}
+    \end{center}
+    \reffoot{avrachenkov22,ii26}
+\end{frame}
+
+\begin{frame}[t]{A signed \textsc{Swendsen}--\textsc{Wang} step}
+    \begin{center}
+        \input{figs/sw_pas}
+    \end{center}
+
+    \vspace{0.02cm}
+    \begin{center}
+        \formulebox{$\displaystyle
+        \mathbb P(e\text{ frozen}\mid\sigma)=
+        \begin{cases}
+            1-e^{-|W_e|}, & e\text{ satisfied}\\
+            0, & e\text{ unsatisfied}
+        \end{cases}$}
+    \end{center}
+
+    \vspace{0.05cm}
+    \footnotesize
+    \begin{itemize}
+        \setlength{\itemsep}{2pt}
+        \item For two classes and a uniform prior, each frozen component is
+        \textbf{flipped as a whole} with probability $1/2$: the transition is reversible and preserves $\mu$ \citb{sw87}
+        \item In the proof, one step from $\Sigma$ produces a
+        \textbf{coupled replica of the posterior} $\Sigma^{(1)}$
+    \end{itemize}
+    \reffoot{sw87}
+\end{frame}
+
+\begin{frame}{Generalising \textsc{Swendsen}--\textsc{Wang} to higher-order interactions}
+    \begin{center}
+        \formulebox{$\displaystyle
+        U(\sigma)=U_0(\sigma)+\sum_{b\in\mathcal B}U_b(\sigma),
+        \qquad b=\text{edge, triangle, clique\ldots}$}
+    \end{center}
+
+    \vspace{0.30cm}
+    \begin{center}
+        \input{figs/sw_motifs}
+    \end{center}
+
+    \vspace{0.20cm}
+    \footnotesize
+    \begin{itemize}
+        \item A \textbf{single draw per bond}: this introduces \textbf{correlation}
+        into the freezing process \citb{asilomar25} \citb{ii26}
+    \end{itemize}
+    \reffoot{asilomar25,ii26}
+\end{frame}
+
+\begin{frame}[t]{Percolation bounds the recovery of communities}
+    \vspace{0.10cm}
+    \begin{center}
+        \begin{tikzpicture}[x=1cm,y=1cm, every node/.style={font=\small}]
+            \node[chapbox, text width=10.8cm] (sb)
+                {\textbf{The starting point} \citb{sb18}\\[3pt]
+                \textbf{percolation} is a \textbf{necessary} condition for weak recovery,\\
+                and the giant component's mass $\theta$ \textbf{bounds} the recoverable fraction};
+
+            \node[chapbox, draw=inria-rouge, text width=10.8cm, below=0.82cm of sb] (nous)
+                {\textbf{Our Bayesian framework} \citb{ii26}\\[3pt]
+                the frozen graph of one \textsc{Swendsen}--\textsc{Wang} step \emph{is} their\\
+                percolation graph: their theorem is \textbf{recovered exactly}};
+
+            \node[chapbox, draw=inria-rouge, text width=10.8cm, below=0.82cm of nous] (tri)
+                {\textbf{Triangular dynamics} \citb{ii26}\\[3pt]
+                freezing correlated by triangles percolates \textbf{later}:\\
+                \textbf{strictly better} recovery bounds};
+
+            \draw[chaparr] ($(sb.south)+(-3.4,0)$) -- ($(nous.north)+(-3.4,0)$)
+                node[midway, right=6pt, font=\footnotesize]
+                {coupling: \emph{one} \textsc{Swendsen}--\textsc{Wang} step from the truth $\Sigma$};
+            \draw[chaparr] ($(nous.south)+(-3.4,0)$) -- ($(tri.north)+(-3.4,0)$)
+                node[midway, right=6pt, font=\footnotesize]
+                {change the bond: triangles instead of edges};
+        \end{tikzpicture}
+    \end{center}
+    \reffoot{sb18,ii26}
+\end{frame}
+\begin{frame}[t]{Extracting crack networks from images}
+    \begin{center}
+        \begin{tabular}{cccc}
+            \includegraphics[width=0.18\textwidth]{imgs/Intensity_1FIND.png} &
+            \includegraphics[width=0.18\textwidth]{imgs/Range_1FIND.png} &
+            \includegraphics[width=0.18\textwidth]{imgs/FrangiSim_1FIND.png} &
+            \includegraphics[width=0.18\textwidth]{imgs/Resultat_1FIND.png} \\
+            {\scriptsize intensity} & {\scriptsize depth} & {\scriptsize edge similarity} & {\scriptsize extracted skeleton} \\
+        \end{tabular}
+    \end{center}
+
+    \vspace{0.10cm}
+    \begin{itemize}
+        \setlength{\itemsep}{6pt}
+        \item From the \textbf{pixel} (\textsc{Frangi} filter \citb{frangi98}, which judges each pixel alone and fragments under noise) to the \textbf{pixel pair} (\textsc{Frangi} graph \citb{gretsi25})
+        \item \textbf{Multimodal} at the \textbf{operator} level: we sum the normalised Hessians, never the responses \citb{euvip26}
+        \item Exploratory transfers without retraining; output as an \textbf{editable graph}
+    \end{itemize}
+    \reffoot{frangi98,gretsi25,euvip26}
+\end{frame}
+
+\begin{frame}[t]{The Hessian: information about \emph{tubular} structures}
+    \vspace{0.10cm}
+    \begin{center}
+        {\small $\mathcal H_\sigma(x)=\nabla^{2}\!\left(G_\sigma * I\right)\!(x)$, real symmetric:
+        principal axes $e_1,e_2$, semi-axes $1/\sqrt{|\lambda_1|}$ and $1/\sqrt{|\lambda_2|}$}
+    \end{center}
+
+    \vspace{0.06cm}
+    \begin{columns}[c,onlytextwidth]
+        \begin{column}{0.42\textwidth}
+            \begin{center}
+                \resizebox{0.80\linewidth}{!}{\input{figs/frangi_hessienne}}
+            \end{center}
+        \end{column}
+        \begin{column}{0.56\textwidth}
+            \small
+            The \textsc{Frangi} filter \citb{frangi98} draws \textbf{two} numbers from it:
+            \vspace{0.14cm}
+            \begin{itemize}
+                \setlength{\itemsep}{7pt}
+                \item $R_B=\dfrac{|\lambda_1|}{|\lambda_2|}$: the \textbf{shape}\\[1pt]
+                {\footnotesize $0$ for a very elongated ridge, $1$ for a disk}
+                \item $S=\sqrt{\lambda_1^{2}+\lambda_2^{2}}$: the \textbf{contrast}\\[1pt]
+                {\footnotesize the strength of the curvatures}
+            \end{itemize}
+        \end{column}
+    \end{columns}
+
+    \vspace{0.04cm}
+    \begin{center}
+        \formulebox{\parbox{0.84\textwidth}{\centering\small
+        $\displaystyle \exp\!\left(-\frac{R_B^{2}}{2\beta^{2}}\right)
+        \left(1-\exp\!\left(-\frac{S^{2}}{2c^{2}}\right)\right)$
+        \quad if $\lambda_2>0$, \; $0$ otherwise\\[2pt]
+        {\footnotesize the \textsc{Frangi} response: a dark, high-contrast ridge}}}
+    \end{center}
+    \reffoot{frangi98}
+\end{frame}
+
+\begin{frame}[t]{What the graph adds: \emph{alignment}}
+    \vspace{0.15cm}
+    \begin{center}
+        {\small The filter judges each pixel \textbf{alone}; the graph requires the directions
+        $e_1$ of the \textbf{two} pixels to agree}
+    \end{center}
+
+    \vspace{0.16cm}
+    \begin{center}
+        \resizebox{0.62\linewidth}{!}{\input{figs/frangi_alignement}}
+    \end{center}
+
+    \vspace{0.14cm}
+    \begin{center}
+        \formulebox{\parbox{0.80\textwidth}{\centering\small
+        $\displaystyle S_{\mathrm{align}}=\exp\!\left[-\frac12\left(\frac{\sin\!\left(\theta(x_i)-\theta(x_j)\right)}{s_{\mathrm a}}\right)^{\!2}\right]$\\[3pt]
+        {\footnotesize the sine, because $\theta$ and $\theta+\pi$ describe the same axis} \citb{gretsi25} \citb{euvip26}}}
+    \end{center}
+    \reffoot{gretsi25,euvip26}
+\end{frame}
+
+\begin{frame}[t]{A granular background: order 2 cuts accidental bridges}
+    \vspace{0.10cm}
+    \begin{center}
+        \includegraphics[width=0.94\textwidth]{imgs/VTGraF_granularite.png}\\[3pt]
+        \begin{minipage}{0.94\textwidth}\scriptsize\centering
+            \makebox[0.2439\linewidth]{granular visible image}\hfill
+            \makebox[0.2439\linewidth]{pixel-wise \textsc{Frangi} response}\hfill
+            \makebox[0.2439\linewidth]{\textsc{Frangi} similarity}\hfill
+            \makebox[0.2439\linewidth]{component kept in blue}
+        \end{minipage}
+    \end{center}
+
+    \vspace{0.20cm}
+    \footnotesize
+    \begin{itemize}
+        \setlength{\itemsep}{5pt}
+        \item Every pebble carries a response: the background is as much a ``ridge'' as the crack
+        \item A \textbf{chain of edges} is then enough to link the pebbles one to the next: the background percolates
+        \item At \textbf{order 2}, two edges are glued only through a \textbf{triangle}: a chain with no
+        triangle no longer propagates connectivity, and the percolation rate increases with $K$ \citb{ans26}:
+        hence the choice $K=2$ \citb{euvip26}
+    \end{itemize}
+    \reffoot{ans26,euvip26}
+\end{frame}
+
+% ============================================================
+% VII. Perspectives: the hierarchical path
+% ============================================================
+\section{\texorpdfstring{Perspectives: the \textcolor{inria-rouge}{hierarchical} path}{Perspectives: the hierarchical path}}
+\frame{\sectionpage}
+
+% ============================================================
+% 7.a — Back to the starting point: Kleinberg, then Carlsson--Mémoli
+% ============================================================
+% The next two slides are the same slide, the second one adding
+% the single closing line (Carlsson & Mémoli). The body is written once here
+% so that a correction cannot touch only one of the two.
+\newcommand{\KleinbergCorps}{%
+    \begin{columns}[c, onlytextwidth]
+        \begin{column}{0.60\textwidth}
+            \small
+            A clustering function $\mathcal C$ assigns to a finite metric space
+            $(\mathcal X, d)$ a \textbf{partition} of $\mathcal X$
+
+            \vspace{0.20cm}
+            \begin{enumerate}[(i)]
+                \setlength{\itemsep}{5pt}
+                \item \textbf{Scale invariance}: $\mathcal C(\mathcal X, \lambda d) = \mathcal C(\mathcal X, d)$
+                \item \textbf{Richness}: every partition is possible
+                \item \textbf{Consistency}: shrinking a cluster returned by $\mathcal C$, or pulling
+                two of them apart, changes nothing
+            \end{enumerate}
+
+            \vspace{0.22cm}
+            \formulebox{\parbox{0.93\textwidth}{\centering\small
+            \textbf{Impossibility} \citb{kleinberg02}: \emph{no} $\mathcal C$ satisfies all three}}
+        \end{column}
+        \begin{column}{0.38\textwidth}
+            \centering
+            \resizebox{0.86\textwidth}{!}{\input{figs/kleinberg_axiomes}}
+        \end{column}
+    \end{columns}}
+
+\begin{frame}[t]{Back to the start: \textsc{Kleinberg}'s impossibility theorem}
+    \KleinbergCorps
+    \reffoot{kleinberg02}
+\end{frame}
+
+\begin{frame}[t]{Back to the start: \textsc{Kleinberg}'s impossibility theorem}
+    \KleinbergCorps
+
+    \vspace{0.34cm}
+    \begin{center}
+        \formulebox{\parbox{0.86\textwidth}{\centering\small
+        \textsc{Carlsson} \& \textsc{Mémoli} found the solution, and it is
+        \textbf{hierarchical}: it is \textbf{Single-Linkage} \citb{carlsson10}}}
+    \end{center}
+    \reffoot{kleinberg02,carlsson10}
+\end{frame}
+
+% ============================================================
+% 7.b — A hierarchical cluster dynamics
+% ============================================================
+\begin{frame}{A \textcolor{inria-rouge}{hierarchical} cluster dynamics}
+    \vspace{0.02cm}
+    \begin{center}
+        \formulebox{\parbox{0.86\textwidth}{\centering\small
+        $\xi_e \sim \mathrm{Exp}\bigl(|W_e|\bigr)$ if $e$ is satisfied, \quad $\xi_e = +\infty$ otherwise;\\[5pt]
+        $\Pi_\beta \;=\;$ connected components of the graph $\bigl(V, \{e : \xi_e \le \beta\}\bigr)$,
+        \qquad $0 \le \beta \le 1$}}
+    \end{center}
+
+    \vspace{0.06cm}
+    \begin{center}
+        \resizebox{0.54\textwidth}{!}{\input{figs/dendro_horloges}}
+    \end{center}
+
+    \vspace{0.08cm}
+    \small
+    \begin{itemize}
+        \setlength{\itemsep}{5pt}
+        \item Cutting at the \textbf{leaves} gives \textsc{Glauber}; cutting at the
+        \textbf{roots}, \textsc{Swendsen}--\textsc{Wang}
+        \item The most promising cut for \textbf{weak recovery}:
+        the \textbf{percolation temperature} \citb{ii26}
+    \end{itemize}
+    \reffoot{ii26}
+\end{frame}
+
+% ============================================================
+% 7.c — Foundation models, SAM, LoRA, and guidance
+% ============================================================
+\begin{frame}{Foundation models: text, and now images}
+    \begin{center}
+        \resizebox{0.66\textwidth}{!}{\input{figs/fondation_jetons}}
+    \end{center}
+
+    \vspace{0.35cm}
+    \small
+    \begin{itemize}
+        \setlength{\itemsep}{7pt}
+        \item Trained \textbf{only once}, on massive data and \textbf{without annotation}
+        \citb{bommasani21}
+        \item \textbf{Reusable}: a single base model serves many different tasks
+        \item Capabilities \textbf{emerge} that nobody programmed
+        \item Everyone starts from the \textbf{same} base model
+    \end{itemize}
+    \reffoot{bommasani21,brown20,kirillov23}
+\end{frame}
+
+% ------------------------------------------------------------
+\begin{frame}{Adapting it without retraining: \emph{LoRA}}
+    \begin{center}
+        \resizebox{0.58\textwidth}{!}{\input{figs/lora_adaptation}}
+    \end{center}
+
+    \vspace{0.35cm}
+    \small
+    \begin{itemize}
+        \setlength{\itemsep}{7pt}
+        \item We \textbf{freeze} the pre-trained backbone and learn only a
+        \textbf{low-rank} update $W = W_0 + BA$ \citb{hu22}
+        \item \textbf{CrackSAM} \citb{ge24}: $4.4$~M trainable weights out of SAM's $637$~M
+        \item {\color{inria-rouge}SAM has already seen everything: our extra descriptors
+        (Hessian, gradient) change \textbf{nothing}}
+        \item And it \textbf{transfers}: cracks on sites never seen before, with no retraining
+    \end{itemize}
+    \reffoot{hu22,ge24}
+\end{frame}
+
+% ------------------------------------------------------------
+\begin{frame}[t]{How to guide attention \emph{via} the hierarchy? An idea to explore}
+    \vspace{0.02cm}
+    \begin{center}
+        \resizebox{0.64\textwidth}{!}{\input{figs/attention_biais}}
+    \end{center}
+
+    \vspace{0.06cm}
+    \small
+    \begin{itemize}
+        \setlength{\itemsep}{3pt}
+        \item \textbf{Attention}: each token sends a \textbf{query}, compares it with the
+        \textbf{keys} of all the others, and leaves with the average of their \textbf{values},
+        weighted by a \textbf{visual score} that SAM already computes
+        \item We \textbf{add a bias} before the \emph{softmax}: an exchange that is
+        \textbf{encouraged}, never forced \citb{ying21}
+        \item The bias comes from the \textsc{Frangi} graph \textbf{hierarchy}: the earlier
+        two tokens \textbf{merge} in the tree, the stronger it is, even far apart in the image
+        \citb{euvip26}; LoRA learns it with a \textbf{single} coefficient $\beta$ \citb{hu22}
+    \end{itemize}
+
+    \vspace{0.06cm}
+    \begin{center}
+        \formulebox{\parbox{0.80\textwidth}{\centering\small
+        $\mathrm{attention} \;=\; \mathrm{softmax}\bigl(\text{visual scores} \;+\; \beta\, B_H\bigr)$}}
+    \end{center}
+    \reffoot{ying21,euvip26,hu22}
+\end{frame}
+
+% ------------------------------------------------------------
+% ============================================================
+% 7.d — The missing 3D foundation model
+% ============================================================
+\begin{frame}{Towards a foundation model for 3D?}
+    \vfill
+    \begin{center}
+        \resizebox{0.95\textwidth}{!}{\input{figs/alphabet_fondation}}
+    \end{center}
+    \vfill
+    \reffoot{brown20,kirillov23}
+\end{frame}
+
+% ------------------------------------------------------------
+\begin{frame}{The deeper reason: the point cloud is a \emph{sensor artefact}}
+    \begin{center}
+        \resizebox{0.72\textwidth}{!}{\input{figs/verrou_portee}}
+    \end{center}
+
+    \vspace{0.15cm}
+    \small
+    \begin{itemize}
+        \setlength{\itemsep}{5pt}
+        \item \textbf{Density} decreases with range; on top of that come the scan lines
+        and the \textbf{occlusions}
+        \item So a point-by-point model learns \emph{at the same time} the geometry,
+        the sensor, the density, the occlusion \textbf{and} the semantics
+        \item Hypothesis: this is \emph{one} central reason for the difficulty
+    \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------
+\begin{frame}{Replacing points by a hierarchy of \textcolor{inria-rouge}{polyhedra}?}
+    \vspace{-0.10cm}
+    \begin{center}
+        \resizebox{0.54\textwidth}{!}{\input{figs/hierarchie_surfaces}}
+    \end{center}
+
+    \vspace{0.26cm}
+    \small
+    \begin{itemize}
+        \item Same recipe as for text: the \textbf{polyhedron} is the \textbf{alphabet}
+        (the unit, fixed once and for all) and the \textbf{hierarchy} is its
+        \textbf{grammar}
+    \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------
+% ============================================================
+% VIII. Conclusion
+% ============================================================
+\section{Conclusion}
+\frame{\sectionpage}
+
+\begin{frame}[t]{Two guiding threads, four contributions}
+    \vspace{-0.10cm}
+    \begin{beamercolorbox}[rounded=true,sep=3pt]{block body}
+        \centering\small
+        \textbf{1)} When pairwise relations are insufficient or unstable,\\ \textbf{higher-order interactions} bring robust coherence.\\[3pt]
+        \textbf{2)} \textbf{Percolation} is the theoretical keystone\\ for quantifying the performance of these algorithms
+    \end{beamercolorbox}
+
+    \vspace{0.06cm}
+    \footnotesize
+    \begin{itemize}
+        \setlength{\itemsep}{3pt}
+        \item A \textbf{unified view} of \emph{Single-Linkage}: heuristic, geometric, statistical \citb{ans26}; training-free 3D and 4D LiDAR
+        \item \textbf{HGP-Clusterer}: the \emph{exact} $K$-NN hierarchy, \emph{via} \v{C}ech, \textsc{Gabriel} and order-$K$ \textsc{Delaunay} \citb{eusipco24} \citb{cn24} \citb{ans26}
+        \item The \textbf{percolation rate}: it explains the failure of Robust SL and (H)DBSCAN, and the gains of $K$-polyhedra \citb{src24}
+        \item \textbf{Exporting the paradigm}: signed graphs \citb{asilomar25} \citb{ii26}; imaging, multimodal \textsc{Frangi} graph \citb{gretsi25} \citb{euvip26} \citb{isprs26}
+    \end{itemize}
+    \reffoot{eusipco24,cn24,ans26,src24,asilomar25,ii26,gretsi25,euvip26,isprs26}
+\end{frame}
+
+\begin{frame}{Further perspectives}
+    \begin{itemize}
+        \setlength{\itemsep}{11pt}
+        \item \textbf{High dimension}: a higher-order \textbf{dimensionality reduction},
+        where current methods rely on neighbourhood graphs (UMAP)
+        \item \textbf{Open question}: HGP-Clusterer is only \emph{fractionally} consistent;
+        a consistent algorithm in dimension $p \ge 2$ remains to be invented
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Publications}
+    \footnotesize
+    \textbf{Journal}
+    \begin{itemize}
+        \item \citb{ans26} \emph{Generalization of Single-Linkage with higher-order interactions}, \textit{Applied Network Science}, 2026
+    \end{itemize}
+    \textbf{International and national conferences}
+    \begin{itemize}
+        \item \citb{cn23} Cosmic filaments, Complex Networks, Menton, 2023
+        \item \citb{eusipco24} Hypergraphs for density-based \emph{clustering}, EUSIPCO, Lyon, 2024
+        \item \citb{cn24} Hypergraphs, percolation and hierarchical \emph{clustering}, Complex Networks, Istanbul, 2024
+        \item \citb{src24} Theoretical performance measure, ACM SIGMETRICS SRC, Venice, 2024 (\textbf{second prize})
+        \item \citb{asilomar25} Higher-order cluster dynamics, Asilomar, 2025
+        \item \citb{gretsi25} Generalisation of the Frangi filter, GRETSI, Strasbourg, 2025
+        \item \citb{euvip26} Training-free multimodal crack extraction, EUVIP, Luxembourg, 2026
+    \end{itemize}
+    \textbf{In progress}
+    \begin{itemize}
+        \item \citb{ii26} Bayesian framework for community detection on signed graphs (journal)
+        \item \citb{isprs26} Generalised, multimodal and training-free Frangi graph (ISPRS journal)
+    \end{itemize}
+    \textbf{Software} (\emph{open source}): GitHub repositories \texttt{Ayana-Inria/HypergraphPercol\_K2}
+    and \texttt{Ayana-Inria/Frangi-EUVIP}
+\end{frame}
+
+\frame{\merci}
+
+\begin{frame}{Author's work presented today}
+    \scriptsize
+    \begin{itemize}
+        \setlength{\itemsep}{3pt}
+        \bibligne{hal17}
+        \bibligne{cn23}
+        \bibligne{eusipco24}
+        \bibligne{cn24}
+        \bibligne{src24}
+        \bibligne{ans26}
+        \bibligne{gretsi25}
+        \bibligne{asilomar25}
+        \bibligne{euvip26}
+        \bibligne{ii26}
+        \bibligne{isprs26}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{References (1/4)}
+    \scriptsize
+    \begin{itemize}
+        \setlength{\itemsep}{2.5pt}
+                        \bibligne{cameron44}
+        \bibligne{florek51}
+        \bibligne{schilder66}
+        \bibligne{gowerross69}
+        \bibligne{hartigan81}
+        \bibligne{forina83}
+        \bibligne{sw87}
+        \bibligne{es88}
+        \bibligne{ester96}
+        \bibligne{meesterroy96}
+    \end{itemize}
+\end{frame}
+\begin{frame}{References (2/4)}
+    \scriptsize
+    \begin{itemize}
+        \setlength{\itemsep}{2.5pt}
+                        \bibligne{frangi98}
+        \bibligne{kleinberg02}
+        \bibligne{penrose03}
+        \bibligne{berlinet04}
+        \bibligne{ghrist08}
+        \bibligne{turaga09}
+        \bibligne{chaudhuri10}
+        \bibligne{carlsson10}
+        \bibligne{dembozeitouni10}
+        \bibligne{campello13}
+        \bibligne{chazal13}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{References (3/4)}
+    \scriptsize
+    \begin{itemize}
+        \setlength{\itemsep}{2.5pt}
+                        \bibligne{biau15}
+        \bibligne{boissonnat18}
+        \bibligne{sb18}
+        \bibligne{semantickitti19}
+        \bibligne{brown20}
+        \bibligne{bommasani21}
+        \bibligne{ying21}
+        \bibligne{avrachenkov22}
+        \bibligne{hu22}
+        \bibligne{kirillov23}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{References (4/4)}
+    \scriptsize
+    \begin{itemize}
+        \setlength{\itemsep}{2.5pt}
+                        \bibligne{edelsbrunner23}
+        \bibligne{rolle23}
+        \bibligne{ge24}
+        \bibligne{ravi24}
+        \bibligne{ayana25}
+        \bibligne{sautier25}
+        \bibligne{oh25}
+        \bibligne{sonata25}
+        \bibligne{concerto25}
+        \bibligne{utonia26}
+    \end{itemize}
+\end{frame}
+
+\end{document}

@@ -1,0 +1,32 @@
+% Transformer attention read as a chain, and the place where we can guide it:
+% a bias added to the score BEFORE the softmax (Graphormer principle,
+% Ying et al. 2021). Colours: teal = the data (query, keys, values),
+% grey = what SAM already does, red = what we add.
+\begin{tikzpicture}[x=1cm, y=1cm]
+    \useasboundingbox (-0.25,-1.85) rectangle (13.45,1.30);
+
+    \tikzset{etape/.style={draw=gris_fonce_inria!70, fill=gray!4, rounded corners=3pt,
+             line width=0.8pt, minimum height=0.95cm, align=center, font=\small, inner sep=5pt}}
+    \tikzset{donnee/.style={etape, draw=inria-2024-bleu-canard, fill=inria-2024-bleu-canard!6}}
+    \tikzset{notre/.style={etape, draw=inria-rouge, fill=inria-rouge!6, line width=1.15pt}}
+    \tikzset{fl/.style={-{Latex[length=2.4mm]}, gris_fonce_inria, line width=0.9pt}}
+    \tikzset{note/.style={font=\scriptsize, align=center}}
+
+    \node[donnee, minimum width=2.1cm] (q) at (0.9,0.58)  {query $q_i$};
+    \node[donnee, minimum width=2.1cm] (k) at (0.9,-0.58) {keys $k_j$};
+    \node[etape,  minimum width=2.1cm] (score) at (3.85,0) {score\\$q_i \cdot k_j$};
+    \node[notre,  minimum width=1.9cm] (biais) at (6.45,0) {$+\;\beta\,B_{ij}$};
+    \node[etape,  minimum width=1.7cm] (soft)  at (8.85,0) {softmax};
+    \node[etape,  minimum width=2.7cm] (out)   at (11.75,0) {weighted average\\of values};
+    \node[donnee, minimum width=1.9cm] (v) at (8.85,-1.25) {values $v_j$};
+
+    \draw[fl] (q.east) -- ([yshift=0.18cm]score.west);
+    \draw[fl] (k.east) -- ([yshift=-0.18cm]score.west);
+    \draw[fl] (score) -- (biais);
+    \draw[fl] (biais) -- (soft);
+    \draw[fl] (soft) -- (out);
+    \draw[fl] (v.east) to[out=0, in=270] (out.south);
+
+    \node[note, text=gris_fonce_inria] at (3.85,-0.95) {what SAM\\already does};
+    \node[note, text=inria-rouge]      at (6.45,-0.95) {\textbf{our addition}:\\the hierarchy enters here};
+\end{tikzpicture}

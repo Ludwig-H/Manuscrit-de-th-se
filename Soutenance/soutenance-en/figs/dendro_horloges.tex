@@ -1,0 +1,37 @@
+% Dendrogram of the exponential clocks (colours: teal leaves,
+% Inria-red branches, grey cuts) — beta = 0: Glauber;
+% beta = 1: Swendsen--Wang; in between, a four-state bath.
+\begin{tikzpicture}[scale=0.82, >=latex, font=\small]
+    \useasboundingbox (-1.85, -0.28) rectangle (11.95, 4.62);
+    % Clock-time axis
+    \draw[->, thick] (-1.1, 0) -- (-1.1, 4.35) node[above] {$\beta$};
+    \draw[thick] (-1.2, 0) -- (-1.0, 0) node[left=6pt] {$0$};
+    \draw[thick] (-1.2, 4.0) -- (-1.0, 4.0) node[left=6pt] {$1$};
+
+    % Leaves
+    \foreach \x in {0,...,7} {
+        \fill[inria-2024-bleu-canard] (\x*0.95, 0) circle (2.4pt);
+    }
+
+    % Branches (left component)
+    \draw[very thick, inria-rouge] (0,0) -- (0,0.7) -- (0.95,0.7) -- (0.95,0);
+    \draw[very thick, inria-rouge] (1.9,0) -- (1.9,1.3) -- (2.85,1.3) -- (2.85,0);
+    \draw[very thick, inria-rouge] (0.475,0.7) -- (0.475,2.2) -- (2.375,2.2) -- (2.375,1.3);
+    \draw[very thick, inria-rouge, dashed] (1.425,2.2) -- (1.425,4.0);
+    % Branches (right component)
+    \draw[very thick, inria-rouge] (3.8,0) -- (3.8,0.95) -- (4.75,0.95) -- (4.75,0);
+    \draw[very thick, inria-rouge] (5.7,0) -- (5.7,1.65) -- (6.65,1.65) -- (6.65,0);
+    \draw[very thick, inria-rouge] (4.275,0.95) -- (4.275,2.9) -- (6.175,2.9) -- (6.175,1.65);
+    \draw[very thick, inria-rouge, dashed] (5.225,2.9) -- (5.225,4.0);
+    % Roots
+    \fill[inria-rouge] (1.425,4.0) circle (2.4pt);
+    \fill[inria-rouge] (5.225,4.0) circle (2.4pt);
+
+    % Intermediate cut: an internal node, neither leaf nor root
+    \draw[dashed, thick, gris_fonce_inria] (-0.6, 2.55) -- (7.1, 2.55);
+    \node[gris_fonce_inria, right] at (7.1, 2.55) {\textbf{intermediate} cut};
+
+    % Labels for the two ends
+    \node[right] at (7.1, 0) {the \textbf{leaves} $\Rightarrow$ \textsc{Glauber}};
+    \node[right] at (7.1, 4.0) {the \textbf{roots} $\Rightarrow$ \textsc{Swendsen}--\textsc{Wang}};
+\end{tikzpicture}

@@ -1,0 +1,22 @@
+                \begin{tikzpicture}[scale=0.52]
+                    \def\r{1.2}
+                    \pgfmathsetmacro{\h}{\r*sqrt(3)}
+                    
+                    \coordinate (C) at (-\r, 0);
+                    \coordinate (D) at (\r, 0);
+                    \coordinate (A) at (-\r-\h, \r);
+                    \coordinate (B) at (-\r-\h, -\r);
+                    \coordinate (E) at (\r+\h, \r);
+                    \coordinate (F) at (\r+\h, -\r);
+ 
+                    % Circles of radius r (transparent, dashed)
+                    \foreach \P in {A,B,C,D,E,F} {
+                        \draw[dashed, inria-bleu, thick] (\P) circle (\r);
+                    }
+                    
+                    % Points
+                    \foreach \P/\pos in {A/left, B/left, C/above left, D/above right, E/right, F/right} {
+                        \fill (\P) circle (2.5pt);
+                        \node[\pos] at (\P) {\small \P};
+                    }
+                \end{tikzpicture}

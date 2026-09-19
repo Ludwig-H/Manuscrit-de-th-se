@@ -1,0 +1,38 @@
+% The Hessian ellipse at a pixel of a dark ridge.
+% Axes along the eigenvectors e_1, e_2; semi-axes 1/sqrt(|lambda_k|).
+% Ridge: |lambda_1| small (major axis, along the crack, angle theta),
+% lambda_2 > 0 large (minor axis, across it).
+% The bounding box is kept tight: the figure is rendered through a \resizebox.
+    \begin{tikzpicture}[x=1cm,y=1cm,scale=1.0,every node/.style={scale=1.0},
+        crete/.style={line width=9pt, gris_fonce_inria!55, line cap=round},
+        vecp/.style={-{Latex[length=2.4mm]}, line width=1.1pt},
+        filet/.style={line width=0.8pt}]
+
+      \begin{scope}[rotate=27]
+        \draw[crete] (-2.05,0)--(2.05,0);
+        \draw[inria-rouge, line width=1pt, fill=inria-rouge!8]
+              (0,0) ellipse (1.75 and 0.62);
+        % arrow lengths corrected for the tip: the tips land at 1.75 and 0.62
+        \draw[vecp, inria-rouge]    (0,0)--(1.833,0);
+        \draw[vecp, inria-rouge!62] (0,0)--(0,0.703);
+        \draw[inria-rouge!40, dashed, line width=0.6pt] (1.75,0)--(2.30,0);
+        \node[font=\small, inria-rouge, fill=white, inner sep=1pt] at (0.95,0) {$e_1$};
+        \node[font=\small, inria-rouge!62, fill=white, inner sep=1pt] at (0,0.40) {$e_2$};
+      \end{scope}
+
+      % reference axis and angle theta, drawn outside the ellipse
+      \draw[gray!65, dashed, line width=0.6pt] (0,0)--(2.20,0);
+      \draw[gris_fonce_inria!80, line width=0.7pt] (1.98,0) arc (0:27:1.98);
+      \node[font=\small] at (1.82,0.45) {$\theta$};
+
+      \node[circle,fill=inria-2024-bleu-canard,inner sep=0pt,minimum size=4.2pt] (px) at (0,0) {};
+      \node[font=\small, below left=0pt and 1pt of px] {$x$};
+
+      % semi-axes
+      \draw[inria-rouge, filet] (1.5591,0.7946)--(1.66,1.04);
+      \node[font=\small, inria-rouge, anchor=south] at (1.66,1.03)
+            {$\dfrac{1}{\sqrt{|\lambda_1|}}$};
+      \draw[inria-rouge!62, filet] (-0.2815,0.5524)--(-0.62,0.90);
+      \node[font=\small, inria-rouge!62, anchor=south east] at (-0.58,0.88)
+            {$\dfrac{1}{\sqrt{|\lambda_2|}}$};
+    \end{tikzpicture}
